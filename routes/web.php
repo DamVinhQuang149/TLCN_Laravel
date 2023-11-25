@@ -1,0 +1,56 @@
+<?php
+
+use App\Http\Controllers\PagesController;
+use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\CouponsController;
+use App\Http\Controllers\ManufacturesController;
+use App\Http\Controllers\OrderDetailsController;
+use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\PaymentsController;
+use App\Http\Controllers\ProtypesController;
+use App\Http\Controllers\RolesController;
+use App\Http\Controllers\StatusController;
+use App\Http\Controllers\ForgetPasswordManager;
+
+
+
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UsersController;
+
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
+
+
+Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/login', [UsersController::class, 'login'])->name('login');
+//Route::post('/login', [UsersController::class, 'postLogin']);
+Route::post('/user', [UsersController::class, 'postLogin'])->name('user');
+Route::get('/register', [UsersController::class, 'register'])->name('register');
+Route::post('/register', [UsersController::class, 'postRegister']);
+Route::get('/logout', [UsersController::class, 'logout'])->name('logout');
+//
+Route::get('/forget-password', [ForgetPasswordManager::class, 'forgetPassword'])->name('forget.password');
+Route::post('/forget-password', [ForgetPasswordManager::class, 'forgetPasswordPost']);
+Route::get('/reset-password', [ForgetPasswordManager::class, 'resetPassword'])->name('reset.password');
+Route::post('/reset-password', [ForgetPasswordManager::class, 'resetPasswordPost']);
+
+
+// Route::prefix('admin')->middleware('admin')->group(function () {
+//     Route::any('/', [PagesController::class, 'index'])->name('admin.index');
+//     Route::any('/admin', [PagesController::class, 'count'])->name('home_admin');
+//     Route::resource('/products', ProductsController::class);
+// });
+
+Route::any('/index-admin', [PagesController::class, 'index'])->name('admin.index');
+Route::any('/admin', [PagesController::class, 'count'])->name('home_admin');
+Route::resource('/admin/products', ProductsController::class);
+Route::resource('/admin/products', CouponsController::class);
+Route::resource('/admin/products', ManufacturesController::class);
+Route::resource('/admin/products', OrderDetailsController::class);
+Route::resource('/admin/products', OrdersController::class);
+Route::resource('/admin/products', RolesController::class);
+Route::resource('/admin/products', StatusController::class);
+Route::resource('/admin/products', ProtypesController::class);
+Route::resource('/admin/products', PaymentsController::class);
+Route::resource('/admin/products', UsersController::class);
