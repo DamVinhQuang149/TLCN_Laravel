@@ -68,7 +68,7 @@
                         <tbody>
                             @foreach ($users as $value)
                                 <tr>
-                                    <td style="width:3%">{{ $value->id }}</td>
+                                    <td style="width:3%">{{ $value->user_id }}</td>
                                     <td style="width:10%"><img style="width:50px;border-radius:9px"
                                             src="{{ asset('assets/img/' . $value->image) }}" alt=""></td>
                                     <td style="width:14%">{{ $value->First_name }}</td>
@@ -78,7 +78,7 @@
                                     <td style="width:5%">{{ substr($value->password, 0, 40) . '...' }}</td>
                                     <td style="text-align:center;width:10%">{{ $value->role_name }}</td>
                                     <td class="project-actions text-right" style="width:5%">
-                                        <form action="users/{{ $value->id }}/edit" method="POST"
+                                        <form action="users/{{ $value->user_id }}/edit" method="POST"
                                             enctype="multipart/form-data">
                                             @csrf
                                             @method('GET')
@@ -88,7 +88,7 @@
                                                 Update
                                             </button>
                                         </form>
-                                        <form action="users/{{ $value->id }}" method="POST"
+                                        <form action="users/{{ $value->user_id }}" method="POST"
                                             enctype="multipart/form-data">
                                             @csrf
                                             @method('DELETE')

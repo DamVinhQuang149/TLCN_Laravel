@@ -19,7 +19,7 @@
             </section>
             <section class="content">
                 @foreach ($userbyid as $value)
-                    <form action="/admin/users/{{ $value->id }}" method="POST" enctype="multipart/form-data">
+                    <form action="/admin/users/{{ $value->user_id }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="row">
@@ -37,7 +37,7 @@
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="inputName">User ID</label>
-                                            <input readonly value="{{ $value->id }}" type="text" id="inputID"
+                                            <input readonly value="{{ $value->user_id }}" type="text" id="inputID"
                                                 class="form-control" name="user_id">
                                         </div>
                                         <div class="form-group">

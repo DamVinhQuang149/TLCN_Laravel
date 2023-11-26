@@ -71,7 +71,7 @@
                             @foreach ($orders as $value)
                                 <tr>
                                     <td class="text-center" style="width: 5%">{{ $value->order_id }}</td>
-                                    <td class="text-center" style="width: 5%">{{ $value->id }}</td>
+                                    <td class="text-center" style="width: 5%">{{ $value->user_id }}</td>
                                     <td class="text-center" style="width: 20%">{{ $value->address }}</td>
                                     <td style="width: 10%">{{ $value->phone }}</td>
                                     <td style="width: 9%">Mã giảm giá:

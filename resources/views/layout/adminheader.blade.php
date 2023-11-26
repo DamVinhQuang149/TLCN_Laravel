@@ -212,7 +212,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/admin/logout" class="nav-link">
+                        <a href="{{ route('login') }}" class="nav-link">
                             <i class="nav-icon fas fa-sign-out-alt"></i>
                             <p>
                                 Log Out

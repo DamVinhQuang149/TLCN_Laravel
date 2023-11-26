@@ -46,6 +46,7 @@ class UsersController extends Controller
     {
         $First_name = $request->input('First_name');
         $Last_name = $request->input('Last_name');
+        $email = $request->input('email');
         $phone = $request->input('phone');
         $username = $request->input('username');
         $password = bcrypt($request->input('password'));
@@ -80,6 +81,7 @@ class UsersController extends Controller
             $users = Users::create([
                 'First_name' => $First_name,
                 'Last_name' => $Last_name,
+                'email' => $email,
                 'phone' => $phone,
                 'username' => $username,
                 'password' => $password,
@@ -90,6 +92,7 @@ class UsersController extends Controller
             $users = Users::create([
                 'First_name' => $First_name,
                 'Last_name' => $Last_name,
+                'email' => $email,
                 'phone' => $phone,
                 'username' => $username,
                 'password' => $password,
@@ -121,7 +124,7 @@ class UsersController extends Controller
     {
         $roles = Roles::get();
         $userbyid = Users::get()
-            ->where('id', $id);
+            ->where('user_id', $id);
         return view('admin.users.update', ['userbyid' => $userbyid, 'roles' => $roles]);
     }
 
@@ -136,6 +139,7 @@ class UsersController extends Controller
     {
         $First_name = $request->input('First_name');
         $Last_name = $request->input('Last_name');
+        $email = $request->input('email');
         $phone = $request->input('phone');
         $username = $request->input('username');
         $password = bcrypt($request->input('newpass'));
@@ -166,6 +170,7 @@ class UsersController extends Controller
                 $users->update([
                     'First_name' => $First_name,
                     'Last_name' => $Last_name,
+                    'email' => $email,
                     'phone' => $phone,
                     'username' => $username,
                     'password' => $password,
@@ -176,6 +181,7 @@ class UsersController extends Controller
                 $users->update([
                     'First_name' => $First_name,
                     'Last_name' => $Last_name,
+                    'email' => $email,
                     'phone' => $phone,
                     'username' => $username,
                     'password' => $oldpass,
@@ -184,7 +190,7 @@ class UsersController extends Controller
                 ]);
             }
         } else {
-            $userimg = Users::get()->where('id', $id);
+            $userimg = Users::get()->where('user_id', $id);
             foreach ($userimg as $user){
                 $image_name = $user->image;
             }
@@ -192,6 +198,7 @@ class UsersController extends Controller
                 $users->update([
                     'First_name' => $First_name,
                     'Last_name' => $Last_name,
+                    'email' => $email,
                     'phone' => $phone,
                     'username' => $username,
                     'password' => $password,
@@ -202,6 +209,7 @@ class UsersController extends Controller
                 $users->update([
                     'First_name' => $First_name,
                     'Last_name' => $Last_name,
+                    'email' => $email,
                     'phone' => $phone,
                     'username' => $username,
                     'password' => $oldpass,

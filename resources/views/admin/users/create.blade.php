@@ -43,6 +43,10 @@
                                         <input type="text" id="inputLast" class="form-control" name="Last_name" required>
                                     </div>
                                     <div class="form-group">
+                                        <label for="inputName">email</label>
+                                        <input type="text" id="inputEmail" class="form-control" name="email" required>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="inputName">Phone</label>
                                         <input type="text" id="inputPhone" class="form-control" name="phone" required>
                                     </div>
