@@ -11,6 +11,7 @@ use App\Http\Controllers\ProtypesController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\ForgetPasswordManager;
+use App\Http\Controllers\AdminController;
 
 
 
@@ -34,23 +35,29 @@ Route::get('/forget-password', [ForgetPasswordManager::class, 'forgetPassword'])
 Route::post('/forget-password', [ForgetPasswordManager::class, 'forgetPasswordPost']);
 Route::get('/reset-password', [ForgetPasswordManager::class, 'resetPassword'])->name('reset.password');
 Route::post('/reset-password', [ForgetPasswordManager::class, 'resetPasswordPost']);
+//
 
+Route::middleware(['user'])->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('index');
+});
 
-// Route::prefix('admin')->middleware('admin')->group(function () {
-//     Route::any('/', [PagesController::class, 'index'])->name('admin.index');
-//     Route::any('/admin', [PagesController::class, 'count'])->name('home_admin');
-//     Route::resource('/products', ProductsController::class);
-// });
+//
+Route::get('/login-admin', [AdminController::class, 'loginAdmin'])->name('login.admin');
+Route::post('/login-admin', [AdminController::class, 'loginAdminPost'])->name('login.admin');
+Route::get('/logout-admin', [AdminController::class, 'logoutAdmin'])->name('logout.admin');
 
-Route::any('/index-admin', [PagesController::class, 'index'])->name('admin.index');
-Route::any('/admin', [PagesController::class, 'count'])->name('home_admin');
-Route::resource('/admin/products', ProductsController::class);
-Route::resource('/admin/coupons', CouponsController::class);
-Route::resource('/admin/manufactures', ManufacturesController::class);
-Route::resource('/admin/orderdetails', OrderDetailsController::class);
-Route::resource('/admin/orders', OrdersController::class);
-Route::resource('/admin/roles', RolesController::class);
-Route::resource('/admin/status', StatusController::class);
-Route::resource('/admin/protypes', ProtypesController::class);
-Route::resource('/admin/payments', PaymentsController::class);
-Route::resource('/admin/users', UsersController::class);
+Route::middleware('admin')->group(function () {
+    //Route::any('/index-admin', [PagesController::class, 'index'])->name('admin.index');
+    //Route::any('/', [PagesController::class, 'index'])->name('admin.index');
+    Route::any('/admin', [PagesController::class, 'count'])->name('home_admin');
+    Route::resource('/admin/products', ProductsController::class);
+    Route::resource('/admin/coupons', CouponsController::class);
+    Route::resource('/admin/manufactures', ManufacturesController::class);
+    Route::resource('/admin/orderdetails', OrderDetailsController::class);
+    Route::resource('/admin/orders', OrdersController::class);
+    Route::resource('/admin/roles', RolesController::class);
+    Route::resource('/admin/status', StatusController::class);
+    Route::resource('/admin/protypes', ProtypesController::class);
+    Route::resource('/admin/payments', PaymentsController::class);
+    Route::resource('/admin/users', UsersController::class);
+});

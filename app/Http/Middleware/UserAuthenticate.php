@@ -4,11 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Http\RedirectResponse;
 use Auth;
 
-class AdminAuthenticate
+class UserAuthenticate
 {
     /**
      * Handle an incoming request.
@@ -17,11 +15,11 @@ class AdminAuthenticate
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
         if(Auth::check() && Auth::user()->role_id == 1){
             return $next($request);
         }
-        return redirect()->route('login.admin');
+        return redirect()->route('login');
     }
 }

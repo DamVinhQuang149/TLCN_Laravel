@@ -238,13 +238,9 @@ class UsersController extends Controller
         return view('login.index');
     }
     public function postLogin(Request $req){
-        if(Auth::attempt(['username' => $req->username, 'password' => $req->password]))
+        if(Auth::attempt(['username' => $req->username, 'password' => $req->password, 'role_id'=>2]))
         {
-            if(Auth::user()->role_id == 2)
-                return view('index');
-            elseif (Auth::user()->role_id == 1) {
-                return redirect()->route('home_admin');
-            }
+            return view('index');
         }
         return redirect()->back()->with('error', 'Login failed');
     }
@@ -270,20 +266,20 @@ class UsersController extends Controller
                             ->withErrors($errors)
                             ->withInput();
             }
-            $req->merge(['password'=>Hash::make($req->password)]);
-
+            $password = bcrypt($req->input('password'));
             $user = Users::create([
                 'First_name' => $req->input('First_name'),
                 'Last_name' => $req->input('Last_name'),
                 'username' => $req->input('username'),
-                'password' => $req->input('password'),
+                'password' => $password,
                 'email' => $req->input('email'),
                 'phone' => $req->input('phone'),
             ]);
             $user->save();
             return redirect()->route('login')->with('success', 'User create successfully');
         } catch (\Throwable $th) {
-            dd($th);
+            //dd($th);
+            return redirect()->route('register')->with('error', 'User create failed');
         }
     }
     public function logout(){
