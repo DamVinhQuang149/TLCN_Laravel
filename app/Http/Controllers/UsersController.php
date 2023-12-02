@@ -240,7 +240,7 @@ class UsersController extends Controller
     public function postLogin(Request $req){
         if(Auth::attempt(['username' => $req->username, 'password' => $req->password, 'role_id'=>2]))
         {
-            return view('index');
+            return redirect()->route('index');
         }
         return redirect()->back()->with('error', 'Login failed');
     }
@@ -287,4 +287,63 @@ class UsersController extends Controller
         Auth::logout();
         return redirect()->route('index');
     }
+    //profileUser
+    public function profileUser($user_id)
+    {
+        $user = Users::with('role')->find($user_id);
+
+        return view('profile', ['user' => $user]);
+    }
+    public function editProfileUser($user_id)
+    {
+        $user = Users::with('role')->find($user_id);
+        return view('edit-profile', ['user' => $user]);
+    }
+    public function editProfileUserPost(Request $req)
+    {
+    
+        $req->validate([
+            'First_name' => 'required|string|max:255',
+            'Last_name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        // Get the authenticated user
+        $user = auth()->user();
+
+        $user->First_name = $req->input('First_name');
+        $user->Last_name = $req->input('Last_name');
+        $user->phone = $req->input('phone');
+
+        // Update image if a new one is provided
+        if ($req->hasFile('image')) {
+            try {
+                $image = $req->file('image')->getClientOriginalName();
+                $target_dir = public_path('assets/img/');
+                $target_file = $target_dir . basename($image);
+
+                $imgFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+
+                if (!in_array($imgFileType, ['png', 'jpg', 'webp'])) {
+                    return redirect()->route('profile')->with('warning', 'Only accept image formats JPG, PNG, or WEBP!');
+                }
+
+                $image_name = 'image' . time() . '-' . $req->name . '.'
+                    . $req->image->extension();
+                $req->image->move(public_path('assets/img'), $image_name);
+            } catch (\Exception $e) {
+                dd($e->getMessage());
+            }
+        }
+
+        // Save changes to the user
+        $user->save();
+
+        // Redirect or return a response
+        return redirect()->route('profile', ['user_id' => $user->user_id])
+            ->with('success', 'Hô sơ được cập nhật thành công');
+    }
+
+    
 }

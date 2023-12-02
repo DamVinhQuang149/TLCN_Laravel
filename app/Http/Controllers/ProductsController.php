@@ -203,4 +203,38 @@ class ProductsController extends Controller
         $products->delete();
         return redirect('admin/products')->with('success', 'Delete Product Successfully!');
     }
+
+    //
+
+    public function showByTypeid($type_id)
+    {
+        try {
+            $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
+                ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
+                ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
+                ->where('products.type_id', $type_id)
+                ->orderBy('products.id', 'asc')
+                ->paginate(6);
+            return view('products', ['products' => $products]);
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
+    }
+
+    public function detailsProduct($type_id, $id)
+    {
+        $probyid = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
+            ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
+            ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
+            ->where('id', $id)
+            ->first();
+
+        $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
+            ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
+            ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
+            ->where('products.type_id', $type_id)
+            ->orderBy('products.id', 'asc')
+            ->paginate(4);
+        return view('detail-product', ['products' => $products, 'probyid' => $probyid]);
+    }
 }

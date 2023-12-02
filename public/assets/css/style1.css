@@ -1076,6 +1076,7 @@ button[type=submit]:hover {
 
 .product-inner-price {
     margin-bottom: 25px;
+    text-decoration: none;
 }
 
 .product-inner-price>ins {
@@ -1155,6 +1156,11 @@ form.cart {
 
 .tab-content h2 {
     font-size: 20px;
+    color: #000;
+}
+
+.tab-content p {
+    color: #000;
 }
 
 .tab-content {
@@ -1226,7 +1232,7 @@ table.shop_table th {
     text-transform: uppercase;
 }
 
-td.product-thumbnail img {
+td.product-image img {
     height: auto;
     width: 70px;
 }
@@ -1420,6 +1426,18 @@ table.shop_table td.product-remove a {
 table.shop_table td.product-remove a:hover {
     color: #fff;
     background: red;
+    text-decoration: none
+}
+
+table.shop_table td.product-save a {
+    display: inline-block;
+    padding: 0 5px 2px;
+    text-transform: uppercase;
+}
+
+table.shop_table td.product-save a:hover {
+    color: #ffffff;
+    background: #80bb35;
     text-decoration: none
 }
 

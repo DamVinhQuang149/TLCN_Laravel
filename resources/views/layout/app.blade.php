@@ -9,6 +9,7 @@
 
     <title>Capple - Website bán đồ ăn, trái cây, rau củ trực tuyến</title>
 
+    
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 
@@ -27,12 +28,6 @@
 
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
-
-    <style>
-        .active {
-            color: red;
-        }
-    </style>
 </head>
 
     @include('layout.header')

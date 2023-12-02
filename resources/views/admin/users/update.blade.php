@@ -56,6 +56,11 @@
                                                 class="form-control" name="phone" required>
                                         </div>
                                         <div class="form-group">
+                                            <label for="inputName">Email</label>
+                                            <input value="{{ $value->email }}" type="text" id="inputUserPhone"
+                                                class="form-control" name="email" required>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="inputName">Username</label>
                                             <input value="{{ $value->username }}" type="text" id="inputUserName"
                                                 class="form-control" name="username" required readonly>

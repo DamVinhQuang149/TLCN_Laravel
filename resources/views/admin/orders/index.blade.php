@@ -99,7 +99,7 @@
                                             @endif
                                         @endforeach
                                     </td>
-                                    <td style="width: 10%">{{ $value->date_create }} </td>
+                                    <td style="width: 10%">{{ $value->created_at }} </td>
                                     <td class="project-actions text-right">
                                         <form action="orderdetails/{{ $value->order_id }}" method="POST"
                                             enctype="multipart/form-data">

@@ -29,7 +29,7 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('user') }}" method="POST">
+                    <form action="" method="POST">
                         @csrf
                         <div class="input-group form-group">
                             <div class="input-group-prepend">

@@ -58,9 +58,9 @@
                     <div class="footer">
                         <h3 class="footer-title">thể loại</h3>
                         <ul class="footer-links">
-                            <li><a href="products.php?type_id=1"><strong>Trái cây</strong></a></li>
-                            <li><a href="products.php?type_id=2"><strong>Bánh ngọt</strong></a></li>
-                            <li><a href="products.php?type_id=3"><strong>Rau củ</strong></a></li>
+                            <li><a href="{{ route('products', ['type_id' => 1]) }}"><strong>Trái cây</strong></a></li>
+                            <li><a href="{{ route('products', ['type_id' => 2]) }}"><strong>Bánh ngọt</strong></a></li>
+                            <li><a href="{{ route('products', ['type_id' => 3]) }}"><strong>Rau củ</strong></a></li>
                         </ul>
                     </div>
                 </div>
@@ -134,8 +134,51 @@
 <script src="{{ asset('assets/js/nouislider.min.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.zoom.min.js') }}"></script>
 <script src="{{ asset('assets/js/main.js') }}"></script>
+<script src="{{ asset('assets/js/main1.js') }}"></script>
 
+<!-- JavaScript -->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
+<!-- CSS -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+<!-- Default theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+<!-- Semantic UI theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+<!-- Bootstrap theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
+
+@if (session('success'))
+        <script>
+            Swal.fire({
+                position: "top-center",
+                icon: "success",
+                title: "{{ session('success') }}",
+                showConfirmButton: false,
+                timer: 4000
+            });
+        </script>
+    @elseif (session('warning'))
+        <script>
+            Swal.fire({
+                position: "top-center",
+                icon: "warning",
+                title: "{{ session('warning') }}",
+                showConfirmButton: false,
+                timer: 4000
+            });
+        </script>
+    @elseif (session('error'))
+        <script>
+            Swal.fire({
+                position: "top-center",
+                icon: "error",
+                title: "{{ session('error') }}",
+                showConfirmButton: false,
+                timer: 4000
+            });
+        </script>
+    @endif
 
 </body>
 
