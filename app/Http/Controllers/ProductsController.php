@@ -9,6 +9,9 @@ use App\Models\Manufactures;
 
 class ProductsController extends Controller
 {
+    // public function __contruct(){
+    //     $this->middleware('user');
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -209,12 +212,60 @@ class ProductsController extends Controller
     public function showByTypeid($type_id)
     {
         try {
-            $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
-                ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
-                ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
-                ->where('products.type_id', $type_id)
-                ->orderBy('products.id', 'asc')
-                ->paginate(6);
+            if(isset($_GET['sort_by'])){
+                $sort_by = $_GET['sort_by'];
+                if($sort_by =='nodiscount_tang_dan'){
+                    $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
+                        ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
+                        ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
+                        ->where('products.type_id', $type_id)
+                        ->orderBy('products.price', 'asc')
+                        ->paginate(6);
+                }elseif($sort_by =='nodiscount_giam_dan'){
+                    $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
+                        ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
+                        ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
+                        ->where('products.type_id', $type_id)
+                        ->orderBy('products.price', 'desc')
+                        ->paginate(6);
+                }elseif($sort_by =='discount_tang_dan'){
+                    $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
+                        ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
+                        ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
+                        ->where('products.type_id', $type_id)
+                        ->orderBy('products.discount_price', 'asc')
+                        ->paginate(6);
+                }elseif($sort_by =='discount_giam_dan'){
+                    $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
+                        ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
+                        ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
+                        ->where('products.type_id', $type_id)
+                        ->orderBy('products.discount_price', 'desc')
+                        ->paginate(6);
+                }elseif($sort_by =='kytu_az'){
+                    $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
+                        ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
+                        ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
+                        ->where('products.type_id', $type_id)
+                        ->orderBy('products.name', 'asc')
+                        ->paginate(6)->appends(request()->query());
+                }elseif($sort_by =='kytu_za'){
+                    $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
+                        ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
+                        ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
+                        ->where('products.type_id', $type_id)
+                        ->orderBy('products.name', 'desc')
+                        ->paginate(6)->appends(request()->query());
+                }
+            }else{
+                $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
+                    ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
+                    ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
+                    ->where('products.type_id', $type_id)
+                    ->orderBy('products.id', 'asc')
+                    ->paginate(6);
+            }
+
             return view('products', ['products' => $products]);
         } catch (ModelNotFoundException $e) {
             abort(404);
@@ -236,5 +287,23 @@ class ProductsController extends Controller
             ->orderBy('products.id', 'asc')
             ->paginate(4);
         return view('detail-product', ['products' => $products, 'probyid' => $probyid]);
+    }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        $type_id = $request->input('searchCol');
+
+
+        $query = Products::query();
+
+        $query->where('name', 'like', "%$keyword%");
+        if ($type_id && $type_id != 0) {
+            $query->where('type_id', $type_id);
+        } 
+
+        $products = $query->paginate(6);
+
+        return view('products', compact('products'));
     }
 }

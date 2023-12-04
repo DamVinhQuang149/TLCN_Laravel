@@ -17,7 +17,7 @@ class UserAuthenticate
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::check() && Auth::user()->role_id == 1){
+        if(Auth::check() && Auth::user()->role_id == 2){
             return $next($request);
         }
         return redirect()->route('login');

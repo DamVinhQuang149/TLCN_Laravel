@@ -22,19 +22,24 @@
                     <div class="store-sort">
                         <label>
                             Sắp xếp:
-                            <select class="input-select">
-                                <option value="0">Popular</option>
-                                <option value="1">Position</option>
+                            <select class="input-select select-filter" id="select-filter">
+                                <option value="0">---Lọc theo---</option>
+                                <option value="{{ Request::url() }}?sort_by=kytu_az">Ký tự A-Z</option>
+                                <option value="{{ Request::url() }}?sort_by=kytu_za">Ký tự Z-A</option>
+                                {{-- <option value="{{ Request::url() }}?sort_by=nodiscount_tang_dan">Giá không khuyến mãi tăng dần</option>
+                                <option value="{{ Request::url() }}?sort_by=nodiscount_giam_dan">Giá không khuyến mãi giảm dần</option>
+                                <option value="{{ Request::url() }}?sort_by=discount_tang_dan">Giá khuyến mãi tăng dần</option>
+                                <option value="{{ Request::url() }}?sort_by=discount_giam_dan">Giá khuyến mãi giảm dần</option> --}}
                             </select>
                         </label>
 
-                        <label>
+                        {{-- <label>
                             Hiển thị:
                             <select class="input-select">
                                 <option value="0">20</option>
                                 <option value="1">50</option>
                             </select>
-                        </label>
+                        </label> --}}
                     </div>
                     <ul class="store-grid">
                         <li class="active"><i class="fa fa-th"></i></li>
@@ -60,6 +65,12 @@
                                     <a href="{{ route('detail.product', ['type_id' => $product->type_id, 'id' => $product->id]) }}">{{ $product->name }}</a>
                                    
                                 </h3>
+                                {{-- <h4 class="product-price">
+                                    <del>{{ number_format($product->price) }} VND</del>
+                                </h4>
+                                <h4 class="discount-price">
+                                    {{ number_format($product->discount_price) }} VND
+                                </h4>    --}}
                                 @if($product->discount_price > 0)
                                     <h4 class="product-price">
                                         <del>{{ number_format($product->price) }} VND</del>

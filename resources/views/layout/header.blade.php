@@ -44,7 +44,8 @@
                     <!-- SEARCH BAR -->
                     <div class="col-md-6">
                         <div class="header-search">
-                            <form method="get" action="result.php">
+                            <form action="{{ route('products.search') }}" method="GET">
+                                @csrf
                                 <select class="input-select" name="searchCol">
                                     <option value="0">Tất cả</option>
                                     <option value="1">Trái cây</option>

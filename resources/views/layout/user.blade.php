@@ -156,35 +156,54 @@
                                 <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                     <i class="fa fa-shopping-bag"></i>
                                     <span>Giỏ hàng</span>
-
-                                    <div class="qty"></div>
+                                    @if (Session::has("Cart") != null)
+                                        <div id="total-quanty-show" class="qty">{{ Session::get('Cart')->totalQuanty }}</div>
+                                    @else
+                                        <div id="total-quanty-show" class="qty">0</div>
+                                    @endif
                                 </a>
                                 <div class="cart-dropdown">
-                                    <div class="cart-list">
-                                        <div class="product-widget">
-                                            <div class="product-img">
-                                                <img src="" alt="">
+                                    <div id="change-item-cart">
+                                        @if (Session::has("Cart") != null)
+                                        <div class="cart-list">
+                                            @foreach (Session::get('Cart')->products as $item)
+                                            <div class="product-widget">
+                                                <div class="product-img">
+                                                    <img class="si-pic"
+                                                        src="{{ asset('assets/img/' . $item['productInfo']->pro_image) }}"
+                                                        alt="">
+                                                </div>
+                                                <div class="product-body">
+                                                    <h3 class="product-name">
+                                                        <a
+                                                            href="{{ route('detail.product', ['type_id' => $item['productInfo']->type_id, 'id' => $item['productInfo']->id]) }}">
+                                                            {{ $item['productInfo']->name }}
+                                                        </a>
+                                                    </h3>
+                                                    <h4 class="product-price"><span class="qty">{{ $item['quanty']
+                                                            }}</span> x {{ number_format($item['price'])
+                                                        }}VND
+                                                    </h4>
+                                                </div>
+                                                <button class="delete">
+                                                    <i class="fa fa-close" data-id="{{ $item['productInfo']->id }}"></i>
+                                                </button>
                                             </div>
-                                            <div class="product-body">
-                                                <h3 class="product-name"><a
-                                                        href="detail.php?id="></a>
-                                                </h3>
-                                                <h4 class="product-price"><span
-                                                        class="qty">x</span>>VND
-                                                </h4>
-                                            </div>
-                                            <a href="delcart1.php?id="><button
-                                                    class="delete"><i class="fa fa-close"></i></button></a>
+                                            @endforeach
                                         </div>
-                                    
-                                    </div>
-                                    <div class="cart-summary">
-                                        <small> Sản phẩm</small>
-                                        <h5>SUBTOTAL: </h5>
+                                        <div class="cart-summary">
+                                            <small> {{ Session::get('Cart')->totalQuanty }} Sản phẩm </small>
+                                            <h5>SUBTOTAL: {{ number_format(Session::get('Cart')->totalPrice) }} VND</h5>
+                                        </div>
+                                        @else
+                                        <div class="cart-summary">
+                                            <h5>Không có sản phẩm nào trong giỏ hàng</h5>
+                                        </div>
+                                        @endif
                                     </div>
                                     <div class="cart-btns">
-                                        <a href="cart.php?type_id=1">Xem giỏ hàng</a>
-                                        <a href="./login/index.php">Xem đơn hàng <i
+                                        <a href="{{ route('list.cart') }}">Xem giỏ hàng</a>
+                                        <a href="{{ route('list.order') }}">Xem đơn hàng <i
                                                 class="fa fa-arrow-circle-right"></i></a>
                                     </div>
                                 </div>

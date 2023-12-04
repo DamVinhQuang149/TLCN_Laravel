@@ -280,8 +280,7 @@ function showSlides() {
                                                     class="tooltipp">Quick view</span></button>
                                         </div>
                                     </div>
-                                    <a
-                                        href="">
+                                    <a onclick="AddCart({{ $value->id }})" href="javascript:">
                                         <div class="add-to-cart">
                                             <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào
                                                 giỏ</button>
@@ -340,8 +339,7 @@ function showSlides() {
                                                     class="tooltipp">Quick view</span></button>
                                         </div>
                                     </div>
-                                    <a
-                                        href="">
+                                    <a onclick="AddCart({{ $value->id }})" href="javascript:">
                                         <div class="add-to-cart">
                                             <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào
                                                 giỏ</button>
@@ -400,8 +398,7 @@ function showSlides() {
                                                     class="tooltipp">Quick view</span></button>
                                         </div>
                                     </div>
-                                    <a
-                                        href="">
+                                    <a onclick="AddCart({{ $value->id }})" href="javascript:">
                                         <div class="add-to-cart">
                                             <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào
                                                 giỏ</button>

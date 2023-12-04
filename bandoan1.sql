@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 27, 2023 lúc 06:29 PM
+-- Thời gian đã tạo: Th12 04, 2023 lúc 09:32 PM
 -- Phiên bản máy phục vụ: 10.4.27-MariaDB
 -- Phiên bản PHP: 8.0.25
 
@@ -45,7 +45,7 @@ CREATE TABLE `coupons` (
 
 INSERT INTO `coupons` (`coupon_id`, `coupon_code`, `coupon_type`, `coupon_amount`, `min_order`, `coupon_quantity`, `coupon_used`, `coupon_remain`, `coupon_expired`) VALUES
 (1, 'GIAMGIA50K', 0, 50000, 50000, 30, 0, 0, '2023-11-02'),
-(2, 'GIAMGIA10%', 1, 10, 300000, 30, 6, -2, '2023-11-02'),
+(2, 'GIAMGIA10%', 1, 10, 300000, 30, 6, 5, '2023-11-02'),
 (3, 'GIAMGIA100K', 0, 100000, 1000000, 30, 5, 25, '2023-11-10'),
 (4, 'GIAMGIA150K', 0, 150000, 500000, 30, 9, 21, '2023-11-09'),
 (5, '', 0, 0, 0, 123125, 5, 123120, '2114-12-31'),
@@ -53,7 +53,7 @@ INSERT INTO `coupons` (`coupon_id`, `coupon_code`, `coupon_type`, `coupon_amount
 (10, 'GIAMGIA101K', 0, 100100, 100000, 5, 0, 5, '2023-11-02'),
 (11, 'GIAMGIAT', 0, 120000, 1000000, 12, 0, 12, '2023-12-12'),
 (12, 'GIAMGIA123', 0, 123000, 1230000, 15, 0, 15, '2023-11-12'),
-(13, 'Giamgia10k', 0, 10000, 100000, 5, 0, 5, '2023-11-15'),
+(13, 'Giamgia10k', 0, 10000, 100000, 5, 2, 3, '2023-11-15'),
 (14, 'Giam50k', 0, 50000, 100000, 5, 0, 5, '2023-11-15'),
 (15, '2123', 0, 10000, 100000, 5, 0, 5, '2023-11-15'),
 (20, 'GiamGia@#$10K', 0, 10000, 100000, 5, 0, 5, '2023-11-15'),
@@ -108,18 +108,18 @@ CREATE TABLE `orders` (
   `address` varchar(100) NOT NULL,
   `phone` text NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
-  `coupon_discount` int(11) NOT NULL,
+  `coupon_discount` int(11) DEFAULT NULL,
   `total` int(11) NOT NULL,
-  `note` varchar(150) NOT NULL,
+  `note` varchar(150) DEFAULT NULL,
   `checkout` int(11) NOT NULL,
-  `date_create` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `orders`
 --
 
-INSERT INTO `orders` (`order_id`, `user_id`, `address`, `phone`, `status`, `coupon_discount`, `total`, `note`, `checkout`, `date_create`) VALUES
+INSERT INTO `orders` (`order_id`, `user_id`, `address`, `phone`, `status`, `coupon_discount`, `total`, `note`, `checkout`, `created_at`) VALUES
 (245, 14, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', '0935540795', 0, 150000, 450000, '', 1, '2023-10-30 17:42:21'),
 (244, 14, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', '0935540795', 0, 0, 660000, '', 1, '2023-10-30 17:41:36'),
 (243, 14, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', '0935540795', 0, 150000, 15000, '', 1, '2023-10-30 17:40:50'),
@@ -213,7 +213,20 @@ INSERT INTO `orders` (`order_id`, `user_id`, `address`, `phone`, `status`, `coup
 (252, 14, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', '0935540795', 6, 150000, 620000, '', 0, '2023-10-31 11:08:06'),
 (253, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', '0935540795', 0, 0, 595000, '', 1, '2023-10-31 12:56:30'),
 (254, 1, '566/72/63R Nguyễn Thái Sơn, P.5, Quận Gò Vấp', '0935540795', 0, 150000, 450000, '', 1, '2023-10-31 14:16:54'),
-(255, 1, 'jgh', '935540795', 1, 0, 285000, '', 0, '2023-11-25 03:56:07');
+(278, 18, 'ad', '385273123', 5, 10000, 155000, 'ad', 1, '2023-12-02 01:01:06'),
+(279, 25, 'add', '385273123', 0, 0, 285000, NULL, 1, '2023-12-02 08:34:40'),
+(280, 18, 'ass', '385273123', 5, 0, 165000, NULL, 0, '2023-12-02 09:22:32'),
+(281, 18, 'asss', '385273123', 0, 0, 285000, NULL, 1, '2023-12-02 09:24:27'),
+(282, 18, 'aaaaa', '385273123', 5, 0, 835000, NULL, 1, '2023-12-02 09:31:17'),
+(283, 18, 'ahaha', '385273123', 0, 0, 835000, NULL, 1, '2023-12-02 10:47:06'),
+(284, 25, 'aw', '385273123', 0, 10000, 360000, NULL, 1, '2023-12-03 06:10:19'),
+(285, 25, 'a123', '385273123', 0, 10000, 3240000, NULL, 1, '2023-12-03 06:16:22'),
+(286, 25, 'a123', '385273123', 0, 10000, 3240000, NULL, 1, '2023-12-03 06:16:46'),
+(287, 25, '123', '385273123', 0, 10000, 3240000, NULL, 1, '2023-12-03 06:17:47'),
+(288, 25, 'ad123', '385273123', 0, 0, 3250000, NULL, 1, '2023-12-03 07:23:11'),
+(289, 25, '123', '385273123', 0, 10000, 275000, NULL, 1, '2023-12-03 07:26:51'),
+(290, 25, '123', '385273123', 0, 0, 275000, NULL, 1, '2023-12-03 07:27:28'),
+(291, 18, 'ad', '385273123', 0, 0, 165000, NULL, 1, '2023-12-03 07:31:53');
 
 -- --------------------------------------------------------
 
@@ -395,7 +408,43 @@ INSERT INTO `order_details` (`order_id`, `product_name`, `discount_price`, `prod
 (253, 'Hồng đỏ Nam Mỹ (kg)', 165000, 3, 495000, 11, 1, 'hongdomy.png', 220),
 (254, 'Chanh dây Nga tươi (kg)', 120000, 5, 600000, 16, 1, 'chanhday.png', 221),
 (255, 'Hồng đỏ Nam Mỹ (kg)', 165000, 1, 165000, 11, 1, 'hongdomy.png', 222),
-(255, 'Chanh dây Nga tươi (kg)', 120000, 1, 120000, 16, 1, 'chanhday.png', 223);
+(255, 'Chanh dây Nga tươi (kg)', 120000, 1, 120000, 16, 1, 'chanhday.png', 223),
+(259, 'Hồng đỏ Nam Mỹ (kg)', 165000, 3, 495000, 11, 1, 'hongdomy.png', 224),
+(260, 'Hồng đỏ Nam Mỹ (kg)', 165000, 3, 495000, 11, 1, 'hongdomy.png', 225),
+(260, 'Chanh dây Nga tươi (kg)', 120000, 1, 120000, 16, 1, 'chanhday.png', 226),
+(260, 'Dâu tây đỏ ngọt (kg)', 100000, 1, 100000, 18, 1, 'dautay.png', 227),
+(261, 'Hồng đỏ Nam Mỹ (kg)', 165000, 3, 495000, 11, 1, 'hongdomy.png', 228),
+(261, 'Chanh dây Nga tươi (kg)', 120000, 1, 120000, 16, 1, 'chanhday.png', 229),
+(261, 'Dâu tây đỏ ngọt (kg)', 100000, 1, 100000, 18, 1, 'dautay.png', 230),
+(262, 'Hồng đỏ Nam Mỹ (kg)', 165000, 3, 495000, 11, 1, 'hongdomy.png', 231),
+(262, 'Chanh dây Nga tươi (kg)', 120000, 1, 120000, 16, 1, 'chanhday.png', 232),
+(262, 'Dâu tây đỏ ngọt (kg)', 100000, 1, 100000, 18, 1, 'dautay.png', 233),
+(278, 'Hồng đỏ Nam Mỹ (kg)', 165000, 1, 165000, 11, 1, 'hongdomy.png', 240),
+(263, 'Chanh dây Nga tươi (kg)', 120000, 1, 120000, 16, 1, 'chanhday.png', 235),
+(279, 'Hồng đỏ Nam Mỹ (kg)', 165000, 1, 165000, 11, 1, 'hongdomy.png', 241),
+(279, 'Chanh dây Nga tươi (kg)', 120000, 1, 120000, 16, 1, 'chanhday.png', 242),
+(280, 'Hồng đỏ Nam Mỹ (kg)', 165000, 1, 165000, 11, 1, 'hongdomy.png', 243),
+(281, 'Hồng đỏ Nam Mỹ (kg)', 165000, 1, 165000, 11, 1, 'hongdomy.png', 244),
+(281, 'Chanh dây Nga tươi (kg)', 120000, 1, 120000, 16, 1, 'chanhday.png', 245),
+(282, 'Hồng đỏ Nam Mỹ (kg)', 165000, 3, 495000, 11, 1, 'hongdomy.png', 246),
+(282, 'Chanh dây Nga tươi (kg)', 120000, 2, 240000, 16, 1, 'chanhday.png', 247),
+(282, 'Dâu tây đỏ ngọt (kg)', 100000, 1, 100000, 18, 1, 'dautay.png', 248),
+(283, 'Hồng đỏ Nam Mỹ (kg)', 165000, 3, 495000, 11, 1, 'hongdomy.png', 249),
+(283, 'Chanh dây Nga tươi (kg)', 120000, 2, 240000, 16, 1, 'chanhday.png', 250),
+(283, 'Dâu tây đỏ ngọt (kg)', 100000, 1, 100000, 18, 1, 'dautay.png', 251),
+(284, 'Chanh tươi Irag (kg)', 250000, 1, 250000, 3, 3, 'chanhtuoiirag.png', 252),
+(284, 'Cà tím Châu Phi (kg)', 120000, 1, 120000, 7, 3, 'catim.jpg', 253),
+(285, 'Bánh kem bơ Pháp', 850000, 1, 850000, 1, 2, 'banhkembophap.jpg', 254),
+(285, 'Bánh kem dâu Ý', 1200000, 2, 2400000, 5, 2, 'banhkemdau.jpg', 255),
+(286, 'Bánh kem bơ Pháp', 850000, 1, 850000, 1, 2, 'banhkembophap.jpg', 256),
+(286, 'Bánh kem dâu Ý', 1200000, 2, 2400000, 5, 2, 'banhkemdau.jpg', 257),
+(287, 'Bánh kem bơ Pháp', 850000, 1, 850000, 1, 2, 'banhkembophap.jpg', 258),
+(287, 'Bánh kem dâu Ý', 1200000, 2, 2400000, 5, 2, 'banhkemdau.jpg', 259),
+(288, 'Bánh kem bơ Pháp', 850000, 1, 850000, 1, 2, 'banhkembophap.jpg', 260),
+(288, 'Bánh kem dâu Ý', 1200000, 2, 2400000, 5, 2, 'banhkemdau.jpg', 261),
+(289, 'Hồng đỏ Nam Mỹ (kg)', 165000, 1, 165000, 11, 1, 'hongdomy.png', 262),
+(289, 'Chanh dây Nga tươi (kg)', 120000, 1, 120000, 16, 1, 'chanhday.png', 263),
+(291, 'Hồng đỏ Nam Mỹ (kg)', 165000, 1, 165000, 11, 1, 'hongdomy.png', 264);
 
 -- --------------------------------------------------------
 
@@ -450,23 +499,25 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `manu_id`, `type_id`, `price`, `discount_price`, `pro_image`, `description`, `feature`, `created_at`) VALUES
-(1, 'Bánh kem bơ Pháp', 18, 2, 0, 850000, 'banhkembophap.jpg', 'Vẫn sở hữu phần cốt bánh bông lan xốp mịn, điều làm cho những chiếc bánh kem này trở nên đặc biệt và cuốn hút nằm ở phần kem bơ.\r\n\r\nKem bơ Pháp được làm từ những nguyên liệu gồm lòng đỏ trứng, syrup đường và bơ lạt. Nhờ sử dụng thêm lòng đỏ trứng, thành phẩm kem bơ sẽ có hương vị cực kì thơm ngon, mềm mượt và tan ngay khi vào miệng.\r\n\r\nNhững người thợ tài hoa của Grand Castella còn tận dụng phần kem bơ này, sáng tạo nên những hình ảnh trang trí độc đáo, giúp chiếc bánh kem đã ngon nay trở nên xinh đẹp hơn.', 1, '2021-10-22 04:15:10'),
-(53, 'Cải thìa Triều Tiên (kg)', 18, 3, 0, 70000, 'caithia.png', 'Cải thìa Triều Tiên do ông Kim trồng ăn rất ngon nhé. Mua ăn thử đi biết', 0, '2022-11-18 08:20:02'),
-(54, 'Cà rốt Bắc Mỹ (kg)', 18, 3, 0, 120000, 'carot.png', 'Cà rốt Bắc Mỹ do ông Donald Trump đích thân trồng tại nông trại. Không qua bất cứ máy móc và hóa chất. Nên rất ngon và đắt', 0, '2022-11-18 08:19:55'),
+(1, 'Bánh kem bơ Pháp', 18, 2, 850000, 0, 'banhkembophap.jpg', 'Vẫn sở hữu phần cốt bánh bông lan xốp mịn, điều làm cho những chiếc bánh kem này trở nên đặc biệt và cuốn hút nằm ở phần kem bơ.\r\n\r\nKem bơ Pháp được làm từ những nguyên liệu gồm lòng đỏ trứng, syrup đường và bơ lạt. Nhờ sử dụng thêm lòng đỏ trứng, thành phẩm kem bơ sẽ có hương vị cực kì thơm ngon, mềm mượt và tan ngay khi vào miệng.\r\n\r\nNhững người thợ tài hoa của Grand Castella còn tận dụng phần kem bơ này, sáng tạo nên những hình ảnh trang trí độc đáo, giúp chiếc bánh kem đã ngon nay trở nên xinh đẹp hơn.', 1, '2021-10-22 04:15:10'),
+(53, 'Cải thìa Triều Tiên (kg)', 18, 3, 0, 70000, 'caithia.png', 'Cải thìa Triều Tiên do ông Kim trồng ăn rất ngon nhé. Mua ăn thử đi biết', 1, '2022-11-18 08:20:02'),
+(54, 'Cà rốt Bắc Mỹ (kg)', 18, 3, 0, 120000, 'carot.png', 'Cà rốt Bắc Mỹ do ông Donald Trump đích thân trồng tại nông trại. Không qua bất cứ máy móc và hóa chất. Nên rất ngon và đắt', 1, '2022-11-18 08:19:55'),
 (55, 'Cà chua Nhật Bản (kg)', 18, 3, 0, 110000, 'cachua.png', 'Do Thiên Hoàng Minh Trị trồng từ thời chiến tranh thế giới thứ 2. Đặc biệt loại này không dính phóng xạ nên ăn bổ lắm nha.', 0, '2022-11-18 08:19:46'),
 (3, 'Chanh tươi Irag (kg)', 18, 3, 0, 250000, 'chanhtuoiirag.png', 'Loại tranh xuất xứ từ những anh Iran, Irag đẹp trai. Khủng b*, nên chanh này ăn ngon và hấp dẫn. Tận hưởng những phút giây như bị kh**g bố khi ăn nó', 0, '2022-11-18 08:22:41'),
 (5, 'Bánh kem dâu Ý', 18, 2, 0, 1200000, 'banhkemdau.jpg', 'Xuất xứ từ Ý, du nhập Việt Nam năm 2022. Mới lạ và đang là xu hướng', 1, '2022-11-18 08:22:28'),
 (7, 'Cà tím Châu Phi (kg)', 18, 3, 0, 120000, 'catim.jpg', 'Loại cà tím Châu Phi này to thì khỏi phải nói :)). Ăn thì cũng ngon, làm ngất ngây bao nhiêu chị em. Mua ăn thử bạn nhé', 1, '2022-11-18 08:22:20'),
-(11, 'Hồng đỏ Nam Mỹ (kg)', 18, 1, 225000, 165000, 'hongdomy.png', 'Hồng đỏ tươi Nam Mỹ, cung cấp nhiều khoáng chất tốt cho cơ thể', 1, '2022-11-18 08:22:12'),
+(11, 'Hồng đỏ Nam Mỹ (kg)', 18, 1, 225000, 0, 'hongdomy.png', 'Hồng đỏ tươi Nam Mỹ, cung cấp nhiều khoáng chất tốt cho cơ thể', 1, '2022-11-18 08:22:12'),
 (12, 'Bánh kem Matcha Nho', 18, 2, 0, 320000, 'banhkemnhomatcha.jpg', 'Sản phẩm tốt với giá thành rẻ. Ngon mà đẹp, thích hợp với sinh viên', 1, '2022-11-18 08:21:53'),
 (13, 'Dưa leo Ấn Độ (kg)', 18, 3, 0, 50000, 'dualeoando.png', 'Dưa leo Ấn Độ chỉ được trồng ở Ấn Độ. Không xuất khẩu, nay có ở Việt Nam nhờ tui buôn l*u. Mua ăn đi nhé!!!', 1, '2022-11-18 08:21:34'),
-(16, 'Chanh dây Nga tươi (kg)', 18, 1, 0, 120000, 'chanhday.png', 'Loại chanh dây đặc biệt này chỉ trồng được ở nước Hàn Đới như Nga, nên đừng thắc ắc giá cả. Mua ăn liền đi nhé!!!', 1, '2022-11-18 08:21:23'),
+(16, 'Chanh dây Nga tươi (kg)', 18, 1, 120000, 0, 'chanhday.png', 'Loại chanh dây đặc biệt này chỉ trồng được ở nước Hàn Đới như Nga, nên đừng thắc ắc giá cả. Mua ăn liền đi nhé!!!', 1, '2022-11-18 08:21:23'),
 (17, 'Bánh kem Táo Hàn Quốc', 18, 2, 0, 550000, 'banhkemtao.jpg', 'Bánh kem táo Hàn Quốc siêu đẹp và ngon', 1, '2022-11-18 08:21:15'),
 (18, 'Dâu tây đỏ ngọt (kg)', 18, 1, 0, 100000, 'dautay.png', 'Loại dâu tây này siêu ngọt và thơm. Ăn ngon nhé bạn', 1, '2022-11-18 08:21:01'),
-(21, 'Vải thiều loại to (kg)', 18, 1, 0, 85000, 'vaithieuloaito.png', 'Vải thiều loại to, tươi mới mỗi ngày. Cung cấp Vitamin tốt cho sức khỏe', 0, '2022-11-18 08:20:52'),
+(21, 'Vải thiều loại to (kg)', 18, 1, 0, 85000, 'vaithieuloaito.png', 'Vải thiều loại to, tươi mới mỗi ngày. Cung cấp Vitamin tốt cho sức khỏe', 1, '2022-11-18 08:20:52'),
 (22, 'Bánh kem Matcha', 18, 2, 0, 600000, 'banhkemmatcha.jpg', 'Bánh kem matcha trà xanh, cực kỳ thơm ngon. Được khá nhiều người ưa chuộng', 1, '2022-11-18 08:22:01'),
 (23, 'Ớt chuông đỏ (kg)', 18, 3, 0, 60000, 'otchuongdo.png', 'Ớt chuông đỏ cung cấp nhiều Vitamin D. Loại này ít cay nhưng ngon khi xào chung với Mực', 1, '2022-11-18 08:20:15'),
-(92, 'hj', 18, 2, 120000, 80000, 'image1700137512-hj.jpg', 'sưaE', 0, '2023-11-14 13:29:57');
+(92, 'hj', 18, 2, 120000, 80000, 'image1700137512-hj.jpg', 'sưaE', 0, '2023-11-14 13:29:57'),
+(94, 'Anh Test', 18, 1, 150000, 0, 'image1701712888-Anh Test.jpg', 'hagggagag', 1, '2023-12-04 18:01:28'),
+(95, 'Anh Test', 18, 3, 150000, 0, 'image1701712925-Anh Test.jpg', 'qwerty', 1, '2023-12-04 18:02:05');
 
 -- --------------------------------------------------------
 
@@ -557,11 +608,11 @@ INSERT INTO `users` (`user_id`, `image`, `First_name`, `Last_name`, `email`, `ph
 (1, 'admin.jpg', 'Hồ ', 'Duy Hoàng', '', 935540795, 'hoang', '202cb962ac59075b964b07152d234b70', 1),
 (14, 'avatar3.jpg', 'Nguyễn ', 'Quốc Huy', '', 123456, 'huy', '202cb962ac59075b964b07152d234b70', 2),
 (17, NULL, 'Đàm ', 'Vinh Quang', '', 999777333, 'quang', '202cb962ac59075b964b07152d234b70', 1),
-(18, 'avatar7.png', 'quang1', 'dam1', 'damquang149@gmail.com', 374568503, 'vipz111', '$2y$10$tn02J7KA3ilsVB1YhjBnXuHd/lD0.CzEx0PrPOqeLFHRMfOXRSxBW', 1),
+(18, 'avatar7.png', 'Dam', 'Vinh Quang', 'damquang149@gmail.com', 385273123, 'vipz111', '$2y$10$tn02J7KA3ilsVB1YhjBnXuHd/lD0.CzEx0PrPOqeLFHRMfOXRSxBW', 1),
 (19, NULL, 'Quang', 'shinro', 'damquang1491@gmail.com', 385273875, 'shin', '$2y$10$pharB.we1uwLZ3LKyFWW4OZkreEf5olgzbibXj1xnt.1zdTFtHD0q', 2),
 (20, NULL, 'Quang', 'shinro', 'damquang1492@gmail.com', 385273875, 'shin123', '$2y$10$Migx4ZM6yjxc3OgD81Bk.eI.ymYa6g7erYs5JWBvWTzml479RiEf2', 1),
-(22, NULL, 'c', 'v', 'damquang@gmail.com', 374568503, 'vipz1', '$2y$10$tI9jOWbiod9HHY4Mpawwauk8bz4XajYpJdU07tyLvhWvmFQZUYOkW', 2),
-(25, NULL, 'Quang', 'shinro', 'damquang1493@gmail.com', 385273876, 'vipz11', '$2y$10$6KHmpOY1FxRnUTqyMv9w6.ibcQ2tBsaqzpGrqUamj6p3x6Q4RIItm', 2);
+(22, NULL, 'c123', 'v', 'damquang@gmail.com', 374568503, 'vipz1', '$2y$10$tI9jOWbiod9HHY4Mpawwauk8bz4XajYpJdU07tyLvhWvmFQZUYOkW', 2),
+(25, 'image1701294146-.jpg', 'Dam', 'Vinh Quang', 'damquang1493@gmail.com', 385273123, 'vipz11', '$2y$10$pGa2C1oKdk2qJHxwOK0mneL1B2D7iSsHdxtz5jmzlyTgasLw2dM7.', 2);
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -648,19 +699,19 @@ ALTER TABLE `manufactures`
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=256;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=292;
 
 --
 -- AUTO_INCREMENT cho bảng `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `orderdetail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=224;
+  MODIFY `orderdetail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=265;
 
 --
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT cho bảng `protypes`

@@ -81,10 +81,12 @@
                     <div class="footer">
                         <h3 class="footer-title">Dịch vụ</h3>
                         <ul class="footer-links">
-                            <li><a href="login/index.php">Tài Khoản Của Tôi</a></li>
-                            <li><a href="#">Xem Giỏ Hàng</a></li>
+                            @if (Auth::check())
+                                <li><a href="{{ route('profile', ['user_id' => Auth::user()->user_id]) }}">Tài Khoản Của Tôi</a></li>
+                            @endif
+                            <li><a href="{{ route('list.cart') }}">Xem Giỏ Hàng</a></li>
                             <li><a href="#">Yêu Thích</a></li>
-                            <li><a href="#">Xem Đơn Hàng</a></li>
+                            <li><a href="{{ route('list.order') }}">Xem Đơn Hàng</a></li>
                             <li><a href="#">Giúp Đỡ</a></li>
                         </ul>
                     </div>
@@ -135,6 +137,7 @@
 <script src="{{ asset('assets/js/jquery.zoom.min.js') }}"></script>
 <script src="{{ asset('assets/js/main.js') }}"></script>
 <script src="{{ asset('assets/js/main1.js') }}"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 <!-- JavaScript -->
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>

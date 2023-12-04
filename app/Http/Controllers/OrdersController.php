@@ -6,6 +6,7 @@ use App\Models\Status;
 use App\Models\Orders;
 use App\Models\OrderDetails;
 use App\Models\Products;
+use App\Models\Coupons;
 
 use Illuminate\Http\Request;
 use Session;
@@ -100,70 +101,88 @@ class OrdersController extends Controller
     //
 
     public function order(Request $req){
-        $user_id = Auth::user()->user_id;
-        $address = $req->address;
-        $phone = $req->phone;
-        $note = $req->note;
-        if(Session::has('Coupon')){
-            foreach (Session::get('Coupon') as $key => $cou){
-                $coupon_discount = $cou['coupon_amount'];
-            }
-        }
-        else{
-            $coupon_discount = 0;
-        }
-        $total = ($req->total > 0) ? $req->total : Session::get('Cart')->totalPrice;;
-        $checkout = $req->payment_method;
-        $order = Orders::create([
-            'user_id' => $user_id, 
-            'address' => $address, 
-            'phone' => $phone, 
-            'coupon_discount' => $coupon_discount,
-            'note' => $note, 
-            'total' => $total,
-            'checkout' => $checkout
-        ]);
-        if($order != null){
-            $order_id = $order->order_id;
-            foreach (Session::get('Cart')->products as $item) {
-                $price = $item['price1'];
-                $product_name = $item['productInfo']->name;
-                $product_quantity = $item['quanty'];
-                $cost = $item['price'];
-                $product_id = $item['productInfo']->id;
-                $type_id = $item['productInfo']->type_id;
-                $product_image = $item['productInfo']->pro_image;
-
-                $orderdetail = OrderDetails::create([
-                    'order_id' => $order_id, 
-                    'product_name' => $product_name, 
-                    'discount_price' => $price, 
-                    'product_quantity' => $product_quantity, 
-                    'cost' => $cost, 
-                    'product_id' => $product_id, 
-                    'type_id' => $type_id, 
-                    'product_image' => $product_image
-                ]);
-            }
-            
-            if($order->checkout == 0){
-
-                return redirect()->route('onlinepayment');
+        if(Session::has('Cart')){
+            $user_id = Auth::user()->user_id;
+            $address = $req->address;
+            $phone = $req->phone;
+            $note = $req->note;
+            if(Session::has('Coupon')){
+                foreach (Session::get('Coupon') as $key => $cou){
+                    $coupon_discount = $cou['coupon_amount'];
+                }
             }
             else{
-                // foreach (Session::get('Coupon') as $key => $cou){
+                $coupon_discount = 0;
+            }
+            $total = ($req->total > 0) ? $req->total : Session::get('Cart')->totalPrice;;
+            $checkout = $req->payment_method;
+            $order = Orders::create([
+                'user_id' => $user_id, 
+                'address' => $address, 
+                'phone' => $phone, 
+                'coupon_discount' => $coupon_discount,
+                'note' => $note, 
+                'total' => $total,
+                'checkout' => $checkout
+            ]);
+            if($order != null){
+                $order_id = $order->order_id;
+                foreach (Session::get('Cart')->products as $item) {
+                    $price = $item['price1'];
+                    $product_name = $item['productInfo']->name;
+                    $product_quantity = $item['quanty'];
+                    $cost = $item['price'];
+                    $product_id = $item['productInfo']->id;
+                    $type_id = $item['productInfo']->type_id;
+                    $product_image = $item['productInfo']->pro_image;
 
-                // }
-                $req->session()->forget('Cart');
-                return redirect()->route('view.thanks');
+                    $orderdetail = OrderDetails::create([
+                        'order_id' => $order_id, 
+                        'product_name' => $product_name, 
+                        'discount_price' => $price, 
+                        'product_quantity' => $product_quantity, 
+                        'cost' => $cost, 
+                        'product_id' => $product_id, 
+                        'type_id' => $type_id, 
+                        'product_image' => $product_image
+                    ]);
+                }
+                
+                if($order->checkout == 0){
+
+                    return redirect()->route('onlinepayment');
+                }
+                else{
+                    // foreach (Session::get('Coupon') as $key => $cou){
+
+                    // }
+                    
+                    return redirect()->route('view.thanks');
+                }
+            }
+            else{
+                return redirect()->back();
             }
         }
-        else{
-            return redirect()->back();
-        }
+        return redirect()->route('index');
     }
 
-    public function viewThanks(){
+    public function viewThanks(Request $req){
+        if(Session::has('Coupon')){
+            foreach (Session::get('Coupon') as $key => $cou){
+                $coupon_used = $cou['coupon_used'] + 1;
+                $coupon_remain = $cou['coupon_quantity'] - $coupon_used;
+
+                Coupons::find($cou['coupon_id'])->update([
+                        'coupon_used' => $coupon_used,
+                        'coupon_remain' => $coupon_remain,
+                    ]);
+                $req->session()->forget('Coupon');
+            }
+        }
+        if(Session::has('Cart')){
+            $req->session()->forget('Cart');
+        }
         return view('thanks');
     }
 

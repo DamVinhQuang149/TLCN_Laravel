@@ -12,7 +12,13 @@ class CheckoutController extends Controller
 {
     //
     public function viewcheckout(){
-        return view('checkout');
+        if(Session::has('Cart')){
+            return view('checkout');
+        }
+        else{
+            return redirect()->route('index');
+        }
+        
     }
     //
     public function processCoupon(Request $req, $coupon_code){
@@ -26,6 +32,7 @@ class CheckoutController extends Controller
                     $is_available = 0;
                     if($is_available == 0){
                         $cou[] = array(
+                            'coupon_id' => $coupon->coupon_id,
                             'coupon_code' =>$coupon->coupon_code,
                             'coupon_type' =>$coupon->coupon_type,
                             'coupon_amount' =>$coupon->coupon_amount,
@@ -39,6 +46,7 @@ class CheckoutController extends Controller
                 }
                 else{
                     $cou[] = array(
+                        'coupon_id' => $coupon->coupon_id,
                         'coupon_code' =>$coupon->coupon_code,
                         'coupon_type' =>$coupon->coupon_type,
                         'coupon_amount' =>$coupon->coupon_amount,

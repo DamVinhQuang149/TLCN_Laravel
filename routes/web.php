@@ -49,28 +49,29 @@ Route::get('/delete-item-cart/{id}', [CartController::class, 'deleteItemCart'])-
 Route::get('/list-cart', [CartController::class, 'viewListCart'])->name('list.cart');
 Route::get('/delete-list-item-cart/{id}', [CartController::class, 'deleteListItemCart']);
 Route::get('/save-list-item-cart/{id}/{quanty}', [CartController::class, 'saveListItemCart']);
+//sreach
+Route::get('/products/search', [ProductsController::class, 'search'])->name('products.search');
 
 
-//checkout-order
-Route::get('/check-out', [CheckoutController::class, 'viewcheckout'])->name('view.checkout');
-Route::get('/unset-coupon', [CheckoutController::class, 'unsetCoupon'])->name('unset.coupon');
-
-Route::post('/order', [OrdersController::class, 'order'])->name('order');
-Route::get('/onlinepayment', [OrdersController::class, 'onlinepayment'])->name('onlinepayment');
-Route::get('/thanks', [OrdersController::class, 'viewThanks'])->name('view.thanks');
-Route::get('/list-order', [OrdersController::class, 'listOrder'])->name('list.order');
-Route::get('/canceled-order/{order_id}', [OrdersController::class, 'canceledOrder'])->name('canceled.order');
-Route::get('/Reorder/{order_id}', [OrdersController::class, 'Reorder'])->name('reset.order');
-
-Route::get('/process-coupon/{coupon_code}', [CheckoutController::class, 'processCoupon']);
-Route::get('/list-detail-order/{order_id}', [OrderDetailsController::class, 'listDetailOrder'])->name('list.detailorder');
 
 
 Route::middleware(['user'])->group(function () {
     Route::get('/profile/{user_id}', [UsersController::class, 'profileUser'])->name('profile');
     Route::get('/edit-profile/{user_id}', [UsersController::class, 'editProfileUser'])->name('editprofile');
     Route::post('/edit-profile', [UsersController::class, 'editProfileUserPost'])->name('editprofile.post');
-    
+    //checkout-order
+    Route::get('/check-out', [CheckoutController::class, 'viewcheckout'])->name('view.checkout');
+    Route::get('/unset-coupon', [CheckoutController::class, 'unsetCoupon'])->name('unset.coupon');
+
+    Route::post('/order', [OrdersController::class, 'order'])->name('order');
+    Route::get('/onlinepayment', [OrdersController::class, 'onlinepayment'])->name('onlinepayment');
+    Route::get('/thanks', [OrdersController::class, 'viewThanks'])->name('view.thanks');
+    Route::get('/list-order', [OrdersController::class, 'listOrder'])->name('list.order');
+    Route::get('/canceled-order/{order_id}', [OrdersController::class, 'canceledOrder'])->name('canceled.order');
+    Route::get('/Reorder/{order_id}', [OrdersController::class, 'Reorder'])->name('reset.order');
+
+    Route::get('/process-coupon/{coupon_code}', [CheckoutController::class, 'processCoupon']);
+    Route::get('/list-detail-order/{order_id}', [OrderDetailsController::class, 'listDetailOrder'])->name('list.detailorder');
 });
 
 //
