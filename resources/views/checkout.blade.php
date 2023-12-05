@@ -80,6 +80,9 @@
                                     </div>
                                     <div>
                                         <strong class="order-cash-total">
+                                            @php
+                                                
+                                            @endphp
                                             {{ number_format(Session::get('Cart')->totalPrice) }} đ
                                         </strong>
                                     </div>
@@ -155,6 +158,7 @@
                                                             $total_coupon = ($cou['coupon_type'] == 0) ?
                                                             (Session::get('Cart')->totalPrice - $cou['coupon_amount']) :
                                                             (Session::get('Cart')->totalPrice * $cou['coupon_amount']) / 100;
+                                                             Session::put('total_coupon', $total_coupon);
                                                             @endphp
                                                             <h4 name=total>{{ number_format($total_coupon, 0, ',', '.') }}</h4>
                                                             <input type="hidden" name="total"  value="{{ $total_coupon }}">

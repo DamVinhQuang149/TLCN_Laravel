@@ -10,7 +10,7 @@
                 <a href="{{ route('home_admin') }}" class="nav-link">Home</a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="{{ route('home_admin') }}" target = "blank" class="nav-link">Website</a>
+                <a href="{{ route('index') }}" target = "blank" class="nav-link">Website</a>
             </li>
         </ul>
         <!-- Right navbar links -->
@@ -105,10 +105,10 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
-                    <img src="{{ asset('assets/img/admin.jpg') }}" class="img-circle elevation-2" alt="User Image">
+                    <img src="{{ asset('assets/img/' . Auth::user()->image) }}" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="/admin/users" class="d-block">Hồ Duy Hoàng</a>
+                    <a href="/admin/users" class="d-block">{{ Auth::user()->First_name }} {{ Auth::user()->Last_name }}</a>
                 </div>
             </div>
 

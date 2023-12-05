@@ -62,15 +62,17 @@ Route::middleware(['user'])->group(function () {
     //checkout-order
     Route::get('/check-out', [CheckoutController::class, 'viewcheckout'])->name('view.checkout');
     Route::get('/unset-coupon', [CheckoutController::class, 'unsetCoupon'])->name('unset.coupon');
+    Route::get('/process-coupon/{coupon_code}', [CheckoutController::class, 'processCoupon']);
 
     Route::post('/order', [OrdersController::class, 'order'])->name('order');
     Route::get('/onlinepayment', [OrdersController::class, 'onlinepayment'])->name('onlinepayment');
     Route::get('/thanks', [OrdersController::class, 'viewThanks'])->name('view.thanks');
+
     Route::get('/list-order', [OrdersController::class, 'listOrder'])->name('list.order');
     Route::get('/canceled-order/{order_id}', [OrdersController::class, 'canceledOrder'])->name('canceled.order');
     Route::get('/Reorder/{order_id}', [OrdersController::class, 'Reorder'])->name('reset.order');
 
-    Route::get('/process-coupon/{coupon_code}', [CheckoutController::class, 'processCoupon']);
+    
     Route::get('/list-detail-order/{order_id}', [OrderDetailsController::class, 'listDetailOrder'])->name('list.detailorder');
 });
 

@@ -51,7 +51,7 @@
                 </a>
             </td>
             <td class="product-save">
-                <a title="Save this item" class="product-save" href="javascript:" onclick="SaveListItemCart({{ $item['productInfo']->id }})">
+                <a title="Save this item" class="product-save" href="" onclick="SaveListItemCart({{ $item['productInfo']->id }})">
                     Lưu
                 </a>
             </td>

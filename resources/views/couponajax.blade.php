@@ -54,6 +54,7 @@
                 $total_coupon = ($cou['coupon_type'] == 0) ?
                 (Session::get('Cart')->totalPrice - $cou['coupon_amount']) :
                 (Session::get('Cart')->totalPrice) -((Session::get('Cart')->totalPrice * $cou['coupon_amount']) / 100);
+                Session::put('total_coupon', $total_coupon);
                 @endphp
                 <h4>{{ number_format($total_coupon, 0, ',', '.') }}</h4>
                 <input type="hidden" name="total"  value="{{ $total_coupon }}">

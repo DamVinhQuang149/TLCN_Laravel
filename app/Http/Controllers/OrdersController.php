@@ -7,6 +7,7 @@ use App\Models\Orders;
 use App\Models\OrderDetails;
 use App\Models\Products;
 use App\Models\Coupons;
+use App\Models\Payments;
 
 use Illuminate\Http\Request;
 use Session;
@@ -168,6 +169,40 @@ class OrdersController extends Controller
     }
 
     public function viewThanks(Request $req){
+
+        $order_id = $req->input('vnp_TxnRef');
+        $total_cost = $req->input('vnp_Amount') / 100;
+        $bankcode = $req->input('vnp_BankCode');
+        $content = $req->input('vnp_OrderInfo');
+        $card_type = $req->input('vnp_CardType');
+        $status_cvt = $req->input('vnp_ResponseCode');
+        $status = 0;
+
+        if($status_cvt == '00'){
+            $status_bank = 'Thanh toán thành công';
+            $status = 3;
+        }else{
+            $status_bank = 'Thanh toán thất bại';
+            $status = 6;
+        }
+        Payments::create([
+            'order_id' => $order_id, 
+            'total_cost' => $total_cost, 
+            'bankcode' => $bankcode, 
+            'content' => $content, 
+            'card_type' => $card_type, 
+            'status' => $status_bank
+        ]);
+
+        $order = Orders::find($order_id);
+        if ($order) {
+            $order->update([
+                'status' => $status
+            ]);
+        }
+
+
+
         if(Session::has('Coupon')){
             foreach (Session::get('Coupon') as $key => $cou){
                 $coupon_used = $cou['coupon_used'] + 1;
@@ -213,5 +248,62 @@ class OrdersController extends Controller
             }
         }
         return view('checkout');
+    }
+    //
+    public function onlinepayment(Request $request){
+        $total_cost = $request->session()->get('total_coupon', Session::get('Cart')->totalPrice);
+
+        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+        $vnp_Returnurl = route('view.thanks');
+        $vnp_TmnCode = "QMDPZXRE"; // Mã website tại VNPAY
+        $vnp_HashSecret = "KOOETMNNKHBDNPRBMVTKSRHYBPDNCZEQ"; // Chuỗi bí mật
+
+        $order_idmax = Orders::max('order_id');
+        $vnp_TxnRef = $order_idmax;
+        $vnp_OrderInfo = $order_idmax;
+        $vnp_Amount = $total_cost * 100;
+        $vnp_Locale = 'vn'; // Ngôn ngữ chuyển hướng thanh toán
+        $vnp_BankCode = $request->input('bankCode'); // Mã phương thức thanh toán
+        $vnp_IpAddr = $_SERVER['REMOTE_ADDR']; // IP Khách hàng thanh toán
+
+        $inputData = [
+            "vnp_Version" => "2.1.0",
+            "vnp_TmnCode" => $vnp_TmnCode,
+            "vnp_Amount" => $vnp_Amount,
+            "vnp_Command" => "pay",
+            "vnp_CreateDate" => date('YmdHis'),
+            "vnp_CurrCode" => "VND",
+            "vnp_IpAddr" => $vnp_IpAddr,
+            "vnp_Locale" => $vnp_Locale,
+            "vnp_OrderInfo" => $vnp_OrderInfo,
+            "vnp_OrderType" => "bill payment",
+            "vnp_ReturnUrl" => $vnp_Returnurl,
+            "vnp_TxnRef" => $vnp_TxnRef,
+        ];
+
+        if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+            $inputData['vnp_BankCode'] = $vnp_BankCode;
+        }
+
+        ksort($inputData);
+        $query = "";
+        $i = 0;
+        $hashdata = "";
+        foreach ($inputData as $key => $value) {
+            if ($i == 1) {
+                $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+            } else {
+                $hashdata .= urlencode($key) . "=" . urlencode($value);
+                $i = 1;
+            }
+            $query .= urlencode($key) . "=" . urlencode($value) . '&';
+        }
+
+        $vnp_Url = $vnp_Url . "?" . $query;
+        if (isset($vnp_HashSecret)) {
+            $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret);//  
+            $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+        }
+        return redirect()->to($vnp_Url);
     }
 }
