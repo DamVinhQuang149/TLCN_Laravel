@@ -191,7 +191,7 @@ class UsersController extends Controller
             }
         } else {
             $userimg = Users::get()->where('user_id', $id);
-            foreach ($userimg as $user){
+            foreach ($userimg as $user) {
                 $image_name = $user->image;
             }
             if (!empty($password)) {
@@ -234,21 +234,24 @@ class UsersController extends Controller
         return redirect('admin/users')->with('success', 'Delete User Successfully!');
     }
 
-    public function login(){
+    public function login()
+    {
         return view('login.index');
     }
-    public function postLogin(Request $req){
-        if(Auth::attempt(['username' => $req->username, 'password' => $req->password, 'role_id'=>2]))
-        {
+    public function postLogin(Request $req)
+    {
+        if (Auth::attempt(['username' => $req->username, 'password' => $req->password, 'role_id' => 2])) {
             return redirect()->route('index');
         }
         return redirect()->back()->with('error', 'Login failed');
     }
-    public function register(){
+    public function register()
+    {
         return view('login.register');
     }
-    public function postRegister(Request $req){
-        
+    public function postRegister(Request $req)
+    {
+
         // dd($req->password);
         try {
             $validator = Validator::make($req->all(), [
@@ -256,15 +259,15 @@ class UsersController extends Controller
                 'email' => 'required|unique:users,email',
                 'password' => 'required|min:6',
                 'passwordAgain' => 'required|same:password',
-                //Thêm các rules khác nếu cần
+
             ]);
             $errors = collect($validator->errors()->messages())->map(function ($messages, $field) {
                 return implode(' ', $messages);
             })->all();
             if ($validator->fails()) {
                 return redirect()->route('register')
-                            ->withErrors($errors)
-                            ->withInput();
+                    ->withErrors($errors)
+                    ->withInput();
             }
             $password = bcrypt($req->input('password'));
             $user = Users::create([
@@ -278,16 +281,17 @@ class UsersController extends Controller
             $user->save();
             return redirect()->route('login')->with('success', 'User create successfully');
         } catch (\Throwable $th) {
-            //dd($th);
+
             return redirect()->route('register')->with('error', 'User create failed');
         }
     }
-    public function logout(){
+    public function logout()
+    {
 
         Auth::logout();
         return redirect()->route('index');
     }
-    //profileUser
+
     public function profileUser($user_id)
     {
         $user = Users::with('role')->find($user_id);
@@ -299,51 +303,45 @@ class UsersController extends Controller
         $user = Users::with('role')->find($user_id);
         return view('edit-profile', ['user' => $user]);
     }
-    public function editProfileUserPost(Request $req)
+    public function editProfileUserPost(Request $request)
     {
-    
-        $req->validate([
-            'First_name' => 'required|string|max:255',
-            'Last_name' => 'required|string|max:255',
-            'phone' => 'required|string|max:20',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        $First_name = $request->input('First_name');
+        $Last_name = $request->input('Last_name');
+        $phone = $request->input('phone');
+        $user = Users::find(Auth::user()->user_id);
+        if (!is_numeric($phone)) {
+            return redirect()->route('profile', ['user_id' => $user->user_id])
+                ->with('success', 'Số điện thoại không hợp lệ!!!');
+        }
+        if ($request->hasFile('image')) {
+            $image = $request->file('image')->getClientOriginalName();
+            $target_dir = public_path('assets/img/');
+            $target_file = $target_dir . basename($image);
 
-        // Get the authenticated user
-        $user = auth()->user();
+            $imgFileType = pathinfo($target_file, PATHINFO_EXTENSION);
 
-        $user->First_name = $req->input('First_name');
-        $user->Last_name = $req->input('Last_name');
-        $user->phone = $req->input('phone');
-
-        // Update image if a new one is provided
-        if ($req->hasFile('image')) {
-            try {
-                $image = $req->file('image')->getClientOriginalName();
-                $target_dir = public_path('assets/img/');
-                $target_file = $target_dir . basename($image);
-
-                $imgFileType = pathinfo($target_file, PATHINFO_EXTENSION);
-
-                if (!in_array($imgFileType, ['png', 'jpg', 'webp'])) {
-                    return redirect()->route('profile')->with('warning', 'Only accept image formats JPG, PNG, or WEBP!');
-                }
-
-                $image_name = 'image' . time() . '-' . $req->name . '.'
-                    . $req->image->extension();
-                $req->image->move(public_path('assets/img'), $image_name);
-            } catch (\Exception $e) {
-                dd($e->getMessage());
+            if (!in_array($imgFileType, ['png', 'jpg', 'webp'])) {
+                return redirect('admin/users')->with('warning', 'Only accept image formats JPG, PNG, or WEBP!');
             }
+
+            $image_name = 'image' . time() . '-' . $request->name . '.'
+                . $request->image->extension();
+            $request->image->move(public_path('assets/img'), $image_name);
+
+            $user->update([
+                'image' => $image_name
+            ]);
+        } else {
+            $user->update([
+                'First_name' => $First_name,
+                'Last_name' => $Last_name,
+                'phone' => $phone,
+            ]);
         }
 
-        // Save changes to the user
-        $user->save();
-
-        // Redirect or return a response
         return redirect()->route('profile', ['user_id' => $user->user_id])
-            ->with('success', 'Hô sơ được cập nhật thành công');
+            ->with('success', 'Hồ sơ được cập nhật thành công');
     }
 
-    
+
 }

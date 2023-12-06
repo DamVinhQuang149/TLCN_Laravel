@@ -101,32 +101,33 @@ class OrdersController extends Controller
     }
     //
 
-    public function order(Request $req){
-        if(Session::has('Cart')){
+    public function order(Request $req)
+    {
+        if (Session::has('Cart')) {
             $user_id = Auth::user()->user_id;
             $address = $req->address;
             $phone = $req->phone;
             $note = $req->note;
-            if(Session::has('Coupon')){
-                foreach (Session::get('Coupon') as $key => $cou){
+            if (Session::has('Coupon')) {
+                foreach (Session::get('Coupon') as $key => $cou) {
                     $coupon_discount = $cou['coupon_amount'];
                 }
-            }
-            else{
+            } else {
                 $coupon_discount = 0;
             }
-            $total = ($req->total > 0) ? $req->total : Session::get('Cart')->totalPrice;;
+            $total = ($req->total > 0) ? $req->total : Session::get('Cart')->totalPrice;
+            ;
             $checkout = $req->payment_method;
             $order = Orders::create([
-                'user_id' => $user_id, 
-                'address' => $address, 
-                'phone' => $phone, 
+                'user_id' => $user_id,
+                'address' => $address,
+                'phone' => $phone,
                 'coupon_discount' => $coupon_discount,
-                'note' => $note, 
+                'note' => $note,
                 'total' => $total,
                 'checkout' => $checkout
             ]);
-            if($order != null){
+            if ($order != null) {
                 $order_id = $order->order_id;
                 foreach (Session::get('Cart')->products as $item) {
                     $price = $item['price1'];
@@ -138,37 +139,35 @@ class OrdersController extends Controller
                     $product_image = $item['productInfo']->pro_image;
 
                     $orderdetail = OrderDetails::create([
-                        'order_id' => $order_id, 
-                        'product_name' => $product_name, 
-                        'discount_price' => $price, 
-                        'product_quantity' => $product_quantity, 
-                        'cost' => $cost, 
-                        'product_id' => $product_id, 
-                        'type_id' => $type_id, 
+                        'order_id' => $order_id,
+                        'product_name' => $product_name,
+                        'discount_price' => $price,
+                        'product_quantity' => $product_quantity,
+                        'cost' => $cost,
+                        'product_id' => $product_id,
+                        'type_id' => $type_id,
                         'product_image' => $product_image
                     ]);
                 }
-                
-                if($order->checkout == 0){
 
+                if ($order->checkout == 0) {
+                    $status = 2;
+                    $order->update([
+                        'status' => $status
+                    ]);
                     return redirect()->route('onlinepayment');
-                }
-                else{
-                    // foreach (Session::get('Coupon') as $key => $cou){
-
-                    // }
-                    
+                } else {
                     return redirect()->route('view.thanks');
                 }
-            }
-            else{
+            } else {
                 return redirect()->back();
             }
         }
         return redirect()->route('index');
     }
 
-    public function viewThanks(Request $req){
+    public function viewThanks(Request $req)
+    {
 
         $order_id = $req->input('vnp_TxnRef');
         $total_cost = $req->input('vnp_Amount') / 100;
@@ -178,19 +177,19 @@ class OrdersController extends Controller
         $status_cvt = $req->input('vnp_ResponseCode');
         $status = 0;
 
-        if($status_cvt == '00'){
+        if ($status_cvt == '00') {
             $status_bank = 'Thanh toán thành công';
             $status = 3;
-        }else{
+        } else {
             $status_bank = 'Thanh toán thất bại';
             $status = 6;
         }
         Payments::create([
-            'order_id' => $order_id, 
-            'total_cost' => $total_cost, 
-            'bankcode' => $bankcode, 
-            'content' => $content, 
-            'card_type' => $card_type, 
+            'order_id' => $order_id,
+            'total_cost' => $total_cost,
+            'bankcode' => $bankcode,
+            'content' => $content,
+            'card_type' => $card_type,
             'status' => $status_bank
         ]);
 
@@ -203,42 +202,45 @@ class OrdersController extends Controller
 
 
 
-        if(Session::has('Coupon')){
-            foreach (Session::get('Coupon') as $key => $cou){
+        if (Session::has('Coupon')) {
+            foreach (Session::get('Coupon') as $key => $cou) {
                 $coupon_used = $cou['coupon_used'] + 1;
                 $coupon_remain = $cou['coupon_quantity'] - $coupon_used;
 
                 Coupons::find($cou['coupon_id'])->update([
-                        'coupon_used' => $coupon_used,
-                        'coupon_remain' => $coupon_remain,
-                    ]);
+                    'coupon_used' => $coupon_used,
+                    'coupon_remain' => $coupon_remain,
+                ]);
                 $req->session()->forget('Coupon');
             }
         }
-        if(Session::has('Cart')){
+        if (Session::has('Cart')) {
             $req->session()->forget('Cart');
         }
         return view('thanks');
     }
 
-    public function listOrder(){
+    public function listOrder()
+    {
         $user_id = Auth::user()->user_id;
-        $list_order = Orders::select()->where('user_id', $user_id)->paginate(6);
+        $list_order = Orders::select()->where('user_id', $user_id)->orderBy('order_id', 'desc')->paginate(6);
         $status = Status::get();
         return view('list-order', ['listorder' => $list_order, 'status' => $status]);
     }
-    public function canceledOrder($order_id){
+    public function canceledOrder($order_id)
+    {
         $orders = Orders::find($order_id);
         $status = 5;
         $orders->update(['status' => $status]);
 
         return redirect()->route('list.order');
     }
-    public function Reorder(Request $req, $order_id){
+    public function Reorder(Request $req, $order_id)
+    {
         $detailorder = OrderDetails::select()->where('order_id', $order_id)->get();
-        foreach($detailorder as $item){
+        foreach ($detailorder as $item) {
             $product = Products::where('id', $item->product_id)->first();
-            
+
             if ($product != null) {
                 $oldcart = Session('Cart') ? Session('Cart') : null;
                 $newcart = new Cart($oldcart);
@@ -250,7 +252,8 @@ class OrdersController extends Controller
         return view('checkout');
     }
     //
-    public function onlinepayment(Request $request){
+    public function onlinepayment(Request $request)
+    {
         $total_cost = $request->session()->get('total_coupon', Session::get('Cart')->totalPrice);
 
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
@@ -301,7 +304,7 @@ class OrdersController extends Controller
 
         $vnp_Url = $vnp_Url . "?" . $query;
         if (isset($vnp_HashSecret)) {
-            $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret);//  
+            $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret); //  
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
         return redirect()->to($vnp_Url);
