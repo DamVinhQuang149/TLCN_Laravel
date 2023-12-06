@@ -26,20 +26,42 @@
                                     <option value="0">---Lọc theo---</option>
                                     <option value="{{ Request::url() }}?sort_by=kytu_az">Ký tự A-Z</option>
                                     <option value="{{ Request::url() }}?sort_by=kytu_za">Ký tự Z-A</option>
-                                    {{-- <option value="{{ Request::url() }}?sort_by=nodiscount_tang_dan">Giá không khuyến mãi tăng dần</option>
-                                <option value="{{ Request::url() }}?sort_by=nodiscount_giam_dan">Giá không khuyến mãi giảm dần</option>
-                                <option value="{{ Request::url() }}?sort_by=discount_tang_dan">Giá khuyến mãi tăng dần</option>
-                                <option value="{{ Request::url() }}?sort_by=discount_giam_dan">Giá khuyến mãi giảm dần</option> --}}
+                                    <option value="{{ Request::url() }}?sort_by=tang_dan">Giá tăng dần</option>
+                                    <option value="{{ Request::url() }}?sort_by=giam_dan">Giá giảm dần</option>
+                                
                                 </select>
                             </label>
 
-                            {{-- <label>
-                            Hiển thị:
-                            <select class="input-select">
-                                <option value="0">20</option>
-                                <option value="1">50</option>
-                            </select>
-                        </label> --}}
+                            <label>
+                                Hiển thị:
+                                <select class="input-select">
+                                    <option value="0">20</option>
+                                    <option value="1">50</option>
+                                </select>
+                            </label>
+                            <div class="col-md-offset-7">
+                                <form method="get" action="">
+                                    @csrf
+                                    <p>
+                                        <label for="amount">Khoảng giá: </label>
+                                        <input type="text" id="amount" readonly
+                                            style="border:0; color:#f6931f; font-weight:bold;">
+                                    </p>
+
+                                    <div id="slider-range"></div>
+                                    <input type="hidden" name="type_id" value="{{ $type->type_id }}">
+                                    <input type="hidden" class="price_from" name="from">
+                                    <input type="hidden" class="price_to" name="to">
+
+                                    <input type="submit" value="Lọc giá" class="btn btn-primary filter-price">
+
+                                </form>
+                            </div>
+                            <h4 class="title text-right" style="color:#f6931f;">
+                                @if(request()->has('to') && request()->get('to'))
+                                    {{ $type->type_name }} Giá từ: {{ number_format(request()->get('from'), 0, ',', '.') }}đ - {{ number_format(request()->get('to'), 0, ',', '.') }}đ
+                                @endif
+                            </h4>
                         </div>
                         <ul class="store-grid">
                             <li class="active"><i class="fa fa-th"></i></li>

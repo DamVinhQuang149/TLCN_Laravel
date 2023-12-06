@@ -29,6 +29,7 @@
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    
 </head>
 
     @include('layout.header')

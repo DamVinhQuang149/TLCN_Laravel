@@ -5,7 +5,7 @@
         <div class="d-flex justify-content-center h-100">
             <div class="card h-auto">
                 <div class="card-header">
-                    <h3 style="padding-top:30px;">Forget Password</h3>
+                    <h3 style="padding-top:30px;">Quên mật khẩu</h3>
                     <div class="d-flex justify-content-end social_icon">
                         <span><i class="fab fa-facebook-square"></i></span>
                         <span><i class="fab fa-google-plus-square"></i></span>
@@ -34,18 +34,18 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                             </div>
-                            <input type="email" name="email" class="form-control" placeholder="Input email" required>
+                            <input type="email" name="email" class="form-control" placeholder="Nhập email" required>
                         </div>
 
                         <div class="form-group">
-                            <input type="submit" name="submit" value="Submit" class="btn float-right login_btn">
+                            <input type="submit" name="submit" value="Gửi" class="btn float-right login_btn">
                         </div>
                     </form>
                 </div>
                 <div class="card-footer">
 
                     <div class="d-flex justify-content-center links">
-                        You don't want to continue?<a href="{{ route('login') }}">Back</a>
+                        Bạn không muốn tiếp tục?<a href="{{ route('login') }}">Trở lại</a>
                     </div>
                 </div>
             </div>

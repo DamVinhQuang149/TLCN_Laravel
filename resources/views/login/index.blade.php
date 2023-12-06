@@ -6,7 +6,7 @@
         <div class="d-flex justify-content-center h-100">
             <div class="card h-auto" >
                 <div class="card-header">
-                    <h3>Sign In</h3>
+                    <h3>Đăng Nhập</h3>
                     <div class="d-flex justify-content-end social_icon">
                         <span><i class="fab fa-facebook-square"></i></span>
                         <span><i class="fab fa-google-plus-square"></i></span>
@@ -35,16 +35,16 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="username" name="username" required>
+                            <input type="text" class="form-control" placeholder="Tài khoản" name="username" required>
                         </div>
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-key"></i></span>
                             </div>
-                            <input type="password" class="form-control" placeholder="password" name="password" required>
+                            <input type="password" class="form-control" placeholder="Mật khẩu" name="password" required>
                         </div>
                         <div class="row align-items-center remember">
-                            <input type="checkbox">Remember Me
+                            <input type="checkbox">Ghi nhớ
                         </div>
                         <div class="form-group">
                             <input type="submit" value="Login" class="btn float-right login_btn" name="submit">
@@ -53,10 +53,10 @@
                 </div>
                 <div class="card-footer">
                     <div class="d-flex justify-content-center links">
-                        Don't have an account?<a href="{{ route('register') }}">Sign Up</a>
+                        Bạn chưa có tài khoản?<a href="{{ route('register') }}">Đăng Ký</a>
                     </div>
                     <div class="d-flex justify-content-center">
-                        <a href="{{ route('forget.password') }}">Forgot your password?</a>
+                        <a href="{{ route('forget.password') }}">Quên mật khẩu</a>
                     </div>
                 </div>
             </div>

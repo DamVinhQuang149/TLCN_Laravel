@@ -212,36 +212,27 @@ class ProductsController extends Controller
     public function showByTypeid($type_id)
     {
         try {
+
+            $from = request()->get('from');
+            $to = request()->get('to');
+            
+
             if(isset($_GET['sort_by'])){
                 $sort_by = $_GET['sort_by'];
-                if($sort_by =='nodiscount_tang_dan'){
-                    $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
-                        ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
-                        ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
-                        ->where('products.type_id', $type_id)
-                        ->orderBy('products.price', 'asc')
-                        ->paginate(6);
-                }elseif($sort_by =='nodiscount_giam_dan'){
-                    $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
-                        ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
-                        ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
-                        ->where('products.type_id', $type_id)
-                        ->orderBy('products.price', 'desc')
-                        ->paginate(6);
-                }elseif($sort_by =='discount_tang_dan'){
+                if($sort_by =='tang_dan'){
                     $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
                         ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
                         ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
                         ->where('products.type_id', $type_id)
                         ->orderBy('products.discount_price', 'asc')
-                        ->paginate(6);
-                }elseif($sort_by =='discount_giam_dan'){
+                        ->paginate(6)->appends(request()->query());
+                }elseif($sort_by =='giam_dan'){
                     $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
                         ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
                         ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
                         ->where('products.type_id', $type_id)
                         ->orderBy('products.discount_price', 'desc')
-                        ->paginate(6);
+                        ->paginate(6)->appends(request()->query());
                 }elseif($sort_by =='kytu_az'){
                     $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
                         ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
@@ -257,7 +248,16 @@ class ProductsController extends Controller
                         ->orderBy('products.name', 'desc')
                         ->paginate(6)->appends(request()->query());
                 }
-            }else{
+            }elseif ($from !== null && $to !== null) {
+                $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
+                    ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
+                    ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
+                    ->where('products.type_id', $type_id)
+                    ->whereBetween('discount_price', [$from, $to])
+                    ->orderBy('products.discount_price', 'asc')
+                    ->paginate(6)->appends(request()->query());
+            }
+            else{
                 $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
                     ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
                     ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
@@ -266,7 +266,11 @@ class ProductsController extends Controller
                     ->paginate(6);
             }
 
-            return view('products', ['products' => $products]);
+            //
+            $minDiscountPrice = Products::where('type_id', $type_id)->min('discount_price');
+            $maxDiscountPrice = Products::where('type_id', $type_id)->max('discount_price');
+            $type = Protypes::find($type_id);
+            return view('products', ['products' => $products, 'type' => $type]);
         } catch (ModelNotFoundException $e) {
             abort(404);
         }

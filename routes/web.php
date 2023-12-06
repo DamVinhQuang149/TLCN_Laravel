@@ -59,6 +59,8 @@ Route::middleware(['user'])->group(function () {
     Route::get('/profile/{user_id}', [UsersController::class, 'profileUser'])->name('profile');
     Route::get('/edit-profile/{user_id}', [UsersController::class, 'editProfileUser'])->name('editprofile');
     Route::post('/edit-profile', [UsersController::class, 'editProfileUserPost'])->name('editprofile.post');
+    Route::get('/change-image/{user_id}',[UsersController::class, 'changeImageUser'])->name('changeimage');
+    Route::post('/change-image-post/{user_id}',[UsersController::class, 'changeImageUserPost'])->name('changeimage.post');
     //checkout-order
     Route::get('/check-out', [CheckoutController::class, 'viewcheckout'])->name('view.checkout');
     Route::get('/unset-coupon', [CheckoutController::class, 'unsetCoupon'])->name('unset.coupon');

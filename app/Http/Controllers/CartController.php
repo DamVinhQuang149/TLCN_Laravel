@@ -108,8 +108,11 @@ class CartController extends Controller
         else{
             $req->session()->forget('Cart');
         }
-        
-        return view('list-item-cart');
+        return response()->json([
+            'view_1' => view('cart-items')->render(),
+            'view_2' => view('list-item-cart')->render()
+        ]);
+        //return view('list-item-cart');
     }
     //
     public function saveListItemCart(Request $req, $id, $quanty){
@@ -118,7 +121,10 @@ class CartController extends Controller
         $newcart->UpdateItemCart($id, $quanty);
 
         $req->session()->put('Cart', $newcart);
-        
-        return view('list-item-cart');
+        return response()->json([
+            'view_1' => view('cart-items')->render(),
+            'view_2' => view('list-item-cart')->render()
+        ]);
+        //return view('list-item-cart');
     }
 }

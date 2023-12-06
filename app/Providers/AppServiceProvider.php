@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Models\Protypes;
+use App\Models\Products;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,9 +27,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-        View::composer('layout.header', function ($view) {
+        View::composer('*', function ($view) {
+
             $protypes = Protypes::all();
-            $view->with('protypes', $protypes);
+            $min_price = Products::min('discount_price');
+            $max_price = Products::max('discount_price');
+            //dd($minDiscountPrice);
+
+            // Sử dụng compact để truyền các biến vào view
+            $view->with(compact('protypes', 'min_price', 'max_price'));
         });
     }
 }

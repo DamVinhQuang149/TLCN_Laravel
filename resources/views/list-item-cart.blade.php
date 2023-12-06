@@ -28,7 +28,7 @@
 
             <td class="product-price">
                 <span
-                    class="amount"><strong>{{ number_format($item['price']) }}VND</strong></span>
+                    class="amount"><strong>{{ number_format($item['price1']) }}VND</strong></span>
             </td>
 
             <td class="product-quantity">
@@ -42,16 +42,16 @@
             </td>
             <td class="product-subtotal">
                 <span class="amount">
-                    <strong>{{ number_format($item['price1']) }} VND</strong>
+                    <strong>{{ number_format($item['price']) }} VND</strong>
                 </span>
             </td>
             <td class="product-remove">
-                <a title="Save this item" class="product-save" onclick="DeleteListItemCart({{ $item['productInfo']->id }})" href="javascript:">
+                <a title="Save this item" class="product-save" onclick="DeleteListItemCart({{ $item['productInfo']->id }})" href="javascript:" style="text-decoration: none;">
                     Xóa
                 </a>
             </td>
             <td class="product-save">
-                <a title="Save this item" class="product-save" href="" onclick="SaveListItemCart({{ $item['productInfo']->id }})">
+                <a title="Save this item" class="product-save" href="javascript:" onclick="SaveListItemCart({{ $item['productInfo']->id }})" style="text-decoration: none;">
                     Lưu
                 </a>
             </td>
@@ -62,10 +62,10 @@
         <td class="actions" colspan="7">
             <div class="add-to-cart">
                 <button class="add-to-cart-btn">
-                    <a style="text-decoration: none;" href="">
+                    <a style="text-decoration: none;" href="{{ route('view.checkout') }}">
                         <i class="fa fa-credit-card"></i> Thanh toán
                     </a>
-                </button>';
+                </button>
             </div>
         </td>
     </tr>

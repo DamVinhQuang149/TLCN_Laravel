@@ -34,19 +34,19 @@ $("#change-item-cart").on('click', ".delete i", function(){
     });
 });
 
-function RenderCart(response){
-    $("#change-item-cart").empty();
-    $("#change-item-cart").html(response);
-    $("#total-quanty-show").text($("#total-quanty-cart").val());
-}
+
 
 function DeleteListItemCart(id){
     $.ajax({
         url: '/delete-list-item-cart/' + id,
         type: 'GET',
     }).done(function(response) {
-        RenderListCart(response);
-        alertify.success('Đã xóa sản phẩm trong giỏ hàng');
+        RenderCart(response.view_1);
+        RenderListCart(response.view_2);
+        alertify.error('Đã xóa sản phẩm trong giỏ hàng');
+        setTimeout(function() {
+            location.reload();
+        }, 300);
     }).fail(function(jqXHR, textStatus, errorThrown) {
         console.error("AJAX Error:", textStatus, errorThrown);
     });
@@ -58,16 +58,29 @@ function SaveListItemCart(id){
         url: '/save-list-item-cart/' + id +'/'+$("#quanty-item-"+id).val(),
         type: 'GET',
     }).done(function(response) {
-        RenderListCart(response);
+        RenderCart(response.view_1);
+        RenderListCart(response.view_2);
         alertify.success('Đã cập nhật sản phẩm trong giỏ hàng');
+        setTimeout(function() {
+            location.reload();
+        }, 300);
     }).fail(function(jqXHR, textStatus, errorThrown) {
         console.error("AJAX Error:", textStatus, errorThrown);
     });
 }
-function RenderListCart(response){
-    $("#list-cart").empty();
-    $("#list-cart").html(response);
+function RenderCart(response){
+    $("#change-item-cart").empty();
+    $("#change-item-cart").html(response);
+    
+    $("#total-quanty-show").text($("#total-quanty-cart").val());
 }
+function RenderListCart(response){
+    $("#change-list-cart").empty();
+    $("#change-list-cart").html(response);
+    //$("#change-list-cart").replaceWith(response);
+    $("#total-quanty-show").text($("#total-quanty-cart").val());
+}
+
 //
 function addCoupon(){
     var couponResult = document.getElementById("coupon-result");
@@ -116,3 +129,5 @@ $('.select-filter').change(function() {
     }
 
 })
+
+//

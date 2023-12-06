@@ -243,7 +243,7 @@ class UsersController extends Controller
         if (Auth::attempt(['username' => $req->username, 'password' => $req->password, 'role_id' => 2])) {
             return redirect()->route('index');
         }
-        return redirect()->back()->with('error', 'Login failed');
+        return redirect()->back()->with('error', 'Đăng nhập thất bại');
     }
     public function register()
     {
@@ -260,7 +260,14 @@ class UsersController extends Controller
                 'password' => 'required|min:6',
                 'passwordAgain' => 'required|same:password',
 
+            ],[
+                'username.unique' => 'Tài khoản đã được đăng ký. Vui lòng nhập lại',
+                'email.unique' => 'email này đã được đăng ký. Vui lòng nhập lại',
+                'password.min' => 'Độ dài của mật khẩu phải lớn hơn 6. Vui lòng thử lại.',
+                'passwordAgain.min' => 'Độ dài của mật khẩu phải lớn hơn 6. Vui lòng thử lại.',
+                'passwordAgain.same' => 'Mật khẩu nhập lại không khớp. Vui lòng thử lại.'
             ]);
+
             $errors = collect($validator->errors()->messages())->map(function ($messages, $field) {
                 return implode(' ', $messages);
             })->all();
@@ -269,6 +276,7 @@ class UsersController extends Controller
                     ->withErrors($errors)
                     ->withInput();
             }
+            
             $password = bcrypt($req->input('password'));
             $user = Users::create([
                 'First_name' => $req->input('First_name'),
@@ -279,10 +287,10 @@ class UsersController extends Controller
                 'phone' => $req->input('phone'),
             ]);
             $user->save();
-            return redirect()->route('login')->with('success', 'User create successfully');
+            return redirect()->route('login')->with('success', 'Đăng ký tài khoản thành công');
         } catch (\Throwable $th) {
 
-            return redirect()->route('register')->with('error', 'User create failed');
+            return redirect()->route('register')->with('error', 'Đăng ký tài khoản thất bại');
         }
     }
     public function logout()
@@ -313,6 +321,21 @@ class UsersController extends Controller
             return redirect()->route('profile', ['user_id' => $user->user_id])
                 ->with('success', 'Số điện thoại không hợp lệ!!!');
         }
+        $user->update([
+            'First_name' => $First_name,
+            'Last_name' => $Last_name,
+            'phone' => $phone,
+        ]);
+
+        return redirect()->route('profile', ['user_id' => $user->user_id])
+            ->with('success', 'Hồ sơ được cập nhật thành công');
+    }
+    public function changeImageUser($user_id){
+        $user = Users::find($user_id);
+        return view('change-image', ['user' => $user]);
+    }
+    public function changeImageUserPost(Request $request, $user_id){
+        $user = Users::find($user_id);
         if ($request->hasFile('image')) {
             $image = $request->file('image')->getClientOriginalName();
             $target_dir = public_path('assets/img/');
@@ -327,21 +350,12 @@ class UsersController extends Controller
             $image_name = 'image' . time() . '-' . $request->name . '.'
                 . $request->image->extension();
             $request->image->move(public_path('assets/img'), $image_name);
-
             $user->update([
                 'image' => $image_name
             ]);
-        } else {
-            $user->update([
-                'First_name' => $First_name,
-                'Last_name' => $Last_name,
-                'phone' => $phone,
-            ]);
         }
-
         return redirect()->route('profile', ['user_id' => $user->user_id])
-            ->with('success', 'Hồ sơ được cập nhật thành công');
-    }
-
+            ->with('success', 'Ảnh được cập nhật thành công');
+    } 
 
 }

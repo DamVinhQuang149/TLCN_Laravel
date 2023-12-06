@@ -18,6 +18,7 @@
                                     @endif
                                     <div class="mt-3">
                                         <h4>{{ $user->First_name }} {{ $user->Last_name }}</h4>
+                                        <a href="{{ route('changeimage', ['user_id' => $user->user_id]) }}"><button class="btn btn-primary" style="background-color: #80bb35;">Đổi ảnh</button></a>
                                         <a href="{{ route('forget.password') }}">
                                             <button class="btn btn-primary" style="background-color: #80bb35;">
                                                 Đổi mật khẩu
@@ -62,10 +63,6 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label for="inputProjectLeader">Image</label>
-                                        <input type="file" name="image" value="image" id="fileToUpload">
-                                    </div>
                                     <div class="row">
                                         <div class="col-sm-3"></div>
                                         <div class="col-sm-9 text-secondary">
