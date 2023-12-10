@@ -7,60 +7,103 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## Tiểu luận chuyên ngành: Nhóm 20 - Xây dựng website bán thức ăn trực tuyến
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Hồ Duy Hoàng - 20110487
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Đàm Vinh Quang - 20110548
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Về Laravel
 
-## Learning Laravel
+Laravel là một framework ứng dụng web với cú pháp linh hoạt và lịch sự. Chúng tôi tin rằng quá trình phát triển phải là một trải nghiệm sáng tạo và thú vị để thực sự đáp ứng. Laravel giúp giảm bớt những công việc phổ biến trong nhiều dự án web, như:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   [Simple, fast routing engine](https://laravel.com/docs/routing).
+-   [Powerful dependency injection container](https://laravel.com/docs/container).
+-   Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+-   Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+-   Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+-   [Robust background job processing](https://laravel.com/docs/queues).
+-   [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Laravel là một framework tiện lợi, mạnh mẽ và cung cấp các công cụ cần thiết cho các ứng dụng lớn và mạnh mẽ.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Url website chính: http://hoangquangtlcn.free.nf/
 
-## Laravel Sponsors
+### Các lệnh cài đặt chương trình:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```
+#### composer i
 
-### Premium Partners
+#### php artisan serve
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+```
 
-## Contributing
+### Thông tin thẻ thánh toán test Vnpay:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
+Ngân hàng: NCB
+Số thẻ: 9704198526191432198
+Tên chủ thẻ: NGUYEN VAN A
+Ngày phát hành:07/15
+Mật khẩu OTP:123456
 
-## Code of Conduct
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```
 
-## Security Vulnerabilities
+Loại thẻ quốc tếVISA (No 3DS)
+Số thẻ: 4456530000001005
+CVC/CVV: 123
+Tên chủ thẻ:NGUYEN VAN A
+Ngày hết hạn:12/23
+Email:test@gmail.com
+Địa chỉ:22 Lang Ha
+Thành phố:Ha Noi
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```
 
-## License
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Loại thẻ quốc tếVISA (3DS)
+Số thẻ: 4456530000001096
+CVC/CVV: 123
+Tên chủ thẻ:NGUYEN VAN A
+Ngày hết hạn:12/23
+Email:test@gmail.com
+Địa chỉ:22 Lang Ha
+Thành phố:Ha Noi
+
+```
+
+```
+
+Loại thẻ ATM nội địaEXIMBANK
+Số thẻ: 9704310005819191
+Tên chủ thẻ:NGUYEN VAN A
+Ngày hết hạn:10/26
+
+```
+
+### Cấu hình tích hợp Vnpay vào thanh toán trực tuyến trên website:
+
+```
+Terminal ID / Mã Website (vnp_TmnCode): QMDPZXRE
+
+Secret Key / Chuỗi bí mật tạo checksum (vnp_HashSecret): KOOETMNNKHBDNPRBMVTKSRHYBPDNCZEQ
+```
+
+### Đăng nhập tài khoản
+
+```
+Url đăng nhập trang quản trị: http://hoangquangtlcn.free.nf/login-admin
+Url đăng nhập trang khách hàng, người dùng: http://hoangquangtlcn.free.nf/login
+
+hoang (Admin)
+123123
+
+quang (Admin)
+123123
+
+customer (Customer)
+123123
+```
