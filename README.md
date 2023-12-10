@@ -27,7 +27,7 @@ Laravel là một framework ứng dụng web với cú pháp linh hoạt và l�
 
 Laravel là một framework tiện lợi, mạnh mẽ và cung cấp các công cụ cần thiết cho các ứng dụng lớn và mạnh mẽ.
 
-## Url website chính: http://hoangquangtlcn.free.nf/
+### Url website chính: http://hoangquangtlcn.free.nf/
 
 ### Các lệnh cài đặt chương trình:
 
@@ -85,10 +85,9 @@ Secret Key / Chuỗi bí mật tạo checksum (vnp_HashSecret): KOOETMNNKHBDNPRB
 
 ### Đăng nhập tài khoản
 
+#### Url đăng nhập trang quản trị: http://hoangquangtlcn.free.nf/login-admin
+#### Url đăng nhập trang khách hàng, người dùng: http://hoangquangtlcn.free.nf/login
 ```
-Url đăng nhập trang quản trị: http://hoangquangtlcn.free.nf/login-admin
-Url đăng nhập trang khách hàng, người dùng: http://hoangquangtlcn.free.nf/login
-
 hoang (Admin)
 123123
 
