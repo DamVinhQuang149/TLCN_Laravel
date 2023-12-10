@@ -32,10 +32,8 @@ Laravel là một framework tiện lợi, mạnh mẽ và cung cấp các công 
 ### Các lệnh cài đặt chương trình:
 
 ```
-#### composer i
-
-#### php artisan serve
-
+composer i
+php artisan serve
 ```
 
 ### Thông tin thẻ thánh toán test Vnpay:
@@ -46,11 +44,9 @@ Số thẻ: 9704198526191432198
 Tên chủ thẻ: NGUYEN VAN A
 Ngày phát hành:07/15
 Mật khẩu OTP:123456
-
 ```
 
 ```
-
 Loại thẻ quốc tếVISA (No 3DS)
 Số thẻ: 4456530000001005
 CVC/CVV: 123
@@ -59,11 +55,9 @@ Ngày hết hạn:12/23
 Email:test@gmail.com
 Địa chỉ:22 Lang Ha
 Thành phố:Ha Noi
-
 ```
 
 ```
-
 Loại thẻ quốc tếVISA (3DS)
 Số thẻ: 4456530000001096
 CVC/CVV: 123
@@ -72,16 +66,13 @@ Ngày hết hạn:12/23
 Email:test@gmail.com
 Địa chỉ:22 Lang Ha
 Thành phố:Ha Noi
-
 ```
 
 ```
-
 Loại thẻ ATM nội địaEXIMBANK
 Số thẻ: 9704310005819191
 Tên chủ thẻ:NGUYEN VAN A
 Ngày hết hạn:10/26
-
 ```
 
 ### Cấu hình tích hợp Vnpay vào thanh toán trực tuyến trên website:
