@@ -47,10 +47,10 @@ Mật khẩu OTP:123456
 ```
 
 ```
-Loại thẻ quốc tếVISA (No 3DS)
+Loại thẻ quốc tế VISA (No 3DS)
 Số thẻ: 4456530000001005
 CVC/CVV: 123
-Tên chủ thẻ:NGUYEN VAN A
+Tên chủ thẻ: NGUYEN VAN A
 Ngày hết hạn:12/23
 Email:test@gmail.com
 Địa chỉ:22 Lang Ha
@@ -58,20 +58,20 @@ Thành phố:Ha Noi
 ```
 
 ```
-Loại thẻ quốc tếVISA (3DS)
+Loại thẻ quốc tế VISA (3DS)
 Số thẻ: 4456530000001096
 CVC/CVV: 123
-Tên chủ thẻ:NGUYEN VAN A
-Ngày hết hạn:12/23
-Email:test@gmail.com
-Địa chỉ:22 Lang Ha
-Thành phố:Ha Noi
+Tên chủ thẻ: NGUYEN VAN A
+Ngày hết hạn: 12/23
+Email: test@gmail.com
+Địa chỉ: 22 Lang Ha
+Thành phố: Ha Noi
 ```
 
 ```
-Loại thẻ ATM nội địaEXIMBANK
+Loại thẻ ATM nội địa EXIMBANK
 Số thẻ: 9704310005819191
-Tên chủ thẻ:NGUYEN VAN A
+Tên chủ thẻ: NGUYEN VAN A
 Ngày hết hạn:10/26
 ```
 
