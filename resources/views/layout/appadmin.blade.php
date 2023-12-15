@@ -6,9 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Quản lý Capple - Website bán đồ ăn trực tuyến</title>
     <script src="{{ asset('assets/admin/js/main.js') }}"></script>
+    <script src="{{ asset('assets/js/ButtonClickHandler.js') }}"></script>
     <script src="{{ asset('assets/admin/js/validateExpired.js') }}"></script>
     <script src="{{ asset('assets/admin/js/deleteConfirmation.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/admin/js/clock.js') }}"></script>
     <!-- Google Font: Source Sans Pro -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->

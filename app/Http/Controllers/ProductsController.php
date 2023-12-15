@@ -77,7 +77,7 @@ class ProductsController extends Controller
                 if ($imgFileType == 'png' || $imgFileType == 'jpg' || $imgFileType == 'webp') {
                     $image_name = 'image' . time() . '-' . $request->name . '.'
                         . $request->image->extension();
-                    $request->image->move(public_path('assets/img'), $image_name);
+                    $request->image->move('assets/img', $image_name);
                     $products = Products::create([
                         'name' => $name,
                         'manu_id' => $manu,
@@ -156,7 +156,7 @@ class ProductsController extends Controller
             default:
                 if ($request->hasFile('image')) {
                     $image = $request->file('image')->getClientOriginalName();
-                    $target_dir = public_path('assets/img/');
+                    $target_dir = 'assets/img/';
                     $target_file = $target_dir . basename($image);
 
                     $imgFileType = pathinfo($target_file, PATHINFO_EXTENSION);
@@ -167,7 +167,7 @@ class ProductsController extends Controller
 
                     $image_name = 'image' . time() . '-' . $request->name . '.'
                         . $request->image->extension();
-                    $request->image->move(public_path('assets/img'), $image_name);
+                    $request->image->move('assets/img', $image_name);
 
                     $products->update([
                         'name' => $name,
@@ -297,8 +297,6 @@ class ProductsController extends Controller
     {
         $keyword = $request->input('keyword');
         $type_id = $request->input('searchCol');
-
-
         $query = Products::query();
 
         $query->where('name', 'like', "%$keyword%");
@@ -306,8 +304,9 @@ class ProductsController extends Controller
             $query->where('type_id', $type_id);
         } 
 
-        $products = $query->paginate(6);
+        $products = $query->paginate(6)->appends(request()->query());
+        $count_product = $query->count();
 
-        return view('products', compact('products'));
+        return view('search-products', ['products' => $products, 'count_product' => $count_product]);
     }
 }

@@ -14,7 +14,7 @@ class ProtypesController extends Controller
      */
     public function index()
     {
-        $protypes = Protypes::paginate(6);
+        $protypes = Protypes::get();
         return view('admin.protypes.index', ['protypes' => $protypes]);
     }
 

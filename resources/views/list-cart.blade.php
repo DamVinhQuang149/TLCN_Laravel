@@ -78,16 +78,17 @@
                                                 </span>
                                             </td>
                                             <td class="product-remove">
-                                                <a title="Save this item" class="product-save" style="text-decoration: none;"
+                                                <a title="Save this item" class="product-save" style="text-decoration: none;border:1px solid #000; padding:9px; border-radius:6px"
                                                     onclick="DeleteListItemCart({{ $item['productInfo']->id }})"
                                                     href="javascript:">
                                                     Xóa
                                                 </a>
                                             </td>
                                             <td class="product-save">
-                                                <a title="Save this item" class="product-save" href="javascript:" style="text-decoration: none;"
+                                                <a title="Save this item" class="product-save" style="text-decoration: none;border:1px solid #000; padding:9px; border-radius:6px"
+                                                    href="javascript:"
                                                     onclick="SaveListItemCart({{ $item['productInfo']->id }})">
-                                                    Lưu
+                                                    Cập nhật
                                                 </a>
                                             </td>
                                         </tr>

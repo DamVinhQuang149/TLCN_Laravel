@@ -24,7 +24,7 @@ class Users extends Authenticatable
     protected $primaryKey = 'user_id';
     public $timestamps = false;
 
-    protected $fillable = ['First_name', 'Last_name', 'email', 'phone', 'username', 'password', 'role_id', 'image'];
+    protected $fillable = ['First_name', 'Last_name', 'email', 'phone', 'address','username', 'password', 'role_id', 'image'];
     //a product belongs to a role
     public function role() {
         return $this->belongsTo(Roles::class, 'role_id');

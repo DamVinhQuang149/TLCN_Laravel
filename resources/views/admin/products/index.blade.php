@@ -59,7 +59,7 @@
                                 <th style="width: 8%">
                                     Price
                                 </th>
-                                <th style="width: 8%">
+                                <th class="text-center" style="width: 13%">
                                     Discount price
                                 </th>
                                 <th style="width: 3%">
@@ -94,8 +94,8 @@
                                         @endif
                                     </td>
                                     <td>{{ number_format($value['price']) }}đ</td>
-                                    <td>{{ number_format($value['discount_price']) }}đ</td>
-                                    <td class="project_progress">
+                                    <td class="text-center">{{ number_format($value['discount_price']) }}đ</td>
+                                    <td class="project_progress text-center">
                                         {{ $value['manu_name'] }}
                                     </td>
                                     <td class="project-state">

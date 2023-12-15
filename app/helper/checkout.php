@@ -1,7 +1,7 @@
-<?php
-namespace App\helper;
-
-class checkout{
-    //
-    
+<?php
+namespace App\helper;
+
+class checkout{
+    //
+    
 }

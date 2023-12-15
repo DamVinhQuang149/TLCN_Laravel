@@ -14,8 +14,8 @@ use App\Http\Controllers\ForgetPasswordManager;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
-
-
+use App\Http\Controllers\EmailsController;
+use App\Http\Controllers\RevenuesController;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UsersController;
@@ -49,18 +49,19 @@ Route::get('/delete-item-cart/{id}', [CartController::class, 'deleteItemCart'])-
 Route::get('/list-cart', [CartController::class, 'viewListCart'])->name('list.cart');
 Route::get('/delete-list-item-cart/{id}', [CartController::class, 'deleteListItemCart']);
 Route::get('/save-list-item-cart/{id}/{quanty}', [CartController::class, 'saveListItemCart']);
-//sreach
+//search
 Route::get('/products/search', [ProductsController::class, 'search'])->name('products.search');
 
-
+//email_lists
+Route::post('/emails', [EmailsController::class, 'addNotify'])->name('emails.addNotify');
 
 
 Route::middleware(['user'])->group(function () {
     Route::get('/profile/{user_id}', [UsersController::class, 'profileUser'])->name('profile');
     Route::get('/edit-profile/{user_id}', [UsersController::class, 'editProfileUser'])->name('editprofile');
     Route::post('/edit-profile', [UsersController::class, 'editProfileUserPost'])->name('editprofile.post');
-    Route::get('/change-image/{user_id}',[UsersController::class, 'changeImageUser'])->name('changeimage');
-    Route::post('/change-image-post/{user_id}',[UsersController::class, 'changeImageUserPost'])->name('changeimage.post');
+    Route::get('/change-image/{user_id}', [UsersController::class, 'changeImageUser'])->name('changeimage');
+    Route::post('/change-image-post/{user_id}', [UsersController::class, 'changeImageUserPost'])->name('changeimage.post');
     //checkout-order
     Route::get('/check-out', [CheckoutController::class, 'viewcheckout'])->name('view.checkout');
     Route::get('/unset-coupon', [CheckoutController::class, 'unsetCoupon'])->name('unset.coupon');
@@ -73,8 +74,9 @@ Route::middleware(['user'])->group(function () {
     Route::get('/list-order', [OrdersController::class, 'listOrder'])->name('list.order');
     Route::get('/canceled-order/{order_id}', [OrdersController::class, 'canceledOrder'])->name('canceled.order');
     Route::get('/Reorder/{order_id}', [OrdersController::class, 'Reorder'])->name('reset.order');
+    Route::get('/received-order/{order_id}', [OrdersController::class, 'receivedOrder'])->name('received.order');
 
-    
+
     Route::get('/list-detail-order/{order_id}', [OrderDetailsController::class, 'listDetailOrder'])->name('list.detailorder');
 });
 
@@ -85,6 +87,7 @@ Route::get('/logout-admin', [AdminController::class, 'logoutAdmin'])->name('logo
 
 Route::middleware('admin')->group(function () {
     Route::any('/admin', [PagesController::class, 'count'])->name('home_admin');
+    Route::resource('/admin/revenues', RevenuesController::class);
     Route::resource('/admin/products', ProductsController::class);
     Route::resource('/admin/coupons', CouponsController::class);
     Route::resource('/admin/manufactures', ManufacturesController::class);
@@ -95,4 +98,8 @@ Route::middleware('admin')->group(function () {
     Route::resource('/admin/protypes', ProtypesController::class);
     Route::resource('/admin/payments', PaymentsController::class);
     Route::resource('/admin/users', UsersController::class);
+    Route::resource('/admin/emails', EmailsController::class);
+    Route::get('/revenue-chart/{interval}', [RevenuesController::class, 'revenueChart']);
+    Route::post('/admin/revenues/time', [RevenuesController::class, 'getTime'])
+        ->name('admin.revenues.getTime');
 });

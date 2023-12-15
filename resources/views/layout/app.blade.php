@@ -9,7 +9,7 @@
 
     <title>Capple - Website bán đồ ăn, trái cây, rau củ trực tuyến</title>
 
-    
+
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 
@@ -25,18 +25,18 @@
 
     <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}">
-
+    <script src="{{ asset('assets/js/ButtonGroupHandler.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/cancelConfirmation.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/deleteConfirmation.js') }}"></script>
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    
+
 </head>
 
-    @include('layout.header')
+@include('layout.header')
 
 
-    @yield('content')
+@yield('content')
 
-    @include('layout.footer')
-
-
+@include('layout.footer')

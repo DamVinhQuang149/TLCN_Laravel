@@ -63,15 +63,15 @@
                                             <ul class="product-tab" role="tablist">
                                                 <li role="presentation" class="active"><a href="#home"
                                                         aria-controls="home" role="tab" data-toggle="tab">Mô tả</a></li>
-                                                <li role="presentation"><a href="#profile" aria-controls="profile"
-                                                        role="tab" data-toggle="tab">Đánh giá</a></li>
+                                                <!--<li role="presentation"><a href="#profile" aria-controls="profile"
+                                                        role="tab" data-toggle="tab">Đánh giá</a></li>-->
                                             </ul>
                                             <div class="tab-content">
                                                 <div role="tabpanel" class="tab-pane fade in active" id="home">
                                                     <h2>Mô tả sản phẩm</h2>
                                                     <p>{{ $probyid->description }}</p>
                                                 </div>
-                                                <div role="tabpanel" class="tab-pane fade" id="profile">
+                                                <!--<div role="tabpanel" class="tab-pane fade" id="profile">
                                                     <h2>Đánh giá</h2>
                                                     <div class="submit-review">
                                                         <p><label for="name">Tên</label> <input name="name"
@@ -94,7 +94,7 @@
                                                         </p>
                                                         <p><input type="submit" value="Gửi"></p>
                                                     </div>
-                                                </div>
+                                                </div>-->
                                             </div>
                                         </div>
 
@@ -153,12 +153,11 @@
                                                                         class="tooltipp">quick view</span></button>
                                                             </div>
                                                         </div>
-                                                        <a
-                                                            href="addcart.php?id=<?php echo $product['id']; ?>&type_id=<?php echo $product['type_id']; ?>">
+                                                        <a onclick="AddCart({{ $product->id }})" href="javascript:">
                                                             <div class="add-to-cart">
-                                                                <button class="add-to-cart-btn"><i
-                                                                        class="fa fa-shopping-cart"></i> THÊM VÀO
-                                                                    GIỎ</button>
+                                                                <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>
+                                                                    Thêm vào
+                                                                    giỏ</button>
                                                             </div>
                                                         </a>
                                                     </div>

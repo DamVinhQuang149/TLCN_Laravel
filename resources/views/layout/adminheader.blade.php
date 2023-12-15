@@ -17,7 +17,7 @@
         <ul class="navbar-nav ml-auto">
             <!-- Navbar Search -->
             <li class="nav-item">
-                <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+             <!--   <a class="nav-link" data-widget="navbar-search" href="#" role="button">
                     <i class="fas fa-search"></i>
                 </a>
                 <div class="navbar-search-block">
@@ -35,27 +35,25 @@
                             </div>
                         </div>
                     </form>
-                </div>
+                </div>-->
             </li>
 
             <!-- Messages Dropdown Menu -->
-            <li class="nav-item dropdown">
+            <!--<li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-comments"></i>
                     <span class="badge badge-danger navbar-badge">3</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <a href="#" class="dropdown-item">
-                        <!-- Message Start -->
-
-                        <!-- Message End -->
+                        
                     </a>
                     <div class="dropdown-divider"></div>
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
                 </div>
             </li>
-            <!-- Notifications Dropdown Menu -->
+          
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-bell"></i>
@@ -81,7 +79,7 @@
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                 </div>
-            </li>
+            </li>-->
             <li class="nav-item">
                 <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                     <i class="fas fa-expand-arrows-alt"></i>
@@ -105,10 +103,12 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
-                    <img src="{{ asset('assets/img/' . Auth::user()->image) }}" class="img-circle elevation-2" alt="User Image">
+                    <img src="{{ asset('assets/img/' . Auth::user()->image) }}" class="img-circle elevation-2"
+                        alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="/admin/users" class="d-block">{{ Auth::user()->First_name }} {{ Auth::user()->Last_name }}</a>
+                    <a href="/admin/users" class="d-block">{{ Auth::user()->First_name }}
+                        {{ Auth::user()->Last_name }}</a>
                 </div>
             </div>
 
@@ -136,6 +136,15 @@
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>
                                 Dashboard
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/revenues" class="nav-link">
+                            <i class="nav-icon fas fa-chart-line"></i>
+                            <p>
+                                Revenues
+                                <span class="right badge badge-danger">New</span>
                             </p>
                         </a>
                     </li>
@@ -170,7 +179,16 @@
                         <a href="/admin/users" class="nav-link">
                             <i class="nav-icon fas fa-users"></i>
                             <p>
-                                User
+                                Users
+                                <span class="right badge badge-danger">New</span>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/emails" class="nav-link">
+                            <i class="nav-icon fas fa-envelope"></i>
+                            <p>
+                                Emails
                                 <span class="right badge badge-danger">New</span>
                             </p>
                         </a>

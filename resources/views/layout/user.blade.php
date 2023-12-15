@@ -180,9 +180,9 @@
                                                             {{ $item['productInfo']->name }}
                                                         </a>
                                                     </h3>
-                                                    <h4 class="product-price"><span class="qty">{{ $item['quanty']
-                                                            }}</span> x {{ number_format($item['price'])
-                                                        }}VND
+                                                    <h4 class="product-price"><span class="qty">x {{ $item['quanty']
+                                                            }}</span><strong>{{ number_format($item['price'])
+                                                        }}VND</strong>
                                                     </h4>
                                                 </div>
                                                 <button class="delete">
@@ -193,7 +193,7 @@
                                         </div>
                                         <div class="cart-summary">
                                             <small> {{ Session::get('Cart')->totalQuanty }} Sản phẩm </small>
-                                            <h5>SUBTOTAL: {{ number_format(Session::get('Cart')->totalPrice) }} VND</h5>
+                                            <h5><strong>TỔNG: {{ number_format(Session::get('Cart')->totalPrice) }} VND</strong></h5>
                                         </div>
                                         @else
                                         <div class="cart-summary">

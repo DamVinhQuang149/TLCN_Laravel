@@ -39,15 +39,13 @@
                                                     </a>
                                                 </button>
                                             </th> --}}
-                                            <th style="width: 5%" class="text-center">
-                                                MÃ ĐƠN HÀNG
+                                            <th style="width: 25%" class="text-center">
+                                                TÊN SẢN PHẨM
                                             </th>
                                             <th style="width: 10%" class="text-center">
                                                 ẢNH
                                             </th>
-                                            <th style="width: 25%" class="text-center">
-                                                TÊN SẢN PHẨM
-                                            </th>
+                                            
                                             <th style="width: 15%" class="text-center">
                                                 LOẠI SẢN PHẨM
                                             </th>
@@ -71,16 +69,17 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($orderdetails as $value)
-                                            <tr>
-                                                <td class="text-center" style="width: 5%">{{ $value->order_id }}</td>
-                                                <td><img style="width:102px" class="text-center"
+                                            <tr>                            
+                                                <td class="text-center" style="width: 5%"><strong>{{ $value->product_name }}</strong></td>              
+                                                <td><a href="/product/type_id={{$value->type_id}}&id={{$value->id}}"><img style="width:102px" class="text-center"
                                                         src="{{ asset('assets/img/' . $value->product_image) }}">
+                                                    </a>
                                                 </td>
-                                                <td class="text-center" style="width: 5%">{{ $value->product_name }}</td>
-                                                <td class="text-center" style="width: 5%">{{ $value->type_name }}</td>
-                                                <td class="text-center" style="width: 15%">{{ number_format($value->discount_price, 0, ',', '.') }} đ</td>
-                                                <td class="text-center">x {{ $value->product_quantity }}</td>
-                                                <td style="width: 20%">{{ number_format($value->cost, 0, ',', '.') }} đ</td>
+                                                
+                                                <td class="text-center" style="width: 5%"><strong>{{ $value->type_name }}</strong></td>
+                                                <td class="text-center" style="width: 15%"><strong>{{ number_format($value->discount_price, 0, ',', '.') }} đ</strong></td>
+                                                <td class="text-center"><strong>x {{ $value->product_quantity }}</strong></td>
+                                                <td style="width: 20%"><strong>{{ number_format($value->cost, 0, ',', '.') }} đ</strong></td>
                                                 <td style="width: 20%"></td>
                                             </tr>
                                         @endforeach

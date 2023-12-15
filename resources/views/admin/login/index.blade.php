@@ -6,7 +6,7 @@
         <div class="d-flex justify-content-center h-100">
             <div class="card h-auto" >
                 <div class="card-header">
-                    <h3>Sign In Admin</h3>
+                    <h3>Đăng nhập quản trị viên</h3>
                 </div>
                 <div class="mt-5">
                     @if ($errors->any())
@@ -30,26 +30,18 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="username" name="username" required>
+                            <input type="text" class="form-control" placeholder="Tài khoản" name="username" required>
                         </div>
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-key"></i></span>
                             </div>
-                            <input type="password" class="form-control" placeholder="password" name="password" required>
-                        </div>
-                        <div class="row align-items-center remember">
-                            <input type="checkbox">Remember Me
+                            <input type="password" class="form-control" placeholder="Mật khẩu" name="password" required>
                         </div>
                         <div class="form-group">
-                            <input type="submit" value="Login" class="btn float-right login_btn" name="submit">
+                            <input type="submit" value="Đăng nhập" class="btn float-right login_btn" style="width:33%" name="submit">
                         </div>
                     </form>
-                </div>
-                <div class="card-footer">
-                    <div class="d-flex justify-content-center">
-                        <a href="{{ route('forget.password') }}">Forgot your password?</a>
-                    </div>
                 </div>
             </div>
         </div>

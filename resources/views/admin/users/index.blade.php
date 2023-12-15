@@ -46,16 +46,16 @@
                                 <th style="width: 14%">
                                     First name
                                 </th>
-                                <th style="width: 30%">
+                                <th class="text-center" style="width: 30%">
                                     Last name
                                 </th>
-                                <th style="width: 10%">
+                                <th class="text-center" style="width: 20%">
                                     Phone
                                 </th>
                                 <th style="width: 6%">
                                     Username
                                 </th>
-                                <th style="width: 5%;">
+                                <th class="text-center" style="width: 8%;">
                                     Password
                                 </th>
                                 <th style="width: 10%;text-align:center">
@@ -68,14 +68,14 @@
                         <tbody>
                             @foreach ($users as $value)
                                 <tr>
-                                    <td style="width:3%">{{ $value->user_id }}</td>
+                                    <td class="text-center" style="width:3%">{{ $value->user_id }}</td>
                                     <td style="width:10%"><img style="width:50px;border-radius:9px"
                                             src="{{ asset('assets/img/' . $value->image) }}" alt=""></td>
-                                    <td style="width:14%">{{ $value->First_name }}</td>
-                                    <td style="width:30%">{{ $value->Last_name }}</td>
-                                    <td style="width:10%">{{ $value->phone }}</td>
+                                    <td class="text-center" style="width:14%">{{ $value->First_name }}</td>
+                                    <td class="text-center" style="width:30%">{{ $value->Last_name }}</td>
+                                    <td class="text-center" style="width:20%">(+84) {{ $value->phone }}</td>
                                     <td style="width:6%">{{ $value->username }}</td>
-                                    <td style="width:5%">{{ substr($value->password, 0, 40) . '...' }}</td>
+                                    <td style="width:8%">{{ substr($value->password, 0, 40) . '...' }}</td>
                                     <td style="text-align:center;width:10%">{{ $value->role_name }}</td>
                                     <td class="project-actions text-right" style="width:5%">
                                         <form action="users/{{ $value->user_id }}/edit" method="POST"

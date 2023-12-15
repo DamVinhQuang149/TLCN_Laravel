@@ -41,7 +41,7 @@
                                 <th style="width: 5%">
                                     User_id
                                 </th>
-                                <th style="width: 25%" class="text-center">
+                                <th style="width: 15%" class="text-center">
                                     Address
                                 </th>
                                 <th style="width: 10%">
@@ -50,19 +50,19 @@
                                 <th style="width: 5%">
                                     Total
                                 </th>
-                                <th style="width: 10%" class="text-center">
+                                <th style="width: 15%" class="text-center">
                                     Note
                                 </th>
                                 <th style="width: 10%" class="text-center">
                                     Checkout
                                 </th>
-                                <th style="width: 10%" class="text-center">
+                                <th style="width: 7%" class="text-center">
                                     Status
                                 </th>
-                                <th style="width: 10%">
+                                <th style="width: 5%">
                                     Date_create
                                 </th>
-                                <th style="width: 10%" class="text-center">
+                                <th style="width: 3%" class="text-center">
                                     Details
                                 </th>
                             </tr>
@@ -72,7 +72,7 @@
                                 <tr>
                                     <td class="text-center" style="width: 5%">{{ $value->order_id }}</td>
                                     <td class="text-center" style="width: 5%">{{ $value->user_id }}</td>
-                                    <td class="text-center" style="width: 20%">{{ $value->address }}</td>
+                                    <td class="text-center" style="width: 15%">{{ $value->address }}</td>
                                     <td style="width: 10%">{{ $value->phone }}</td>
                                     <td style="width: 9%">Mã giảm giá:
                                         @if ($value->coupon_discount > 100)
@@ -83,7 +83,7 @@
                                         <div></div>
                                         Tổng tiền: {{ number_format($value->total, 0, ',', '.') }} đ
                                     </td>
-                                    <td style="width: 10%">{{ $value->note }}</td>
+                                    <td class="text-center" style="width: 15%">{{ $value->note }}</td>
                                     <td style="width: 10%">
                                         @if ($value->checkout == 0)
                                             {{ 'Chuyển khoản ngân hàng' }}
@@ -91,7 +91,7 @@
                                             {{ 'Thanh toán khi nhận hàng' }}
                                         @endif
                                     </td>
-                                    <td class="text-center" style="width: 10%">
+                                    <td class="text-center" style="width: 7%">
 
                                         @foreach ($status as $stt)
                                             @if ($stt['status'] == $value['status'])
@@ -99,7 +99,7 @@
                                             @endif
                                         @endforeach
                                     </td>
-                                    <td style="width: 10%">{{ $value->created_at }} </td>
+                                    <td style="width: 5%">{{ $value->created_at }} </td>
                                     <td class="project-actions text-right">
                                         <form action="orderdetails/{{ $value->order_id }}" method="POST"
                                             enctype="multipart/form-data">

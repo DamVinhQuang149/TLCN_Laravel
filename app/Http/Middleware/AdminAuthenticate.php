@@ -17,11 +17,16 @@ class AdminAuthenticate
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        if(Auth::check() && Auth::user()->role_id == 1){
-            return $next($request);
+        if(Auth::check()) {
+            $user = Auth::user();
+            
+            if($user && $user->role_id == 1){
+                return $next($request);
+            }
         }
+
         return redirect()->route('login.admin');
     }
 }

@@ -100,7 +100,7 @@ function addCoupon(){
     }
     else {
         couponResult.innerHTML = 'Không được bỏ trống, vui lòng nhập mã giảm giá.';
-        couponResult.style.cssText = 'color: red; font-family: Montserrat; font-weight: 500; margin-top:12px;margin-bottom:24px;';
+        couponResult.style.cssText = 'color: red; font-family: Montserrat; font-weight: 500; margin-top: 12px; margin-bottom: 24px;';
     }
     
 }
@@ -125,7 +125,11 @@ $('.select-filter').change(function() {
         //alert(url);
         window.location.replace(url);
     } else {
-        alert('Hãy lọc sản phẩm');
+        Swal.fire({
+        title: "Cảnh báo!",
+        text: "Hãy chọn 1 cách lọc sản phẩm!",
+        icon: "warning"
+        });
     }
 
 })

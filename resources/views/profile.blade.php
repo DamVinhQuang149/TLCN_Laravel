@@ -68,7 +68,16 @@
                                         <h6 class="mb-0">Điện thoại</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        {{ $user->phone }}
+                                        (+84) {{ $user->phone }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Địa chỉ nhận hàng</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ $user->address }}
                                     </div>
                                 </div>
                                 <hr>
@@ -97,7 +106,7 @@
                                             href="{{ route('editprofile', ['user_id' => $user->user_id]) }}"><strong>Sửa</strong>
                                             <i class="fa fa-pencil"></i></a>
                                         <a style="background-color: #80bb35;" class="btn btn-reorder"
-                                            href="orders.php"><strong>Xem đơn hàng</strong> <i
+                                            href="{{ route('list.order') }}"><strong>Xem đơn hàng</strong> <i
                                                 class="fa fa-arrow-circle-right"></i></a>
                                     </div>
                                 </div>

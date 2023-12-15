@@ -95,9 +95,12 @@ class OrdersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($order_id)
     {
-        //
+        $orders = Orders::find($order_id);
+        $status = 5;
+        $orders->update(['status' => $status]);
+        return redirect()->route('list.order')->with('success', 'Đã hủy đơn hàng!');
     }
     //
 
@@ -110,7 +113,11 @@ class OrdersController extends Controller
             $note = $req->note;
             if (Session::has('Coupon')) {
                 foreach (Session::get('Coupon') as $key => $cou) {
-                    $coupon_discount = $cou['coupon_amount'];
+                    if($cou['coupon_remain'] > 0 && $cou['min_order'] < Session::get('Cart')->totalPrice){
+                        $coupon_discount = $cou['coupon_amount'];
+                    }else{
+                        $coupon_discount = 0;
+                    }
                 }
             } else {
                 $coupon_discount = 0;
@@ -157,7 +164,7 @@ class OrdersController extends Controller
                     ]);
                     return redirect()->route('onlinepayment');
                 } else {
-                    return redirect()->route('view.thanks');
+                    return redirect()->route('view.thanks')->with('success', 'Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!');
                 }
             } else {
                 return redirect()->back();
@@ -184,7 +191,8 @@ class OrdersController extends Controller
             $status_bank = 'Thanh toán thất bại';
             $status = 6;
         }
-        Payments::create([
+        if(!empty($order_id)){
+            Payments::create([
             'order_id' => $order_id,
             'total_cost' => $total_cost,
             'bankcode' => $bankcode,
@@ -199,25 +207,26 @@ class OrdersController extends Controller
                 'status' => $status
             ]);
         }
-
-
-
+        }
+        
         if (Session::has('Coupon')) {
             foreach (Session::get('Coupon') as $key => $cou) {
-                $coupon_used = $cou['coupon_used'] + 1;
-                $coupon_remain = $cou['coupon_quantity'] - $coupon_used;
+                if($cou['coupon_remain'] > 0 && $cou['min_order'] < Session::get('Cart')->totalPrice){
+                    $coupon_used = $cou['coupon_used'] + 1;
+                    $coupon_remain = $cou['coupon_quantity'] - $coupon_used;
 
-                Coupons::find($cou['coupon_id'])->update([
-                    'coupon_used' => $coupon_used,
-                    'coupon_remain' => $coupon_remain,
-                ]);
+                    Coupons::find($cou['coupon_id'])->update([
+                        'coupon_used' => $coupon_used,
+                        'coupon_remain' => $coupon_remain,
+                    ]);
+                }
                 $req->session()->forget('Coupon');
             }
         }
         if (Session::has('Cart')) {
             $req->session()->forget('Cart');
         }
-        return view('thanks');
+        return view('thanks')->with('success', 'Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!');
     }
 
     public function listOrder()
@@ -232,8 +241,14 @@ class OrdersController extends Controller
         $orders = Orders::find($order_id);
         $status = 5;
         $orders->update(['status' => $status]);
-
-        return redirect()->route('list.order');
+        return redirect()->route('list.order')->with('success', 'Đã hủy đơn hàng!');
+    }
+    public function receivedOrder($order_id)
+    {
+        $orders = Orders::find($order_id);
+        $status = 1;
+        $orders->update(['status' => $status]);
+        return redirect()->route('list.order')->with('success', 'Nhận hàng thành công! Cảm ơn bạn đã sử dụng dịch vụ!');
     }
     public function Reorder(Request $req, $order_id)
     {
@@ -251,7 +266,7 @@ class OrdersController extends Controller
         }
         return view('checkout');
     }
-    //
+    
     public function onlinepayment(Request $request)
     {
         $total_cost = $request->session()->get('total_coupon', Session::get('Cart')->totalPrice);

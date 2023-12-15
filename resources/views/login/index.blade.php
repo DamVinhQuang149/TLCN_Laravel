@@ -6,11 +6,11 @@
         <div class="d-flex justify-content-center h-100">
             <div class="card h-auto" >
                 <div class="card-header">
-                    <h3>Đăng Nhập</h3>
+                    <h3>Đăng nhập</h3>
                     <div class="d-flex justify-content-end social_icon">
-                        <span><i class="fab fa-facebook-square"></i></span>
-                        <span><i class="fab fa-google-plus-square"></i></span>
-                        <span><i class="fab fa-twitter-square"></i></span>
+                        <span><a href="https://www.facebook.com/" target="_blank" style="color:#FFC312"><i class="fab fa-facebook-square"></i></a></span>
+                        <span><a href="https://www.google.com/" target="_blank" style="color:#FFC312"><i class="fab fa-google-plus-square"></i></a></span>
+                        <span><a href="https://twitter.com/" target="_blank" style="color:#FFC312"><i class="fab fa-twitter-square"></i></a></span>
                     </div>
                 </div>
                 <div class="mt-5">
@@ -43,20 +43,18 @@
                             </div>
                             <input type="password" class="form-control" placeholder="Mật khẩu" name="password" required>
                         </div>
-                        <div class="row align-items-center remember">
-                            <input type="checkbox">Ghi nhớ
-                        </div>
+                        
                         <div class="form-group">
-                            <input type="submit" value="Login" class="btn float-right login_btn" name="submit">
+                            <input type="submit" value="Đăng nhập" class="btn float-right login_btn" style="width:33%" name="submit">
                         </div>
                     </form>
                 </div>
                 <div class="card-footer">
                     <div class="d-flex justify-content-center links">
-                        Bạn chưa có tài khoản?<a href="{{ route('register') }}">Đăng Ký</a>
+                        Bạn chưa có tài khoản?<a href="{{ route('register') }}">Đăng ký</a>
                     </div>
                     <div class="d-flex justify-content-center">
-                        <a href="{{ route('forget.password') }}">Quên mật khẩu</a>
+                        <a href="{{ route('forget.password') }}">Quên mật khẩu?</a>
                     </div>
                 </div>
             </div>

@@ -272,14 +272,14 @@
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
                                                 </div>
-                                                <div class="product-btns">
+                                              <!--  <div class="product-btns">
                                                     <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
                                                             class="tooltipp">Add to wishlist</span></button>
                                                     <button class="add-to-compare"><i class="fa fa-exchange"></i><span
                                                             class="tooltipp">Add to compare</span></button>
                                                     <button class="quick-view"><i class="fa fa-eye"></i><span
                                                             class="tooltipp">Quick view</span></button>
-                                                </div>
+                                                </div>-->
                                             </div>
                                             <a onclick="AddCart({{ $value->id }})" href="javascript:">
                                                 <div class="add-to-cart">
@@ -334,14 +334,14 @@
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
                                                 </div>
-                                                <div class="product-btns">
+                                               <!-- <div class="product-btns">
                                                     <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
                                                             class="tooltipp">Add to wishlist</span></button>
                                                     <button class="add-to-compare"><i class="fa fa-exchange"></i><span
                                                             class="tooltipp">Add to compare</span></button>
                                                     <button class="quick-view"><i class="fa fa-eye"></i><span
                                                             class="tooltipp">Quick view</span></button>
-                                                </div>
+                                                </div>-->
                                             </div>
                                             <a onclick="AddCart({{ $value->id }})" href="javascript:">
                                                 <div class="add-to-cart">
@@ -396,14 +396,14 @@
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
                                                 </div>
-                                                <div class="product-btns">
+                                       <!--         <div class="product-btns">
                                                     <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
                                                             class="tooltipp">Add to wishlist</span></button>
                                                     <button class="add-to-compare"><i class="fa fa-exchange"></i><span
                                                             class="tooltipp">Add to compare</span></button>
                                                     <button class="quick-view"><i class="fa fa-eye"></i><span
                                                             class="tooltipp">Quick view</span></button>
-                                                </div>
+                                                </div>-->
                                             </div>
                                             <a onclick="AddCart({{ $value->id }})" href="javascript:">
                                                 <div class="add-to-cart">
@@ -438,6 +438,7 @@
     <!-- /SECTION -->
 
     <!-- HOT DEAL SECTION -->
+   
     <div id="hot-deal" class="section">
         <!-- container -->
         <div class="container">
@@ -471,9 +472,11 @@
                                 </div>
                             </li>
                         </ul>
+                        
                         <h2 class="text-uppercase">Khuyến mãi trong tuần</h2>
                         <p>Sản phẩm mới giảm tới 50%</p>
                         <a class="primary-btn cta-btn" href="{{ route('products', ['type_id' => 1]) }}">Mua ngay</a>
+                        
                     </div>
                 </div>
             </div>
@@ -481,6 +484,7 @@
         </div>
         <!-- /container -->
     </div>
+
     <!-- /HOT DEAL SECTION -->
 
     <!-- SECTION -->
@@ -538,14 +542,14 @@
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                         </div>
-                                        <div class="product-btns">
+                                <!--        <div class="product-btns">
                                             <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
                                                     class="tooltipp">Add to wishlist</span></button>
                                             <button class="add-to-compare"><i class="fa fa-exchange"></i><span
                                                     class="tooltipp">Add to compare</span></button>
                                             <button class="quick-view"><i class="fa fa-eye"></i><span
                                                     class="tooltipp">Quick view</span></button>
-                                        </div>
+                                        </div>-->
                                     </div>
                                     <a
                                         href="addcart.php?id=<?php echo $value['id']; ?>&type_id=<?php echo $value['type_id']; ?>">
@@ -591,14 +595,14 @@
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                         </div>
-                                        <div class="product-btns">
+                                  <!--      <div class="product-btns">
                                             <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
                                                     class="tooltipp">add to wishlist</span></button>
                                             <button class="add-to-compare"><i class="fa fa-exchange"></i><span
                                                     class="tooltipp">Add to compare</span></button>
                                             <button class="quick-view"><i class="fa fa-eye"></i><span
                                                     class="tooltipp">Quick view</span></button>
-                                        </div>
+                                        </div>-->
                                     </div>
                                     <a
                                         href="addcart.php?id=<?php echo $value['id']; ?>&type_id=<?php echo $value['type_id']; ?>">
@@ -644,14 +648,14 @@
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                         </div>
-                                        <div class="product-btns">
+                               <!--         <div class="product-btns">
                                             <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
                                                     class="tooltipp">add to wishlist</span></button>
                                             <button class="add-to-compare"><i class="fa fa-exchange"></i><span
                                                     class="tooltipp">Add to compare</span></button>
                                             <button class="quick-view"><i class="fa fa-eye"></i><span
                                                     class="tooltipp">Quick view</span></button>
-                                        </div>
+                                        </div>-->
                                     </div>
                                     <a
                                         href="addcart.php?id=<?php echo $value['id']; ?>&type_id=<?php echo $value['type_id']; ?>">

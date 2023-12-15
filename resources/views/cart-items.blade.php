@@ -13,7 +13,7 @@
                     {{ $item['productInfo']->name }}
                 </a>
             </h3>
-            <h4 class="product-price"><span class="qty">{{ $item['quanty'] }}</span> x {{ number_format($item['price1']) }} VND</h4>
+            <h4 class="product-price"><span class="qty">{{ $item['quanty'] }}</span><strong> x {{ number_format($item['price1']) }} VND</strong></h4>
         </div>
         <button class="delete">
             <i class="fa fa-close" data-id="{{ $item['productInfo']->id }}"></i>
@@ -24,7 +24,7 @@
 </div>
 <div class="cart-summary">
     <small> {{ Session::get('Cart')->totalQuanty }} Sản phẩm </small>
-    <h5>SUBTOTAL: {{ number_format(Session::get('Cart')->totalPrice) }} VND</h5>
+    <h5><strong>TỔNG: {{ number_format(Session::get('Cart')->totalPrice) }} VND</strong></h5>
     <input hidden id="total-quanty-cart" type="number" value="{{ Session::get('Cart')->totalQuanty }}">
 </div>
 @endif

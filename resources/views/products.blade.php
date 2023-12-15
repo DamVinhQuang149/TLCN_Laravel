@@ -22,23 +22,16 @@
                         <div class="store-sort">
                             <label>
                                 Sắp xếp:
-                                <select class="input-select select-filter" id="select-filter">
-                                    <option value="0">---Lọc theo---</option>
-                                    <option value="{{ Request::url() }}?sort_by=kytu_az">Ký tự A-Z</option>
-                                    <option value="{{ Request::url() }}?sort_by=kytu_za">Ký tự Z-A</option>
-                                    <option value="{{ Request::url() }}?sort_by=tang_dan">Giá tăng dần</option>
-                                    <option value="{{ Request::url() }}?sort_by=giam_dan">Giá giảm dần</option>
-                                
+                                <select class="input-select select-filter" id="select-filter" onchange="window.location.href=this.value;">
+                                    <option value="">---Lọc theo---</option>
+                                    <option value="{{ Request::url() }}?sort_by=kytu_az" {{ Request::input('sort_by') == 'kytu_az' ? 'selected' : '' }}>Ký tự A-Z</option>
+                                    <option value="{{ Request::url() }}?sort_by=kytu_za" {{ Request::input('sort_by') == 'kytu_za' ? 'selected' : '' }}>Ký tự Z-A</option>
+                                    <option value="{{ Request::url() }}?sort_by=tang_dan" {{ Request::input('sort_by') == 'tang_dan' ? 'selected' : '' }}>Giá tăng dần</option>
+                                    <option value="{{ Request::url() }}?sort_by=giam_dan" {{ Request::input('sort_by') == 'giam_dan' ? 'selected' : '' }}>Giá giảm dần</option>
                                 </select>
+
                             </label>
 
-                            <label>
-                                Hiển thị:
-                                <select class="input-select">
-                                    <option value="0">20</option>
-                                    <option value="1">50</option>
-                                </select>
-                            </label>
                             <div class="col-md-offset-7">
                                 <form method="get" action="">
                                     @csrf
@@ -49,7 +42,7 @@
                                     </p>
 
                                     <div id="slider-range"></div>
-                                    <input type="hidden" name="type_id" value="{{ $type->type_id }}">
+                                    
                                     <input type="hidden" class="price_from" name="from">
                                     <input type="hidden" class="price_to" name="to">
 
@@ -59,14 +52,11 @@
                             </div>
                             <h4 class="title text-right" style="color:#f6931f;">
                                 @if(request()->has('to') && request()->get('to'))
-                                    {{ $type->type_name }} Giá từ: {{ number_format(request()->get('from'), 0, ',', '.') }}đ - {{ number_format(request()->get('to'), 0, ',', '.') }}đ
+                                     Giá từ: {{ number_format(request()->get('from'), 0, ',', '.') }}đ - {{ number_format(request()->get('to'), 0, ',', '.') }}đ
                                 @endif
                             </h4>
                         </div>
-                        <ul class="store-grid">
-                            <li class="active"><i class="fa fa-th"></i></li>
-                            <li><a href="#"><i class="fa fa-th-list"></i></a></li>
-                        </ul>
+                        
                     </div>
                     <!-- /store top filter -->
 
@@ -114,14 +104,14 @@
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                         </div>
-                                        <div class="product-btns">
+                                       <!-- <div class="product-btns">
                                             <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
                                                     class="tooltipp">add to wishlist</span></button>
                                             <button class="add-to-compare"><i class="fa fa-exchange"></i><span
                                                     class="tooltipp">add to compare</span></button>
                                             <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
                                                     view</span></button>
-                                        </div>
+                                        </div>-->
                                     </div>
                                     <a onclick="AddCart({{ $product->id }})" href="javascript:">
                                         <div class="add-to-cart">

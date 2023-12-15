@@ -17,9 +17,14 @@ class UserAuthenticate
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::check() && Auth::user()->role_id == 2 || Auth::user()->role_id == 1){
-            return $next($request);
+        if(Auth::check()) {
+            $user = Auth::user();
+            
+            if($user && ($user->role_id == 2 || $user->role_id == 1)){
+                return $next($request);
+            }
         }
+
         return redirect()->route('login');
     }
 }

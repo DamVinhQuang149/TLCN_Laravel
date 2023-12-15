@@ -5,11 +5,11 @@
 		<div class="d-flex justify-content-center h-100">
 			<div class="card h-auto">
 				<div class="card-header">
-					<h3>Đăng Ký</h3>
+					<h3>Đăng ký</h3>
 					<div class="d-flex justify-content-end social_icon">
-						<span><i class="fab fa-facebook-square"></i></span>
-						<span><i class="fab fa-google-plus-square"></i></span>
-						<span><i class="fab fa-twitter-square"></i></span>
+						<span><a href="https://www.facebook.com/" target="_blank" style="color:#FFC312"><i class="fab fa-facebook-square"></i></a></span>
+                        <span><a href="https://www.google.com/" target="_blank" style="color:#FFC312"><i class="fab fa-google-plus-square"></i></a></span>
+                        <span><a href="https://twitter.com/" target="_blank" style="color:#FFC312"><i class="fab fa-twitter-square"></i></a></span>
 					</div>
 				</div>
 				<div class="mt-5">
@@ -53,7 +53,7 @@
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
-							<input type="password" name="password" class="form-control" placeholder="Nhập mật khẩu" required>
+							<input type="password" name="password" class="form-control" placeholder="Mật khẩu" required>
 						</div>
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
@@ -65,23 +65,27 @@
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-envelope"></i></span>
 							</div>
-							<input type="email" name="email" class="form-control" placeholder="email" required>
+							<input type="email" name="email" class="form-control" placeholder="Email" required>
 						</div>
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-phone"></i></span>
 							</div>
-							<input type="phone" name="phone" class="form-control" placeholder="Só điện thoại" required>
+							<input type="phone" name="phone" class="form-control" placeholder="Số điện thoại" required>
 						</div>
 						<div class="form-group">
-							<input type="submit" name="submit" value="Đăng Ký" class="btn float-right login_btn">
+							<input type="submit" name="submit" value="Đăng ký" class="btn float-right login_btn">
 						</div>
 					</form>
 				</div>
 				<div class="card-footer">
+
 					<div class="d-flex justify-content-center links">
-                        Bạn không muốn tiếp tục?<a href="{{ route('login') }}">Trở lại</a>
-                    </div>
+						Đã có tài khoản?<a href="login">Đăng nhập</a>
+					</div>
+					<div class="d-flex justify-content-center">
+						<a href="forget-password">Quên mật khẩu?</a>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -65,7 +65,7 @@ class UsersController extends Controller
         }
         if ($request->hasFile('image')) {
             $image = $request->file('image')->getClientOriginalName();
-            $target_dir = public_path('assets/img/');
+            $target_dir = 'assets/img/';
             $target_file = $target_dir . basename($image);
 
             $imgFileType = pathinfo($target_file, PATHINFO_EXTENSION);
@@ -76,7 +76,7 @@ class UsersController extends Controller
 
             $image_name = 'image' . time() . '-' . $request->name . '.'
                 . $request->image->extension();
-            $request->image->move(public_path('assets/img'), $image_name);
+            $request->image->move('assets/img', $image_name);
 
             $users = Users::create([
                 'First_name' => $First_name,
@@ -154,7 +154,7 @@ class UsersController extends Controller
         }
         if ($request->hasFile('image')) {
             $image = $request->file('image')->getClientOriginalName();
-            $target_dir = public_path('assets/img/');
+            $target_dir = 'assets/img/';
             $target_file = $target_dir . basename($image);
 
             $imgFileType = pathinfo($target_file, PATHINFO_EXTENSION);
@@ -165,7 +165,7 @@ class UsersController extends Controller
 
             $image_name = 'image' . time() . '-' . $request->name . '.'
                 . $request->image->extension();
-            $request->image->move(public_path('assets/img'), $image_name);
+            $request->image->move('assets/img', $image_name);
             if (!empty($password)) {
                 $users->update([
                     'First_name' => $First_name,
@@ -316,6 +316,7 @@ class UsersController extends Controller
         $First_name = $request->input('First_name');
         $Last_name = $request->input('Last_name');
         $phone = $request->input('phone');
+        $address = $request->input('address');
         $user = Users::find(Auth::user()->user_id);
         if (!is_numeric($phone)) {
             return redirect()->route('profile', ['user_id' => $user->user_id])
@@ -325,6 +326,7 @@ class UsersController extends Controller
             'First_name' => $First_name,
             'Last_name' => $Last_name,
             'phone' => $phone,
+            'address' => $address,
         ]);
 
         return redirect()->route('profile', ['user_id' => $user->user_id])
@@ -338,7 +340,7 @@ class UsersController extends Controller
         $user = Users::find($user_id);
         if ($request->hasFile('image')) {
             $image = $request->file('image')->getClientOriginalName();
-            $target_dir = public_path('assets/img/');
+            $target_dir = 'assets/img/';
             $target_file = $target_dir . basename($image);
 
             $imgFileType = pathinfo($target_file, PATHINFO_EXTENSION);
@@ -349,7 +351,7 @@ class UsersController extends Controller
 
             $image_name = 'image' . time() . '-' . $request->name . '.'
                 . $request->image->extension();
-            $request->image->move(public_path('assets/img'), $image_name);
+            $request->image->move('assets/img', $image_name);
             $user->update([
                 'image' => $image_name
             ]);

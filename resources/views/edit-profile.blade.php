@@ -18,8 +18,8 @@
                                     @endif
                                     <div class="mt-3">
                                         <h4>{{ $user->First_name }} {{ $user->Last_name }}</h4>
-                                        <a href="{{ route('changeimage', ['user_id' => $user->user_id]) }}"><button class="btn btn-primary" style="background-color: #80bb35;">Đổi ảnh</button></a>
-                                        <a href="{{ route('forget.password') }}">
+                                        <a href="{{ route('changeimage', ['user_id' => $user->user_id]) }}"><button class="btn btn-primary" style="background-color: #80bb35;">Đổi                                                   ảnh</button></a>
+                                        <a href="{{ route('reset.password') }}">
                                             <button class="btn btn-primary" style="background-color: #80bb35;">
                                                 Đổi mật khẩu
                                             </button>
@@ -55,11 +55,20 @@
 
                                     <div class="row mb-3">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">Điện thoại</h6>
+                                            <h6 class="mb-0">Số điện thoại</h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             <input required type="text" name="phone" class="form-control"
                                                 value="{{ $user->phone }}">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Địa chỉ nhận hàng</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            <input required type="text" name="address" class="form-control"
+                                                value="{{ $user->address }}">
                                         </div>
                                     </div>
 

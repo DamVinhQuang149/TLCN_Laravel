@@ -83,9 +83,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="pagination-container" style="margin-top: 30px; text-align: center;">
-                        {{ $protypes->render('/admin/pagination') }}
-                    </div>
+                    
                 </div>
                 <!-- /.card-body -->
             </div>
