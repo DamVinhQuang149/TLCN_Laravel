@@ -30,7 +30,7 @@
                                 <table cellspacing="0" class="shop_table cart">
                                     <thead>
                                         <tr>
-                                            <th class="order-id" style="width:5%">MÃ</th>            
+                                            <th class="order-id" style="width:5%">MÃ</th>
                                             <th class="product-cost" style="width:12%">THÀNH TIỀN</th>
                                             <th class="product-coupon" style="width:12%">ĐÃ GIẢM GIÁ</th>
                                             <th class="product-address">ĐỊA CHỈ</th>
@@ -98,13 +98,22 @@
                                                     </strong>
                                                 </td>
                                                 <td class="product-action">
+                                                    <button class="btn btn-print"
+                                                        style="background-color: green; margin-bottom:6px">
+                                                        <a style="text-decoration: none; color: #fff;"
+                                                            href="{{ url('/invoices/' . $item->order_id) }}"
+                                                            target="_blank">
+                                                            <i class="fa fa-print"></i> IN HÓA ĐƠN
+                                                        </a>
+                                                    </button>
                                                     <button class="btn btn-info"
-                                                        style="margin-bottom:5px;background-color:#FE9705;border-color:#FE9705">
+                                                        style="margin-bottom:7px;background-color:#FE9705;border-color:#FE9705">
                                                         <a style="text-decoration: none; color:#fff;"
                                                             href="{{ route('list.detailorder', $item->order_id) }}">
                                                             <i class="fa fa-pencil"></i> XEM CHI TIẾT
                                                         </a>
                                                     </button>
+
                                                     @if ($item->status == 4)
                                                         <button class="btn btn-received">
                                                             <a style="text-decoration: none; color:#fff;"
@@ -132,6 +141,7 @@
                                                             </a>
                                                         </button>
                                                     @endif
+
                                                 </td>
                                             </tr>
                                         @endforeach

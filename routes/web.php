@@ -24,6 +24,11 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+use App\Http\Controllers\InvoiceController;
+
+Route::get('/invoices/{order_id}', [InvoiceController::class, 'generateInvoice']);
+Route::get('/admin/invoices/{order_id}', [InvoiceController::class, 'generateInvoice']);
+
 
 
 Route::get('/login', [UsersController::class, 'login'])->name('login');

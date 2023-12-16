@@ -24,7 +24,10 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        $orders = Orders::orderBy('order_id', 'desc')->paginate(6);
+        $orders = Orders::join('users', 'orders.user_id', '=', 'users.user_id')
+            ->select('orders.*', 'users.Last_name as name')
+            ->orderBy('orders.order_id', 'desc')
+            ->paginate(6);
         $status = Status::get();
         return view('admin.orders.index', ['orders' => $orders, 'status' => $status]);
     }
@@ -113,9 +116,9 @@ class OrdersController extends Controller
             $note = $req->note;
             if (Session::has('Coupon')) {
                 foreach (Session::get('Coupon') as $key => $cou) {
-                    if($cou['coupon_remain'] > 0 && $cou['min_order'] < Session::get('Cart')->totalPrice){
+                    if ($cou['coupon_remain'] > 0 && $cou['min_order'] < Session::get('Cart')->totalPrice) {
                         $coupon_discount = $cou['coupon_amount'];
-                    }else{
+                    } else {
                         $coupon_discount = 0;
                     }
                 }
@@ -191,27 +194,27 @@ class OrdersController extends Controller
             $status_bank = 'Thanh toán thất bại';
             $status = 6;
         }
-        if(!empty($order_id)){
+        if (!empty($order_id)) {
             Payments::create([
-            'order_id' => $order_id,
-            'total_cost' => $total_cost,
-            'bankcode' => $bankcode,
-            'content' => $content,
-            'card_type' => $card_type,
-            'status' => $status_bank
-        ]);
-
-        $order = Orders::find($order_id);
-        if ($order) {
-            $order->update([
-                'status' => $status
+                'order_id' => $order_id,
+                'total_cost' => $total_cost,
+                'bankcode' => $bankcode,
+                'content' => $content,
+                'card_type' => $card_type,
+                'status' => $status_bank
             ]);
+
+            $order = Orders::find($order_id);
+            if ($order) {
+                $order->update([
+                    'status' => $status
+                ]);
+            }
         }
-        }
-        
+
         if (Session::has('Coupon')) {
             foreach (Session::get('Coupon') as $key => $cou) {
-                if($cou['coupon_remain'] > 0 && $cou['min_order'] < Session::get('Cart')->totalPrice){
+                if ($cou['coupon_remain'] > 0 && $cou['min_order'] < Session::get('Cart')->totalPrice) {
                     $coupon_used = $cou['coupon_used'] + 1;
                     $coupon_remain = $cou['coupon_quantity'] - $coupon_used;
 
@@ -232,7 +235,11 @@ class OrdersController extends Controller
     public function listOrder()
     {
         $user_id = Auth::user()->user_id;
-        $list_order = Orders::select()->where('user_id', $user_id)->orderBy('order_id', 'desc')->paginate(6);
+        $list_order = Orders::select('orders.*', 'users.Last_name as name')
+            ->join('users', 'orders.user_id', '=', 'users.user_id')
+            ->where('orders.user_id', $user_id)
+            ->orderBy('orders.order_id', 'desc')
+            ->paginate(6);
         $status = Status::get();
         return view('list-order', ['listorder' => $list_order, 'status' => $status]);
     }
@@ -266,7 +273,7 @@ class OrdersController extends Controller
         }
         return view('checkout');
     }
-    
+
     public function onlinepayment(Request $request)
     {
         $total_cost = $request->session()->get('total_coupon', Session::get('Cart')->totalPrice);

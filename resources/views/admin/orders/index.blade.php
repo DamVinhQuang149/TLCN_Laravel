@@ -62,7 +62,7 @@
                                 <th style="width: 5%">
                                     Date_create
                                 </th>
-                                <th style="width: 3%" class="text-center">
+                                <th style="width: 1%" class="text-center">
                                     Details
                                 </th>
                             </tr>
@@ -100,7 +100,14 @@
                                         @endforeach
                                     </td>
                                     <td style="width: 5%">{{ $value->created_at }} </td>
-                                    <td class="project-actions text-right">
+                                    <td class="project-actions text-right" style="width:1%">
+                                        <button class="btn btn-print"
+                                            style="background-color: green; margin-top:6px; margin-bottom:6px">
+                                            <a style="text-decoration: none; color: #fff;"
+                                                href="{{ url('/admin/invoices/' . $value->order_id) }}" target="_blank">
+                                                <i class="fa fa-print"></i> Print
+                                            </a>
+                                        </button>
                                         <form action="orderdetails/{{ $value->order_id }}" method="POST"
                                             enctype="multipart/form-data">
                                             @csrf
@@ -121,6 +128,8 @@
                                                 Update
                                             </button>
                                         </form>
+
+
                                     </td>
                                 </tr>
                             @endforeach
