@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: sql213.infinityfree.com
--- Thời gian đã tạo: Th12 15, 2023 lúc 12:18 AM
+-- Thời gian đã tạo: Th12 16, 2023 lúc 02:25 PM
 -- Phiên bản máy phục vụ: 10.4.17-MariaDB
 -- Phiên bản PHP: 7.2.22
 
@@ -45,7 +45,7 @@ CREATE TABLE `coupons` (
 --
 
 INSERT INTO `coupons` (`coupon_id`, `coupon_code`, `coupon_type`, `coupon_amount`, `min_order`, `coupon_quantity`, `coupon_used`, `coupon_remain`, `coupon_expired`) VALUES
-(2, 'GIAMGIA10', 1, 10, 300000, 30, 10, 20, '2023-12-31'),
+(2, 'GIAMGIA10', 1, 10, 300000, 30, 11, 19, '2023-12-31'),
 (3, 'GIAMGIA100K', 0, 100000, 1000000, 30, 5, 25, '2023-11-10'),
 (4, 'GIAMGIA150K', 0, 150000, 500000, 30, 9, 21, '2023-11-09'),
 (5, '', 0, 0, 0, 123125, 5, 123120, '2114-12-31'),
@@ -110,7 +110,8 @@ INSERT INTO `email_lists` (`email_id`, `email`, `created_at`) VALUES
 (13, 'ssss@gmail.com', '2023-12-12 16:25:58'),
 (14, 'asdasda@gmail.com', '2023-12-12 16:26:46'),
 (15, 'batjky@gmail.com', '2023-12-13 13:23:45'),
-(17, 'hoang@gmail.com', '2023-12-13 21:37:11');
+(17, 'hoang@gmail.com', '2023-12-13 21:37:11'),
+(18, 'duyhoang@gmail.com', '2023-12-17 00:26:31');
 
 -- --------------------------------------------------------
 
@@ -307,7 +308,12 @@ INSERT INTO `orders` (`order_id`, `user_id`, `address`, `phone`, `status`, `coup
 (335, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', '0935540795', 1, 0, 465000, 'Chúc mừng sinh nhật', 1, '2023-12-13 21:45:41'),
 (336, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', '0935540795', 3, 0, 465000, NULL, 0, '2023-12-13 21:47:11'),
 (337, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', '0935540795', 6, 0, 120000, NULL, 0, '2023-12-13 21:53:11'),
-(338, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', '0935540795', 3, 0, 120000, NULL, 0, '2023-12-13 21:54:05');
+(338, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', '0935540795', 3, 0, 120000, NULL, 0, '2023-12-13 21:54:05'),
+(339, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', '0935540795', 5, 0, 400000, NULL, 1, '2023-12-15 12:09:28'),
+(340, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', '0935540795', 1, 10, 4131000, 'Chúc mừng sinh nhật', 0, '2023-12-17 00:07:21'),
+(341, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', '0935540795', 0, 0, 300000, NULL, 1, '2023-12-17 00:19:25'),
+(342, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', '0935540795', 0, 0, 800000, NULL, 1, '2023-12-17 00:21:02'),
+(343, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', '0935540795', 0, 0, 4590000, NULL, 1, '2023-12-17 00:22:54');
 
 -- --------------------------------------------------------
 
@@ -650,7 +656,22 @@ INSERT INTO `order_details` (`order_id`, `product_name`, `discount_price`, `prod
 (336, 'Dâu tây đỏ ngọt (kg)', 100000, 1, 100000, 18, 1, 'dautay.png', 386),
 (336, 'Vải thiều loại to (kg)', 85000, 1, 85000, 21, 1, 'vaithieuloaito.png', 387),
 (337, 'Chanh dây Nga tươi (kg)', 90000, 1, 90000, 16, 1, 'chanhday.png', 388),
-(338, 'Chanh dây Nga tươi (kg)', 90000, 1, 90000, 16, 1, 'chanhday.png', 389);
+(338, 'Chanh dây Nga tươi (kg)', 90000, 1, 90000, 16, 1, 'chanhday.png', 389),
+(339, 'Dâu tây đỏ ngọt (kg)', 100000, 4, 400000, 18, 1, 'dautay.png', 390),
+(340, 'Hồng đỏ Nam Mỹ (kg)', 190000, 1, 190000, 11, 1, 'hongdomy.png', 391),
+(340, 'Chanh dây Nga tươi (kg)', 90000, 1, 90000, 16, 1, 'chanhday.png', 392),
+(340, 'Bánh kem dâu Ý', 1200000, 3, 3600000, 5, 2, 'banhkemdau.jpg', 393),
+(340, 'Bánh kem Matcha', 600000, 1, 600000, 22, 2, 'banhkemmatcha.jpg', 394),
+(340, 'Dưa leo Ấn Độ (kg)', 50000, 1, 50000, 13, 3, 'dualeoando.png', 395),
+(340, 'Ớt chuông đỏ (kg)', 60000, 1, 60000, 23, 3, 'otchuongdo.png', 396),
+(341, 'Chanh dây Nga tươi (kg)', 90000, 3, 270000, 16, 1, 'chanhday.png', 397),
+(342, 'Dâu tây đỏ ngọt (kg)', 100000, 8, 800000, 18, 1, 'dautay.png', 398),
+(343, 'Hồng đỏ Nam Mỹ (kg)', 190000, 1, 190000, 11, 1, 'hongdomy.png', 399),
+(343, 'Chanh dây Nga tươi (kg)', 90000, 1, 90000, 16, 1, 'chanhday.png', 400),
+(343, 'Bánh kem dâu Ý', 1200000, 3, 3600000, 5, 2, 'banhkemdau.jpg', 401),
+(343, 'Bánh kem Matcha', 600000, 1, 600000, 22, 2, 'banhkemmatcha.jpg', 402),
+(343, 'Dưa leo Ấn Độ (kg)', 50000, 1, 50000, 13, 3, 'dualeoando.png', 403),
+(343, 'Ớt chuông đỏ (kg)', 60000, 1, 60000, 23, 3, 'otchuongdo.png', 404);
 
 -- --------------------------------------------------------
 
@@ -664,39 +685,41 @@ CREATE TABLE `payments` (
   `bankcode` varchar(50) NOT NULL,
   `content` varchar(5) NOT NULL,
   `card_type` varchar(24) NOT NULL,
-  `status` varchar(40) NOT NULL
+  `status` varchar(40) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Đang đổ dữ liệu cho bảng `payments`
 --
 
-INSERT INTO `payments` (`order_id`, `total_cost`, `bankcode`, `content`, `card_type`, `status`) VALUES
-(226, 510000, 'VNPAY', '226', 'QRCODE', 'Thanh toán thất bại'),
-(227, 330000, 'VNPAY', '227', 'QRCODE', 'Thanh toán thất bại'),
-(233, 990000, 'VNPAY', '233', 'QRCODE', 'Thanh toán thất bại'),
-(235, 1320000, 'VNPAY', '235', 'QRCODE', 'Thanh toán thất bại'),
-(241, 212000, 'NCB', '241', 'ATM', 'Thanh toán thành công'),
-(251, 10170000, 'NCB', '251', 'ATM', 'Thanh toán thành công'),
-(252, 620000, 'VNPAY', '252', 'QRCODE', 'Thanh toán thất bại'),
-(255, 285000, 'VNPAY', '255', 'QRCODE', 'Thanh toán thất bại'),
-(294, 420000, 'VNPAY', '294', 'QRCODE', 'Thanh toán thất bại'),
-(295, 100000, 'VNPAY', '295', 'QRCODE', 'Thanh toán thất bại'),
-(297, 1020000, 'VNPAY', '297', 'QRCODE', 'Thanh toán thất bại'),
-(302, 120000, 'NCB', '302', 'ATM', 'Thanh toán thành công'),
-(304, 90000, 'VNPAY', '304', 'QRCODE', 'Thanh toán thất bại'),
-(305, 90000, 'VNPAY', '305', 'QRCODE', 'Thanh toán thất bại'),
-(306, 2795000, 'NCB', '306', 'ATM', 'Thanh toán thành công'),
-(307, 495000, 'NCB', '307', 'ATM', 'Thanh toán thành công'),
-(316, 120000, 'VNPAY', '316', 'QRCODE', 'Thanh toán thất bại'),
-(323, 3375000, 'VNPAY', '323', 'QRCODE', 'Thanh toán thất bại'),
-(324, 3145500, 'NCB', '324', 'ATM', 'Thanh toán thành công'),
-(328, 2115000, 'NCB', '328', 'ATM', 'Thanh toán thành công'),
-(331, 1590000, 'VNPAY', '331', 'QRCODE', 'Thanh toán thất bại'),
-(334, 4320000, 'NCB', '334', 'ATM', 'Thanh toán thành công'),
-(336, 465000, 'NCB', '336', 'ATM', 'Thanh toán thành công'),
-(337, 120000, 'VNPAY', '337', 'QRCODE', 'Thanh toán thất bại'),
-(338, 120000, 'NCB', '338', 'ATM', 'Thanh toán thành công');
+INSERT INTO `payments` (`order_id`, `total_cost`, `bankcode`, `content`, `card_type`, `status`, `created_at`) VALUES
+(226, 510000, 'VNPAY', '226', 'QRCODE', 'Thanh toán thất bại', '2023-12-16 19:28:40'),
+(227, 330000, 'VNPAY', '227', 'QRCODE', 'Thanh toán thất bại', '2023-12-16 19:28:40'),
+(233, 990000, 'VNPAY', '233', 'QRCODE', 'Thanh toán thất bại', '2023-12-16 19:28:40'),
+(235, 1320000, 'VNPAY', '235', 'QRCODE', 'Thanh toán thất bại', '2023-12-16 19:28:40'),
+(241, 212000, 'NCB', '241', 'ATM', 'Thanh toán thành công', '2023-12-16 19:28:40'),
+(251, 10170000, 'NCB', '251', 'ATM', 'Thanh toán thành công', '2023-12-16 19:28:40'),
+(252, 620000, 'VNPAY', '252', 'QRCODE', 'Thanh toán thất bại', '2023-12-16 19:28:40'),
+(255, 285000, 'VNPAY', '255', 'QRCODE', 'Thanh toán thất bại', '2023-12-16 19:28:40'),
+(294, 420000, 'VNPAY', '294', 'QRCODE', 'Thanh toán thất bại', '2023-12-16 19:28:40'),
+(295, 100000, 'VNPAY', '295', 'QRCODE', 'Thanh toán thất bại', '2023-12-16 19:28:40'),
+(297, 1020000, 'VNPAY', '297', 'QRCODE', 'Thanh toán thất bại', '2023-12-16 19:28:40'),
+(302, 120000, 'NCB', '302', 'ATM', 'Thanh toán thành công', '2023-12-16 19:28:40'),
+(304, 90000, 'VNPAY', '304', 'QRCODE', 'Thanh toán thất bại', '2023-12-16 19:28:40'),
+(305, 90000, 'VNPAY', '305', 'QRCODE', 'Thanh toán thất bại', '2023-12-16 19:28:40'),
+(306, 2795000, 'NCB', '306', 'ATM', 'Thanh toán thành công', '2023-12-16 19:28:40'),
+(307, 495000, 'NCB', '307', 'ATM', 'Thanh toán thành công', '2023-12-16 19:28:40'),
+(316, 120000, 'VNPAY', '316', 'QRCODE', 'Thanh toán thất bại', '2023-12-16 19:28:40'),
+(323, 3375000, 'VNPAY', '323', 'QRCODE', 'Thanh toán thất bại', '2023-12-16 19:28:40'),
+(324, 3145500, 'NCB', '324', 'ATM', 'Thanh toán thành công', '2023-12-16 19:28:40'),
+(328, 2115000, 'NCB', '328', 'ATM', 'Thanh toán thành công', '2023-12-16 19:28:40'),
+(331, 1590000, 'VNPAY', '331', 'QRCODE', 'Thanh toán thất bại', '2023-12-16 19:28:40'),
+(334, 4320000, 'NCB', '334', 'ATM', 'Thanh toán thành công', '2023-12-16 19:28:40'),
+(336, 465000, 'NCB', '336', 'ATM', 'Thanh toán thành công', '2023-12-16 19:28:40'),
+(337, 120000, 'VNPAY', '337', 'QRCODE', 'Thanh toán thất bại', '2023-12-16 19:28:40'),
+(338, 120000, 'NCB', '338', 'ATM', 'Thanh toán thành công', '2023-12-16 19:28:40'),
+(340, 4131000, 'NCB', '340', 'ATM', 'Thanh toán thành công', '2023-12-16 19:28:40');
 
 -- --------------------------------------------------------
 
@@ -921,7 +944,7 @@ ALTER TABLE `coupons`
 -- AUTO_INCREMENT cho bảng `email_lists`
 --
 ALTER TABLE `email_lists`
-  MODIFY `email_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `email_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT cho bảng `manufactures`
@@ -933,13 +956,13 @@ ALTER TABLE `manufactures`
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=339;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=344;
 
 --
 -- AUTO_INCREMENT cho bảng `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `orderdetail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=390;
+  MODIFY `orderdetail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=405;
 
 --
 -- AUTO_INCREMENT cho bảng `products`
