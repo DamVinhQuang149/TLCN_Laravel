@@ -34,6 +34,8 @@ Laravel là một framework tiện lợi, mạnh mẽ và cung cấp các công 
 ```
 composer i
 php artisan serve
+composer require barryvdh/laravel-dompdf
+php artisan vendor:publish --provider="Barryvdh\DomPDF\ServiceProvider"
 ```
 
 ### Thông tin thẻ thánh toán test Vnpay:
@@ -86,7 +88,9 @@ Secret Key / Chuỗi bí mật tạo checksum (vnp_HashSecret): KOOETMNNKHBDNPRB
 ### Đăng nhập tài khoản
 
 #### Url đăng nhập trang quản trị: http://hoangquangtlcn.free.nf/login-admin
+
 #### Url đăng nhập trang khách hàng, người dùng: http://hoangquangtlcn.free.nf/login
+
 ```
 hoang (Admin)
 123123
