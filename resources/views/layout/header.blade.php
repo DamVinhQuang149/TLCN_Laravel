@@ -158,6 +158,12 @@
                                 href="{{ route('products', ['type_id' => $value->type_id]) }}">{{ $value->type_name }}</a>
                         </li>
                     @endforeach
+                    @if (auth()->check())
+                        <li class="nav-item"><a class="nav-link" href="{{ route('favorite.show') }}">Yêu thích</a></li>
+                    @else
+                        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Yêu thích</a></li>
+                    @endif
+                    
                 </ul>
                 <!-- /NAV -->
             </div>

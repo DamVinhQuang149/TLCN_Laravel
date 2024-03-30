@@ -963,12 +963,23 @@ textarea.input {
   border: none;
   -webkit-transition: 0.2s all;
   transition: 0.2s all;
+  
 }
 
-.product .product-body .product-btns>button:hover {
+
+
+.product .product-body .product-btns button:hover {
   background-color: #E4E7ED;
   color: #80bb35;
   border-radius: 50%;
+}
+
+.product .product-body .product-btns button:hover .heart {
+  color: #ff0000; /* Đổi màu trái tim thành màu đỏ khi hover */
+}
+
+.product .product-body .product-btns button .heart {
+  color: #ff0000; /* Đổi màu trái tim thành màu đỏ khi trạng thái đã được chọn */
 }
 
 .product .product-body .product-btns>button .tooltipp {
@@ -1579,6 +1590,9 @@ textarea.input {
   color: #80bb35;
   border-color: #80bb35;
   padding: 0px 30px 0px 50px;
+}
+.media-body {
+  border-top: 1px solid #ccc; padding: 10px;
 }
 
 .product-details .add-to-cart .add-to-cart-btn:hover>i {

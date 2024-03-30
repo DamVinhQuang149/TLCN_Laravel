@@ -104,14 +104,28 @@
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                         </div>
-                                       <!-- <div class="product-btns">
-                                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
-                                                    class="tooltipp">add to wishlist</span></button>
-                                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span
+                                        
+                                       <div class="product-btns">
+                                        @if (auth()->check())
+                                            @if ($product->favorited)
+                                                <button  class="add-to-wishlist"><a href={{ route('favorite', $product->id) }} class="heart"><i class="fa fa-heart"></i></a><span
+                                                    class="tooltipp">Bỏ yêu thích</span></button>
+                                            @else
+                                                <button class="add-to-wishlist"><a href={{ route('favorite', $product->id) }}><i class="fa fa-heart-o"></i></a><span
+                                                    class="tooltipp">Yêu thích</span></button>
+                                            @endif
+                                            
+                                            
+                                        @else
+                                            <button class="add-to-wishlist"><a href={{route('login')}}><i class="fa fa-heart-o"></i></a><span
+                                                class="tooltipp">Yêu thích</span></button>
+                                        @endif
+                                            
+                                            {{-- <button class="add-to-compare"><i class="fa fa-exchange"></i><span
                                                     class="tooltipp">add to compare</span></button>
                                             <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
-                                                    view</span></button>
-                                        </div>-->
+                                                    view</span></button> --}}
+                                        </div>
                                     </div>
                                     <a onclick="AddCart({{ $product->id }})" href="javascript:">
                                         <div class="add-to-cart">

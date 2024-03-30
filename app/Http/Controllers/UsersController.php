@@ -60,7 +60,7 @@ class UsersController extends Controller
                 return redirect('admin/users')->with('error', 'This Username Already Exists! Please enter a different other');
             }
         }
-        if (empty($role)) {
+        if (empty ($role)) {
             return redirect('admin/users')->with('warning', 'Please Choose a Role!');
         }
         if ($request->hasFile('image')) {
@@ -149,7 +149,7 @@ class UsersController extends Controller
         if (!is_numeric($phone)) {
             return redirect('admin/users')->with('error', 'This Phone Number Not Valid!');
         }
-        if (empty($role)) {
+        if (empty ($role)) {
             return redirect('admin/users')->with('warning', 'Please Choose a Role!');
         }
         if ($request->hasFile('image')) {
@@ -166,7 +166,7 @@ class UsersController extends Controller
             $image_name = 'image' . time() . '-' . $request->name . '.'
                 . $request->image->extension();
             $request->image->move('assets/img', $image_name);
-            if (!empty($password)) {
+            if (!empty ($password)) {
                 $users->update([
                     'First_name' => $First_name,
                     'Last_name' => $Last_name,
@@ -194,7 +194,7 @@ class UsersController extends Controller
             foreach ($userimg as $user) {
                 $image_name = $user->image;
             }
-            if (!empty($password)) {
+            if (!empty ($password)) {
                 $users->update([
                     'First_name' => $First_name,
                     'Last_name' => $Last_name,
@@ -260,7 +260,7 @@ class UsersController extends Controller
                 'password' => 'required|min:6',
                 'passwordAgain' => 'required|same:password',
 
-            ],[
+            ], [
                 'username.unique' => 'Tài khoản đã được đăng ký. Vui lòng nhập lại',
                 'email.unique' => 'email này đã được đăng ký. Vui lòng nhập lại',
                 'password.min' => 'Độ dài của mật khẩu phải lớn hơn 6. Vui lòng thử lại.',
@@ -276,13 +276,15 @@ class UsersController extends Controller
                     ->withErrors($errors)
                     ->withInput();
             }
-            
+            $imagename = 'avatar1.png';
+            $image = asset('assets/img/' . $imagename);
             $password = bcrypt($req->input('password'));
             $user = Users::create([
                 'First_name' => $req->input('First_name'),
                 'Last_name' => $req->input('Last_name'),
                 'username' => $req->input('username'),
                 'password' => $password,
+                'image' => $imagename,
                 'email' => $req->input('email'),
                 'phone' => $req->input('phone'),
             ]);
@@ -332,11 +334,13 @@ class UsersController extends Controller
         return redirect()->route('profile', ['user_id' => $user->user_id])
             ->with('success', 'Hồ sơ được cập nhật thành công');
     }
-    public function changeImageUser($user_id){
+    public function changeImageUser($user_id)
+    {
         $user = Users::find($user_id);
         return view('change-image', ['user' => $user]);
     }
-    public function changeImageUserPost(Request $request, $user_id){
+    public function changeImageUserPost(Request $request, $user_id)
+    {
         $user = Users::find($user_id);
         if ($request->hasFile('image')) {
             $image = $request->file('image')->getClientOriginalName();
@@ -358,6 +362,6 @@ class UsersController extends Controller
         }
         return redirect()->route('profile', ['user_id' => $user->user_id])
             ->with('success', 'Ảnh được cập nhật thành công');
-    } 
+    }
 
 }

@@ -92,7 +92,7 @@ function addCoupon(){
         }).done(function(response) {
             
             //console.log(response);
-            RenderListCart(response);
+            Rendercoupon(response);
             
         }).fail(function(jqXHR, textStatus, errorThrown) {
             console.error("AJAX Error:", textStatus, errorThrown);
@@ -104,7 +104,7 @@ function addCoupon(){
     }
     
 }
-function RenderListCart(response){
+function Rendercoupon(response){
     $("#change-coupon").empty();
     $("#change-coupon").html(response);
 }
@@ -134,4 +134,34 @@ $('.select-filter').change(function() {
 
 })
 
-//
+//fee ship
+function shippingFee(){
+    var feeResult = document.getElementById("fee-result");
+    var address = $("#address").val();
+
+    if(address.trim() !== ''){
+        //console.log(address);
+        $.ajax({
+            url: '/shipping-fee/' + address,
+            type: 'GET',
+        }).done(function(response) {
+            //console.log(response);
+            renderFee(response.shipping_fee_view)
+            Rendercoupon(response.coupon_view)
+            // $("#change-shipping-fee").empty();
+            // $("#change-shipping-fee").html(response);
+            
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            console.error("AJAX Error:", textStatus, errorThrown);
+        });
+    }
+    else {
+        feeResult.innerHTML = 'Không được bỏ trống, vui lòng nhập địa chỉ nhận hàng.';
+        feeResult.style.cssText = 'color: red; font-family: Montserrat; font-weight: 500; margin-top: 12px; margin-bottom: 24px;';
+    }
+}
+function renderFee(response){
+    $("#change-shipping-fee").empty();
+    $("#change-shipping-fee").html(response);
+}
+

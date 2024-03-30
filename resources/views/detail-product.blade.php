@@ -63,38 +63,71 @@
                                             <ul class="product-tab" role="tablist">
                                                 <li role="presentation" class="active"><a href="#home"
                                                         aria-controls="home" role="tab" data-toggle="tab">Mô tả</a></li>
-                                                <!--<li role="presentation"><a href="#profile" aria-controls="profile"
-                                                        role="tab" data-toggle="tab">Đánh giá</a></li>-->
+                                                <li role="presentation"><a href="#profile" aria-controls="profile"
+                                                        role="tab" data-toggle="tab">Đánh giá</a></li>
                                             </ul>
                                             <div class="tab-content">
                                                 <div role="tabpanel" class="tab-pane fade in active" id="home">
                                                     <h2>Mô tả sản phẩm</h2>
                                                     <p>{{ $probyid->description }}</p>
                                                 </div>
-                                                <!--<div role="tabpanel" class="tab-pane fade" id="profile">
+                                                <div role="tabpanel" class="tab-pane fade" id="profile">
                                                     <h2>Đánh giá</h2>
-                                                    <div class="submit-review">
-                                                        <p><label for="name">Tên</label> <input name="name"
-                                                                type="text"></p>
-                                                        <p><label for="email">Email</label> <input name="email"
-                                                                type="email"></p>
-                                                        <div class="rating-chooser">
-                                                            <p>Đánh giá</p>
+                                                    @if (auth()->check())
+                                                    <form action="{{ route('comment.post', $probyid->id)}}" method="post">
+                                                    @csrf
+                                                        <div class="submit-review">
+                                                            <!-- <p><label for="name">Tên</label> <input name="name"
+                                                                    type="text"></p>
+                                                            <p><label for="email">Email</label> <input name="email"
+                                                                    type="email"></p> -->
+                                                            <div class="rating-chooser">
+                                                                <p>Đánh giá sao</p>
 
-                                                            <div class="rating-wrap-post">
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
+                                                                <div class="rating-wrap-post">
+                                                                    <i class="fa fa-star"></i>
+                                                                    <i class="fa fa-star"></i>
+                                                                    <i class="fa fa-star"></i>
+                                                                    <i class="fa fa-star"></i>
+                                                                    <i class="fa fa-star"></i>
+                                                                </div>
                                                             </div>
+                                                            <p><label for="review">Bình luận</label>
+                                                                <textarea name="comment" id="" cols="30" rows="10"></textarea>
+                                                            </p>
+                                                            <p><input type="submit" value="Gửi"></p>
                                                         </div>
-                                                        <p><label for="review">Bình luận</label>
-                                                            <textarea name="review" id="" cols="30" rows="10"></textarea>
-                                                        </p>
-                                                        <p><input type="submit" value="Gửi"></p>
+                                                    </form>
+                                                    @else
+                                                    <div class="alert alert-danger" role="alert">
+                                                        <strong>Đăng nhập để bình luận</strong> click vào đây <a href="{{route('login')}}">Đăng nhập</a>
                                                     </div>
-                                                </div>-->
+                                                    @endif
+                                                    @foreach ($comments as $comm)
+                                                        <div class="media" >
+                                                            <a class="pull-left" href="#">
+                                                                <img width="50" class="media-object" src="{{ asset('assets/img/' . $comm->user->image) }} " alt="Image">
+                                                            </a>
+                                                           
+                                                            <div class="media-body">
+                                                                <h4 class="media-heading">{{ $comm->user->First_name }} {{ $comm->user->Last_name }} <small>{{ $comm->created_at->format('d/m/Y') }}</small></h4>
+                                                                <p>{{ $comm->comment }}</p>
+                                                                @can('my-comment', $comm)
+                                                                <!-- <form action="" method="get" class="text-right">
+                                                                    <a href="" class="btn btn-primary btn-sm">Sửa</a>
+                                                                </form> -->
+                                                                <form action="{{ route('comment.delete', $comm->comm_id) }}" method="get" class="text-right">
+                                                                    <p><input type="submit" style="background:red" value="Xóa"></p>
+                                                                </form>
+                                                                @endcan
+                                                            </div>
+                                                        </div>    
+                                                    @endforeach
+                                                    <div class="pagination-container" style="margin-top: 30px; text-align: center;">
+                                                        {{ $products->render('/admin/pagination') }}
+                                                    </div>
+                                                </div>
+                                                
                                             </div>
                                         </div>
 
@@ -176,4 +209,4 @@
                 </div>
             </div>
         </div>
-    @endsection
+@endsection

@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Favorites;
 use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\Protypes;
 use App\Models\Manufactures;
+use App\Models\Comments;
+
+
 
 class ProductsController extends Controller
 {
@@ -36,7 +40,7 @@ class ProductsController extends Controller
     {
         $manufactures = Manufactures::get();
         $protypes = Protypes::get();
-        return view('admin.products.create', ['manufactures' => $manufactures,'protypes' => $protypes]);
+        return view('admin.products.create', ['manufactures' => $manufactures, 'protypes' => $protypes]);
     }
 
     /**
@@ -65,11 +69,11 @@ class ProductsController extends Controller
             return redirect('admin/products')->with('warning', 'Price and discount price must be numeric!');
         }
         switch (true) {
-            case empty($manu):
+            case empty ($manu):
                 return redirect('admin/products')->with('error', 'Please Choose A Manufacture!');
-            case empty($type):
+            case empty ($type):
                 return redirect('admin/products')->with('error', 'Please Choose A Product Type!');
-            case empty($desc):
+            case empty ($desc):
                 return redirect('admin/products')->with('error', 'Please Enter Description!');
             case is_null($feature):
                 return redirect('admin/products')->with('error', 'Please Choose A Feature!');
@@ -118,7 +122,7 @@ class ProductsController extends Controller
             ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
             ->where('id', $id)
             ->get();
-        return view('admin.products.update', ['probyid' => $probyid,'manufactures' => $manufactures,'protypes' => $protypes,'id' => $id]);
+        return view('admin.products.update', ['probyid' => $probyid, 'manufactures' => $manufactures, 'protypes' => $protypes, 'id' => $id]);
     }
 
     /**
@@ -143,13 +147,13 @@ class ProductsController extends Controller
             return redirect('admin/products')->with('warning', 'Price and discount price must be numeric!');
         }
         switch (true) {
-            case empty($name):
+            case empty ($name):
                 return redirect('admin/products')->with('error', 'Please Choose A Name!');
-            case empty($manu):
+            case empty ($manu):
                 return redirect('admin/products')->with('error', 'Please Choose A Manufacture!');
-            case empty($type):
+            case empty ($type):
                 return redirect('admin/products')->with('error', 'Please Choose A Product Type!');
-            case empty($desc):
+            case empty ($desc):
                 return redirect('admin/products')->with('error', 'Please Enter Description!');
             case is_null($feature):
                 return redirect('admin/products')->with('error', 'Please Choose A Feature!');
@@ -215,32 +219,32 @@ class ProductsController extends Controller
 
             $from = request()->get('from');
             $to = request()->get('to');
-            
 
-            if(isset($_GET['sort_by'])){
+
+            if (isset ($_GET['sort_by'])) {
                 $sort_by = $_GET['sort_by'];
-                if($sort_by =='tang_dan'){
+                if ($sort_by == 'tang_dan') {
                     $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
                         ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
                         ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
                         ->where('products.type_id', $type_id)
                         ->orderBy('products.discount_price', 'asc')
                         ->paginate(6)->appends(request()->query());
-                }elseif($sort_by =='giam_dan'){
+                } elseif ($sort_by == 'giam_dan') {
                     $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
                         ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
                         ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
                         ->where('products.type_id', $type_id)
                         ->orderBy('products.discount_price', 'desc')
                         ->paginate(6)->appends(request()->query());
-                }elseif($sort_by =='kytu_az'){
+                } elseif ($sort_by == 'kytu_az') {
                     $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
                         ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
                         ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
                         ->where('products.type_id', $type_id)
                         ->orderBy('products.name', 'asc')
                         ->paginate(6)->appends(request()->query());
-                }elseif($sort_by =='kytu_za'){
+                } elseif ($sort_by == 'kytu_za') {
                     $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
                         ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
                         ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
@@ -248,7 +252,7 @@ class ProductsController extends Controller
                         ->orderBy('products.name', 'desc')
                         ->paginate(6)->appends(request()->query());
                 }
-            }elseif ($from !== null && $to !== null) {
+            } elseif ($from !== null && $to !== null) {
                 $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
                     ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
                     ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
@@ -256,8 +260,7 @@ class ProductsController extends Controller
                     ->whereBetween('discount_price', [$from, $to])
                     ->orderBy('products.discount_price', 'asc')
                     ->paginate(6)->appends(request()->query());
-            }
-            else{
+            } else {
                 $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
                     ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
                     ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
@@ -290,7 +293,10 @@ class ProductsController extends Controller
             ->where('products.type_id', $type_id)
             ->orderBy('products.id', 'asc')
             ->paginate(4);
-        return view('detail-product', ['products' => $products, 'probyid' => $probyid]);
+        $comments = Comments::where('product_id', $id)->orderBy('comm_id', 'DESC')->paginate(4);
+
+
+        return view('detail-product', ['products' => $products, 'probyid' => $probyid, 'comments' => $comments]);
     }
 
     public function search(Request $request)
@@ -302,11 +308,61 @@ class ProductsController extends Controller
         $query->where('name', 'like', "%$keyword%");
         if ($type_id && $type_id != 0) {
             $query->where('type_id', $type_id);
-        } 
+        }
 
         $products = $query->paginate(6)->appends(request()->query());
         $count_product = $query->count();
 
         return view('search-products', ['products' => $products, 'count_product' => $count_product]);
+    }
+
+    //Comments
+    public function commentPost($proid)
+    {
+        $data = request()->all('comment');
+        $data['product_id'] = $proid;
+        $data['user_id'] = auth()->id();
+        // dd($data);
+        if (Comments::create($data)) {
+            return redirect()->back();
+        }
+        return redirect()->back();
+    }
+    public function deleteComment($comm_id)
+    {
+        //dd($comm_id);
+        $comemnt = Comments::find($comm_id);
+        $comemnt->delete();
+        return redirect()->back();
+    }
+    // public function editComment($comm_id)
+    // {
+    //     $data = request()->all('comment');
+    // }
+
+    //Favorites
+    public function favorite($proid)
+    {
+        $data = [
+            'product_id' => $proid,
+            'user_id' => auth()->id()
+        ];
+        $favorited = Favorites::where(['product_id' => $proid, 'user_id' => auth()->id()])->first();
+        if ($favorited) {
+            $favorited->delete();
+            return redirect()->back()->with('error', 'Bạn đã bỏ yêu thích sản phẩm');
+        } else {
+            Favorites::create($data);
+            return redirect()->back()->with('success', 'Bạn đã yêu thích sản phẩm');
+        }
+
+    }
+
+    public function favoriteShow()
+    {
+
+        $favorites = auth()->user()->favorites()->paginate(6);
+        $count = Favorites::where(['user_id' => auth()->id()])->count();
+        return view('favorites', compact('favorites', 'count'));
     }
 }

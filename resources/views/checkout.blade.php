@@ -19,10 +19,22 @@
                             <input class="input" type="text" name="full_name" placeholder="Full Name"
                                 value="{{ Auth::user()->First_name }} {{ Auth::user()->Last_name }}" readonly>
                         </div>
+                        
                         <h5>Địa chỉ nhận hàng mặc định* (Cập nhật tại trang cá nhân)</h5>
                         <div class="form-group">
-                            <input class="input" type="text" name="address" placeholder="Địa chỉ nhận hàng" value="{{Auth::user()->address}}" required>
+                            <input class="input" type="text" id="address" name="address" placeholder="Địa chỉ nhận hàng" value="{{Auth::user()->address}}" required>
                         </div>
+                        <div style="width:30%" class="form-group">
+                            <button type="button" id="applyCouponButton"
+                                
+                                style="background-color: #FE9705; color: #fff; border: none; border-radius: 4px; padding: 9px; cursor: pointer;"
+                                onclick="shippingFee()">
+                                <strong>
+                                    tính phí ship
+                                </strong>
+                            </button>
+                        </div>
+                        <div id="fee-result" style="color: red;"></div>
                         <h5>Số điện thoại*</h5>
                         <div class="form-group">
                             <input class="input" type="tel" name="phone" placeholder="Điện thoại"
@@ -88,22 +100,23 @@
                                     </div>
                                 </div>
                                 @endif
-                                <div class="order-col">
+                                <div class="order-col" id="change-shipping-fee">
                                     <div>
                                         <strong>Phí ship:</strong>
                                     </div>
-                                    @php
-                                        $ship = 0;
-                                        if(Session::get('Cart')->totalPrice < 300000){
-                                            $ship = 30000;
-                                        }
-
-                                    @endphp
-                                    <div>
-                                        <strong class="order-cash-ship">
-                                            {{ number_format($ship, 0, ',', '.') }} đ
-                                        </strong>
-                                    </div>
+                                        @if(Session::has("shipping_fee"))
+                                        
+                                            <div>
+                                                <strong class="order-cash-ship">
+                                                    {{ number_format(Session::get('shipping_fee'), 0, ',', '.') }} đ
+                                                </strong>
+                                            </div>
+                                        
+                                        @else 
+                                            
+                                            <div><strong class="order-cash-ship">0đ</strong></div>
+                                        
+                                        @endif
                                 </div>
 
                                 <div id="change-coupon">
@@ -189,11 +202,33 @@
                                         </div>
                                         <div>
                                             @php
-                                            if(Session::has("Coupon")){
-                                                $total_coupon = (Session::get('Cart')->totalPrice - $coupon_amount) + $ship;
-                                            }else{
-                                                $total_coupon = Session::get('Cart')->totalPrice + $ship;
+                                            // if(Session::has("Coupon") ){
+                                            //     $total_coupon = (Session::get('Cart')->totalPrice - $coupon_amount) + $ship;
+                                            // }else{
+                                            //     $total_coupon = Session::get('Cart')->totalPrice + $ship;
+                                            // }
+                                            
+
+                                            
+                                            
+                                            if (Session::has("shipping_fee")) {
+                                                if(Session::has("Coupon") ){
+                                                    $total_coupon = (Session::get('Cart')->totalPrice - $coupon_amount) ;
+                                                }else{
+                                                    $total_coupon = Session::get('Cart')->totalPrice;
+                                                }
+                                                if($total_coupon < 300000){
+                                                    $total_coupon += Session::get('shipping_fee');
+                                                }
+                                            } else {
+                                                if(Session::has("Coupon") ){
+                                                    $total_coupon = (Session::get('Cart')->totalPrice - $coupon_amount);
+                                                }else{
+                                                    $total_coupon = Session::get('Cart')->totalPrice;
+                                                }
                                             }
+
+                                            
                                             
                                             Session::put('total_coupon', $total_coupon);
                                             @endphp

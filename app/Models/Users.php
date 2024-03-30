@@ -24,9 +24,10 @@ class Users extends Authenticatable
     protected $primaryKey = 'user_id';
     public $timestamps = false;
 
-    protected $fillable = ['First_name', 'Last_name', 'email', 'phone', 'address','username', 'password', 'role_id', 'image'];
+    protected $fillable = ['First_name', 'Last_name', 'email', 'phone', 'address', 'username', 'password', 'role_id', 'image'];
     //a product belongs to a role
-    public function role() {
+    public function role()
+    {
         return $this->belongsTo(Roles::class, 'role_id');
     }
 
@@ -59,4 +60,9 @@ class Users extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorites::class, 'user_id', 'user_id');
+    }
 }

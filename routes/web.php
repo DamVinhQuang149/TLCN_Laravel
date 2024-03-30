@@ -60,6 +60,17 @@ Route::get('/products/search', [ProductsController::class, 'search'])->name('pro
 //email_lists
 Route::post('/emails', [EmailsController::class, 'addNotify'])->name('emails.addNotify');
 
+//comment
+Route::post('/comment/{product_id}', [ProductsController::class, 'commentPost'])->name('comment.post');
+Route::get('/comment/{comment_id}', [ProductsController::class, 'editComment'])->name('comment.edit');
+Route::get('/comment/{comment_id}', [ProductsController::class, 'deleteComment'])->name('comment.delete');
+
+//favorite
+Route::get('/favorite/{product_id}', [ProductsController::class, 'favorite'])->name('favorite');
+Route::get('/favorite', [ProductsController::class, 'favoriteShow'])->name('favorite.show');
+
+
+
 
 Route::middleware(['user'])->group(function () {
     Route::get('/profile/{user_id}', [UsersController::class, 'profileUser'])->name('profile');
@@ -71,6 +82,10 @@ Route::middleware(['user'])->group(function () {
     Route::get('/check-out', [CheckoutController::class, 'viewcheckout'])->name('view.checkout');
     Route::get('/unset-coupon', [CheckoutController::class, 'unsetCoupon'])->name('unset.coupon');
     Route::get('/process-coupon/{coupon_code}', [CheckoutController::class, 'processCoupon']);
+
+    //shipping fee
+    Route::get('/shipping-fee/{address}', [CheckoutController::class, 'shippingFee']);
+
 
     Route::post('/order', [OrdersController::class, 'order'])->name('order');
     Route::get('/onlinepayment', [OrdersController::class, 'onlinepayment'])->name('onlinepayment');

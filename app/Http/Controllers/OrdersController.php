@@ -9,9 +9,12 @@ use App\Models\Products;
 use App\Models\Coupons;
 use App\Models\Payments;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Session;
 use Auth;
+
+use Illuminate\Support\Facades\Mail;
 
 use App\helper\Cart;
 
@@ -109,6 +112,8 @@ class OrdersController extends Controller
 
     public function order(Request $req)
     {
+
+
         if (Session::has('Cart')) {
             $user_id = Auth::user()->user_id;
             $address = $req->address;
@@ -126,7 +131,7 @@ class OrdersController extends Controller
                 $coupon_discount = 0;
             }
             $total = ($req->total > 0) ? $req->total : Session::get('Cart')->totalPrice;
-            ;
+
             $checkout = $req->payment_method;
             $order = Orders::create([
                 'user_id' => $user_id,
@@ -137,6 +142,7 @@ class OrdersController extends Controller
                 'total' => $total,
                 'checkout' => $checkout
             ]);
+
             if ($order != null) {
                 $order_id = $order->order_id;
                 foreach (Session::get('Cart')->products as $item) {
@@ -167,6 +173,24 @@ class OrdersController extends Controller
                     ]);
                     return redirect()->route('onlinepayment');
                 } else {
+                    $user = User::select()->where('user_id', auth()->id())->first();
+                    $orderdetails = OrderDetails::select('order_details.*', 'products.id', 'products.discount_price', 'protypes.*')
+
+                        ->join('products', 'order_details.product_id', '=', 'products.id')
+
+                        ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
+
+                        ->where('order_id', $order_id)
+
+                        ->get();
+
+                    Mail::send("emails.order-success", ['orderdetails' => $orderdetails, 'user' => $user, 'order' => $order], function ($message) use ($user) {
+
+                        $message->to($user->email);
+
+                        $message->subject("Cảm ơn bạn đã đặt hàng");
+
+                    });
                     return redirect()->route('view.thanks')->with('success', 'Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!');
                 }
             } else {
@@ -228,6 +252,9 @@ class OrdersController extends Controller
         }
         if (Session::has('Cart')) {
             $req->session()->forget('Cart');
+        }
+        if (Session::has('shipping_fee')) {
+            $req->session()->forget('shipping_fee');
         }
         return view('thanks')->with('success', 'Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!');
     }
