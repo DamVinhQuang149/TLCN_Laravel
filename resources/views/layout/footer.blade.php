@@ -10,7 +10,7 @@
                         <form action="{{ route('emails.addNotify') }}" method="post">
                             @csrf
                             @method('POST')
-                            <input class="input" type="email" name="emails" placeholder="Email của bạn">
+                            <input class="input" type="email" name="emails" placeholder="Email của bạn" required>
                             <button type="submit" class="newsletter-btn"><i class="fa fa-envelope"></i> Đăng
                                 ký</button>
                         </form>
@@ -149,6 +149,7 @@
     <script src="{{ asset('assets/js/jquery.zoom.min.js') }}"></script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script src="{{ asset('assets/js/main1.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/checkShippingFee.js') }}"></script> --}}
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
     <!-- JavaScript -->
@@ -162,6 +163,10 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css" />
     <!-- Bootstrap theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-JvhFJK5BX2y5SJk/jUyZQflWwK4p+ljKnt5O3lzCFcyAG6yEezNAMhn+aVo8vNSfXtq+ZyZB+cfqlMoUEEGkqw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
     @if (session('success'))
         <script>

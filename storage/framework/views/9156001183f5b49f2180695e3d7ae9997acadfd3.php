@@ -83,7 +83,6 @@
                                                     <option value="<?php echo e($role->role_id); ?>"
                                                         <?php echo e($role->role_id == $value->role_id ? 'selected' : ''); ?>>
                                                         <?php echo e($role->role_name); ?>
-
                                                     </option>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </select>

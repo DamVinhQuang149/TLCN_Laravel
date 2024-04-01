@@ -92,8 +92,8 @@
                                                                     {{ $item['productInfo']->name }}
                                                                 </a>
                                                             </h3>
-                                                            <h4 class="product-price"><span
-                                                                    class="qty">x {{ $item['quanty'] }}</span>
+                                                            <h4 class="product-price"><span class="qty">x
+                                                                    {{ $item['quanty'] }}</span>
                                                                 <strong>{{ number_format($item['price']) }}VND</strong>
                                                             </h4>
                                                         </div>
@@ -106,7 +106,8 @@
                                             </div>
                                             <div class="cart-summary">
                                                 <small> {{ Session::get('Cart')->totalQuanty }} Sản phẩm </small>
-                                                <h5><strong>TỔNG: {{ number_format(Session::get('Cart')->totalPrice) }} VND</strong>
+                                                <h5><strong>TỔNG: {{ number_format(Session::get('Cart')->totalPrice) }}
+                                                        VND</strong>
                                                 </h5>
                                             </div>
                                         @else
@@ -163,7 +164,7 @@
                     @else
                         <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Yêu thích</a></li>
                     @endif
-                    
+
                 </ul>
                 <!-- /NAV -->
             </div>

@@ -118,7 +118,6 @@
                     </table>
                     <div class="pagination-container" style="margin-top: 30px; text-align: center;">
                         <?php echo e($couponlist->render('/admin/pagination')); ?>
-
                     </div>
                 </div>
             </div>

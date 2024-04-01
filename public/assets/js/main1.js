@@ -1,80 +1,88 @@
 function AddCart(id) {
     $.ajax({
-        url: '/add-cart/' + id,
-        type: 'GET',
-    }).done(function(response) {
-        RenderCart(response.view_1);
-        RenderListCart(response.view_2)
-        alertify.success('Đã thêm sản phẩm vào giỏ hàng');
-    }).fail(function(jqXHR, textStatus, errorThrown) {
-        console.error("AJAX Error:", textStatus, errorThrown);
-    });
+        url: "/add-cart/" + id,
+        type: "GET",
+    })
+        .done(function (response) {
+            RenderCart(response.view_1);
+            RenderListCart(response.view_2);
+            alertify.success("Đã thêm sản phẩm vào giỏ hàng");
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.error("AJAX Error:", textStatus, errorThrown);
+        });
 }
 function AddQuantyCart(id) {
     $.ajax({
-        url: '/add-quanty-cart/' + id +'/'+ $("#quanty-item-"+id).val(),
-        type: 'GET',
-    }).done(function(response) {
-        RenderCart(response.view_1);
-        alertify.success('Đã thêm sản phẩm vào giỏ hàng');
-    }).fail(function(jqXHR, textStatus, errorThrown) {
-        console.error("AJAX Error:", textStatus, errorThrown);
-    });
+        url: "/add-quanty-cart/" + id + "/" + $("#quanty-item-" + id).val(),
+        type: "GET",
+    })
+        .done(function (response) {
+            RenderCart(response.view_1);
+            alertify.success("Đã thêm sản phẩm vào giỏ hàng");
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.error("AJAX Error:", textStatus, errorThrown);
+        });
 }
 
-$("#change-item-cart").on('click', ".delete i", function(){
+$("#change-item-cart").on("click", ".delete i", function () {
     $.ajax({
-        url: '/delete-item-cart/' + $(this).data("id"),
-        type: 'GET',
-    }).done(function(response) {
-        RenderCart(response);
-        alertify.success('Đã xóa sản phẩm trong giỏ hàng');
-    }).fail(function(jqXHR, textStatus, errorThrown) {
-        console.error("AJAX Error:", textStatus, errorThrown);
-    });
+        url: "/delete-item-cart/" + $(this).data("id"),
+        type: "GET",
+    })
+        .done(function (response) {
+            RenderCart(response);
+            alertify.success("Đã xóa sản phẩm trong giỏ hàng");
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.error("AJAX Error:", textStatus, errorThrown);
+        });
 });
 
-
-
-function DeleteListItemCart(id){
+function DeleteListItemCart(id) {
     $.ajax({
-        url: '/delete-list-item-cart/' + id,
-        type: 'GET',
-    }).done(function(response) {
-        RenderCart(response.view_1);
-        RenderListCart(response.view_2);
-        alertify.error('Đã xóa sản phẩm trong giỏ hàng');
-        setTimeout(function() {
-            location.reload();
-        }, 300);
-    }).fail(function(jqXHR, textStatus, errorThrown) {
-        console.error("AJAX Error:", textStatus, errorThrown);
-    });
+        url: "/delete-list-item-cart/" + id,
+        type: "GET",
+    })
+        .done(function (response) {
+            RenderCart(response.view_1);
+            RenderListCart(response.view_2);
+            alertify.error("Đã xóa sản phẩm trong giỏ hàng");
+            setTimeout(function () {
+                location.reload();
+            }, 300);
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.error("AJAX Error:", textStatus, errorThrown);
+        });
 }
 
 //
-function SaveListItemCart(id){
+function SaveListItemCart(id) {
     $.ajax({
-        url: '/save-list-item-cart/' + id +'/'+$("#quanty-item-"+id).val(),
-        type: 'GET',
-    }).done(function(response) {
-        RenderCart(response.view_1);
-        RenderListCart(response.view_2);
-        alertify.success('Đã cập nhật sản phẩm trong giỏ hàng');
-        setTimeout(function() {
-            location.reload();
-        }, 300);
-    }).fail(function(jqXHR, textStatus, errorThrown) {
-        console.error("AJAX Error:", textStatus, errorThrown);
-    });
+        url: "/save-list-item-cart/" + id + "/" + $("#quanty-item-" + id).val(),
+        type: "GET",
+    })
+        .done(function (response) {
+            RenderCart(response.view_1);
+            RenderListCart(response.view_2);
+            alertify.success("Đã cập nhật sản phẩm trong giỏ hàng");
+            setTimeout(function () {
+                location.reload();
+            }, 300);
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.error("AJAX Error:", textStatus, errorThrown);
+        });
 }
-function RenderCart(response){
+function RenderCart(response) {
     $("#change-item-cart").empty();
     $("#change-item-cart").html(response);
-    
+
     $("#total-quanty-show").text($("#total-quanty-cart").val());
 }
-function RenderListCart(response){
+function RenderListCart(response) {
     $("#change-list-cart").empty();
     $("#change-list-cart").html(response);
     //$("#change-list-cart").replaceWith(response);
@@ -82,42 +90,44 @@ function RenderListCart(response){
 }
 
 //
-function addCoupon(){
+function addCoupon() {
     var couponResult = document.getElementById("coupon-result");
-    if($("#coupon-code").val() !== ''){
+    if ($("#coupon-code").val() !== "") {
         // console.log($("#coupon-code").val());
         $.ajax({
-            url: '/process-coupon/'+$("#coupon-code").val(),
-            type: 'GET',
-        }).done(function(response) {
-            
-            //console.log(response);
-            Rendercoupon(response);
-            
-        }).fail(function(jqXHR, textStatus, errorThrown) {
-            console.error("AJAX Error:", textStatus, errorThrown);
-        });
+            url: "/process-coupon/" + $("#coupon-code").val(),
+            type: "GET",
+        })
+            .done(function (response) {
+                //console.log(response);
+                Rendercoupon(response);
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.error("AJAX Error:", textStatus, errorThrown);
+            });
+    } else {
+        couponResult.innerHTML =
+            "Không được bỏ trống, vui lòng nhập mã giảm giá.";
+        couponResult.style.cssText =
+            "color: red; font-family: Montserrat; font-weight: 500; margin-top: 12px; margin-bottom: 24px;";
     }
-    else {
-        couponResult.innerHTML = 'Không được bỏ trống, vui lòng nhập mã giảm giá.';
-        couponResult.style.cssText = 'color: red; font-family: Montserrat; font-weight: 500; margin-top: 12px; margin-bottom: 24px;';
-    }
-    
 }
-function Rendercoupon(response){
+function Rendercoupon(response) {
     $("#change-coupon").empty();
     $("#change-coupon").html(response);
 }
 
 //Sort
-$(document).ready(function() {
+$(document).ready(function () {
     var active = location.search; //?kytu=asc
-    $('#select-filter option[value="' + active + '"]').attr('selected', 'selected');
-})
+    $('#select-filter option[value="' + active + '"]').attr(
+        "selected",
+        "selected"
+    );
+});
 
-$('.select-filter').change(function() {
-
-    var value = $(this).find(':selected').val();
+$(".select-filter").change(function () {
+    var value = $(this).find(":selected").val();
 
     //alert(value);
     if (value != 0) {
@@ -126,42 +136,61 @@ $('.select-filter').change(function() {
         window.location.replace(url);
     } else {
         Swal.fire({
-        title: "Cảnh báo!",
-        text: "Hãy chọn 1 cách lọc sản phẩm!",
-        icon: "warning"
+            title: "Cảnh báo!",
+            text: "Hãy chọn 1 cách lọc sản phẩm!",
+            icon: "warning",
         });
     }
-
-})
+});
 
 //fee ship
-function shippingFee(){
+function shippingFee() {
     var feeResult = document.getElementById("fee-result");
     var address = $("#address").val();
 
-    if(address.trim() !== ''){
-        //console.log(address);
+    if (address.trim() !== "") {
         $.ajax({
-            url: '/shipping-fee/' + address,
-            type: 'GET',
-        }).done(function(response) {
-            //console.log(response);
-            renderFee(response.shipping_fee_view)
-            Rendercoupon(response.coupon_view)
-            // $("#change-shipping-fee").empty();
-            // $("#change-shipping-fee").html(response);
-            
-        }).fail(function(jqXHR, textStatus, errorThrown) {
-            console.error("AJAX Error:", textStatus, errorThrown);
+            url: "/shipping-fee/" + address,
+            type: "GET",
+        })
+            .done(function (response) {
+                renderFee(response.shipping_fee_view);
+                renderTotalPrice(response.total_price_view);
+            })
+
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.error("AJAX Error:", textStatus, errorThrown);
+                $("#shipping_error").html(
+                    "Địa chỉ bạn nhập chưa hợp lệ, vui lòng nhập lại!"
+                );
+                $("#shipping_error").css({
+                    color: "red",
+                    "font-family": "Montserrat",
+                    "font-weight": "500",
+                    "margin-top": "12px",
+                    "margin-bottom": "24px",
+                });
+            });
+    } else {
+        $("#shipping_error").html("Vui lòng nhập đầy đủ địa chỉ nhận hàng!");
+        $("#shipping_error").css({
+            color: "red",
+            "font-family": "Montserrat",
+            "font-weight": "500",
+            "margin-top": "12px",
+            "margin-bottom": "24px",
         });
     }
-    else {
-        feeResult.innerHTML = 'Không được bỏ trống, vui lòng nhập địa chỉ nhận hàng.';
-        feeResult.style.cssText = 'color: red; font-family: Montserrat; font-weight: 500; margin-top: 12px; margin-bottom: 24px;';
-    }
 }
-function renderFee(response){
-    $("#change-shipping-fee").empty();
-    $("#change-shipping-fee").html(response);
+function renderFee(response) {
+    $("#fee-result").empty();
+    $("#fee-result").html(response);
 }
-
+function renderTotalPrice(response) {
+    $("#total-price").empty();
+    $("#total-price").html(response);
+}
+function renderShippingErr(response) {
+    $("#shipping_error").empty();
+    $("#shipping_error").html(response);
+}

@@ -81,6 +81,7 @@ Route::middleware(['user'])->group(function () {
     //checkout-order
     Route::get('/check-out', [CheckoutController::class, 'viewcheckout'])->name('view.checkout');
     Route::get('/unset-coupon', [CheckoutController::class, 'unsetCoupon'])->name('unset.coupon');
+    // Route::get('/unset-shipping', [CheckoutController::class, 'unsetShipping'])->name('unset.shipping');
     Route::get('/process-coupon/{coupon_code}', [CheckoutController::class, 'processCoupon']);
 
     //shipping fee

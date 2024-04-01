@@ -1,7 +1,6 @@
 <div class="order-col">
 
-    @if (Session::has("Coupon") == null)
-
+    @if (Session::has('Coupon') == null)
         <div style="width:50%">
 
             <strong>Nhập mã giảm giá:</strong>
@@ -11,7 +10,6 @@
         <div style="width:30%">
 
             <input style="border: 2px dashed #000; border-radius: 4px; padding: 9px;" type="text" id="coupon-code"
-
                 name="coupon-code" placeholder="Nhập mã giảm giá">
 
         </div>
@@ -19,9 +17,7 @@
         <div style="width:20%">
 
             <button type="button" id="applyCouponButton"
-
                 style="background-color: #FE9705; color: #fff; border: none; border-radius: 4px; padding: 9px; cursor: pointer;"
-
                 onclick="addCoupon()">
 
                 <strong>
@@ -33,9 +29,7 @@
             </button>
 
         </div>
-
     @else
-
         <div style="width:50%">
 
             <strong></strong>
@@ -45,7 +39,6 @@
         <div style="width:30%">
 
             <input hidden="border: 2px dashed #000; border-radius: 4px; padding: 9px;" type="text" id="coupon-code"
-
                 name="coupon-code" placeholder="Nhập mã giảm giá">
 
         </div>
@@ -54,10 +47,7 @@
 
             <a href="{{ route('unset.coupon') }}">
 
-                <!-- Thay 'ten_route' bằng tên route hoặc URL bạn muốn liên kết đến -->
-
                 <button type="button" id="applyCouponButton"
-
                     style="background-color: #FE9705; color: #fff; border: none; border-radius: 4px; padding: 9px; cursor: pointer;">
 
                     <strong>
@@ -71,27 +61,23 @@
             </a>
 
         </div>
-
     @endif
 
 </div>
 
 <div>
 
-    @if (Session::has("Coupon"))
+    @if (Session::has('Coupon'))
 
         @foreach (Session::get('Coupon') as $key => $cou)
+            @php
 
-                @php
+                $coupon_amount = 0;
 
-                    $coupon_amount = 0
-
-                @endphp
+            @endphp
 
             @if ($cou['coupon_remain'] > 0)
-
                 @if ($cou['min_order'] < Session::get('Cart')->totalPrice)
-
                     <div class="alert alert-success">
 
                         Mã giảm giá: {{ $cou['coupon_code'] }} được áp dụng thành công.
@@ -110,44 +96,34 @@
 
                             @php
 
-                            $coupon_amount = ($cou['coupon_type'] == 0) ?
-
-                            ($cou['coupon_amount']) : ((Session::get('Cart')->totalPrice * $cou['coupon_amount']) / 100);
-
+                                $coupon_amount =
+                                    $cou['coupon_type'] == 0
+                                        ? $cou['coupon_amount']
+                                        : (Session::get('Cart')->totalPrice * $cou['coupon_amount']) / 100;
                             @endphp
 
-                            <h4>- {{ number_format($coupon_amount, 0, ',', '.') }} đ</h4>
+                            <strong>- {{ number_format($coupon_amount, 0, ',', '.') }} đ</strong>
 
                         </div>
 
                     </div>
-
                 @else
+                    <div class="alert alert-danger">Giá trị đơn hàng chưa đáp ứng, tối thiểu là:
 
-                <div class="alert alert-danger">Giá trị đơn hàng chưa đáp ứng, tối thiểu là:
+                        <span style="font-weight: 700;">{{ number_format($cou['min_order'], 0, ',', '.') }} đ</span>
 
-                    <span style="font-weight: 700;">{{ number_format($cou['min_order'], 0, ',', '.') }} đ</span>
-
-                </div>
-
+                    </div>
                 @endif
-
             @else
-
                 <div class="alert alert-danger">Số lượng mã giảm giá {{ $cou['coupon_code'] }} đã hết.</div>
-
             @endif
-
         @endforeach
-
-    @else   
-
+    @else
         <div class="alert alert-danger">Mã giảm giá không hợp lệ hoặc đã hết hạn sử dụng.</div>
 
     @endif
 
 </div>
-
 <div class="order-col" style="margin-top:12px">
 
     <div>
@@ -159,31 +135,31 @@
     <div>
 
         @php
-
-        
-        if (Session::has("shipping_fee")) {
-            if(Session::has("Coupon") ){
-                $total_coupon = (Session::get('Cart')->totalPrice - $coupon_amount) + Session::get('shipping_fee');
-            }else{
-                $total_coupon = Session::get('Cart')->totalPrice + Session::get('shipping_fee');
+            if (Session::has('shipping_fee')) {
+                if (Session::has('Coupon')) {
+                    $total_coupon = Session::get('Cart')->totalPrice - $coupon_amount;
+                } else {
+                    $total_coupon = Session::get('Cart')->totalPrice;
+                }
+                if (Session::get('Cart')->totalPrice >= 300000) {
+                    $total_coupon += 0;
+                } else {
+                    $total_coupon += Session::get('shipping_fee.fee');
+                }
+            } else {
+                if (Session::has('Coupon')) {
+                    $total_coupon = Session::get('Cart')->totalPrice - $coupon_amount;
+                } else {
+                    $total_coupon = Session::get('Cart')->totalPrice;
+                }
             }
-        } else {
-            if(Session::has("Coupon") ){
-                $total_coupon = (Session::get('Cart')->totalPrice - $coupon_amount);
-            }else{
-                $total_coupon = Session::get('Cart')->totalPrice;
-            }
-        }
 
-
-
-        Session::put('total_coupon', $total_coupon);
-
+            Session::put('total_coupon', $total_coupon);
         @endphp
 
         <h4 name=total>{{ number_format($total_coupon, 0, ',', '.') }} đ</h4>
 
-        <input type="hidden" name="total"  value="{{ $total_coupon }}">
+        <input type="hidden" name="total" value="{{ $total_coupon }}">
 
     </div>
 

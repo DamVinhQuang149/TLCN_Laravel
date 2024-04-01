@@ -140,19 +140,11 @@ class CheckoutController extends Controller
     {
 
         $coupon_session = Session::get('Coupon');
-
-
-
         if ($coupon_session == true) {
-
             Session::forget('Coupon');
-
             return redirect()->back();
-
         }
-
     }
-
     public function shippingFee($destination)
     {
 
@@ -161,7 +153,6 @@ class CheckoutController extends Controller
             'address' => $destination,
         ]);
 
-        // var_dump($destination);
         $destination_n = urlencode($destination);
         $origin = urlencode("01 Võ Văn Ngân, Linh Chiểu, Thủ Đức, Thành phố Hồ Chí Minh, Việt Nam");
 
@@ -183,35 +174,36 @@ class CheckoutController extends Controller
 
             $distance_in_km = $distance / 1000;
 
-            //$duration_in_minutes = $duration / 60;
+            $duration_in_minutes = $duration / 60;
 
-
-            $minPrice = 10000;
-            $pricePerKm = 1000;
-            //$pricePerMinute = 100;
-            $fee = $minPrice;
+            $pricePerKm = 1500;
             $distance_int = round($distance_in_km);
-            if ($distance_in_km > 2) {
-                $additionalDistance = $distance_int - 2;
-                $fee += $additionalDistance * $pricePerKm;
+            $fee = 0;
+            $additionalDistance = $distance_int;
+            $fee += $additionalDistance * $pricePerKm;
+
+            if ($distance_int > 2 && $distance_int < 25) {
+                $shipping_fee = [
+                    'address' => $destination,
+                    'distance' => $distance_int,
+                    'fee' => $fee,
+                    'duration' => $duration_in_minutes
+                ];
+            } else {
+                $shipping_fee = [
+                    'distance' => $distance_int,
+                    'fee' => 0,
+                ];
             }
-
-
-
-            //var_dump($fee);
-
-            Session::put('shipping_fee', $fee);
+            Session::put('shipping_fee', $shipping_fee);
+            Session::save();
 
             return response()->json([
-                'shipping_fee_view' => view('ajax/ajax_shipping_fee', ['fee' => $fee])->render(),
-                'coupon_view' => view('couponajax')->render()
+                'shipping_fee_view' => view('ajax.ajax_shipping_fee')->render(),
+                'coupon_view' => view('couponajax')->render(),
+                'total_price_view' => view('ajax.ajax_total_price')->render()
             ]);
 
-            // return view('ajax/ajax_shipping_fee');
-
-            //return array("distance" => $distance_in_km, "duration" => $duration_in_minutes);
-        } else {
-            return redirect()->back();
         }
     }
 

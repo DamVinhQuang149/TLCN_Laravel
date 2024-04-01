@@ -12,7 +12,11 @@
 </div>
 <!-- ./wrapper -->
 
+<!-- Trong Laravel Blade View hoặc HTML -->
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <!-- jQuery -->
+
 <script src="<?php echo e(asset('assets/admin/plugins/jquery/jquery.min.js')); ?>"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="<?php echo e(asset('assets/admin/plugins/jquery-ui/jquery-ui.min.js')); ?>"></script>

@@ -112,90 +112,93 @@ class OrdersController extends Controller
 
     public function order(Request $req)
     {
-
-
         if (Session::has('Cart')) {
-            $user_id = Auth::user()->user_id;
-            $address = $req->address;
-            $phone = $req->phone;
-            $note = $req->note;
-            if (Session::has('Coupon')) {
-                foreach (Session::get('Coupon') as $key => $cou) {
-                    if ($cou['coupon_remain'] > 0 && $cou['min_order'] < Session::get('Cart')->totalPrice) {
-                        $coupon_discount = $cou['coupon_amount'];
-                    } else {
-                        $coupon_discount = 0;
+            if (Session::has('shipping_fee') && Session::get('shipping_fee.distance') > 2 && Session::get('shipping_fee.distance') < 25) {
+                $user_id = Auth::user()->user_id;
+                $address = $req->address;
+                $phone = $req->phone;
+                $note = $req->note;
+                if (Session::has('Coupon')) {
+                    foreach (Session::get('Coupon') as $key => $cou) {
+                        if ($cou['coupon_remain'] > 0 && $cou['min_order'] < Session::get('Cart')->totalPrice) {
+                            $coupon_discount = $cou['coupon_amount'];
+                        } else {
+                            $coupon_discount = 0;
+                        }
                     }
-                }
-            } else {
-                $coupon_discount = 0;
-            }
-            $total = ($req->total > 0) ? $req->total : Session::get('Cart')->totalPrice;
-
-            $checkout = $req->payment_method;
-            $order = Orders::create([
-                'user_id' => $user_id,
-                'address' => $address,
-                'phone' => $phone,
-                'coupon_discount' => $coupon_discount,
-                'note' => $note,
-                'total' => $total,
-                'checkout' => $checkout
-            ]);
-
-            if ($order != null) {
-                $order_id = $order->order_id;
-                foreach (Session::get('Cart')->products as $item) {
-                    $price = $item['price1'];
-                    $product_name = $item['productInfo']->name;
-                    $product_quantity = $item['quanty'];
-                    $cost = $item['price'];
-                    $product_id = $item['productInfo']->id;
-                    $type_id = $item['productInfo']->type_id;
-                    $product_image = $item['productInfo']->pro_image;
-
-                    $orderdetail = OrderDetails::create([
-                        'order_id' => $order_id,
-                        'product_name' => $product_name,
-                        'discount_price' => $price,
-                        'product_quantity' => $product_quantity,
-                        'cost' => $cost,
-                        'product_id' => $product_id,
-                        'type_id' => $type_id,
-                        'product_image' => $product_image
-                    ]);
-                }
-
-                if ($order->checkout == 0) {
-                    $status = 2;
-                    $order->update([
-                        'status' => $status
-                    ]);
-                    return redirect()->route('onlinepayment');
                 } else {
-                    $user = User::select()->where('user_id', auth()->id())->first();
-                    $orderdetails = OrderDetails::select('order_details.*', 'products.id', 'products.discount_price', 'protypes.*')
+                    $coupon_discount = 0;
+                }
+                $total = ($req->total > 0) ? $req->total : Session::get('Cart')->totalPrice;
 
-                        ->join('products', 'order_details.product_id', '=', 'products.id')
+                $checkout = $req->payment_method;
+                $order = Orders::create([
+                    'user_id' => $user_id,
+                    'address' => $address,
+                    'phone' => $phone,
+                    'coupon_discount' => $coupon_discount,
+                    'note' => $note,
+                    'total' => $total,
+                    'checkout' => $checkout
+                ]);
 
-                        ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
+                if ($order != null) {
+                    $order_id = $order->order_id;
+                    foreach (Session::get('Cart')->products as $item) {
+                        $price = $item['price1'];
+                        $product_name = $item['productInfo']->name;
+                        $product_quantity = $item['quanty'];
+                        $cost = $item['price'];
+                        $product_id = $item['productInfo']->id;
+                        $type_id = $item['productInfo']->type_id;
+                        $product_image = $item['productInfo']->pro_image;
 
-                        ->where('order_id', $order_id)
+                        $orderdetail = OrderDetails::create([
+                            'order_id' => $order_id,
+                            'product_name' => $product_name,
+                            'discount_price' => $price,
+                            'product_quantity' => $product_quantity,
+                            'cost' => $cost,
+                            'product_id' => $product_id,
+                            'type_id' => $type_id,
+                            'product_image' => $product_image
+                        ]);
+                    }
 
-                        ->get();
+                    if ($order->checkout == 0) {
+                        $status = 2;
+                        $order->update([
+                            'status' => $status
+                        ]);
+                        return redirect()->route('onlinepayment');
+                    } else {
+                        $user = User::select()->where('user_id', auth()->id())->first();
+                        $orderdetails = OrderDetails::select('order_details.*', 'products.id', 'products.discount_price', 'protypes.*')
 
-                    Mail::send("emails.order-success", ['orderdetails' => $orderdetails, 'user' => $user, 'order' => $order], function ($message) use ($user) {
+                            ->join('products', 'order_details.product_id', '=', 'products.id')
 
-                        $message->to($user->email);
+                            ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
 
-                        $message->subject("Cảm ơn bạn đã đặt hàng");
+                            ->where('order_id', $order_id)
 
-                    });
-                    return redirect()->route('view.thanks')->with('success', 'Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!');
+                            ->get();
+
+                        Mail::send("emails.order-success", ['orderdetails' => $orderdetails, 'user' => $user, 'order' => $order], function ($message) use ($user) {
+
+                            $message->to($user->email);
+
+                            $message->subject("Cảm ơn bạn đã đặt hàng");
+
+                        });
+                        return redirect()->route('view.thanks')->with('success', 'Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!');
+                    }
+                } else {
+                    return redirect()->back();
                 }
             } else {
-                return redirect()->back();
+                return redirect()->back()->with('error', 'Vui lòng tính phí ship trước khi đặt hàng!');
             }
+
         }
         return redirect()->route('index');
     }
