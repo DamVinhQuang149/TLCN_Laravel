@@ -160,9 +160,11 @@ function shippingFee() {
 
             .fail(function (jqXHR, textStatus, errorThrown) {
                 console.error("AJAX Error:", textStatus, errorThrown);
+
                 $("#shipping_error").html(
                     "Địa chỉ bạn nhập chưa hợp lệ, vui lòng nhập lại!"
                 );
+
                 $("#shipping_error").css({
                     color: "red",
                     "font-family": "Montserrat",
@@ -170,6 +172,7 @@ function shippingFee() {
                     "margin-top": "12px",
                     "margin-bottom": "24px",
                 });
+                $("#shipping_error").delay(1500).fadeOut("slow");
             });
     } else {
         $("#shipping_error").html("Vui lòng nhập đầy đủ địa chỉ nhận hàng!");
@@ -180,6 +183,7 @@ function shippingFee() {
             "margin-top": "12px",
             "margin-bottom": "24px",
         });
+        $("#shipping_error").delay(1500).fadeOut("slow");
     }
 }
 function renderFee(response) {

@@ -180,10 +180,10 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            @else
+                                                {{-- @else
                                                 <div class="alert alert-danger" id="shipping_policy">Xin lỗi vì sự bất tiện
                                                     này, hiện chúng tôi chỉ
-                                                    giao vận trong phạm vi bán kính từ 2km - 25km!</div>
+                                                    giao vận trong phạm vi bán kính từ 2km - 25km!</div> --}}
                                             @endif
                                         @endif
                                     </div>

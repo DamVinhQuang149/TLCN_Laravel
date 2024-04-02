@@ -73,6 +73,9 @@ Route::get('/favorite', [ProductsController::class, 'favoriteShow'])->name('favo
 
 
 Route::middleware(['user'])->group(function () {
+    Route::get('chat', function () {
+        return view('chat');
+    });
     Route::get('/profile/{user_id}', [UsersController::class, 'profileUser'])->name('profile');
     Route::get('/edit-profile/{user_id}', [UsersController::class, 'editProfileUser'])->name('editprofile');
     Route::post('/edit-profile', [UsersController::class, 'editProfileUserPost'])->name('editprofile.post');
