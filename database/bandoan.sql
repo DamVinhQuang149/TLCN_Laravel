@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 13, 2024 at 11:53 AM
+-- Generation Time: Apr 13, 2024 at 05:52 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -65,13 +65,14 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`comm_id`, `user_id`, `product_id`, `created_at`, `updated_at`, `comment`) VALUES
-(10, 35, 11, '2024-04-03', NULL, 'ùawaqfqwf'),
+(44, 35, 11, '2024-04-13', '2024-04-13', 'sản phẩm này tốt nha'),
 (3, 35, 1, '2024-04-02', '2024-04-02', 'svav'),
 (37, 35, 16, '2024-04-13', '2024-04-13', 'd'),
 (38, 36, 11, '2024-04-13', '2024-04-13', 'áva'),
 (39, 38, 11, '2024-04-13', '2024-04-13', 's'),
 (40, 38, 1, '2024-04-13', '2024-04-13', 'âcC'),
-(41, 38, 3, '2024-04-13', '2024-04-13', 'aVAV');
+(41, 38, 3, '2024-04-13', '2024-04-13', 'aVAV'),
+(42, 27, 1, '2024-04-13', '2024-04-13', 'jfruyfuy');
 
 -- --------------------------------------------------------
 
@@ -162,7 +163,8 @@ INSERT INTO `email_lists` (`email_id`, `email`, `created_at`) VALUES
 (14, 'asdasda@gmail.com', '2023-12-12 16:26:46'),
 (15, 'batjky@gmail.com', '2023-12-13 13:23:45'),
 (17, 'hoang@gmail.com', '2023-12-13 21:37:11'),
-(18, 'duyhoang@gmail.com', '2023-12-17 00:26:31');
+(18, 'duyhoang@gmail.com', '2023-12-17 00:26:31'),
+(19, 'duyhoang042444@gmail.com', '2024-04-13 07:07:55');
 
 -- --------------------------------------------------------
 
@@ -430,7 +432,8 @@ INSERT INTO `orders` (`order_id`, `user_id`, `address`, `phone`, `status`, `coup
 (378, 35, 'savasv', '0385273875', 0, 0, 420000, NULL, 1, '2024-03-21 09:05:41'),
 (379, 35, '219 Hoàng Diệu 2, Linh Trung', '0385273875', 0, 10, 181000, NULL, 1, '2024-03-30 00:45:59'),
 (380, 35, 'hoàng diệu 2', '0385273875', 0, 0, 200000, NULL, 1, '2024-03-31 01:33:32'),
-(381, 35, 'hoàng diệu 2', '0385273875', 0, 0, 200000, NULL, 1, '2024-03-31 21:45:31');
+(381, 35, 'hoàng diệu 2', '0385273875', 0, 0, 200000, NULL, 1, '2024-03-31 21:45:31'),
+(382, 35, 'gvấpò', '0385273875', 0, 0, 317000, NULL, 1, '2024-04-13 07:41:57');
 
 -- --------------------------------------------------------
 
@@ -854,7 +857,9 @@ INSERT INTO `order_details` (`order_id`, `product_name`, `discount_price`, `prod
 (378, 'Dưa leo Ấn Độ (kg)', 50000, 1, 50000, 13, 3, 'dualeoando.png', 467),
 (379, 'Hồng đỏ Nam Mỹ (kg)', 190000, 1, 190000, 11, 1, 'hongdomy.png', 468),
 (380, 'Hồng đỏ Nam Mỹ (kg)', 190000, 1, 190000, 11, 1, 'hongdomy.png', 469),
-(381, 'Hồng đỏ Nam Mỹ (kg)', 190000, 1, 190000, 11, 1, 'hongdomy.png', 470);
+(381, 'Hồng đỏ Nam Mỹ (kg)', 190000, 1, 190000, 11, 1, 'hongdomy.png', 470),
+(382, 'Hồng đỏ Nam Mỹ (kg)', 190000, 1, 190000, 11, 1, 'hongdomy.png', 471),
+(382, 'Dâu tây đỏ ngọt (kg)', 100000, 1, 100000, 18, 1, 'dautay.png', 472);
 
 -- --------------------------------------------------------
 
@@ -928,7 +933,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `manu_id`, `type_id`, `price`, `discount_price`, `pro_image`, `description`, `feature`, `created_at`) VALUES
-(1, 'Bánh kem bơ Pháp', 18, 2, 850000, 620000, 'banhkembophap.jpg', 'Vẫn sở hữu phần cốt bánh bông lan xốp mịn, điều làm cho những chiếc bánh kem này trở nên đặc biệt và cuốn hút nằm ở phần kem bơ.\r\n\r\nKem bơ Pháp được làm từ những nguyên liệu gồm lòng đỏ trứng, syrup đường và bơ lạt. Nhờ sử dụng thêm lòng đỏ trứng, thành phẩm kem bơ sẽ có hương vị cực kì thơm ngon, mềm mượt và tan ngay khi vào miệng.\r\n\r\nNhững người thợ tài hoa của Grand Castella còn tận dụng phần kem bơ này, sáng tạo nên những hình ảnh trang trí độc đáo, giúp chiếc bánh kem đã ngon nay trở nên xinh đẹp hơn.', 1, '2021-10-22 04:15:10'),
+(1, 'Bánh kem bơ Pháp', 18, 2, 850000, 620000, 'banhkembophap.jpg', '<span style=\"background-color: rgb(255, 0, 0);\">Vẫn sở hữu phần cốt bánh bông lan xốp mịn, điều làm cho những chiếc bánh kem này trở nên đặc biệt và cuốn hút nằm ở phần kem bơ.\r\n\r\nKem bơ Pháp được làm từ những nguyên liệu gồm lòng đỏ trứng, syrup đường và bơ lạt. Nhờ sử dụng thêm lòng đỏ trứng, thành phẩm kem bơ sẽ có hương vị cực kì thơm ngon, mềm mượt và tan ngay khi vào miệng.\r\n\r\nNhững người thợ tài hoa của Grand Castella còn tận dụng phần kem bơ này, sáng tạo nên những hình ảnh trang trí độc đáo, giúp chiếc bánh kem đã ngon nay trở nên xinh đẹp hơn.</span>', 1, '2021-10-22 04:15:10'),
 (53, 'Cải thìa Triều Tiên (kg)', 18, 3, 190000, 70000, 'caithia.png', 'Cải thìa Triều Tiên do ông Kim trồng ăn rất ngon nhé. Mua ăn thử đi biết', 1, '2022-11-18 08:20:02'),
 (54, 'Cà rốt Bắc Mỹ (kg)', 18, 3, 180000, 120000, 'carot.png', 'Cà rốt Bắc Mỹ do ông Donald Trump đích thân trồng tại nông trại. Không qua bất cứ máy móc và hóa chất. Nên rất ngon và đắt', 1, '2022-11-18 08:19:55'),
 (55, 'Cà chua Nhật Bản (kg)', 18, 3, 160000, 110000, 'cachua.png', 'Do Thiên Hoàng Minh Trị trồng từ thời chiến tranh thế giới thứ 2. Đặc biệt loại này không dính phóng xạ nên ăn bổ lắm nha.', 0, '2022-11-18 08:19:46'),
@@ -1007,12 +1012,13 @@ CREATE TABLE `star_rating` (
 --
 
 INSERT INTO `star_rating` (`user_id`, `product_id`, `star`, `id`, `updated_at`, `created_at`) VALUES
-(35, 11, 4, 3, '2024-04-04 20:29:27', '2024-04-02 22:48:48'),
+(35, 11, 5, 3, '2024-04-13 08:28:01', '2024-04-02 22:48:48'),
 (35, 16, 3, 4, '2024-04-12 19:16:20', '2024-04-12 19:16:20'),
 (36, 11, 5, 5, '2024-04-12 19:16:59', '2024-04-12 19:16:59'),
 (38, 11, 1, 6, '2024-04-12 19:20:31', '2024-04-12 19:20:31'),
 (38, 1, 4, 7, '2024-04-12 19:26:29', '2024-04-12 19:26:29'),
-(38, 3, 3, 8, '2024-04-12 19:26:57', '2024-04-12 19:26:57');
+(38, 3, 3, 8, '2024-04-12 19:26:57', '2024-04-12 19:26:57'),
+(27, 1, 2, 9, '2024-04-13 07:14:31', '2024-04-13 07:14:31');
 
 -- --------------------------------------------------------
 
@@ -1187,7 +1193,7 @@ ALTER TABLE `advertisements`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `comm_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `comm_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `coupons`
@@ -1199,7 +1205,7 @@ ALTER TABLE `coupons`
 -- AUTO_INCREMENT for table `email_lists`
 --
 ALTER TABLE `email_lists`
-  MODIFY `email_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `email_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `favorites`
@@ -1217,13 +1223,13 @@ ALTER TABLE `manufactures`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=382;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=383;
 
 --
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `orderdetail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=471;
+  MODIFY `orderdetail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=473;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -1241,7 +1247,7 @@ ALTER TABLE `protypes`
 -- AUTO_INCREMENT for table `star_rating`
 --
 ALTER TABLE `star_rating`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`

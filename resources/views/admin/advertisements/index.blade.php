@@ -56,16 +56,17 @@
                                     Contact_info
                                 </th>
                                 <th style="width: 5%">
+                                    Action
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($advertisements as $value)
                                 <tr>
-                                    <td><?php echo $value->title; ?></td>
-                                    <td><?php echo $value->content; ?></td>
-                                    <td><?php echo $value->offer; ?></td>
-                                    <td><?php echo $value->contact_info; ?></td>
+                                    <td style="width:20%"><?php echo $value->title; ?></td>
+                                    <td style="width:35%"><?php echo $value->content; ?></td>
+                                    <td style="width:20%"><?php echo $value->offer; ?></td>
+                                    <td style="width:20%"><?php echo $value->contact_info; ?></td>
                                     <td class="project-actions text-right" style="width:5%">
                                         <form action="advertisements/{{ $value->id }}/edit" method="POST"
                                             enctype="multipart/form-data">

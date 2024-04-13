@@ -224,7 +224,7 @@ function writeComment() {
             .done(function (response) {
                 //console.log(response.comment_view);
                 renderListComm(response.comment_view);
-                alertify.success("Đánh giá sản phẩm thành công");
+                //alertify.success("Đánh giá sản phẩm thành công");
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 console.error("AJAX Error:", textStatus, errorThrown);

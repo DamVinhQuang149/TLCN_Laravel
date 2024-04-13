@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Favorites;
+use App\Models\OrderDetails;
+use App\Models\Orders;
 use App\Models\StarRating;
 use Illuminate\Http\Request;
 use App\Models\Products;
@@ -338,29 +340,57 @@ class ProductsController extends Controller
         $dataStart['star'] = $star;
         $dataStart['user_id'] = auth()->id();
         
+        $userOrders = Orders::Where('user_id', auth()->id())->get();
+
+        foreach ($userOrders as $userOrder) {
+            $orderDetail = OrderDetails::select('product_id')
+
+            ->where('order_id', $userOrder->order_id)
+
+            ->get();
+
+            $orderDetails[] = $orderDetail;
+        }
+        $count = 0;
+        foreach ($orderDetails as $value) {
+            foreach ($value as $orderDetail) {
+                if($orderDetail->product_id == $proid){
+                    $count = $count + 1;
+                }
+            }
+        }
+
         $existingStar = StarRating::where(['product_id' => $proid, 'user_id' => auth()->id()])->first();
-        
-        if ($existingStar) {
-            $existingStar->update($dataStart);
-            Comments::create($data);
-        
-            $comments = Comments::where('product_id', $proid)->orderBy('comm_id', 'DESC')->paginate(4);
-            $star = StarRating::where(['product_id' => $proid, 'user_id' => auth()->id()])->first();
+        if($count > 0){
+            if ($existingStar) {
+                $existingStar->update($dataStart);
+                Comments::create($data);
             
-            return response()->json([
-                'comment_view' => view('ajax.ajax_comment', ['comments' => $comments, 'starRating' => $star])->render(),
-            ]);
-        } else {
-            StarRating::create($dataStart);
-            Comments::create($data);
-        
-            $comments = Comments::where('product_id', $proid)->orderBy('comm_id', 'DESC')->paginate(4);
-            $star = StarRating::where(['product_id' => $proid, 'user_id' => auth()->id()])->first();
+                $comments = Comments::where('product_id', $proid)->orderBy('comm_id', 'DESC')->paginate(4);
+                $star = StarRating::where(['product_id' => $proid, 'user_id' => auth()->id()])->first();
+                
+                return response()->json([
+                    'comment_view' => view('ajax.ajax_comment', ['comments' => $comments, 'starRating' => $star])->render(),
+                ]);
+            } else {
+                StarRating::create($dataStart);
+                Comments::create($data);
             
+                $comments = Comments::where('product_id', $proid)->orderBy('comm_id', 'DESC')->paginate(4);
+                $star = StarRating::where(['product_id' => $proid, 'user_id' => auth()->id()])->first();
+                
+                return response()->json([
+                    'comment_view' => view('ajax.ajax_comment', ['comments' => $comments, 'starRating' => $star])->render(),
+                ]);
+            }
+        }
+        else {
+            $comments=null;
             return response()->json([
-                'comment_view' => view('ajax.ajax_comment', ['comments' => $comments, 'starRating' => $star])->render(),
+                'comment_view' => view('ajax.ajax_comment', ['comments' => $comments])->render(),
             ]);
         }
+        
         
         
     }

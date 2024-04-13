@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 
 
 
+use App\Models\OrderDetails;
+use App\Models\Orders;
 use App\Models\StarRating;
 use Illuminate\Http\Request;
 
@@ -33,7 +35,6 @@ class HomeController extends Controller
         $productsby2 = Products::where('type_id', 2)->get();
 
         $productsby3 = Products::where('type_id', 3)->get();
-
 
 
         $productsFeatureBy1 = Products::where('type_id', 1)->where('feature', 1)->get();

@@ -1,9 +1,10 @@
-@foreach ($comments as $comm)
+@if ($comments)
+    @foreach ($comments as $comm)
     <div class="media">
         <a class="pull-left" href="#">
             <img width="50" class="media-object" src="{{ asset('assets/img/' . $comm->user->image) }} " alt="Image">
         </a>
-    
+
         <div class="media-body">
             <h4 class="media-heading">{{ $comm->user->First_name }} {{ $comm->user->Last_name }} <small>{{ $comm->created_at->format('d/m/Y') }}</small>
                 <ul class="ratingW-comment">
@@ -39,4 +40,7 @@
             @endcan
         </div>
     </div>    
-@endforeach
+    @endforeach
+@else
+    <div class="alert alert-danger" id="shipping_policy">Bạn chưa đặt sản phẩm này. Vui lòng đặt hàng trước khi đánh giá sản phẩm!</div>
+@endif

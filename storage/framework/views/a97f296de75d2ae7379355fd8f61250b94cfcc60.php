@@ -1,9 +1,10 @@
-<?php $__currentLoopData = $comments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $comm): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+<?php if($comments): ?>
+    <?php $__currentLoopData = $comments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $comm): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
     <div class="media">
         <a class="pull-left" href="#">
             <img width="50" class="media-object" src="<?php echo e(asset('assets/img/' . $comm->user->image)); ?> " alt="Image">
         </a>
-    
+
         <div class="media-body">
             <h4 class="media-heading"><?php echo e($comm->user->First_name); ?> <?php echo e($comm->user->Last_name); ?> <small><?php echo e($comm->created_at->format('d/m/Y')); ?></small>
                 <ul class="ratingW-comment">
@@ -39,4 +40,8 @@
             <?php endif; ?>
         </div>
     </div>    
-<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php /**PATH C:\xampp\htdocs\TLCN_Laravel\resources\views/ajax/ajax_comment.blade.php ENDPATH**/ ?>
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+<?php else: ?>
+    <div class="alert alert-danger" id="shipping_policy">Bạn chưa đặt sản phẩm này. Vui lòng đặt hàng trước khi đánh giá sản phẩm!</div>
+<?php endif; ?>
+<?php /**PATH C:\xampp\htdocs\TLCN_Laravel\resources\views/ajax/ajax_comment.blade.php ENDPATH**/ ?>
