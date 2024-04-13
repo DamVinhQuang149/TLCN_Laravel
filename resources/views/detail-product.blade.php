@@ -72,30 +72,56 @@
                                                     <p>{{ $probyid->description }}</p>
                                                 </div>
                                                 <div role="tabpanel" class="tab-pane fade" id="profile">
-                                                    <h2>Đánh giá</h2>
+                                                    <h2>Đánh giá sản phẩm</h2>
                                                     @if (auth()->check())
-                                                    <form action="{{ route('comment.post', $probyid->id)}}" method="post">
-                                                    @csrf
+                                                    <form>
+                                                    
                                                         <div class="submit-review">
-                                                            <!-- <p><label for="name">Tên</label> <input name="name"
+                                                            {{-- <p><label for="name">{{ Auth::user()->First_name }} {{ Auth::user()->Last_name }}</label> <input name="name"
                                                                     type="text"></p>
                                                             <p><label for="email">Email</label> <input name="email"
-                                                                    type="email"></p> -->
-                                                            <div class="rating-chooser">
-                                                                <p>Đánh giá sao</p>
+                                                                    type="email"></p> --}}
+                                                            <input type="hidden" class="product_id_comment" value="{{ $probyid->id }}">
+                                                            <div class="rating-chooser" id="star_rating">
+                                                                
+                                                                <h6>Đánh giá sao</h6>
 
-                                                                <div class="rating-wrap-post">
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                </div>
+                                                                <!-- Rating Stars Box -->
+                                                                <input type="hidden" class="star_rating_value">
+
+                                                                {{-- <p class="counterW">Điểm: <span class="scoreNow">3</span> trên <span>5</span></p> --}}
+                                                                <ul class="ratingW">
+                                                                    @if ($starRating)
+                                                                        <?php
+                                                                        for ($i = 1; $i <= 5; $i++) {
+                                                                            if ($i <= $starRating->star) {
+                                                                                echo '<li class="on"><a href="javascript:void(0);"><div class="star"></div></a></li>';
+                                                                            } else {
+                                                                                echo '<li><a href="javascript:void(0);"><div class="star"></div></a></li>';
+                                                                            }
+                                                                        }
+                                                                        ?>
+                                                                    @else
+                                                                        <li class="on"><a href="javascript:void(0);"><div class="star"></div></a></li>
+                                                                        <li class="on"><a href="javascript:void(0);"><div class="star"></div></a></li>
+                                                                        <li class="on"><a href="javascript:void(0);"><div class="star"></div></a></li>
+                                                                        <li><a href="javascript:void(0);"><div class="star"></div></a></li>
+                                                                        <li><a href="javascript:void(0);"><div class="star"></div></a></li>
+                                                                    @endif  
+                                                                </ul>
                                                             </div>
                                                             <p><label for="review">Bình luận</label>
-                                                                <textarea name="comment" id="" cols="30" rows="10"></textarea>
+                                                                <textarea name="comment" class="comment" id="" cols="30" rows="10" style="text-align: left"></textarea>
                                                             </p>
-                                                            <p><input type="submit" value="Gửi"></p>
+                                                            {{-- <p><input type="submit"` class="write-comment" value="Gửi" onclick="writeComment()"></p> --}}
+                                                            <button type="button" id="applyCouponButton" 
+                                                                style="background-color: #FE9705; color: #fff; border: none; border-radius: 4px; padding: 9px; cursor: pointer; margin-bottom: 10px;"
+                                                                onclick="writeComment()">
+                                                                <strong>
+                                                                    Gửi
+                                                                </strong>
+                                                            </button>
+                                                            <div id="comment-result" style="color: red;"></div>
                                                         </div>
                                                     </form>
                                                     @else
@@ -103,26 +129,53 @@
                                                         <strong>Đăng nhập để bình luận</strong> click vào đây <a href="{{route('login')}}">Đăng nhập</a>
                                                     </div>
                                                     @endif
-                                                    @foreach ($comments as $comm)
-                                                        <div class="media" >
-                                                            <a class="pull-left" href="#">
-                                                                <img width="50" class="media-object" src="{{ asset('assets/img/' . $comm->user->image) }} " alt="Image">
-                                                            </a>
-                                                           
-                                                            <div class="media-body">
-                                                                <h4 class="media-heading">{{ $comm->user->First_name }} {{ $comm->user->Last_name }} <small>{{ $comm->created_at->format('d/m/Y') }}</small></h4>
-                                                                <p>{{ $comm->comment }}</p>
-                                                                @can('my-comment', $comm)
-                                                                <!-- <form action="" method="get" class="text-right">
-                                                                    <a href="" class="btn btn-primary btn-sm">Sửa</a>
-                                                                </form> -->
-                                                                <form action="{{ route('comment.delete', $comm->comm_id) }}" method="get" class="text-right">
-                                                                    <p><input type="submit" style="background:red" value="Xóa"></p>
-                                                                </form>
-                                                                @endcan
-                                                            </div>
-                                                        </div>    
-                                                    @endforeach
+                                                    <div id="list-comment">
+                                                        @foreach ($comments as $comm)
+                                                            <div class="media">
+                                                                <a class="pull-left" href="#">
+                                                                    <img width="50" class="media-object" src="{{ asset('assets/img/' . $comm->user->image) }} " alt="Image">
+                                                                </a>
+                                                            
+                                                                <div class="media-body">
+                                                                    <h4 class="media-heading">{{ $comm->user->First_name }} {{ $comm->user->Last_name }} 
+                                                                        
+                                                                        <small>{{ $comm->created_at->format('d/m/Y') }}</small> 
+                                                                        <ul class="ratingW-comment">
+                                                                        <small>
+                                                                            @if ($starRating)
+                                                                            <?php
+                                                                            for ($i = 1; $i <= 5; $i++) {
+                                                                                if ($i <= $starRating->star) {
+                                                                                    echo '<li class="on"><div class="star-comm"></div></li>';
+                                                                                } else {
+                                                                                    echo '<li><div class="star-comm"></div></li>';
+                                                                                }
+                                                                            }
+                                                                            ?>
+                                                                            @endif
+                                                                        </small>
+                                                                        </ul>
+                                                                    </h4>
+                                                                    <p>{{ $comm->comment }}</p>
+                                                                    @can('my-comment', $comm)
+                                                                    <!-- <form action="" method="get" class="text-right">
+                                                                        <a href="" class="btn btn-primary btn-sm">Sửa</a>
+                                                                    </form> -->
+                                                                    <form class="text-right">
+                                                                        <button type="button" id="applyCouponButton" 
+                                                                            style="background-color: #f80808; color: #fff; border: none; border-radius: 4px; padding: 9px; cursor: pointer;"
+                                                                            onclick="deleteComment({{$comm->comm_id}})">
+                                                                            <strong>
+                                                                                Xóa
+                                                                            </strong>
+                                                                        </button>
+                                                                    </form>
+                                                                    @endcan
+                                                                </div>
+                                                            </div>    
+                                                        @endforeach
+                                                    </div>
+                                                    
                                                     <div class="pagination-container" style="margin-top: 30px; text-align: center;">
                                                         {{ $products->render('/admin/pagination') }}
                                                     </div>

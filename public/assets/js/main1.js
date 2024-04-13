@@ -89,7 +89,7 @@ function RenderListCart(response) {
     $("#total-quanty-show").text($("#total-quanty-cart").val());
 }
 
-//
+//Coupon
 function addCoupon() {
     var couponResult = document.getElementById("coupon-result");
     if ($("#coupon-code").val() !== "") {
@@ -198,3 +198,93 @@ function renderShippingErr(response) {
     $("#shipping_error").empty();
     $("#shipping_error").html(response);
 }
+
+// comment
+function writeComment() {
+    // alert("Ok gửi");
+    var messComment = document.getElementById("comment-result");
+    var pro_id_comment = $(".product_id_comment").val();
+    var comment = $(".comment").val();
+    var star_rating = $(".star_rating_value").val();
+    // alert(star_rating);
+    if (comment !== "") {
+        $.ajax({
+            url:
+                "/post-comment/" +
+                pro_id_comment +
+                "/" +
+                comment +
+                "/" +
+                star_rating,
+            type: "GET",
+            success: function () {
+                $(".comment").val("");
+            },
+        })
+            .done(function (response) {
+                //console.log(response.comment_view);
+                renderListComm(response.comment_view);
+                alertify.success("Đánh giá sản phẩm thành công");
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.error("AJAX Error:", textStatus, errorThrown);
+            });
+    } else {
+        messComment.innerHTML = "Vui lòng nhập bình luận để đáng giá!";
+        messComment.style.cssText =
+            "color: red; font-family: Montserrat; font-weight: 500; margin-top: 12px; margin-bottom: 24px;";
+    }
+}
+
+function deleteComment(id) {
+    // alert("oke xóa");
+    // alert(id);
+    if (id) {
+        $.ajax({
+            url: "/delete-comment/" + id,
+            type: "GET",
+        })
+            .done(function (response) {
+                renderListComm(response);
+                alertify.error("Đã xóa bình luận");
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.error("AJAX Error:", textStatus, errorThrown);
+            });
+    } else {
+        alertify.error("Bình luận này không tồn tại");
+        // setTimeout(function () {
+        //     location.reload();
+        // }, 300);
+    }
+}
+
+function renderListComm(response) {
+    $("#list-comment").empty();
+    $("#list-comment").html(response);
+}
+
+// star
+function ratingStar(star) {
+    star.click(function () {
+        var stars = $(".ratingW").find("li");
+        stars.removeClass("on");
+        var thisIndex = $(this).parents("li").index();
+        for (var i = 0; i <= thisIndex; i++) {
+            stars.eq(i).addClass("on");
+        }
+        putScoreNow(thisIndex + 1);
+        $(".star_rating_value").val(i);
+    });
+}
+
+function putScoreNow(i) {
+    $(".scoreNow").html(i);
+}
+
+$(function () {
+    if ($(".ratingW").length > 0) {
+        ratingStar($(".ratingW li a"));
+        $(".star_rating_value").val(3);
+    }
+});

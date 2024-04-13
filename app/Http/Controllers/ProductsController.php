@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Favorites;
+use App\Models\StarRating;
 use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\Protypes;
 use App\Models\Manufactures;
 use App\Models\Comments;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
 
@@ -270,6 +273,12 @@ class ProductsController extends Controller
             }
 
             //
+            $products->each(function ($product) {
+                $product->average_rating = StarRating::where('product_id', $product->id)->avg('star');
+            });
+
+            //
+
             $minDiscountPrice = Products::where('type_id', $type_id)->min('discount_price');
             $maxDiscountPrice = Products::where('type_id', $type_id)->max('discount_price');
             $type = Protypes::find($type_id);
@@ -278,6 +287,7 @@ class ProductsController extends Controller
             abort(404);
         }
     }
+
 
     public function detailsProduct($type_id, $id)
     {
@@ -295,8 +305,9 @@ class ProductsController extends Controller
             ->paginate(4);
         $comments = Comments::where('product_id', $id)->orderBy('comm_id', 'DESC')->paginate(4);
 
-
-        return view('detail-product', ['products' => $products, 'probyid' => $probyid, 'comments' => $comments]);
+        $star = StarRating::where(['product_id' => $id, 'user_id' => auth()->id()])->first();
+        
+        return view('detail-product', ['products' => $products, 'probyid' => $probyid, 'comments' => $comments, 'starRating' => $star]);
     }
 
     public function search(Request $request)
@@ -317,23 +328,51 @@ class ProductsController extends Controller
     }
 
     //Comments
-    public function commentPost($proid)
+    public function commentPost($proid, $comment, $star)
     {
-        $data = request()->all('comment');
         $data['product_id'] = $proid;
+        $data['comment'] = $comment;
         $data['user_id'] = auth()->id();
-        // dd($data);
-        if (Comments::create($data)) {
-            return redirect()->back();
+        
+        $dataStart['product_id'] = $proid;
+        $dataStart['star'] = $star;
+        $dataStart['user_id'] = auth()->id();
+        
+        $existingStar = StarRating::where(['product_id' => $proid, 'user_id' => auth()->id()])->first();
+        
+        if ($existingStar) {
+            $existingStar->update($dataStart);
+            Comments::create($data);
+        
+            $comments = Comments::where('product_id', $proid)->orderBy('comm_id', 'DESC')->paginate(4);
+            $star = StarRating::where(['product_id' => $proid, 'user_id' => auth()->id()])->first();
+            
+            return response()->json([
+                'comment_view' => view('ajax.ajax_comment', ['comments' => $comments, 'starRating' => $star])->render(),
+            ]);
+        } else {
+            StarRating::create($dataStart);
+            Comments::create($data);
+        
+            $comments = Comments::where('product_id', $proid)->orderBy('comm_id', 'DESC')->paginate(4);
+            $star = StarRating::where(['product_id' => $proid, 'user_id' => auth()->id()])->first();
+            
+            return response()->json([
+                'comment_view' => view('ajax.ajax_comment', ['comments' => $comments, 'starRating' => $star])->render(),
+            ]);
         }
-        return redirect()->back();
+        
+        
     }
     public function deleteComment($comm_id)
     {
         //dd($comm_id);
-        $comemnt = Comments::find($comm_id);
-        $comemnt->delete();
-        return redirect()->back();
+        
+        $comment = Comments::find($comm_id);
+        $comment->delete();
+        $comments = Comments::where('product_id', $comment->product_id)->orderBy('comm_id', 'DESC')->paginate(4);
+        $star = StarRating::where(['product_id' => $comment->product_id, 'user_id' => auth()->id()])->first();
+        return view('ajax/ajax_comment', ['comments' => $comments, 'starRating' => $star]);
     }
     // public function editComment($comm_id)
     // {
@@ -347,9 +386,9 @@ class ProductsController extends Controller
             'product_id' => $proid,
             'user_id' => auth()->id()
         ];
-        $favorited = Favorites::where(['product_id' => $proid, 'user_id' => auth()->id()])->first();
-        if ($favorited) {
-            $favorited->delete();
+        $star = Favorites::where(['product_id' => $proid, 'user_id' => auth()->id()])->first();
+        if ($star) {
+            $star->delete();
             return redirect()->back()->with('error', 'Bạn đã bỏ yêu thích sản phẩm');
         } else {
             Favorites::create($data);

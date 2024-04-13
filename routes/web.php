@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdvertisementController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CouponsController;
@@ -47,6 +48,17 @@ Route::post('/reset-password', [ForgetPasswordManager::class, 'resetPasswordPost
 Route::get('/products/type_id={type_id}', [ProductsController::class, 'showByTypeid'])->name('products');
 Route::get('/product/type_id={type_id}&id={id}', [ProductsController::class, 'detailsProduct'])->name('detail.product');
 Route::get('/', [HomeController::class, 'index'])->name('index');
+//search
+Route::get('/products/search', [ProductsController::class, 'search'])->name('products.search');
+//comment
+Route::get('/post-comment/{product_id}/{comment}/{star}', [ProductsController::class, 'commentPost'])->name('comment.post');
+Route::get('/comment/{comment_id}', [ProductsController::class, 'editComment'])->name('comment.edit');
+Route::get('/delete-comment/{comment_id}', [ProductsController::class, 'deleteComment'])->name('comment.delete');
+
+//favorite
+Route::get('/favorite/{product_id}', [ProductsController::class, 'favorite'])->name('favorite');
+Route::get('/favorite', [ProductsController::class, 'favoriteShow'])->name('favorite.show');
+
 //cart
 Route::get('/add-cart/{id}', [CartController::class, 'addCart'])->name('add.cart');
 Route::get('/add-quanty-cart/{id}/{quanty}', [CartController::class, 'addQuantyCart'])->name('add.cart');
@@ -54,20 +66,12 @@ Route::get('/delete-item-cart/{id}', [CartController::class, 'deleteItemCart'])-
 Route::get('/list-cart', [CartController::class, 'viewListCart'])->name('list.cart');
 Route::get('/delete-list-item-cart/{id}', [CartController::class, 'deleteListItemCart']);
 Route::get('/save-list-item-cart/{id}/{quanty}', [CartController::class, 'saveListItemCart']);
-//search
-Route::get('/products/search', [ProductsController::class, 'search'])->name('products.search');
+
 
 //email_lists
 Route::post('/emails', [EmailsController::class, 'addNotify'])->name('emails.addNotify');
 
-//comment
-Route::post('/comment/{product_id}', [ProductsController::class, 'commentPost'])->name('comment.post');
-Route::get('/comment/{comment_id}', [ProductsController::class, 'editComment'])->name('comment.edit');
-Route::get('/comment/{comment_id}', [ProductsController::class, 'deleteComment'])->name('comment.delete');
 
-//favorite
-Route::get('/favorite/{product_id}', [ProductsController::class, 'favorite'])->name('favorite');
-Route::get('/favorite', [ProductsController::class, 'favoriteShow'])->name('favorite.show');
 
 
 
@@ -123,6 +127,10 @@ Route::middleware('admin')->group(function () {
     Route::resource('/admin/payments', PaymentsController::class);
     Route::resource('/admin/users', UsersController::class);
     Route::resource('/admin/emails', EmailsController::class);
+    //
+    Route::resource('/admin/advertisements', AdvertisementController::class);
+    Route::get('admin/sendmailadvertisements/{id}', [AdvertisementController::class, 'sendMailAdvertisements'])->name('sendmail.ad');
+
     Route::get('/revenue-chart/{interval}', [RevenuesController::class, 'revenueChart']);
     Route::post('/admin/revenues/time', [RevenuesController::class, 'getTime'])
         ->name('admin.revenues.getTime');

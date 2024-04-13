@@ -148,10 +148,7 @@ class CheckoutController extends Controller
     public function shippingFee($destination)
     {
 
-        $user = Users::find(Auth::user()->user_id);
-        $user->update([
-            'address' => $destination,
-        ]);
+        
 
         $destination_n = urlencode($destination);
         $origin = urlencode("01 Võ Văn Ngân, Linh Chiểu, Thủ Đức, Thành phố Hồ Chí Minh, Việt Nam");
@@ -183,6 +180,10 @@ class CheckoutController extends Controller
             $fee += $additionalDistance * $pricePerKm;
 
             if ($distance_int > 2 && $distance_int < 25) {
+                $user = Users::find(Auth::user()->user_id);
+                $user->update([
+                    'address' => $destination,
+                ]);
                 $shipping_fee = [
                     'address' => $destination,
                     'distance' => $distance_int,
