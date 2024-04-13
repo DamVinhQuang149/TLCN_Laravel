@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 30, 2024 at 08:56 AM
+-- Generation Time: Apr 13, 2024 at 11:53 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -24,6 +24,30 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `advertisements`
+--
+
+CREATE TABLE `advertisements` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `offer` varchar(100) DEFAULT NULL,
+  `contact_info` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `advertisements`
+--
+
+INSERT INTO `advertisements` (`id`, `title`, `content`, `offer`, `contact_info`, `created_at`) VALUES
+(1, 'chương trình mới', 'chào mừng bạn đến với website, hiện tại chúng tôi đang có chương trình mới ', 'khuyến mãi 10%', 'thông tin của chúng tôi....', '2024-04-13 03:50:12'),
+(2, 'tiêu đề 1', 'content 1', 'offer 1', 'info 1', '2024-04-12 21:10:10'),
+(4, 'Chương trình khuyến mãi hấp dẫn tháng 5', '<p>Chào mừng tháng 5 với hàng loạt ưu đãi đặc biệt từ cửa hàng chúng tôi.&nbsp;</p><p>Mua sắm và nhận ngay những phần quà hấp dẫn, giảm giá lớn cho tất cả các&nbsp;</p><p>sản phẩm yêu thích của bạn.</p>', 'Giảm giá lên đến 70%', 'Hãy liên hệ ngay hôm nay để biết thêm thông tin chi tiết về chương trình khuyến mãi: Hotline: 0123 456 789 - Email: info@example.com', '2024-04-12 22:38:22');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `comments`
 --
 
@@ -32,8 +56,22 @@ CREATE TABLE `comments` (
   `user_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `created_at` date DEFAULT current_timestamp(),
-  `updated_at` date DEFAULT NULL
+  `updated_at` date DEFAULT NULL,
+  `comment` varchar(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`comm_id`, `user_id`, `product_id`, `created_at`, `updated_at`, `comment`) VALUES
+(10, 35, 11, '2024-04-03', NULL, 'ùawaqfqwf'),
+(3, 35, 1, '2024-04-02', '2024-04-02', 'svav'),
+(37, 35, 16, '2024-04-13', '2024-04-13', 'd'),
+(38, 36, 11, '2024-04-13', '2024-04-13', 'áva'),
+(39, 38, 11, '2024-04-13', '2024-04-13', 's'),
+(40, 38, 1, '2024-04-13', '2024-04-13', 'âcC'),
+(41, 38, 3, '2024-04-13', '2024-04-13', 'aVAV');
 
 -- --------------------------------------------------------
 
@@ -108,7 +146,7 @@ CREATE TABLE `email_lists` (
 --
 
 INSERT INTO `email_lists` (`email_id`, `email`, `created_at`) VALUES
-(1, 'quangdz@gmail.com', '2023-12-15 11:16:29'),
+(1, 'damquang149@gmail.com', '2023-12-15 11:16:29'),
 (2, 'hoduyhoang@gmail.com', '2023-12-13 11:08:08'),
 (3, 'aido@gmail.com', '2023-12-20 09:08:45'),
 (4, 's@gmail.com', '2023-12-11 20:19:54'),
@@ -147,11 +185,12 @@ CREATE TABLE `favorites` (
 INSERT INTO `favorites` (`id`, `user_id`, `product_id`, `created_at`, `updated_at`) VALUES
 (9, 35, 1, '2024-03-20', '2024-03-20'),
 (6, 35, 11, '2024-03-20', '2024-03-20'),
-(10, 35, 22, '2024-03-20', '2024-03-20'),
+(14, 35, 53, '2024-04-02', '2024-04-02'),
 (4, 35, 21, '2024-03-20', '2024-03-20'),
 (11, 35, 13, '2024-03-20', '2024-03-20'),
 (12, 35, 7, '2024-03-20', '2024-03-20'),
-(13, 35, 23, '2024-03-20', '2024-03-20');
+(13, 35, 23, '2024-03-20', '2024-03-20'),
+(15, 35, 3, '2024-04-02', '2024-04-02');
 
 -- --------------------------------------------------------
 
@@ -389,7 +428,9 @@ INSERT INTO `orders` (`order_id`, `user_id`, `address`, `phone`, `status`, `coup
 (376, 35, 'avs', '0385273875', 0, 0, 2690000, NULL, 1, '2024-03-21 08:53:44'),
 (377, 35, 'àawf', '0385273875', 0, 0, 420000, NULL, 1, '2024-03-21 08:59:29'),
 (378, 35, 'savasv', '0385273875', 0, 0, 420000, NULL, 1, '2024-03-21 09:05:41'),
-(379, 35, '219 Hoàng Diệu 2, Linh Trung', '0385273875', 0, 10, 181000, NULL, 1, '2024-03-30 00:45:59');
+(379, 35, '219 Hoàng Diệu 2, Linh Trung', '0385273875', 0, 10, 181000, NULL, 1, '2024-03-30 00:45:59'),
+(380, 35, 'hoàng diệu 2', '0385273875', 0, 0, 200000, NULL, 1, '2024-03-31 01:33:32'),
+(381, 35, 'hoàng diệu 2', '0385273875', 0, 0, 200000, NULL, 1, '2024-03-31 21:45:31');
 
 -- --------------------------------------------------------
 
@@ -811,7 +852,9 @@ INSERT INTO `order_details` (`order_id`, `product_name`, `discount_price`, `prod
 (378, 'Chanh tươi Irag (kg)', 250000, 1, 250000, 3, 3, 'chanhtuoiirag.png', 465),
 (378, 'Cà tím Châu Phi (kg)', 120000, 1, 120000, 7, 3, 'catim.jpg', 466),
 (378, 'Dưa leo Ấn Độ (kg)', 50000, 1, 50000, 13, 3, 'dualeoando.png', 467),
-(379, 'Hồng đỏ Nam Mỹ (kg)', 190000, 1, 190000, 11, 1, 'hongdomy.png', 468);
+(379, 'Hồng đỏ Nam Mỹ (kg)', 190000, 1, 190000, 11, 1, 'hongdomy.png', 468),
+(380, 'Hồng đỏ Nam Mỹ (kg)', 190000, 1, 190000, 11, 1, 'hongdomy.png', 469),
+(381, 'Hồng đỏ Nam Mỹ (kg)', 190000, 1, 190000, 11, 1, 'hongdomy.png', 470);
 
 -- --------------------------------------------------------
 
@@ -947,6 +990,33 @@ INSERT INTO `roles` (`role_id`, `role_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `star_rating`
+--
+
+CREATE TABLE `star_rating` (
+  `user_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `star` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `star_rating`
+--
+
+INSERT INTO `star_rating` (`user_id`, `product_id`, `star`, `id`, `updated_at`, `created_at`) VALUES
+(35, 11, 4, 3, '2024-04-04 20:29:27', '2024-04-02 22:48:48'),
+(35, 16, 3, 4, '2024-04-12 19:16:20', '2024-04-12 19:16:20'),
+(36, 11, 5, 5, '2024-04-12 19:16:59', '2024-04-12 19:16:59'),
+(38, 11, 1, 6, '2024-04-12 19:20:31', '2024-04-12 19:20:31'),
+(38, 1, 4, 7, '2024-04-12 19:26:29', '2024-04-12 19:26:29'),
+(38, 3, 3, 8, '2024-04-12 19:26:57', '2024-04-12 19:26:57');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `status`
 --
 
@@ -992,19 +1062,25 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `image`, `First_name`, `Last_name`, `email`, `phone`, `address`, `username`, `password`, `role_id`) VALUES
-(27, 'image1702269401-.jpg', 'Quang', 'Đàm', 'quang@gmail.com', 987788611, '', 'quang', '$2y$10$vngoRErCjAXRXpXu8CqNoeoLbqUqpibxVyQagCTfH3taFSWYEwVG2', 1),
+(27, 'image1702269401-.jpg', 'Quang', 'Đàm', 'quang@gmail.com', 987788611, '', 'quang', '$2y$10$TyLhloLXh5KOxQNsKCDdUOnJJL5YrwjjHzCjyyt0Cy6yAusNNUqkO', 1),
 (26, 'admin.jpg', 'Hoang', 'Ho', 'duyhoang04244@gmail.com', 935540795, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', 'hoang', '$2y$10$p50TzDlT4qiLWvfQzdzgSObw.BrKBb.oXQSeAZH0zL0C4nS1SaZlO', 1),
 (30, 'image1702272187-.jpg', 'DIP', 'TRUONG', 'khanhdip@gmail.com', 917123456, '', 'khanhdip', '$2y$10$80OkmsUOqH3nA/2ZOuQdbevVvK1MdNxIf.N6wSHV39Fw2qDiMsRGe', 2),
 (31, 'image1702455768-.png', 'Mới', 'Khách Hàng', 'utal2322ik.com@gmail.com', 978533147, '', 'customer', '$2y$10$mU1JMFDim2fFLsewbgJPF.cfCsf2OEyr1rSIB7zIE1mgckmJa24F.', 2),
 (33, 'image1702616800-.png', 'Hoang', 'Ho', 'utalik.com@gmail.com', 84935540795, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', 'user', '$2y$10$OXwsJxowRh6Kl8Z1FX1eK.RkRyEGdoUOzYn06l2wTKXuLaCeJtTIO', 2),
 (34, NULL, 'Hoang', 'Ho', 'ut213123alik.com@gmail.com', 84935540795, NULL, '123123', '$2y$10$YeuYnbpiTHVvOrmMNA.bT.smQ7OG/pbiObahbl9RSfHhpOvYDIh7i', 2),
-(35, 'image1710856912-.jpg', 'Quang', 'shinro', 'damquang149@gmail.com', 385273875, '219 Hoàng Diệu 2, Linh Trung', 'customer1', '$2y$10$VrD0g6KrsLDavP/BuWfWTuPQUOYsiblAdEehlqFI0CfQHvrwHdw.a', 2),
+(35, 'image1710856912-.jpg', 'Quang', 'shinro', 'damquang149@gmail.com', 385273875, 'gvấpò', 'customer1', '$2y$10$VrD0g6KrsLDavP/BuWfWTuPQUOYsiblAdEehlqFI0CfQHvrwHdw.a', 2),
 (36, 'image1710867857-.jpg', 'Nguyen Van', 'A', 'damquang14911112@gmail.com', 385273875, NULL, 'customer2', '$2y$10$YBrW2RIWtR1564i7oz8g3O.koDhZg/PgMFhspvm8QCGUbkmvV.bJC', 2),
 (38, 'avatar1.png', 'Nguyen Van', 'B', 'damquang14911113@gmail.com', 385273875, NULL, 'customer3', '$2y$10$8J.6r6HPYVdxCQhm0BK4R.pgQZVQNNIFYM85RL8PX5qcShyotLY/q', 2);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `advertisements`
+--
+ALTER TABLE `advertisements`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `comments`
@@ -1085,6 +1161,12 @@ ALTER TABLE `roles`
   ADD PRIMARY KEY (`role_id`);
 
 --
+-- Indexes for table `star_rating`
+--
+ALTER TABLE `star_rating`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -1094,6 +1176,18 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `advertisements`
+--
+ALTER TABLE `advertisements`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `comm_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `coupons`
@@ -1111,7 +1205,7 @@ ALTER TABLE `email_lists`
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `manufactures`
@@ -1123,13 +1217,13 @@ ALTER TABLE `manufactures`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=380;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=382;
 
 --
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `orderdetail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=469;
+  MODIFY `orderdetail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=471;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -1142,6 +1236,12 @@ ALTER TABLE `products`
 --
 ALTER TABLE `protypes`
   MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `star_rating`
+--
+ALTER TABLE `star_rating`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`
