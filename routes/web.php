@@ -17,6 +17,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\EmailsController;
 use App\Http\Controllers\RevenuesController;
+use App\Http\Controllers\InventoryController;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UsersController;
@@ -117,6 +118,7 @@ Route::middleware('admin')->group(function () {
     Route::any('/admin', [PagesController::class, 'count'])->name('home_admin');
     Route::resource('/admin/revenues', RevenuesController::class);
     Route::resource('/admin/products', ProductsController::class);
+    Route::resource('/admin/inventories', InventoryController::class);
     Route::resource('/admin/coupons', CouponsController::class);
     Route::resource('/admin/manufactures', ManufacturesController::class);
     Route::resource('/admin/orderdetails', OrderDetailsController::class);

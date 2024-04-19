@@ -56,8 +56,8 @@
                         <tbody>
                             <?php $__currentLoopData = $protypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td><?php echo $value->type_id; ?></td>
-                                    <td><?php echo $value->type_name; ?></td>
+                                    <td>#<?php echo e($value->type_id); ?></td>
+                                    <td><?php echo e($value->type_name); ?></td>
                                     <td class="project-actions text-right" style="width:5%">
                                         <form action="protypes/<?php echo e($value->type_id); ?>/edit" method="POST"
                                             enctype="multipart/form-data">
@@ -83,7 +83,7 @@
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
                     </table>
-                    
+
                 </div>
                 <!-- /.card-body -->
             </div>

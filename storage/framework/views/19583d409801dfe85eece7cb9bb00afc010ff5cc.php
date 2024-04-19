@@ -42,6 +42,8 @@
                                         <ins class="product-inner-price">Loại sản phẩm: <?php echo e($probyid['type_name']); ?></ins>
                                         <br>
                                         <ins class="product-inner-price">Nhà sản xuất: <?php echo e($probyid['manu_name']); ?></ins>
+                                        <br>
+                                        <div class="remain-quantity">Tồn kho: <?php echo e($inventories['remain_quantity']); ?></div>
                                         <div style="margin-top:10px; color:#80bb35">
                                             <h5><del><strong><?php echo e(number_format($probyid['price'])); ?> VND</strong></del></h5>
                                         </div>
@@ -53,7 +55,9 @@
                                             <div class="quantity">
                                                 <input id="quanty-item-<?php echo e($probyid->id); ?>" type="number"
                                                     class="input-text qty text" title="Qty" probyid="1" size="1"
-                                                    name="quantity" min="1" step="1" value="1">
+                                                    name="quantity" min="1" max=<?php echo e($inventories->remain_quantity); ?>
+
+                                                    step="1" value="1">
                                             </div>
                                             <button onclick="AddQuantyCart(<?php echo e($probyid->id); ?>)" type="submit"
                                                 name="submit">thêm vào giỏ</button>
@@ -72,63 +76,135 @@
                                                     <p><?php echo e($probyid->description); ?></p>
                                                 </div>
                                                 <div role="tabpanel" class="tab-pane fade" id="profile">
-                                                    <h2>Đánh giá</h2>
+                                                    <h2>Đánh giá sản phẩm</h2>
                                                     <?php if(auth()->check()): ?>
-                                                    <form action="<?php echo e(route('comment.post', $probyid->id)); ?>" method="post">
-                                                    <?php echo csrf_field(); ?>
-                                                        <div class="submit-review">
-                                                            <!-- <p><label for="name">Tên</label> <input name="name"
-                                                                    type="text"></p>
-                                                            <p><label for="email">Email</label> <input name="email"
-                                                                    type="email"></p> -->
-                                                            <div class="rating-chooser">
-                                                                <p>Đánh giá sao</p>
+                                                        <form>
 
-                                                                <div class="rating-wrap-post">
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
+                                                            <div class="submit-review">
+                                                                
+                                                                <input type="hidden" class="product_id_comment"
+                                                                    value="<?php echo e($probyid->id); ?>">
+                                                                <div class="rating-chooser" id="star_rating">
+
+                                                                    <h6>Đánh giá sao</h6>
+
+                                                                    <!-- Rating Stars Box -->
+                                                                    <input type="hidden" class="star_rating_value">
+
+                                                                    
+                                                                    <ul class="ratingW">
+                                                                        <?php if($starRating): ?>
+                                                                            <?php
+                                                                            for ($i = 1; $i <= 5; $i++) {
+                                                                                if ($i <= $starRating->star) {
+                                                                                    echo '<li class="on"><a href="javascript:void(0);"><div class="star"></div></a></li>';
+                                                                                } else {
+                                                                                    echo '<li><a href="javascript:void(0);"><div class="star"></div></a></li>';
+                                                                                }
+                                                                            }
+                                                                            ?>
+                                                                        <?php else: ?>
+                                                                            <li class="on"><a
+                                                                                    href="javascript:void(0);">
+                                                                                    <div class="star"></div>
+                                                                                </a></li>
+                                                                            <li class="on"><a
+                                                                                    href="javascript:void(0);">
+                                                                                    <div class="star"></div>
+                                                                                </a></li>
+                                                                            <li class="on"><a
+                                                                                    href="javascript:void(0);">
+                                                                                    <div class="star"></div>
+                                                                                </a></li>
+                                                                            <li><a href="javascript:void(0);">
+                                                                                    <div class="star"></div>
+                                                                                </a></li>
+                                                                            <li><a href="javascript:void(0);">
+                                                                                    <div class="star"></div>
+                                                                                </a></li>
+                                                                        <?php endif; ?>
+                                                                    </ul>
+                                                                </div>
+                                                                <p><label for="review">Bình luận</label>
+                                                                    <textarea name="comment" class="comment" id="" cols="30" rows="10" style="text-align: left"></textarea>
+                                                                </p>
+                                                                
+                                                                <button type="button" id="applyCouponButton"
+                                                                    style="background-color: #FE9705; color: #fff; border: none; border-radius: 4px; padding: 9px; cursor: pointer; margin-bottom: 10px;"
+                                                                    onclick="writeComment()">
+                                                                    <strong>
+                                                                        Gửi
+                                                                    </strong>
+                                                                </button>
+                                                                <div id="comment-result" style="color: red;"></div>
+                                                            </div>
+                                                        </form>
+                                                    <?php else: ?>
+                                                        <div class="alert alert-danger" role="alert">
+                                                            <strong>Đăng nhập để bình luận</strong> click vào đây <a
+                                                                href="<?php echo e(route('login')); ?>">Đăng nhập</a>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                    <div id="list-comment">
+                                                        <?php $__currentLoopData = $comments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $comm): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                            <div class="media">
+                                                                <a class="pull-left" href="#">
+                                                                    <img width="50" class="media-object"
+                                                                        src="<?php echo e(asset('assets/img/' . $comm->user->image)); ?> "
+                                                                        alt="Image">
+                                                                </a>
+
+                                                                <div class="media-body">
+                                                                    <h4 class="media-heading">
+                                                                        <?php echo e($comm->user->First_name); ?>
+
+                                                                        <?php echo e($comm->user->Last_name); ?>
+
+
+                                                                        <small><?php echo e($comm->created_at->format('d/m/Y')); ?></small>
+                                                                        <ul class="ratingW-comment">
+                                                                            <small>
+                                                                                <?php if($starRating): ?>
+                                                                                    <?php
+                                                                                    for ($i = 1; $i <= 5; $i++) {
+                                                                                        if ($i <= $starRating->star) {
+                                                                                            echo '<li class="on"><div class="star-comm"></div></li>';
+                                                                                        } else {
+                                                                                            echo '<li><div class="star-comm"></div></li>';
+                                                                                        }
+                                                                                    }
+                                                                                    ?>
+                                                                                <?php endif; ?>
+                                                                            </small>
+                                                                        </ul>
+                                                                    </h4>
+                                                                    <p><?php echo e($comm->comment); ?></p>
+                                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('my-comment', $comm)): ?>
+                                                                        <!-- <form action="" method="get" class="text-right">
+                                                                                                                                                                <a href="" class="btn btn-primary btn-sm">Sửa</a>
+                                                                                                                                                            </form> -->
+                                                                        <form class="text-right">
+                                                                            <button type="button" id="applyCouponButton"
+                                                                                style="background-color: #f80808; color: #fff; border: none; border-radius: 4px; padding: 9px; cursor: pointer;"
+                                                                                onclick="deleteComment(<?php echo e($comm->comm_id); ?>)">
+                                                                                <strong>
+                                                                                    Xóa
+                                                                                </strong>
+                                                                            </button>
+                                                                        </form>
+                                                                    <?php endif; ?>
                                                                 </div>
                                                             </div>
-                                                            <p><label for="review">Bình luận</label>
-                                                                <textarea name="comment" id="" cols="30" rows="10"></textarea>
-                                                            </p>
-                                                            <p><input type="submit" value="Gửi"></p>
-                                                        </div>
-                                                    </form>
-                                                    <?php else: ?>
-                                                    <div class="alert alert-danger" role="alert">
-                                                        <strong>Đăng nhập để bình luận</strong> click vào đây <a href="<?php echo e(route('login')); ?>">Đăng nhập</a>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </div>
-                                                    <?php endif; ?>
-                                                    <?php $__currentLoopData = $comments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $comm): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                        <div class="media" >
-                                                            <a class="pull-left" href="#">
-                                                                <img width="50" class="media-object" src="<?php echo e(asset('assets/img/' . $comm->user->image)); ?> " alt="Image">
-                                                            </a>
-                                                           
-                                                            <div class="media-body">
-                                                                <h4 class="media-heading"><?php echo e($comm->user->First_name); ?> <?php echo e($comm->user->Last_name); ?> <small><?php echo e($comm->created_at->format('d/m/Y')); ?></small></h4>
-                                                                <p><?php echo e($comm->comment); ?></p>
-                                                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('my-comment', $comm)): ?>
-                                                                <!-- <form action="" method="get" class="text-right">
-                                                                    <a href="" class="btn btn-primary btn-sm">Sửa</a>
-                                                                </form> -->
-                                                                <form action="<?php echo e(route('comment.delete', $comm->comm_id)); ?>" method="get" class="text-right">
-                                                                    <p><input type="submit" style="background:red" value="Xóa"></p>
-                                                                </form>
-                                                                <?php endif; ?>
-                                                            </div>
-                                                        </div>    
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                    <div class="pagination-container" style="margin-top: 30px; text-align: center;">
+
+                                                    <div class="pagination-container"
+                                                        style="margin-top: 30px; text-align: center;">
                                                         <?php echo e($products->render('/admin/pagination')); ?>
 
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
 
@@ -191,7 +267,8 @@
                                                         </div>
                                                         <a onclick="AddCart(<?php echo e($product->id); ?>)" href="javascript:">
                                                             <div class="add-to-cart">
-                                                                <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>
+                                                                <button class="add-to-cart-btn"><i
+                                                                        class="fa fa-shopping-cart"></i>
                                                                     Thêm vào
                                                                     giỏ</button>
                                                             </div>
@@ -212,6 +289,6 @@
                 </div>
             </div>
         </div>
-<?php $__env->stopSection(); ?>
+    <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layout.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\duyho\Desktop\TLCN_Laravel\resources\views/detail-product.blade.php ENDPATH**/ ?>

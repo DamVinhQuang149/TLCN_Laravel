@@ -82,7 +82,7 @@
                         <tbody>
                             @foreach ($products as $value)
                                 <tr>
-                                    <td style="text-align:center">{{ $value['id'] }}</td>
+                                    <td style="text-align:center">#{{ $value['id'] }}</td>
                                     <td>{{ $value['name'] }}</td>
                                     <td><img style="width:50px"
                                             src="{{ asset('assets/img/' . $value['pro_image']) }}"alt=""></td>

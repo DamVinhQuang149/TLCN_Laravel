@@ -42,6 +42,8 @@
                                         <ins class="product-inner-price">Loại sản phẩm: {{ $probyid['type_name'] }}</ins>
                                         <br>
                                         <ins class="product-inner-price">Nhà sản xuất: {{ $probyid['manu_name'] }}</ins>
+                                        <br>
+                                        <div class="remain-quantity">Tồn kho: {{ $inventories['remain_quantity'] }}</div>
                                         <div style="margin-top:10px; color:#80bb35">
                                             <h5><del><strong>{{ number_format($probyid['price']) }} VND</strong></del></h5>
                                         </div>
@@ -53,7 +55,8 @@
                                             <div class="quantity">
                                                 <input id="quanty-item-{{ $probyid->id }}" type="number"
                                                     class="input-text qty text" title="Qty" probyid="1" size="1"
-                                                    name="quantity" min="1" step="1" value="1">
+                                                    name="quantity" min="1" max={{ $inventories->remain_quantity }}
+                                                    step="1" value="1">
                                             </div>
                                             <button onclick="AddQuantyCart({{ $probyid->id }})" type="submit"
                                                 name="submit">thêm vào giỏ</button>
@@ -74,113 +77,133 @@
                                                 <div role="tabpanel" class="tab-pane fade" id="profile">
                                                     <h2>Đánh giá sản phẩm</h2>
                                                     @if (auth()->check())
-                                                    <form>
-                                                    
-                                                        <div class="submit-review">
-                                                            {{-- <p><label for="name">{{ Auth::user()->First_name }} {{ Auth::user()->Last_name }}</label> <input name="name"
+                                                        <form>
+
+                                                            <div class="submit-review">
+                                                                {{-- <p><label for="name">{{ Auth::user()->First_name }} {{ Auth::user()->Last_name }}</label> <input name="name"
                                                                     type="text"></p>
                                                             <p><label for="email">Email</label> <input name="email"
                                                                     type="email"></p> --}}
-                                                            <input type="hidden" class="product_id_comment" value="{{ $probyid->id }}">
-                                                            <div class="rating-chooser" id="star_rating">
-                                                                
-                                                                <h6>Đánh giá sao</h6>
+                                                                <input type="hidden" class="product_id_comment"
+                                                                    value="{{ $probyid->id }}">
+                                                                <div class="rating-chooser" id="star_rating">
 
-                                                                <!-- Rating Stars Box -->
-                                                                <input type="hidden" class="star_rating_value">
+                                                                    <h6>Đánh giá sao</h6>
 
-                                                                {{-- <p class="counterW">Điểm: <span class="scoreNow">3</span> trên <span>5</span></p> --}}
-                                                                <ul class="ratingW">
-                                                                    @if ($starRating)
-                                                                        <?php
-                                                                        for ($i = 1; $i <= 5; $i++) {
-                                                                            if ($i <= $starRating->star) {
-                                                                                echo '<li class="on"><a href="javascript:void(0);"><div class="star"></div></a></li>';
-                                                                            } else {
-                                                                                echo '<li><a href="javascript:void(0);"><div class="star"></div></a></li>';
+                                                                    <!-- Rating Stars Box -->
+                                                                    <input type="hidden" class="star_rating_value">
+
+                                                                    {{-- <p class="counterW">Điểm: <span class="scoreNow">3</span> trên <span>5</span></p> --}}
+                                                                    <ul class="ratingW">
+                                                                        @if ($starRating)
+                                                                            <?php
+                                                                            for ($i = 1; $i <= 5; $i++) {
+                                                                                if ($i <= $starRating->star) {
+                                                                                    echo '<li class="on"><a href="javascript:void(0);"><div class="star"></div></a></li>';
+                                                                                } else {
+                                                                                    echo '<li><a href="javascript:void(0);"><div class="star"></div></a></li>';
+                                                                                }
                                                                             }
-                                                                        }
-                                                                        ?>
-                                                                    @else
-                                                                        <li class="on"><a href="javascript:void(0);"><div class="star"></div></a></li>
-                                                                        <li class="on"><a href="javascript:void(0);"><div class="star"></div></a></li>
-                                                                        <li class="on"><a href="javascript:void(0);"><div class="star"></div></a></li>
-                                                                        <li><a href="javascript:void(0);"><div class="star"></div></a></li>
-                                                                        <li><a href="javascript:void(0);"><div class="star"></div></a></li>
-                                                                    @endif  
-                                                                </ul>
+                                                                            ?>
+                                                                        @else
+                                                                            <li class="on"><a
+                                                                                    href="javascript:void(0);">
+                                                                                    <div class="star"></div>
+                                                                                </a></li>
+                                                                            <li class="on"><a
+                                                                                    href="javascript:void(0);">
+                                                                                    <div class="star"></div>
+                                                                                </a></li>
+                                                                            <li class="on"><a
+                                                                                    href="javascript:void(0);">
+                                                                                    <div class="star"></div>
+                                                                                </a></li>
+                                                                            <li><a href="javascript:void(0);">
+                                                                                    <div class="star"></div>
+                                                                                </a></li>
+                                                                            <li><a href="javascript:void(0);">
+                                                                                    <div class="star"></div>
+                                                                                </a></li>
+                                                                        @endif
+                                                                    </ul>
+                                                                </div>
+                                                                <p><label for="review">Bình luận</label>
+                                                                    <textarea name="comment" class="comment" id="" cols="30" rows="10" style="text-align: left"></textarea>
+                                                                </p>
+                                                                {{-- <p><input type="submit"` class="write-comment" value="Gửi" onclick="writeComment()"></p> --}}
+                                                                <button type="button" id="applyCouponButton"
+                                                                    style="background-color: #FE9705; color: #fff; border: none; border-radius: 4px; padding: 9px; cursor: pointer; margin-bottom: 10px;"
+                                                                    onclick="writeComment()">
+                                                                    <strong>
+                                                                        Gửi
+                                                                    </strong>
+                                                                </button>
+                                                                <div id="comment-result" style="color: red;"></div>
                                                             </div>
-                                                            <p><label for="review">Bình luận</label>
-                                                                <textarea name="comment" class="comment" id="" cols="30" rows="10" style="text-align: left"></textarea>
-                                                            </p>
-                                                            {{-- <p><input type="submit"` class="write-comment" value="Gửi" onclick="writeComment()"></p> --}}
-                                                            <button type="button" id="applyCouponButton" 
-                                                                style="background-color: #FE9705; color: #fff; border: none; border-radius: 4px; padding: 9px; cursor: pointer; margin-bottom: 10px;"
-                                                                onclick="writeComment()">
-                                                                <strong>
-                                                                    Gửi
-                                                                </strong>
-                                                            </button>
-                                                            <div id="comment-result" style="color: red;"></div>
-                                                        </div>
-                                                    </form>
+                                                        </form>
                                                     @else
-                                                    <div class="alert alert-danger" role="alert">
-                                                        <strong>Đăng nhập để bình luận</strong> click vào đây <a href="{{route('login')}}">Đăng nhập</a>
-                                                    </div>
+                                                        <div class="alert alert-danger" role="alert">
+                                                            <strong>Đăng nhập để bình luận</strong> click vào đây <a
+                                                                href="{{ route('login') }}">Đăng nhập</a>
+                                                        </div>
                                                     @endif
                                                     <div id="list-comment">
                                                         @foreach ($comments as $comm)
                                                             <div class="media">
                                                                 <a class="pull-left" href="#">
-                                                                    <img width="50" class="media-object" src="{{ asset('assets/img/' . $comm->user->image) }} " alt="Image">
+                                                                    <img width="50" class="media-object"
+                                                                        src="{{ asset('assets/img/' . $comm->user->image) }} "
+                                                                        alt="Image">
                                                                 </a>
-                                                            
+
                                                                 <div class="media-body">
-                                                                    <h4 class="media-heading">{{ $comm->user->First_name }} {{ $comm->user->Last_name }} 
-                                                                        
-                                                                        <small>{{ $comm->created_at->format('d/m/Y') }}</small> 
+                                                                    <h4 class="media-heading">
+                                                                        {{ $comm->user->First_name }}
+                                                                        {{ $comm->user->Last_name }}
+
+                                                                        <small>{{ $comm->created_at->format('d/m/Y') }}</small>
                                                                         <ul class="ratingW-comment">
-                                                                        <small>
-                                                                            @if ($starRating)
-                                                                            <?php
-                                                                            for ($i = 1; $i <= 5; $i++) {
-                                                                                if ($i <= $starRating->star) {
-                                                                                    echo '<li class="on"><div class="star-comm"></div></li>';
-                                                                                } else {
-                                                                                    echo '<li><div class="star-comm"></div></li>';
-                                                                                }
-                                                                            }
-                                                                            ?>
-                                                                            @endif
-                                                                        </small>
+                                                                            <small>
+                                                                                @if ($starRating)
+                                                                                    <?php
+                                                                                    for ($i = 1; $i <= 5; $i++) {
+                                                                                        if ($i <= $starRating->star) {
+                                                                                            echo '<li class="on"><div class="star-comm"></div></li>';
+                                                                                        } else {
+                                                                                            echo '<li><div class="star-comm"></div></li>';
+                                                                                        }
+                                                                                    }
+                                                                                    ?>
+                                                                                @endif
+                                                                            </small>
                                                                         </ul>
                                                                     </h4>
                                                                     <p>{{ $comm->comment }}</p>
                                                                     @can('my-comment', $comm)
-                                                                    <!-- <form action="" method="get" class="text-right">
-                                                                        <a href="" class="btn btn-primary btn-sm">Sửa</a>
-                                                                    </form> -->
-                                                                    <form class="text-right">
-                                                                        <button type="button" id="applyCouponButton" 
-                                                                            style="background-color: #f80808; color: #fff; border: none; border-radius: 4px; padding: 9px; cursor: pointer;"
-                                                                            onclick="deleteComment({{$comm->comm_id}})">
-                                                                            <strong>
-                                                                                Xóa
-                                                                            </strong>
-                                                                        </button>
-                                                                    </form>
+                                                                        <!-- <form action="" method="get" class="text-right">
+                                                                                                                                                                <a href="" class="btn btn-primary btn-sm">Sửa</a>
+                                                                                                                                                            </form> -->
+                                                                        <form class="text-right">
+                                                                            <button type="button" id="applyCouponButton"
+                                                                                style="background-color: #f80808; color: #fff; border: none; border-radius: 4px; padding: 9px; cursor: pointer;"
+                                                                                onclick="deleteComment({{ $comm->comm_id }})">
+                                                                                <strong>
+                                                                                    Xóa
+                                                                                </strong>
+                                                                            </button>
+                                                                        </form>
                                                                     @endcan
                                                                 </div>
-                                                            </div>    
+                                                            </div>
                                                         @endforeach
                                                     </div>
-                                                    
-                                                    <div class="pagination-container" style="margin-top: 30px; text-align: center;">
+
+                                                    <div class="pagination-container"
+                                                        style="margin-top: 30px; text-align: center;">
                                                         {{ $products->render('/admin/pagination') }}
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
 
@@ -241,7 +264,8 @@
                                                         </div>
                                                         <a onclick="AddCart({{ $product->id }})" href="javascript:">
                                                             <div class="add-to-cart">
-                                                                <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>
+                                                                <button class="add-to-cart-btn"><i
+                                                                        class="fa fa-shopping-cart"></i>
                                                                     Thêm vào
                                                                     giỏ</button>
                                                             </div>
@@ -262,4 +286,4 @@
                 </div>
             </div>
         </div>
-@endsection
+    @endsection

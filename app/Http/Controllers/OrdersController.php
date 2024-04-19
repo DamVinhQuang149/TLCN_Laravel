@@ -8,7 +8,7 @@ use App\Models\OrderDetails;
 use App\Models\Products;
 use App\Models\Coupons;
 use App\Models\Payments;
-
+use App\Models\Inventories;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Session;
@@ -163,8 +163,24 @@ class OrdersController extends Controller
                             'type_id' => $type_id,
                             'product_image' => $product_image
                         ]);
-                    }
+                        $inventories = Inventories::where("product_id", $product_id)->get();
 
+                        foreach ($inventories as $inventory) {
+                            $remain_quantity = $inventory->remain_quantity - $product_quantity;
+                            // dd($remain_quantity);
+                            if ($remain_quantity < 7 && $remain_quantity > 0) {
+                                $status = "Nearly Out Of Stock";
+                            } elseif ($remain_quantity == 0) {
+                                $status = "Out Of Stock";
+                            } else {
+                                $status = "In Stock";
+                            }
+                            $inventory->sold_quantity = $inventory->sold_quantity + $product_quantity;
+                            $inventory->remain_quantity = $remain_quantity;
+                            $inventory->inventory_status = $status;
+                            $inventory->save();
+                        }
+                    }
                     if ($order->checkout == 0) {
                         $status = 2;
                         $order->update([
@@ -277,6 +293,35 @@ class OrdersController extends Controller
     {
         $orders = Orders::find($order_id);
         $status = 5;
+
+        $inventories = Inventories::get();
+        $orderDetail = OrderDetails::select('*')
+            ->where('order_id', $order_id)
+            ->get();
+        foreach ($orderDetail as $item) {
+            foreach ($inventories as $value) {
+                if ($item->product_id == $value->product_id) {
+                    $quantity = $item->product_quantity;
+                    $remain_quantity = $quantity + $value->remain_quantity;
+                    $sold_quantity = $value->sold_quantity - $quantity;
+                    if ($remain_quantity < 7 && $remain_quantity > 0) {
+                        $inventory_status = "Nearly Out Of Stock";
+                    } elseif ($remain_quantity == 0) {
+                        $inventory_status = "Out Of Stock";
+                    } else {
+                        $inventory_status = "In Stock";
+                    }
+                    $inventory = Inventories::where('product_id', $item->product_id)->first();
+                    if ($inventory) {
+                        $inventory->update([
+                            'remain_quantity' => $remain_quantity,
+                            'sold_quantity' => $sold_quantity,
+                            'inventory_status' => $inventory_status,
+                        ]);
+                    }
+                }
+            }
+        }
         $orders->update(['status' => $status]);
         return redirect()->route('list.order')->with('success', 'Đã hủy đơn hàng!');
     }

@@ -87,12 +87,13 @@
                                                 <i class="fas fa-trash"></i> Delete
                                             </button>
                                         </form>
-                                        <form action="{{route('sendmail.ad', $value->id)}}" method="POST"
+                                        <form action="{{ route('sendmail.ad', $value->id) }}" method="POST"
                                             enctype="multipart/form-data">
                                             @csrf
                                             @method('GET')
-                                            <button type="submit" class="btn btn-info btn-sm" style="margin-top:6px">
-                                                <i class="fas fa-paper-plane"></i> Send 
+                                            <button type="submit" class="btn btn-print"
+                                                style="background-color: green; margin-top:6px; color: white">
+                                                <i class="fas fa-paper-plane"></i> Send
                                             </button>
                                         </form>
                                     </td>
@@ -100,7 +101,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    
+
                 </div>
                 <!-- /.card-body -->
             </div>

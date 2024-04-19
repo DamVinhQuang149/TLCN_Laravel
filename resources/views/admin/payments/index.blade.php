@@ -66,8 +66,9 @@
                         <tbody>
                             @foreach ($payments as $value)
                                 <tr>
-                                    <td class="text-center" style="width: 15%">{{ $value->order_id }}</td>
-                                    <td class="text-center" style="width: 15%">{{ number_format($value->total_cost, 0, ',', '.') }}đ</td>
+                                    <td class="text-center" style="width: 15%">#{{ $value->order_id }}</td>
+                                    <td class="text-center" style="width: 15%">
+                                        {{ number_format($value->total_cost, 0, ',', '.') }}đ</td>
                                     <td class="text-center" style="width: 15%">{{ $value->bankcode }}</td>
                                     <td class="text-center" style="width: 15%">{{ $value->content }}</td>
                                     <td class="text-center" style="width: 15%">{{ $value->card_type }}</td>

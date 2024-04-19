@@ -54,12 +54,12 @@
                         <tbody>
                             <?php $__currentLoopData = $emails; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td class="text-center" style="width: 9%"><?php echo $value->email_id; ?></td>
-                                    <td class="text-center" style="width: 30%"><?php echo $value->email; ?></td>
+                                    <td class="text-center" style="width: 9%">#<?php echo e($value->email_id); ?></td>
+                                    <td class="text-center" style="width: 30%"><?php echo e($value->email); ?></td>
                                     <td class="text-center" style="width: 30%">
-                                        <?php 
-                                            $created_at = strtotime($value->created_at);
-                                            echo '<span style="margin-right: 25px;">' . date('d/m/Y', $created_at) . '</span>At:<span style="margin-left: 5px;">' . date('g:i a',                                                       $created_at) . '</span>';
+                                        <?php
+                                        $created_at = strtotime($value->created_at);
+                                        echo '<span style="margin-right: 25px;">' . date('d/m/Y', $created_at) . '</span>At:<span style="margin-left: 5px;">' . date('g:i a', $created_at) . '</span>';
                                         ?>
                                     </td>
 

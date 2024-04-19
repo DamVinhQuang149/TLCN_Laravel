@@ -11,6 +11,7 @@ use App\Models\Products;
 use App\Models\Protypes;
 use App\Models\Manufactures;
 use App\Models\Comments;
+use App\Models\Inventories;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -31,7 +32,7 @@ class ProductsController extends Controller
         $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
             ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
             ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
-            ->orderBy('products.id', 'asc')
+            ->orderBy('products.id', 'desc')
             ->paginate(10);
         return view('admin.products.index', ['products' => $products]);
     }
@@ -69,16 +70,21 @@ class ProductsController extends Controller
         $desc = $request->input('desc');
         $feature = $request->input('feature');
         $discount_price = $request->input('discount_price');
+        $import_quantity = $request->input('import_quantity');
+
+        if ($import_quantity < 10) {
+            return redirect('admin/products')->with('warning', 'Import quantity minimum 10!');
+        }
 
         if (!is_numeric($price) || !is_numeric($discount_price)) {
             return redirect('admin/products')->with('warning', 'Price and discount price must be numeric!');
         }
         switch (true) {
-            case empty ($manu):
+            case empty($manu):
                 return redirect('admin/products')->with('error', 'Please Choose A Manufacture!');
-            case empty ($type):
+            case empty($type):
                 return redirect('admin/products')->with('error', 'Please Choose A Product Type!');
-            case empty ($desc):
+            case empty($desc):
                 return redirect('admin/products')->with('error', 'Please Enter Description!');
             case is_null($feature):
                 return redirect('admin/products')->with('error', 'Please Choose A Feature!');
@@ -98,6 +104,17 @@ class ProductsController extends Controller
                         'pro_image' => $image_name,
                     ]);
                     $products->save();
+                    $product_id = $products->id;
+                    $inventories = Inventories::create([
+                        'product_name' => $name,
+                        'product_image' => $image_name,
+                        'product_id' => $product_id,
+                        'import_quantity' => $import_quantity,
+                        'sold_quantity' => 0,
+                        'remain_quantity' => $import_quantity,
+                        'inventory_status' => 'In Stocks',
+                    ]);
+                    $inventories->save();
                     return redirect('admin/products')->with('success', 'Add New Product Successfully!');
                 } else {
                     return redirect('admin/products')->with('warning', 'Only accept image formats JPG, PNG, or WEBP!');
@@ -152,13 +169,13 @@ class ProductsController extends Controller
             return redirect('admin/products')->with('warning', 'Price and discount price must be numeric!');
         }
         switch (true) {
-            case empty ($name):
+            case empty($name):
                 return redirect('admin/products')->with('error', 'Please Choose A Name!');
-            case empty ($manu):
+            case empty($manu):
                 return redirect('admin/products')->with('error', 'Please Choose A Manufacture!');
-            case empty ($type):
+            case empty($type):
                 return redirect('admin/products')->with('error', 'Please Choose A Product Type!');
-            case empty ($desc):
+            case empty($desc):
                 return redirect('admin/products')->with('error', 'Please Enter Description!');
             case is_null($feature):
                 return redirect('admin/products')->with('error', 'Please Choose A Feature!');
@@ -212,7 +229,14 @@ class ProductsController extends Controller
     public function destroy($id)
     {
         $products = Products::find($id);
-        $products->delete();
+        if ($products) {
+            $inventories = Inventories::where("product_id", $id)->get();
+            foreach ($inventories as $inventory) {
+                $inventory->delete();
+            }
+            $products->delete();
+        }
+
         return redirect('admin/products')->with('success', 'Delete Product Successfully!');
     }
 
@@ -226,7 +250,7 @@ class ProductsController extends Controller
             $to = request()->get('to');
 
 
-            if (isset ($_GET['sort_by'])) {
+            if (isset($_GET['sort_by'])) {
                 $sort_by = $_GET['sort_by'];
                 if ($sort_by == 'tang_dan') {
                     $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
@@ -308,8 +332,19 @@ class ProductsController extends Controller
         $comments = Comments::where('product_id', $id)->orderBy('comm_id', 'DESC')->paginate(4);
 
         $star = StarRating::where(['product_id' => $id, 'user_id' => auth()->id()])->first();
-        
-        return view('detail-product', ['products' => $products, 'probyid' => $probyid, 'comments' => $comments, 'starRating' => $star]);
+
+        $inventories = Inventories::select('inventories.*')->where('product_id', $id)->first();
+
+        // foreach ($inventories as $remain_quantity)
+
+
+        return view('detail-product', [
+            'products' => $products,
+            'probyid' => $probyid,
+            'comments' => $comments,
+            'starRating' => $star,
+            'inventories' => $inventories,
+        ]);
     }
 
     public function search(Request $request)
@@ -335,69 +370,68 @@ class ProductsController extends Controller
         $data['product_id'] = $proid;
         $data['comment'] = $comment;
         $data['user_id'] = auth()->id();
-        
+
         $dataStart['product_id'] = $proid;
         $dataStart['star'] = $star;
         $dataStart['user_id'] = auth()->id();
-        
+
         $userOrders = Orders::Where('user_id', auth()->id())->get();
 
         foreach ($userOrders as $userOrder) {
             $orderDetail = OrderDetails::select('product_id')
 
-            ->where('order_id', $userOrder->order_id)
+                ->where('order_id', $userOrder->order_id)
 
-            ->get();
+                ->get();
 
             $orderDetails[] = $orderDetail;
         }
         $count = 0;
         foreach ($orderDetails as $value) {
             foreach ($value as $orderDetail) {
-                if($orderDetail->product_id == $proid){
+                if ($orderDetail->product_id == $proid) {
                     $count = $count + 1;
                 }
             }
         }
 
         $existingStar = StarRating::where(['product_id' => $proid, 'user_id' => auth()->id()])->first();
-        if($count > 0){
+        if ($count > 0) {
             if ($existingStar) {
                 $existingStar->update($dataStart);
                 Comments::create($data);
-            
+
                 $comments = Comments::where('product_id', $proid)->orderBy('comm_id', 'DESC')->paginate(4);
                 $star = StarRating::where(['product_id' => $proid, 'user_id' => auth()->id()])->first();
-                
+
                 return response()->json([
                     'comment_view' => view('ajax.ajax_comment', ['comments' => $comments, 'starRating' => $star])->render(),
                 ]);
             } else {
                 StarRating::create($dataStart);
                 Comments::create($data);
-            
+
                 $comments = Comments::where('product_id', $proid)->orderBy('comm_id', 'DESC')->paginate(4);
                 $star = StarRating::where(['product_id' => $proid, 'user_id' => auth()->id()])->first();
-                
+
                 return response()->json([
                     'comment_view' => view('ajax.ajax_comment', ['comments' => $comments, 'starRating' => $star])->render(),
                 ]);
             }
-        }
-        else {
-            $comments=null;
+        } else {
+            $comments = null;
             return response()->json([
                 'comment_view' => view('ajax.ajax_comment', ['comments' => $comments])->render(),
             ]);
         }
-        
-        
-        
+
+
+
     }
     public function deleteComment($comm_id)
     {
         //dd($comm_id);
-        
+
         $comment = Comments::find($comm_id);
         $comment->delete();
         $comments = Comments::where('product_id', $comment->product_id)->orderBy('comm_id', 'DESC')->paginate(4);

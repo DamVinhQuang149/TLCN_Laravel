@@ -17,7 +17,7 @@
         <ul class="navbar-nav ml-auto">
             <!-- Navbar Search -->
             <li class="nav-item">
-             <!--   <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+                <!--   <a class="nav-link" data-widget="navbar-search" href="#" role="button">
                     <i class="fas fa-search"></i>
                 </a>
                 <div class="navbar-search-block">
@@ -158,6 +158,15 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="/admin/inventories" class="nav-link">
+                            <i class="nav-icon fas fa-warehouse"></i>
+                            <p>
+                                Inventory
+                                <span class="right badge badge-danger">New</span>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="/admin/manufactures" class="nav-link">
                             <i class="nav-icon fas fa-industry"></i>
                             <p>
@@ -238,6 +247,7 @@
                             </p>
                         </a>
                     </li>
+
                     <li class="nav-item">
                         <a href="{{ route('logout.admin') }}" class="nav-link">
                             <i class="nav-icon fas fa-sign-out-alt"></i>

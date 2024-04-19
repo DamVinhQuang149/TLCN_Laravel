@@ -66,8 +66,9 @@
                         <tbody>
                             <?php $__currentLoopData = $payments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td class="text-center" style="width: 15%"><?php echo e($value->order_id); ?></td>
-                                    <td class="text-center" style="width: 15%"><?php echo e(number_format($value->total_cost, 0, ',', '.')); ?>đ</td>
+                                    <td class="text-center" style="width: 15%">#<?php echo e($value->order_id); ?></td>
+                                    <td class="text-center" style="width: 15%">
+                                        <?php echo e(number_format($value->total_cost, 0, ',', '.')); ?>đ</td>
                                     <td class="text-center" style="width: 15%"><?php echo e($value->bankcode); ?></td>
                                     <td class="text-center" style="width: 15%"><?php echo e($value->content); ?></td>
                                     <td class="text-center" style="width: 15%"><?php echo e($value->card_type); ?></td>

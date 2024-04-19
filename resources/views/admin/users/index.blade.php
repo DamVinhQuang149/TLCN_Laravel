@@ -68,7 +68,7 @@
                         <tbody>
                             @foreach ($users as $value)
                                 <tr>
-                                    <td class="text-center" style="width:3%">{{ $value->user_id }}</td>
+                                    <td class="text-center" style="width:3%">#{{ $value->user_id }}</td>
                                     <td style="width:10%"><img style="width:50px;border-radius:9px"
                                             src="{{ asset('assets/img/' . $value->image) }}" alt=""></td>
                                     <td class="text-center" style="width:14%">{{ $value->First_name }}</td>

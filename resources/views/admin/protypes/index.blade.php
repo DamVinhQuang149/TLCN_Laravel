@@ -56,8 +56,8 @@
                         <tbody>
                             @foreach ($protypes as $value)
                                 <tr>
-                                    <td><?php echo $value->type_id; ?></td>
-                                    <td><?php echo $value->type_name; ?></td>
+                                    <td>#{{ $value->type_id }}</td>
+                                    <td>{{ $value->type_name }}</td>
                                     <td class="project-actions text-right" style="width:5%">
                                         <form action="protypes/{{ $value->type_id }}/edit" method="POST"
                                             enctype="multipart/form-data">
@@ -83,7 +83,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    
+
                 </div>
                 <!-- /.card-body -->
             </div>

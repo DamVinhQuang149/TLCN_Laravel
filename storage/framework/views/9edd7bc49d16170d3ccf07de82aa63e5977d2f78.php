@@ -82,7 +82,7 @@
                         <tbody>
                             <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td style="text-align:center"><?php echo e($value['id']); ?></td>
+                                    <td style="text-align:center">#<?php echo e($value['id']); ?></td>
                                     <td><?php echo e($value['name']); ?></td>
                                     <td><img style="width:50px"
                                             src="<?php echo e(asset('assets/img/' . $value['pro_image'])); ?>"alt=""></td>

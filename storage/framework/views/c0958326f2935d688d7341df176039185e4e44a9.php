@@ -70,8 +70,8 @@
                         <tbody>
                             <?php $__currentLoopData = $orders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td class="text-center" style="width: 5%"><?php echo e($value->order_id); ?></td>
-                                    <td class="text-center" style="width: 5%"><?php echo e($value->user_id); ?></td>
+                                    <td class="text-center" style="width: 5%">#<?php echo e($value->order_id); ?></td>
+                                    <td class="text-center" style="width: 5%">#<?php echo e($value->user_id); ?></td>
                                     <td class="text-center" style="width: 15%"><?php echo e($value->address); ?></td>
                                     <td style="width: 10%"><?php echo e($value->phone); ?></td>
                                     <td style="width: 9%">Mã giảm giá:

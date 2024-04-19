@@ -6,7 +6,7 @@ function AddCart(id) {
         .done(function (response) {
             RenderCart(response.view_1);
             RenderListCart(response.view_2);
-            alertify.success("Đã thêm sản phẩm vào giỏ hàng");
+            alertify.success("Thêm vào giỏ hàng thành công!");
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             console.error("AJAX Error:", textStatus, errorThrown);
@@ -19,7 +19,7 @@ function AddQuantyCart(id) {
     })
         .done(function (response) {
             RenderCart(response.view_1);
-            alertify.success("Đã thêm sản phẩm vào giỏ hàng");
+            alertify.success("Thêm vào giỏ hàng thành công!");
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             console.error("AJAX Error:", textStatus, errorThrown);
@@ -60,8 +60,15 @@ function DeleteListItemCart(id) {
 
 //
 function SaveListItemCart(id) {
+    var quantity = $("#quanty-item-" + id).val();
+
+    if (quantity > 10) {
+        alertify.error("Số lượng tối đa là 10 / 1 sản phẩm / 1 đơn hàng");
+        return;
+    }
+
     $.ajax({
-        url: "/save-list-item-cart/" + id + "/" + $("#quanty-item-" + id).val(),
+        url: "/save-list-item-cart/" + id + "/" + quantity,
         type: "GET",
     })
         .done(function (response) {
@@ -76,6 +83,7 @@ function SaveListItemCart(id) {
             console.error("AJAX Error:", textStatus, errorThrown);
         });
 }
+
 function RenderCart(response) {
     $("#change-item-cart").empty();
     $("#change-item-cart").html(response);
