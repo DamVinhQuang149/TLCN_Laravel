@@ -163,22 +163,14 @@ class OrdersController extends Controller
                             'type_id' => $type_id,
                             'product_image' => $product_image
                         ]);
+
                         $inventories = Inventories::where("product_id", $product_id)->get();
 
                         foreach ($inventories as $inventory) {
-                            $remain_quantity = $inventory->remain_quantity - $product_quantity;
-                            // dd($remain_quantity);
-                            if ($remain_quantity < 7 && $remain_quantity > 0) {
-                                $status = "Nearly Out Of Stock";
-                            } elseif ($remain_quantity == 0) {
-                                $status = "Out Of Stock";
-                            } else {
-                                $status = "In Stock";
-                            }
-                            $inventory->sold_quantity = $inventory->sold_quantity + $product_quantity;
-                            $inventory->remain_quantity = $remain_quantity;
-                            $inventory->inventory_status = $status;
-                            $inventory->save();
+                            
+                            if ($inventory->remain_quantity < $product_quantity) {
+                                return redirect()->back()->with('error', 'Số lượng sản phẩm đặt hàng lớn hơn số lượng tồn kho! Vui lòng kiểm tra lại');
+                            }  
                         }
                     }
                     if ($order->checkout == 0) {
@@ -188,24 +180,6 @@ class OrdersController extends Controller
                         ]);
                         return redirect()->route('onlinepayment');
                     } else {
-                        $user = User::select()->where('user_id', auth()->id())->first();
-                        $orderdetails = OrderDetails::select('order_details.*', 'products.id', 'products.discount_price', 'protypes.*')
-
-                            ->join('products', 'order_details.product_id', '=', 'products.id')
-
-                            ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
-
-                            ->where('order_id', $order_id)
-
-                            ->get();
-
-                        Mail::send("emails.order-success", ['orderdetails' => $orderdetails, 'user' => $user, 'order' => $order], function ($message) use ($user) {
-
-                            $message->to($user->email);
-
-                            $message->subject("Cảm ơn bạn đã đặt hàng");
-
-                        });
                         return redirect()->route('view.thanks')->with('success', 'Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!');
                     }
                 } else {
@@ -230,6 +204,9 @@ class OrdersController extends Controller
         $status_cvt = $req->input('vnp_ResponseCode');
         $status = 0;
 
+        $order_idmax = Orders::select('*')->max('order_id');
+        $order = Orders::where('order_id', $order_idmax)->first();
+        
         if ($status_cvt == '00') {
             $status_bank = 'Thanh toán thành công';
             $status = 3;
@@ -254,6 +231,80 @@ class OrdersController extends Controller
                 ]);
             }
         }
+
+        if($order->status == 0 || $order->status == 3){
+            // gửi email cho khách hàng về thông tin đã đặt hàng
+            $user = User::select()->where('user_id', auth()->id())->first();
+            $orderdetails = OrderDetails::select('order_details.*', 'products.id', 'products.discount_price', 'protypes.*')
+
+                ->join('products', 'order_details.product_id', '=', 'products.id')
+
+                ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
+
+                ->where('order_id', $order_idmax)
+
+                ->get();
+
+            Mail::send("emails.order-success", ['orderdetails' => $orderdetails, 'user' => $user, 'order' => $order], function ($message) use ($user) {
+
+                $message->to($user->email);
+
+                $message->subject("Thông báo về đơn đặt hàng");
+
+            });
+            //
+            $userAdmin = 'capplevip12345@gmail.com';
+            //Gửi email thông báo cho admin có đơn hàng mới
+            Mail::send("emails.new-order-notification", ['orderdetails' => $orderdetails, 'user' => $user, 'order' => $order], function ($message) use ($userAdmin) {
+
+                $message->to($userAdmin);
+
+                $message->subject("Thông báo về đơn đặt hàng mới");
+
+            });
+            //
+            //Tồn kho
+            foreach (Session::get('Cart')->products as $item) {
+
+                $product_quantity = $item['quanty'];
+                $product_id = $item['productInfo']->id;
+
+                $inventories = Inventories::where("product_id", $product_id)->get();
+
+                foreach ($inventories as $inventory) {
+                    $remain_quantity = $inventory->remain_quantity - $product_quantity;
+                    if ($remain_quantity < 7 && $remain_quantity > 0) {
+                        $status = "Nearly Out Of Stock";
+                    } elseif ($remain_quantity == 0) {
+                        $status = "Out Of Stock";
+                        
+                    } else {
+                        $status = "In Stock";
+                    }
+                    
+                    $inventory->sold_quantity = $inventory->sold_quantity + $product_quantity;
+                    $inventory->remain_quantity = $remain_quantity;
+                    $inventory->inventory_status = $status;
+                    $inventory->save();
+                    //
+                    
+                    if($inventory->inventory_status == "Nearly Out Of Stock" || $inventory->inventory_status == "Out Of Stock")
+                    {
+                        Mail::send("emails.inventory-quantity-notification", ['inventory' => $inventory], function ($message) use ($userAdmin) {
+
+                            $message->to($userAdmin);
+            
+                            $message->subject("Thông báo về số lượng tồn kho");
+            
+                        });
+                    }
+                }
+
+            }
+            //dd('oke');
+            
+        }
+
 
         if (Session::has('Coupon')) {
             foreach (Session::get('Coupon') as $key => $cou) {
@@ -295,9 +346,15 @@ class OrdersController extends Controller
         $status = 5;
 
         $inventories = Inventories::get();
-        $orderDetail = OrderDetails::select('*')
-            ->where('order_id', $order_id)
-            ->get();
+        $orderDetail = OrderDetails::select('order_details.*', 'products.id', 'products.discount_price', 'protypes.*')
+
+                ->join('products', 'order_details.product_id', '=', 'products.id')
+
+                ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
+
+                ->where('order_id', $order_id)
+
+                ->get();
         foreach ($orderDetail as $item) {
             foreach ($inventories as $value) {
                 if ($item->product_id == $value->product_id) {
@@ -322,6 +379,15 @@ class OrdersController extends Controller
                 }
             }
         }
+        $user = User::select()->where('user_id', auth()->id())->first();
+        $userAdmin = 'capplevip12345@gmail.com';
+        Mail::send("emails.canceled-order-notification", ['orderdetails' => $orderDetail, 'user' => $user, 'order' => $orders], function ($message) use ($userAdmin) {
+
+            $message->to($userAdmin);
+
+            $message->subject("Thông báo về đơn đặt hàng bị hủy");
+
+        });
         $orders->update(['status' => $status]);
         return redirect()->route('list.order')->with('success', 'Đã hủy đơn hàng!');
     }

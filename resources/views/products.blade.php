@@ -22,12 +22,19 @@
                         <div class="store-sort">
                             <label>
                                 Sắp xếp:
-                                <select class="input-select select-filter" id="select-filter" onchange="window.location.href=this.value;">
+                                <select class="input-select select-filter" id="select-filter"
+                                    onchange="window.location.href=this.value;">
                                     <option value="">---Lọc theo---</option>
-                                    <option value="{{ Request::url() }}?sort_by=kytu_az" {{ Request::input('sort_by') == 'kytu_az' ? 'selected' : '' }}>Ký tự A-Z</option>
-                                    <option value="{{ Request::url() }}?sort_by=kytu_za" {{ Request::input('sort_by') == 'kytu_za' ? 'selected' : '' }}>Ký tự Z-A</option>
-                                    <option value="{{ Request::url() }}?sort_by=tang_dan" {{ Request::input('sort_by') == 'tang_dan' ? 'selected' : '' }}>Giá tăng dần</option>
-                                    <option value="{{ Request::url() }}?sort_by=giam_dan" {{ Request::input('sort_by') == 'giam_dan' ? 'selected' : '' }}>Giá giảm dần</option>
+                                    <option value="{{ Request::url() }}?sort_by=kytu_az"
+                                        {{ Request::input('sort_by') == 'kytu_az' ? 'selected' : '' }}>Ký tự A-Z</option>
+                                    <option value="{{ Request::url() }}?sort_by=kytu_za"
+                                        {{ Request::input('sort_by') == 'kytu_za' ? 'selected' : '' }}>Ký tự Z-A</option>
+                                    <option value="{{ Request::url() }}?sort_by=tang_dan"
+                                        {{ Request::input('sort_by') == 'tang_dan' ? 'selected' : '' }}>Giá tăng dần
+                                    </option>
+                                    <option value="{{ Request::url() }}?sort_by=giam_dan"
+                                        {{ Request::input('sort_by') == 'giam_dan' ? 'selected' : '' }}>Giá giảm dần
+                                    </option>
                                 </select>
 
                             </label>
@@ -42,7 +49,7 @@
                                     </p>
 
                                     <div id="slider-range"></div>
-                                    
+
                                     <input type="hidden" class="price_from" name="from">
                                     <input type="hidden" class="price_to" name="to">
 
@@ -51,12 +58,13 @@
                                 </form>
                             </div>
                             <h4 class="title text-right" style="color:#f6931f;">
-                                @if(request()->has('to') && request()->get('to'))
-                                     Giá từ: {{ number_format(request()->get('from'), 0, ',', '.') }}đ - {{ number_format(request()->get('to'), 0, ',', '.') }}đ
+                                @if (request()->has('to') && request()->get('to'))
+                                    Giá từ: {{ number_format(request()->get('from'), 0, ',', '.') }}đ -
+                                    {{ number_format(request()->get('to'), 0, ',', '.') }}đ
                                 @endif
                             </h4>
                         </div>
-                        
+
                     </div>
                     <!-- /store top filter -->
 
@@ -99,41 +107,54 @@
                                         @endif
                                         <ul class="ratingW-comment">
                                             <small>
-                                            @if ($product->average_rating)
-                                            <?php
-                                                for ($i = 1; $i <= 5; $i++) {
-                                                    if ($i <= $product->average_rating) {
-                                                        echo '<li class="on"><div class="star-comm"></div></li>';
-                                                    } else {
-                                                        echo '<li><div class="star-comm"></div></li>';
+                                                @if ($product->average_rating)
+                                                    <?php
+                                                    for ($i = 1; $i <= 5; $i++) {
+                                                        if ($i <= $product->average_rating) {
+                                                            echo '<li class="on"><div class="star-comm"></div></li>';
+                                                        } else {
+                                                            echo '<li><div class="star-comm"></div></li>';
+                                                        }
                                                     }
-                                                }
-                                            ?>
-                                            @else
-                                            <li class="on"><div class="star-comm"></div></li>
-                                            <li class="on"><div class="star-comm"></div></li>
-                                            <li class="on"><div class="star-comm"></div></li>
-                                            <li class="on"><div class="star-comm"></div></li>
-                                            <li class="on"><div class="star-comm"></div></li>
-                                            @endif
+                                                    ?>
+                                                @else
+                                                    <li class="on">
+                                                        <div class="star-comm"></div>
+                                                    </li>
+                                                    <li class="on">
+                                                        <div class="star-comm"></div>
+                                                    </li>
+                                                    <li class="on">
+                                                        <div class="star-comm"></div>
+                                                    </li>
+                                                    <li class="on">
+                                                        <div class="star-comm"></div>
+                                                    </li>
+                                                    <li class="on">
+                                                        <div class="star-comm"></div>
+                                                    </li>
+                                                @endif
                                             </small>
                                         </ul>
-                                       <div class="product-btns">
-                                        @if (auth()->check())
-                                            @if ($product->favorited)
-                                                <button  class="add-to-wishlist"><a href={{ route('favorite', $product->id) }} class="heart"><i class="fa fa-heart"></i></a><span
-                                                    class="tooltipp">Bỏ yêu thích</span></button>
+                                        <div class="product-btns">
+                                            @if (auth()->check())
+                                                @if ($product->favorited)
+                                                    <button class="add-to-wishlist"><a
+                                                            href={{ route('favorite', $product->id) }} class="heart"><i
+                                                                class="fa fa-heart"></i></a><span class="tooltipp">Bỏ yêu
+                                                            thích</span></button>
+                                                @else
+                                                    <button class="add-to-wishlist"><a
+                                                            href={{ route('favorite', $product->id) }}><i
+                                                                class="fa fa-heart-o"></i></a><span class="tooltipp">Yêu
+                                                            thích</span></button>
+                                                @endif
                                             @else
-                                                <button class="add-to-wishlist"><a href={{ route('favorite', $product->id) }}><i class="fa fa-heart-o"></i></a><span
-                                                    class="tooltipp">Yêu thích</span></button>
+                                                <button class="add-to-wishlist"><a href={{ route('login') }}><i
+                                                            class="fa fa-heart-o"></i></a><span class="tooltipp">Yêu
+                                                        thích</span></button>
                                             @endif
-                                            
-                                            
-                                        @else
-                                            <button class="add-to-wishlist"><a href={{route('login')}}><i class="fa fa-heart-o"></i></a><span
-                                                class="tooltipp">Yêu thích</span></button>
-                                        @endif
-                                            
+
                                             {{-- <button class="add-to-compare"><i class="fa fa-exchange"></i><span
                                                     class="tooltipp">add to compare</span></button>
                                             <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
@@ -142,7 +163,8 @@
                                     </div>
                                     <a onclick="AddCart({{ $product->id }})" href="javascript:">
                                         <div class="add-to-cart">
-                                            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> thêm vào
+                                            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>
+                                                thêm vào
                                                 giỏ</button>
                                         </div>
                                     </a>

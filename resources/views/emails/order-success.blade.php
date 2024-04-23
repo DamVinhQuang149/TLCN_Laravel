@@ -14,7 +14,7 @@
 </style>
 
 <body>
-    <p>Xin chào {{ $user->Last_name }},</p>
+    <p>Xin chào {{ $user->Last_name }} ,</p>
 
     <p>Cảm ơn bạn đã đặt hàng tại cửa hàng của chúng tôi. Chúng tôi rất trân trọng sự ủng hộ của bạn.</p>
 
@@ -32,18 +32,24 @@
         </thead>
         <tbody>
             @foreach ($orderdetails as $value)
-            <tr>
-                <td>{{ $value->product_name }}</td>
-                <td>{{ $value->type_name }}</td>
-                <td>{{ number_format($value->discount_price, 0, ',', '.') }} đ</td>
-                <td>x {{ $value->product_quantity }}</td>
-                <td>{{ number_format($value->cost, 0, ',', '.') }} đ</td>
-            </tr>
+                <tr>
+                    <td>{{ $value->product_name }}</td>
+                    <td>{{ $value->type_name }}</td>
+                    <td>{{ number_format($value->discount_price, 0, ',', '.') }} đ</td>
+                    <td>x {{ $value->product_quantity }}</td>
+                    <td>{{ number_format($value->cost, 0, ',', '.') }} đ</td>
+                </tr>
             @endforeach
         </tbody>
     </table>
 
-
+    @if ($order->coupon_discount > 100)
+        <p> Đã giảm giá: {{ number_format(-$order->coupon_discount, 0, ',', '.') }} </p>
+    @else
+        <p> Đã giảm giá:
+            {{ number_format(-(($order->coupon_discount * ($order->total / (1 - $order->coupon_discount / 100))) / 100), 0, ',', '.') }}
+        </p>
+    @endif đ
     <p>Tổng tiền đơn hàng là: {{ number_format($order->total, 0, ',', '.') }}</p>
 
     <p>Xin cảm ơn và chúc bạn một ngày tốt lành!</p>

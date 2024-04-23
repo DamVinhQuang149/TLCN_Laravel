@@ -30,55 +30,38 @@ class CartController extends Controller
     {
 
         try {
-
-            $product = Products::where('id', $id)->first();
-
-            // $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
-
-            //     ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
-
-            //     ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
-
-            //     ->where('products.type_id', 1)
-
-            //     ->orderBy('products.id', 'asc')
-
-            //     ->paginate(6);
-
-
-
+            $product = Products::findOrFail($id);
+            $remain_quantity = Inventories::where('product_id', $product->id)->sum('remain_quantity');
+    
             if ($product != null) {
-
-                $oldcart = Session('Cart') ? Session('Cart') : null;
-
+                $oldcart = $req->session()->has('Cart') ? $req->session()->get('Cart') : null;
                 $newcart = new Cart($oldcart);
-
                 $newcart->AddCart($product, $id);
-
-
-
+    
+                if ($newcart->totalQuanty > $remain_quantity) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Số lượng sản phẩm trong giỏ hàng vượt quá số lượng tồn kho hoặc sản phẩm đã hết hàng.'
+                    ]);
+                }
+    
                 $req->session()->put('Cart', $newcart);
-
             }
-
-
-
+    
+            $array = [];
+            foreach ($newcart->products as $item) {
+                $productInfo = $item['productInfo'];
+                $inventories = Inventories::where('product_id', $productInfo->id)->get();
+                $array[] = $inventories;
+            }
+    
             return response()->json([
-
-                'view_1' => view('cart-items')->render(),
-
-                'view_2' => view('list-cart')->render()
-
+                'status' => 'success',
+                'view_1' => view('cart-items', ['inventories' => $array])->render(),
+                'view_2' => view('list-cart', ['inventories' => $array])->render()
             ]);
-
-            //return view('cart-items');
-
         } catch (\Exception $e) {
-
-            //dd($e);
-
             abort(404);
-
         }
 
     }
@@ -92,7 +75,7 @@ class CartController extends Controller
 
             $product = Products::where('id', $id)->first();
 
-
+            $remain_quantity = Inventories::where('product_id', $product->id)->sum('remain_quantity');
 
             if ($product != null) {
 
@@ -102,23 +85,42 @@ class CartController extends Controller
 
                 $newcart->AddQuantyCart($product, $id, $quanty);
 
+                if ($newcart->totalQuanty > $remain_quantity) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Số lượng sản phẩm trong giỏ hàng vượt quá số lượng tồn kho hoặc sản phẩm đã hết hàng.'
+                    ]);
+                }
 
 
                 $req->session()->put('Cart', $newcart);
 
             }
 
+            if (Session::has('Cart')) {
+                $array = [];
+                foreach (Session::get('Cart')->products as $item) {
+                    $productInfo = $item['productInfo'];
+                    $inventories = Inventories::where('product_id', $productInfo->id)->get();
+                    // dd($inventories->product_id);
+                    $array[] = $inventories;
+                }
+            }
 
+            // return response()->json([
 
+            //     'view_1' => view('cart-items', ['inventories' => $array])->render(),
+
+            //     'view_2' => view('list-cart', ['inventories' => $array])->render()
+
+            // ]);
             return response()->json([
-
-                'view_1' => view('cart-items')->render(),
-
-                'view_2' => view('list-cart')->render()
-
+                'status' => 'success',
+                'view_1' => view('cart-items', ['inventories' => $array])->render(),
+                'view_2' => view('list-cart', ['inventories' => $array])->render()
             ]);
 
-            //return view('cart-items');
+            return view('cart-items');
 
         } catch (\Exception $e) {
 
@@ -173,8 +175,11 @@ class CartController extends Controller
                     // dd($inventories->product_id);
                     $array[] = $inventories;
                 }
+                return view('list-cart', ['inventories' => $array]);
+            } else {
+                return view('list-cart');
             }
-            return view('list-cart', ['inventories' => $array]);
+            
         } catch (ModelNotFoundException $e) {
 
             abort(404);
@@ -204,9 +209,20 @@ class CartController extends Controller
 
         }
 
+        if (Session::has('Cart')) {
+            foreach (Session::get('Cart')->products as $item) {
+                $productInfo = $item['productInfo'];
+                $inventories = Inventories::where('product_id', $productInfo->id)->get();
+                // dd($inventories->product_id);
+                $array[] = $inventories;
+            }
+            return view('list-item-cart', ['inventories' => $array]);
+            
+        } else{
+            return view('list-item-cart');
+        }
 
-
-        return view('list-item-cart');
+        
 
     }
 
@@ -221,13 +237,26 @@ class CartController extends Controller
 
         $newcart->UpdateItemCart($id, $quanty);
 
-
+        if (Session::has('Cart')) {
+            foreach (Session::get('Cart')->products as $item) {
+                $productInfo = $item['productInfo'];
+                $inventories = Inventories::where('product_id', $productInfo->id)->get();
+                // dd($inventories->product_id);
+                $array[] = $inventories;
+            }
+        }
 
         $req->session()->put('Cart', $newcart);
 
+        // return response()->json([
 
+        //     'view_1' => view('cart-items', ['inventories' => $array])->render(),
 
-        return view('list-item-cart');
+        //     //'view_2' => view('list-cart', ['inventories' => $array])->render()
+
+        // ]);
+
+        return view('list-item-cart', ['inventories' => $array]);
 
     }
 

@@ -4,9 +4,13 @@ function AddCart(id) {
         type: "GET",
     })
         .done(function (response) {
-            RenderCart(response.view_1);
-            RenderListCart(response.view_2);
-            alertify.success("Thêm vào giỏ hàng thành công!");
+            if (response.status === "success") {
+                RenderCart(response.view_1);
+                RenderListCart(response.view_2);
+                alertify.success("Thêm vào giỏ hàng thành công!");
+            } else if (response.status === "error") {
+                alertify.error(response.message);
+            }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             console.error("AJAX Error:", textStatus, errorThrown);
@@ -18,8 +22,13 @@ function AddQuantyCart(id) {
         type: "GET",
     })
         .done(function (response) {
-            RenderCart(response.view_1);
-            alertify.success("Thêm vào giỏ hàng thành công!");
+            if (response.status === "success") {
+                RenderCart(response.view_1);
+                RenderListCart(response.view_2);
+                alertify.success("Thêm vào giỏ hàng thành công!");
+            } else if (response.status === "error") {
+                alertify.error(response.message);
+            }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             console.error("AJAX Error:", textStatus, errorThrown);
@@ -63,7 +72,7 @@ function SaveListItemCart(id) {
     var quantity = $("#quanty-item-" + id).val();
 
     if (quantity > 10) {
-        alertify.error("Số lượng tối đa là 10 / 1 sản phẩm / 1 đơn hàng");
+        alertify.error("Số lượng tối đa là 10 trên 1 sản phẩm / 1 đơn hàng");
         return;
     }
 
