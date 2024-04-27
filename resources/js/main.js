@@ -23,7 +23,11 @@ $("#change-item-cart").on("click", ".delete i", function () {
         .done(function (response) {
             RenderCart(response);
 
-            alertify.success("Đã xóa sản phẩm trong giỏ hàng");
+            alertify.error("Đã xóa sản phẩm trong giỏ hàng");
+            if (cartItems.hasOwnProperty(id)) {
+                cartItems[id] = 0;
+                localStorage.setItem("cartItems", JSON.stringify(cartItems));
+            }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             console.error("AJAX Error:", textStatus, errorThrown);

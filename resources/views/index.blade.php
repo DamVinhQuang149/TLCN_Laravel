@@ -213,10 +213,7 @@
     <div class="section">
         <!-- container -->
         <div class="container">
-            <!-- row -->
             <div class="row">
-
-                <!-- section title -->
                 <div class="col-md-12">
                     <div class="section-title">
                         <h3 class="title">Sản phẩm tươi mới mỗi ngày</h3>
@@ -239,71 +236,86 @@
                             <div id="tab1" class="tab-pane active">
                                 <div class="products-slick" data-nav="#slick-nav-1">
                                     @foreach ($productsby1 as $value)
-                                        <!-- product -->
-                                        <div class="product">
-                                            <div class="product-img">
-                                                <img style="width=100px"
-                                                    src="{{ asset('assets/img/' . $value['pro_image']) }}" alt="">
-                                                <div class="product-label">
-                                                    <span class="new">MỚI</span>
-                                                </div>
-                                            </div>
-                                            <div class="product-body">
-                                                <p class="product-category"></p>
-                                                <h3 class="product-name"><a
-                                                        href="{{ route('detail.product', ['type_id' => $value->type_id, 'id' => $value->id]) }}">{{ $value->name }}</a>
-                                                </h3>
-                                                @if ($value['discount_price'] > 0)
-                                                    <h4 class="product-price">
-                                                        <del>{{ number_format($value->price) }} VND</del>
-                                                    </h4>
-                                                    <h4 class="discount-price">
-                                                        {{ number_format($value->discount_price) }} VND
-                                                    </h4>
-                                                @else
-                                                    <h4 class="discount-price">
-                                                        {{ number_format($value->price) }} VND
-                                                    </h4>
-                                                @endif
-                                                <ul class="ratingW-comment">
-                                                    <small>
-                                                    @if ($value->average_rating)
-                                                    <?php
-                                                        for ($i = 1; $i <= 5; $i++) {
-                                                            if ($i <= $value->average_rating) {
-                                                                echo '<li class="on"><div class="star-comm"></div></li>';
-                                                            } else {
-                                                                echo '<li><div class="star-comm"></div></li>';
-                                                            }
-                                                        }
-                                                    ?>
+                                        @foreach ($inventories as $inven)
+                                            @if ($value->id === $inven->product_id)
+                                                <!-- product -->
+                                                <div class="product">
+                                                    <div class="product-img">
+                                                        <img style="width=100px"
+                                                            src="{{ asset('assets/img/' . $value['pro_image']) }}"
+                                                            alt="">
+                                                        <div class="product-label">
+                                                            <span class="new">MỚI</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-body">
+                                                        <p class="product-category"></p>
+                                                        <h3 class="product-name"><a
+                                                                href="{{ route('detail.product', ['type_id' => $value->type_id, 'id' => $value->id]) }}">{{ $value->name }}</a>
+                                                        </h3>
+                                                        @if ($value['discount_price'] > 0)
+                                                            <h4 class="product-price">
+                                                                <del>{{ number_format($value->price) }} VND</del>
+                                                            </h4>
+                                                            <h4 class="discount-price">
+                                                                {{ number_format($value->discount_price) }} VND
+                                                            </h4>
+                                                        @else
+                                                            <h4 class="discount-price">
+                                                                {{ number_format($value->price) }} VND
+                                                            </h4>
+                                                        @endif
+                                                        <ul class="ratingW-comment">
+                                                            <small>
+                                                                @if ($value->average_rating)
+                                                                    <?php
+                                                                    for ($i = 1; $i <= 5; $i++) {
+                                                                        if ($i <= $value->average_rating) {
+                                                                            echo '<li class="on"><div class="star-comm"></div></li>';
+                                                                        } else {
+                                                                            echo '<li><div class="star-comm"></div></li>';
+                                                                        }
+                                                                    }
+                                                                    ?>
+                                                                @else
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                @endif
+                                                            </small>
+                                                        </ul>
+                                                    </div>
+                                                    @if ($inven->remain_quantity)
+                                                        <a onclick="AddCart({{ $value->id }})" href="javascript:">
+                                                            <div class="add-to-cart">
+                                                                <button class="add-to-cart-btn"><i
+                                                                        class="fa fa-shopping-cart"></i>
+                                                                    Thêm vào
+                                                                    giỏ</button>
+                                                            </div>
+                                                        </a>
                                                     @else
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
+                                                        <div class="out-of-stock">
+                                                            <button class="out-of-stock-btn"><i
+                                                                    class="fa fa-exclamation-circle"></i> Hết hàng</button>
+                                                        </div>
                                                     @endif
-                                                    </small>
-                                                </ul>
-                                                {{-- <div class="product-btns">
-                                                    <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
-                                                            class="tooltipp">Add to wishlist</span></button>
-                                                    <button class="add-to-compare"><i class="fa fa-exchange"></i><span
-                                                            class="tooltipp">Add to compare</span></button>
-                                                    <button class="quick-view"><i class="fa fa-eye"></i><span
-                                                            class="tooltipp">Quick view</span></button>
-                                                </div> --}}
-                                            </div>
-                                            <a onclick="AddCart({{ $value->id }})" href="javascript:">
-                                                <div class="add-to-cart">
-                                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>
-                                                        Thêm vào
-                                                        giỏ</button>
                                                 </div>
-                                            </a>
-                                        </div>
-                                        <!-- /product -->
+                                                <!-- /product -->
+                                            @endif
+                                        @endforeach
                                     @endforeach
                                 </div>
                                 <div id="slick-nav-1" class="products-slick-nav"></div>
@@ -314,72 +326,86 @@
                             <div id="tab2" class="tab-pane ">
                                 <div class="products-slick">
                                     @foreach ($productsby2 as $value)
-                                        <!-- product -->
-                                        <div class="product">
-                                            <div class="product-img">
-                                                <img style="width=100px"
-                                                    src="{{ asset('assets/img/' . $value['pro_image']) }}"
-                                                    alt="">
-                                                <div class="product-label">
-                                                    <span class="new">MỚI</span>
-                                                </div>
-                                            </div>
-                                            <div class="product-body">
-                                                <p class="product-category"></p>
-                                                <h3 class="product-name"><a
-                                                        href="{{ route('detail.product', ['type_id' => $value->type_id, 'id' => $value->id]) }}">{{ $value->name }}</a>
-                                                </h3>
-                                                @if ($value['discount_price'] > 0)
-                                                    <h4 class="product-price">
-                                                        <del>{{ number_format($value->price) }} VND</del>
-                                                    </h4>
-                                                    <h4 class="discount-price">
-                                                        {{ number_format($value->discount_price) }} VND
-                                                    </h4>
-                                                @else
-                                                    <h4 class="discount-price">
-                                                        {{ number_format($value->price) }} VND
-                                                    </h4>
-                                                @endif
-                                                <ul class="ratingW-comment">
-                                                    <small>
-                                                    @if ($value->average_rating)
-                                                    <?php
-                                                        for ($i = 1; $i <= 5; $i++) {
-                                                            if ($i <= $value->average_rating) {
-                                                                echo '<li class="on"><div class="star-comm"></div></li>';
-                                                            } else {
-                                                                echo '<li><div class="star-comm"></div></li>';
-                                                            }
-                                                        }
-                                                    ?>
+                                        @foreach ($inventories as $inven)
+                                            @if ($value->id === $inven->product_id)
+                                                <div class="product">
+                                                    <div class="product-img">
+                                                        <img style="width=100px"
+                                                            src="{{ asset('assets/img/' . $value['pro_image']) }}"
+                                                            alt="">
+                                                        <div class="product-label">
+                                                            <span class="new">MỚI</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-body">
+                                                        <p class="product-category"></p>
+                                                        <h3 class="product-name"><a
+                                                                href="{{ route('detail.product', ['type_id' => $value->type_id, 'id' => $value->id]) }}">{{ $value->name }}</a>
+                                                        </h3>
+                                                        @if ($value['discount_price'] > 0)
+                                                            <h4 class="product-price">
+                                                                <del>{{ number_format($value->price) }} VND</del>
+                                                            </h4>
+                                                            <h4 class="discount-price">
+                                                                {{ number_format($value->discount_price) }} VND
+                                                            </h4>
+                                                        @else
+                                                            <h4 class="discount-price">
+                                                                {{ number_format($value->price) }} VND
+                                                            </h4>
+                                                        @endif
+                                                        <ul class="ratingW-comment">
+                                                            <small>
+                                                                @if ($value->average_rating)
+                                                                    <?php
+                                                                    for ($i = 1; $i <= 5; $i++) {
+                                                                        if ($i <= $value->average_rating) {
+                                                                            echo '<li class="on"><div class="star-comm"></div></li>';
+                                                                        } else {
+                                                                            echo '<li><div class="star-comm"></div></li>';
+                                                                        }
+                                                                    }
+                                                                    ?>
+                                                                @else
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                @endif
+                                                            </small>
+                                                        </ul>
+
+                                                    </div>
+                                                    @if ($inven->remain_quantity)
+                                                        <a onclick="AddCart({{ $value->id }})" href="javascript:">
+                                                            <div class="add-to-cart">
+                                                                <button class="add-to-cart-btn"><i
+                                                                        class="fa fa-shopping-cart"></i>
+                                                                    Thêm vào
+                                                                    giỏ</button>
+                                                            </div>
+                                                        </a>
                                                     @else
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
+                                                        <div class="out-of-stock">
+                                                            <button class="out-of-stock-btn"><i
+                                                                    class="fa fa-exclamation-circle"></i> Hết hàng</button>
+                                                        </div>
                                                     @endif
-                                                    </small>
-                                                </ul>
-                                               <!-- <div class="product-btns">
-                                                    <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
-                                                            class="tooltipp">Add to wishlist</span></button>
-                                                    <button class="add-to-compare"><i class="fa fa-exchange"></i><span
-                                                            class="tooltipp">Add to compare</span></button>
-                                                    <button class="quick-view"><i class="fa fa-eye"></i><span
-                                                            class="tooltipp">Quick view</span></button>
-                                                </div>-->
-                                            </div>
-                                            <a onclick="AddCart({{ $value->id }})" href="javascript:">
-                                                <div class="add-to-cart">
-                                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>
-                                                        Thêm vào
-                                                        giỏ</button>
                                                 </div>
-                                            </a>
-                                        </div>
-                                        <!-- /product -->
+                                                <!-- /product -->
+                                            @endif
+                                        @endforeach
                                     @endforeach
                                 </div>
                                 <div id="slick-nav-1" class="products-slick-nav"></div>
@@ -390,72 +416,86 @@
                             <div id="tab3" class="tab-pane ">
                                 <div class="products-slick">
                                     @foreach ($productsby3 as $value)
-                                        <!-- product -->
-                                        <div class="product">
-                                            <div class="product-img">
-                                                <img style="width=100px"
-                                                    src="{{ asset('assets/img/' . $value['pro_image']) }}"
-                                                    alt="">
-                                                <div class="product-label">
-                                                    <span class="new">MỚI</span>
-                                                </div>
-                                            </div>
-                                            <div class="product-body">
-                                                <p class="product-category"></p>
-                                                <h3 class="product-name"><a
-                                                        href="{{ route('detail.product', ['type_id' => $value->type_id, 'id' => $value->id]) }}">{{ $value->name }}</a>
-                                                </h3>
-                                                @if ($value['discount_price'] > 0)
-                                                    <h4 class="product-price">
-                                                        <del>{{ number_format($value->price) }} VND</del>
-                                                    </h4>
-                                                    <h4 class="discount-price">
-                                                        {{ number_format($value->discount_price) }} VND
-                                                    </h4>
-                                                @else
-                                                    <h4 class="discount-price">
-                                                        {{ number_format($value->price) }} VND
-                                                    </h4>
-                                                @endif
-                                                <ul class="ratingW-comment">
-                                                    <small>
-                                                    @if ($value->average_rating)
-                                                    <?php
-                                                        for ($i = 1; $i <= 5; $i++) {
-                                                            if ($i <= $value->average_rating) {
-                                                                echo '<li class="on"><div class="star-comm"></div></li>';
-                                                            } else {
-                                                                echo '<li><div class="star-comm"></div></li>';
-                                                            }
-                                                        }
-                                                    ?>
+                                        @foreach ($inventories as $inven)
+                                            @if ($value->id === $inven->product_id)
+                                                <div class="product">
+                                                    <div class="product-img">
+                                                        <img style="width=100px"
+                                                            src="{{ asset('assets/img/' . $value['pro_image']) }}"
+                                                            alt="">
+                                                        <div class="product-label">
+                                                            <span class="new">MỚI</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-body">
+                                                        <p class="product-category"></p>
+                                                        <h3 class="product-name"><a
+                                                                href="{{ route('detail.product', ['type_id' => $value->type_id, 'id' => $value->id]) }}">{{ $value->name }}</a>
+                                                        </h3>
+                                                        @if ($value['discount_price'] > 0)
+                                                            <h4 class="product-price">
+                                                                <del>{{ number_format($value->price) }} VND</del>
+                                                            </h4>
+                                                            <h4 class="discount-price">
+                                                                {{ number_format($value->discount_price) }} VND
+                                                            </h4>
+                                                        @else
+                                                            <h4 class="discount-price">
+                                                                {{ number_format($value->price) }} VND
+                                                            </h4>
+                                                        @endif
+                                                        <ul class="ratingW-comment">
+                                                            <small>
+                                                                @if ($value->average_rating)
+                                                                    <?php
+                                                                    for ($i = 1; $i <= 5; $i++) {
+                                                                        if ($i <= $value->average_rating) {
+                                                                            echo '<li class="on"><div class="star-comm"></div></li>';
+                                                                        } else {
+                                                                            echo '<li><div class="star-comm"></div></li>';
+                                                                        }
+                                                                    }
+                                                                    ?>
+                                                                @else
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                @endif
+                                                            </small>
+                                                        </ul>
+
+                                                    </div>
+                                                    @if ($inven->remain_quantity)
+                                                        <a onclick="AddCart({{ $value->id }})" href="javascript:">
+                                                            <div class="add-to-cart">
+                                                                <button class="add-to-cart-btn"><i
+                                                                        class="fa fa-shopping-cart"></i>
+                                                                    Thêm vào
+                                                                    giỏ</button>
+                                                            </div>
+                                                        </a>
                                                     @else
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
+                                                        <div class="out-of-stock">
+                                                            <button class="out-of-stock-btn"><i
+                                                                    class="fa fa-exclamation-circle"></i> Hết hàng</button>
+                                                        </div>
                                                     @endif
-                                                    </small>
-                                                </ul>
-                                       <!--         <div class="product-btns">
-                                                    <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
-                                                            class="tooltipp">Add to wishlist</span></button>
-                                                    <button class="add-to-compare"><i class="fa fa-exchange"></i><span
-                                                            class="tooltipp">Add to compare</span></button>
-                                                    <button class="quick-view"><i class="fa fa-eye"></i><span
-                                                            class="tooltipp">Quick view</span></button>
-                                                </div>-->
-                                            </div>
-                                            <a onclick="AddCart({{ $value->id }})" href="javascript:">
-                                                <div class="add-to-cart">
-                                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>
-                                                        Thêm vào
-                                                        giỏ</button>
                                                 </div>
-                                            </a>
-                                        </div>
-                                        <!-- /product -->
+                                                <!-- /product -->
+                                            @endif
+                                        @endforeach
                                     @endforeach
                                 </div>
                                 <div id="slick-nav-1" class="products-slick-nav"></div>
@@ -480,7 +520,7 @@
     <!-- /SECTION -->
 
     <!-- HOT DEAL SECTION -->
-   
+
     <div id="hot-deal" class="section">
         <!-- container -->
         <div class="container">
@@ -514,11 +554,11 @@
                                 </div>
                             </li>
                         </ul>
-                        
+
                         <h2 class="text-uppercase">Khuyến mãi trong tuần</h2>
                         <p>Sản phẩm mới giảm tới 50%</p>
                         <a class="primary-btn cta-btn" href="{{ route('products', ['type_id' => 1]) }}">Mua ngay</a>
-                        
+
                     </div>
                 </div>
             </div>

@@ -255,7 +255,10 @@
                                                                         $coupon_amount =
                                                                             $cou['coupon_type'] == 0
                                                                                 ? $cou['coupon_amount']
-                                                                                : (Session::get('Cart')->totalPrice *
+                                                                                : ((Session::get('Cart')->totalPrice +
+                                                                                        Session::get(
+                                                                                            'shipping_fee.fee',
+                                                                                        )) *
                                                                                         $cou['coupon_amount']) /
                                                                                     100;
                                                                     ?>
@@ -289,6 +292,7 @@
                                             <div id="total-price">
                                                 <?php
                                                     if (Session::has('shipping_fee')) {
+                                                        $shipping_fee = Session::has('shipping_fee.fee');
                                                         if (Session::has('Coupon')) {
                                                             $total_coupon =
                                                                 Session::get('Cart')->totalPrice - $coupon_amount;
@@ -340,6 +344,7 @@
                                                         src="<?php echo e(asset('assets')); ?>/img/tien-mat.jpg">
                                                 </div>
                                             </div>
+
                                             <button class="primary-btn order-submit col-lg-offset-4"
                                                 style="border-radius:6px;" type="submit" name="submit"
                                                 id="orderButton">

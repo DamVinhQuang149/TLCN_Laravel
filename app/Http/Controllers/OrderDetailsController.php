@@ -177,17 +177,21 @@ class OrderDetailsController extends Controller
     public function listDetailOrder($order_id)
     {
 
-        $orderdetails = OrderDetails::select('order_details.*', 'products.id', 'products.discount_price', 'protypes.*')
-
+        $orderdetails = OrderDetails::select(
+            'orders.*',
+            'order_details.*',
+            'products.id as product_id',
+            'products.discount_price',
+            'protypes.*'
+        )
             ->join('products', 'order_details.product_id', '=', 'products.id')
-
             ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
-
-            ->where('order_id', $order_id)
-
+            ->join('orders', 'orders.order_id', '=', 'order_details.order_id')
+            ->where('order_details.order_id', $order_id)
             ->get();
 
         return view('list-detail-order', ['orderdetails' => $orderdetails]);
+
 
     }
 

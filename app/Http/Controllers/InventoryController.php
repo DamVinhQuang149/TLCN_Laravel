@@ -48,39 +48,39 @@ class InventoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $product_id = $request->input("pro");
-        $import_quantity = $request->input("import-quantity");
-        $products = Products::get();
-        $invent = Inventories::get();
+    // public function store(Request $request)
+    // {
+    //     $product_id = $request->input("pro");
+    //     $import_quantity = $request->input("import-quantity");
+    //     $products = Products::get();
+    //     $invent = Inventories::get();
 
-        foreach ($products as $item) {
-            if ($item->id == $product_id) {
-                $product_image = $item['pro_image'];
-                $product_name = $item['name'];
-            }
-        }
-        foreach ($invent as $item) {
-            if ($product_id == $item->product_id) {
-                return redirect('admin/inventories')->with('warning', 'This product was already imported');
-            }
-        }
-        if ($import_quantity < 10) {
-            return redirect('admin/inventories')->with('warning', 'Import quantity minimum 10!');
-        }
-        $inventories = Inventories::create([
-            'product_name' => $product_name,
-            'product_image' => $product_image,
-            'product_id' => $product_id,
-            'import_quantity' => $import_quantity,
-            'sold_quantity' => 0,
-            'remain_quantity' => $import_quantity,
-            'inventory_status' => 'In Stocks',
-        ]);
-        $inventories->save();
-        return redirect('admin/inventories')->with('success', 'Import Successfully!');
-    }
+    //     foreach ($products as $item) {
+    //         if ($item->id == $product_id) {
+    //             $product_image = $item['pro_image'];
+    //             $product_name = $item['name'];
+    //         }
+    //     }
+    //     foreach ($invent as $item) {
+    //         if ($product_id == $item->product_id) {
+    //             return redirect('admin/inventories')->with('warning', 'This product was already imported');
+    //         }
+    //     }
+    //     if ($import_quantity < 10) {
+    //         return redirect('admin/inventories')->with('warning', 'Import quantity minimum 10!');
+    //     }
+    //     $inventories = Inventories::create([
+    //         'product_name' => $product_name,
+    //         'product_image' => $product_image,
+    //         'product_id' => $product_id,
+    //         'import_quantity' => $import_quantity,
+    //         'sold_quantity' => 0,
+    //         'remain_quantity' => $import_quantity,
+    //         'inventory_status' => 'In Stocks',
+    //     ]);
+    //     $inventories->save();
+    //     return redirect('admin/inventories')->with('success', 'Import Successfully!');
+    // }
 
     /**
      * Display the specified resource.
@@ -116,10 +116,10 @@ class InventoryController extends Controller
     {
         $inventories = Inventories::find($id);
 
-        $import_quantity = $request->input('import_quantity');
-        $remain_quantity = $import_quantity - $inventories->sold_quantity;
-        if ($import_quantity < $inventories->sold_quantity) {
-            return redirect('admin/inventories')->with('error', 'Import must be greater than sold quantity');
+        $remain_quantity = $request->input('remain_quantity');
+        // dd($remain_quantity, $inventories->sold_quantity);
+        if ($remain_quantity < $inventories->sold_quantity) {
+            return redirect('admin/inventories')->with('error', 'Remain quantity must be greater than or equal sold quantity');
         }
         // dd($remain_quantity);
         if ($remain_quantity < 7 && $remain_quantity > 0) {
@@ -131,7 +131,6 @@ class InventoryController extends Controller
         }
         $inventories->update(
             [
-                'import_quantity' => $import_quantity,
                 'remain_quantity' => $remain_quantity,
                 'inventory_status' => $status,
             ]

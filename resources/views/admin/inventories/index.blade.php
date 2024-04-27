@@ -28,10 +28,6 @@
                     <h3 class="card-title">Products</h3>
 
                     <div class="card-tools">
-                        <a class="btn btn-sm bg-green" href="inventories/create">
-                            <i class="fas fa-plus"></i>
-                            Import
-                        </a>
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
                         </button>
@@ -56,8 +52,8 @@
                                 <th style="width: 10%">
                                     Product_ID
                                 </th>
-                                <th style="width: 8%">
-                                    Import_quantity
+                                <th style="width: 10%">
+                                    Initial import
                                 </th>
                                 <th class="text-center" style="width: 13%">
                                     Sold_quantity
@@ -78,8 +74,12 @@
                                 <tr>
                                     <td style="text-align:center; width:1%">#{{ $value['inventory_id'] }}</td>
                                     <td style="width:15%">{{ $value['product_name'] }}</td>
-                                    <td style="width:5%"><img style="width:50px"
-                                            src="{{ asset('assets/img/' . $value['product_image']) }}"alt=""></td>
+                                    <td style="width:5%">
+                                        <a rel="stylesheet" href="/admin/products/{{ $value->product_id }}/edit">
+                                            <img style="width:50px"
+                                                src="{{ asset('assets/img/' . $value['product_image']) }}"alt="">
+                                        </a>
+                                    </td>
                                     <td style="width:10%" class="text-center">#{{ $value['product_id'] }}</td>
                                     <td style="width:8%" class="text-center">{{ $value['import_quantity'] }}</td>
                                     <td style="width:13%" class="text-center">{{ $value['sold_quantity'] }}</td>
@@ -96,15 +96,7 @@
                                                 Update
                                             </button>
                                         </form>
-                                        <form action="inventories/{{ $value->inventory_id }}" method="POST"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="confirmDelete(event)">
-                                                <i class="fas fa-trash"></i> Delete
-                                            </button>
-                                        </form>
+
                                     </td>
                                 </tr>
                             @endforeach

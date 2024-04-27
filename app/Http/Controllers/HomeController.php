@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Products;
 
-use App\Models\Protypes;
+use App\Models\Inventories;
 
 use App\Models\Manufactures;
 
@@ -21,12 +21,12 @@ use App\Models\Manufactures;
 
 
 class HomeController extends Controller
-
 {
 
     //
 
-    public function index(){
+    public function index()
+    {
 
         $products = Products::get();
 
@@ -42,7 +42,7 @@ class HomeController extends Controller
         $productsFeatureBy2 = Products::where('type_id', 2)->where('feature', 1)->get();
 
         $productsFeatureBy3 = Products::where('type_id', 3)->where('feature', 1)->get();
-
+        $inventories = Inventories::all();
         $products->each(function ($product) {
             $product->average_rating = StarRating::where('product_id', $product->id)->avg('star');
         });
@@ -58,11 +58,11 @@ class HomeController extends Controller
 
         return view('index', [
 
-            'products' => $products, 
+            'products' => $products,
 
-            'productsby1' => $productsby1, 
+            'productsby1' => $productsby1,
 
-            'productsby2' => $productsby2, 
+            'productsby2' => $productsby2,
 
             'productsby3' => $productsby3,
 
@@ -70,7 +70,8 @@ class HomeController extends Controller
 
             'productsFeatureBy2' => $productsFeatureBy2,
 
-            'productsFeatureBy3' => $productsFeatureBy3
+            'productsFeatureBy3' => $productsFeatureBy3,
+            'inventories' => $inventories
 
         ]);
 

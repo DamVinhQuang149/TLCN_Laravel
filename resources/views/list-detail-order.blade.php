@@ -29,51 +29,42 @@
                                 @csrf
                                 <table cellspacing="0" class="shop_table cart">
                                     <thead>
-                                        <tr>
-                                            {{-- <th class="order-id"></th>
-                                            <th class="product-thumbnail">SẢN PHẨM</th>
-                                            <th class="product-thumbnail">GIẢM GIÁ</th>
-                                            <th class="product-action" style="width:3%">
-                                                <button class="btn btn-info">
-                                                    <a style="text-decoration: none;color:#fff;" href="{{ route('list.order') }}">
-                                                        <i class="fa fa-arrow-left"></i> QUAY LẠI
-                                                    </a>
-                                                </button>
-                                            </th> --}}
-                                            <th style="width: 25%" class="text-center">
-                                                TÊN SẢN PHẨM
-                                            </th>
-                                            <th style="width: 10%" class="text-center">
-                                                ẢNH
-                                            </th>
+                                        <tr></tr>
+                                        <th style="width: 25%" class="text-center">
+                                            TÊN SẢN PHẨM
+                                        </th>
+                                        <th style="width: 10%" class="text-center">
+                                            ẢNH
+                                        </th>
 
-                                            <th style="width: 15%" class="text-center">
-                                                LOẠI SẢN PHẨM
-                                            </th>
-                                            <th class="text-center">
-                                                GIÁ
-                                            </th>
-                                            <th style="width: 10%" class="text-center">
-                                                SỐ LƯỢNG
-                                            </th>
-                                            <th class="text-center">
-                                                TỔNG GIÁ
-                                            </th>
-                                            <th class="product-action" style="width:3%">
-                                                <button class="btn btn-info">
-                                                    <a style="text-decoration: none;color:#fff;"
-                                                        href="{{ route('list.order') }}">
-                                                        <i class="fa fa-arrow-left"></i> QUAY LẠI
-                                                    </a>
-                                                </button>
-                                            </th>
+                                        <th style="width: 15%" class="text-center">
+                                            LOẠI SẢN PHẨM
+                                        </th>
+                                        <th class="text-center">
+                                            GIÁ
+                                        </th>
+                                        <th style="width: 10%" class="text-center">
+                                            SỐ LƯỢNG
+                                        </th>
+                                        <th class="text-center">
+                                            TỔNG GIÁ
+                                        </th>
+                                        <th class="product-action" style="width:3%">
+                                            <button class="btn btn-info">
+                                                <a style="text-decoration: none;color:#fff;"
+                                                    href="{{ route('list.order') }}">
+                                                    <i class="fa fa-arrow-left"></i> QUAY LẠI
+                                                </a>
+                                            </button>
+                                        </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($orderdetails as $value)
                                             <tr>
                                                 <td class="text-center" style="width: 5%">
-                                                    <strong>{{ $value->product_name }}</strong></td>
+                                                    <strong>{{ $value->product_name }}</strong>
+                                                </td>
                                                 <td><a href="/product/type_id={{ $value->type_id }}&id={{ $value->id }}"><img
                                                             style="width:102px" class="text-center"
                                                             src="{{ asset('assets/img/' . $value->product_image) }}">
@@ -81,72 +72,36 @@
                                                 </td>
 
                                                 <td class="text-center" style="width: 5%">
-                                                    <strong>{{ $value->type_name }}</strong></td>
+                                                    <strong>{{ $value->type_name }}</strong>
+                                                </td>
                                                 <td class="text-center" style="width: 15%">
                                                     <strong>{{ number_format($value->discount_price, 0, ',', '.') }}
-                                                        đ</strong></td>
+                                                        đ</strong>
+                                                </td>
                                                 <td class="text-center"><strong>x {{ $value->product_quantity }}</strong>
                                                 </td>
                                                 <td style="width: 20%">
-                                                    <strong>{{ number_format($value->cost, 0, ',', '.') }} đ</strong></td>
+                                                    <strong>{{ number_format($value->cost, 0, ',', '.') }} đ</strong>
+                                                </td>
                                                 <td style="width: 20%"></td>
                                             </tr>
                                         @endforeach
-                                    </tbody>
-                                    {{-- <tbody>
-                                        @foreach ($orderdetails as $item)
                                         <tr>
-                                            <td class="order-id"><strong>
-                                                    {{ $item->order_id }}
-                                                </strong></td>
-                                            <td class="product-thumbnail">
-                                                <div class="product-thumbnail-item">
-                                                    <img style="width:102px" src="{{ asset('assets/img/' . $item->product_image) }}"
-                                                        alt="{{ $item->product_name }}">
-                                                    <div class="product-thumbnail-info">
-                                                        <h5>
-                                                            <a href="{{ route('detail.product', ['type_id' => $item->type_id, 'id' => $item->id]) }}">
-                                                                {{ $item->product_name }}
-                                                            </a>
-                                                        </h5>
-                                                        <h5>
-                                                            {{ number_format($item->discount_price, 0, ',', '.') }} đ
-                                                        </h5>
-                                                        @php
-                                                            $totalPrice = $item->discount_price * $item->product_quantity;
-                                                        @endphp
-                                                        
-                                                        <h5>
-                                                            <p>Số lượng: x
-                                                                {{ $item->product_quantity }}
-                                                            </p>
-                                                        </h5>
-                                                        <hr style="border-top:1px solid gray;">
-                                                        <h5>
-                                                            <p>Tổng:
-                                                                {{ number_format($totalPrice, 0, ',', '.') }} đ
-                                                            </p>
-                                                        </h5>
-                                                        
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="product-action">
+                                            <td colspan="7" style="text-align: left;">
+                                                <strong>Địa chỉ: {{ $value->address }}</strong> <br>
+                                                <strong>Phí vận chuyển:
+                                                    {{ number_format($value->shipping_fee, 0, ',', '.') }} đ</strong> <br>
                                                 <strong>
-                                                    <p>Giảm giá:
-                                                        @if ($item->discount_price > 100)
-                                                            {{ number_format(-$item->discount_price, 0, ',', '.') }}
-                                                        @else
-                                                            {{ number_format(-(($item->coupon_discount * ($item->total / (1 - $item->coupon_discount / 100))) / 100), 0, ',', '.') }}
-                                                        @endif
-                                                </strong>
-                                            </td>
-                                            <td class="product-action">
-                                                
+                                                    Đã giảm giá:
+                                                    @if ($value->coupon_discount > 100)
+                                                        {{ number_format(-$value->coupon_discount, 0, ',', '.') }}
+                                                    @else
+                                                        {{ number_format(-(($value->coupon_discount * ($value->total / (1 - $value->coupon_discount / 100))) / 100), 0, ',', '.') }}
+                                                    @endif đ
+                                                </strong> <br>
                                             </td>
                                         </tr>
-                                        @endforeach
-                                    </tbody> --}}
+                                    </tbody>
                                 </table>
                             </form>
                         </div>

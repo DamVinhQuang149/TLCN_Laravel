@@ -14,11 +14,15 @@ function AddCart(id) {
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             console.error("AJAX Error:", textStatus, errorThrown);
+        })
+        .always(function () {
+            setTimeout(function () {}, 720);
         });
 }
+
 function AddQuantyCart(id) {
     $.ajax({
-        url: "/add-quanty-cart/" + id + "/" + $("#quanty-item-" + id).val(),
+        url: "/add-quanty-cart/" + id + "/" + quantity,
         type: "GET",
     })
         .done(function (response) {
@@ -42,7 +46,7 @@ $("#change-item-cart").on("click", ".delete i", function () {
     })
         .done(function (response) {
             RenderCart(response);
-            alertify.success("Đã xóa sản phẩm trong giỏ hàng");
+            alertify.error("Đã xóa sản phẩm trong giỏ hàng");
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             console.error("AJAX Error:", textStatus, errorThrown);

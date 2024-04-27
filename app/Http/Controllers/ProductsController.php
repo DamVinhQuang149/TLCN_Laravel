@@ -304,11 +304,11 @@ class ProductsController extends Controller
             });
 
             //
-
+            $inventories = Inventories::all();
             $minDiscountPrice = Products::where('type_id', $type_id)->min('discount_price');
             $maxDiscountPrice = Products::where('type_id', $type_id)->max('discount_price');
             $type = Protypes::find($type_id);
-            return view('products', ['products' => $products, 'type' => $type]);
+            return view('products', ['products' => $products, 'type' => $type, 'inventories' => $inventories]);
         } catch (ModelNotFoundException $e) {
             abort(404);
         }
@@ -360,8 +360,12 @@ class ProductsController extends Controller
 
         $products = $query->paginate(6)->appends(request()->query());
         $count_product = $query->count();
-
-        return view('search-products', ['products' => $products, 'count_product' => $count_product]);
+        $inventories = Inventories::all();
+        return view('search-products', [
+            'products' => $products,
+            'count_product' => $count_product,
+            'inventories' => $inventories
+        ]);
     }
 
     //Comments
@@ -464,8 +468,9 @@ class ProductsController extends Controller
     public function favoriteShow()
     {
 
+        $inventories = Inventories::all();
         $favorites = auth()->user()->favorites()->paginate(6);
         $count = Favorites::where(['user_id' => auth()->id()])->count();
-        return view('favorites', compact('favorites', 'count'));
+        return view('favorites', compact('favorites', 'count'), ['inventories' => $inventories]);
     }
 }

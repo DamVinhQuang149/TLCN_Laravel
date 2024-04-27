@@ -32,8 +32,8 @@
                                         <tr>
                                             <th class="order-id" style="width:5%">MÃ</th>
                                             <th class="product-cost" style="width:12%">THÀNH TIỀN</th>
-                                            <th class="product-coupon" style="width:12%">ĐÃ GIẢM GIÁ</th>
-                                            <th class="product-address">ĐỊA CHỈ</th>
+                                            {{-- <th class="product-coupon" style="width:12%">ĐÃ GIẢM GIÁ</th> --}}
+                                            {{-- <th class="product-address">ĐỊA CHỈ</th> --}}
                                             <th class="product-phone">SỐ ĐIỆN THOẠI</th>
                                             <th class="product-checkout">THANH TOÁN</th>
                                             <th class="product-status">TÌNH TRẠNG</th>
@@ -55,7 +55,7 @@
                                                         {{ number_format($item->total, 0, ',', '.') }}đ
                                                     </strong>
                                                 </td>
-                                                <td class="product-coupon" style="width:12%">
+                                                {{-- <td class="product-coupon" style="width:12%">
                                                     <strong>
                                                         @if ($item->coupon_discount > 100)
                                                             {{ number_format(-$item->coupon_discount, 0, ',', '.') }}
@@ -63,12 +63,12 @@
                                                             {{ number_format(-(($item->coupon_discount * ($item->total / (1 - $item->coupon_discount / 100))) / 100), 0, ',', '.') }}
                                                         @endif đ
                                                     </strong>
-                                                </td>
-                                                <td class="product-address">
+                                                </td> --}}
+                                                {{-- <td class="product-address">
                                                     <strong>
                                                         {{ $item->address }}
                                                     </strong>
-                                                </td>
+                                                </td> --}}
                                                 <td class="product-phone">
                                                     <strong>
                                                         {{ $item->phone }}

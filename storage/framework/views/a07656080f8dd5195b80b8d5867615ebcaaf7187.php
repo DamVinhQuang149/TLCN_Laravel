@@ -48,7 +48,6 @@
                                                     <option value="<?php echo e($stt->status); ?>"
                                                         <?php echo e($stt->status == $value->status ? 'selected' : ''); ?>>
                                                         <?php echo e($stt->status_name); ?>
-
                                                     </option>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </select>

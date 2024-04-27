@@ -44,6 +44,10 @@
                                         <ins class="product-inner-price">Nhà sản xuất: <?php echo e($probyid['manu_name']); ?></ins>
                                         <br>
                                         <div class="remain-quantity">Tồn kho: <?php echo e($inventories['remain_quantity']); ?></div>
+                                        <?php if($inventories['remain_quantity'] == 0): ?>
+                                            <div style="color: #f80808" class="remain-quantity">Sản phẩm đã hết hàng</div>
+                                        <?php endif; ?>
+
                                         <div style="margin-top:10px; color:#80bb35">
                                             <h5><del><strong><?php echo e(number_format($probyid['price'])); ?> VND</strong></del></h5>
                                         </div>
@@ -181,8 +185,8 @@
                                                                     <p><?php echo e($comm->comment); ?></p>
                                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('my-comment', $comm)): ?>
                                                                         <!-- <form action="" method="get" class="text-right">
-                                                                                                                                                                <a href="" class="btn btn-primary btn-sm">Sửa</a>
-                                                                                                                                                            </form> -->
+                                                                                                                                                                                <a href="" class="btn btn-primary btn-sm">Sửa</a>
+                                                                                                                                                                            </form> -->
                                                                         <form class="text-right">
                                                                             <button type="button" id="applyCouponButton"
                                                                                 style="background-color: #f80808; color: #fff; border: none; border-radius: 4px; padding: 9px; cursor: pointer;"

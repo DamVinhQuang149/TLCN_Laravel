@@ -114,10 +114,13 @@ class OrdersController extends Controller
     {
         if (Session::has('Cart')) {
             if (Session::has('shipping_fee') && Session::get('shipping_fee.distance') > 2 && Session::get('shipping_fee.distance') < 25) {
+                // dd(Session::get('shipping_fee'));
                 $user_id = Auth::user()->user_id;
                 $address = $req->address;
                 $phone = $req->phone;
                 $note = $req->note;
+                $shipping_fee = Session::get('shipping_fee.fee');
+
                 if (Session::has('Coupon')) {
                     foreach (Session::get('Coupon') as $key => $cou) {
                         if ($cou['coupon_remain'] > 0 && $cou['min_order'] < Session::get('Cart')->totalPrice) {
@@ -132,9 +135,11 @@ class OrdersController extends Controller
                 $total = ($req->total > 0) ? $req->total : Session::get('Cart')->totalPrice;
 
                 $checkout = $req->payment_method;
+                // dd($shipping_fee);
                 $order = Orders::create([
                     'user_id' => $user_id,
                     'address' => $address,
+                    'shipping_fee' => $shipping_fee,
                     'phone' => $phone,
                     'coupon_discount' => $coupon_discount,
                     'note' => $note,
@@ -167,10 +172,10 @@ class OrdersController extends Controller
                         $inventories = Inventories::where("product_id", $product_id)->get();
 
                         foreach ($inventories as $inventory) {
-                            
+
                             if ($inventory->remain_quantity < $product_quantity) {
                                 return redirect()->back()->with('error', 'Số lượng sản phẩm đặt hàng lớn hơn số lượng tồn kho! Vui lòng kiểm tra lại');
-                            }  
+                            }
                         }
                     }
                     if ($order->checkout == 0) {
@@ -206,7 +211,7 @@ class OrdersController extends Controller
 
         $order_idmax = Orders::select('*')->max('order_id');
         $order = Orders::where('order_id', $order_idmax)->first();
-        
+
         if ($status_cvt == '00') {
             $status_bank = 'Thanh toán thành công';
             $status = 3;
@@ -232,7 +237,7 @@ class OrdersController extends Controller
             }
         }
 
-        if($order->status == 0 || $order->status == 3){
+        if ($order->status == 0 || $order->status == 3) {
             // gửi email cho khách hàng về thông tin đã đặt hàng
             $user = User::select()->where('user_id', auth()->id())->first();
             $orderdetails = OrderDetails::select('order_details.*', 'products.id', 'products.discount_price', 'protypes.*')
@@ -277,35 +282,30 @@ class OrdersController extends Controller
                         $status = "Nearly Out Of Stock";
                     } elseif ($remain_quantity == 0) {
                         $status = "Out Of Stock";
-                        
+
                     } else {
                         $status = "In Stock";
                     }
-                    
+
                     $inventory->sold_quantity = $inventory->sold_quantity + $product_quantity;
                     $inventory->remain_quantity = $remain_quantity;
                     $inventory->inventory_status = $status;
                     $inventory->save();
                     //
-                    
-                    if($inventory->inventory_status == "Nearly Out Of Stock" || $inventory->inventory_status == "Out Of Stock")
-                    {
+
+                    if ($inventory->inventory_status == "Nearly Out Of Stock" || $inventory->inventory_status == "Out Of Stock") {
                         Mail::send("emails.inventory-quantity-notification", ['inventory' => $inventory], function ($message) use ($userAdmin) {
 
                             $message->to($userAdmin);
-            
+
                             $message->subject("Thông báo về số lượng tồn kho");
-            
+
                         });
                     }
                 }
 
             }
-            //dd('oke');
-            
         }
-
-
         if (Session::has('Coupon')) {
             foreach (Session::get('Coupon') as $key => $cou) {
                 if ($cou['coupon_remain'] > 0 && $cou['min_order'] < Session::get('Cart')->totalPrice) {
@@ -348,13 +348,13 @@ class OrdersController extends Controller
         $inventories = Inventories::get();
         $orderDetail = OrderDetails::select('order_details.*', 'products.id', 'products.discount_price', 'protypes.*')
 
-                ->join('products', 'order_details.product_id', '=', 'products.id')
+            ->join('products', 'order_details.product_id', '=', 'products.id')
 
-                ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
+            ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
 
-                ->where('order_id', $order_id)
+            ->where('order_id', $order_id)
 
-                ->get();
+            ->get();
         foreach ($orderDetail as $item) {
             foreach ($inventories as $value) {
                 if ($item->product_id == $value->product_id) {

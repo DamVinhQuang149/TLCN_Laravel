@@ -95,7 +95,6 @@ textarea.input {
     background-color: #fff;
     padding: 0px 35px 0px 15px;
 }
-
 .input-number .qty-up,
 .input-number .qty-down {
     position: absolute;
@@ -1065,7 +1064,65 @@ textarea.input {
     opacity: 1;
     visibility: visible;
 }
+.product .out-of-stock {
+    position: absolute;
+    left: 1px;
+    right: 1px;
+    bottom: 1px;
+    padding: 15px;
+    background: #fff;
+    text-align: center;
+    -webkit-transform: translateY(0%);
+    -ms-transform: translateY(0%);
+    transform: translateY(0%);
+    -webkit-transition: 0.2s all;
+    transition: 0.2s all;
+    z-index: 2;
+}
 
+.product:hover .out-of-stock {
+    -webkit-transform: translateY(100%);
+    -ms-transform: translateY(100%);
+    transform: translateY(100%);
+}
+
+.product .out-of-stock .out-of-stock-btn {
+    position: relative;
+    border: 2px solid transparent;
+    height: 40px;
+    padding: 0 30px;
+    background-color: red;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 700;
+    border-radius: 40px;
+    -webkit-transition: 0.2s all;
+    transition: 0.2s all;
+}
+
+.product .out-of-stock .out-of-stock-btn > i {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    line-height: 38px;
+    color: red;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.product .out-of-stock .out-of-stock-btn:hover {
+    background-color: #fff;
+    color: red;
+    border-color: red;
+    padding: 0px 30px 0px 50px;
+}
+
+.product .out-of-stock .out-of-stock-btn:hover > i {
+    opacity: 1;
+    visibility: visible;
+}
 /*----------------------------*\
 	Widget product
 \*----------------------------*/

@@ -255,7 +255,10 @@
                                                                         $coupon_amount =
                                                                             $cou['coupon_type'] == 0
                                                                                 ? $cou['coupon_amount']
-                                                                                : (Session::get('Cart')->totalPrice *
+                                                                                : ((Session::get('Cart')->totalPrice +
+                                                                                        Session::get(
+                                                                                            'shipping_fee.fee',
+                                                                                        )) *
                                                                                         $cou['coupon_amount']) /
                                                                                     100;
                                                                     @endphp
@@ -287,6 +290,7 @@
                                             <div id="total-price">
                                                 @php
                                                     if (Session::has('shipping_fee')) {
+                                                        $shipping_fee = Session::has('shipping_fee.fee');
                                                         if (Session::has('Coupon')) {
                                                             $total_coupon =
                                                                 Session::get('Cart')->totalPrice - $coupon_amount;
