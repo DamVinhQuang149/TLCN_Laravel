@@ -28,4 +28,8 @@
         <h5><strong>TỔNG: {{ number_format(Session::get('Cart')->totalPrice) }} VND</strong></h5>
         <input hidden id="total-quanty-cart" type="number" value="{{ Session::get('Cart')->totalQuanty }}">
     </div>
+@else
+    <div class="cart-summary">
+        <h5>Giỏ hàng trống.</h5>
+    </div>
 @endif

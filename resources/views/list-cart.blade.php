@@ -119,7 +119,7 @@
                                             @endforeach
                                             <tbody>
                                                 <tr>
-                                                    <td class="actions" colspan="8">
+                                                    <td class="actions" colspan="9">
                                                         <div class="add-to-cart">
                                                             <button class="add-to-cart-btn">
                                                                 <a style="text-decoration: none;"

@@ -30,40 +30,55 @@ class CartController extends Controller
     {
 
         try {
+            
             $product = Products::findOrFail($id);
             $remain_quantity = Inventories::where('product_id', $product->id)->sum('remain_quantity');
-
+    
             if ($product != null) {
                 $oldcart = $req->session()->has('Cart') ? $req->session()->get('Cart') : null;
                 $newcart = new Cart($oldcart);
                 $newcart->AddCart($product, $id);
-                if ($newcart->totalQuanty > 10) {
-                    return response()->json([
-                        'status' => 'error',
-                        'message' => 'Mỗi sản phẩm chỉ thêm tối đa 10'
-                    ]);
+                
+                foreach ($newcart->products as $item) {
+                    //dd($item);
+                    if($item['productInfo']->id == $id){
+                        if ($remain_quantity == 0) {
+                            return response()->json([
+                                'status' => 'error',
+                                'message' => 'Sản phẩm đã hết hàng.'
+                            ]);
+                        }
+                        else if ($item['quanty'] > $remain_quantity) {
+                            dd($item['quanty']);
+                            return response()->json([
+                                'status' => 'error',
+                                'message' => 'Số lượng sản phẩm thêm vượt quá tồn kho.'
+                            ]);
+                        }
+                        else if ($item['quanty'] > 10) {
+                            return response()->json([
+                                'status' => 'error',
+                                'message' => 'Mỗi sản phẩm chỉ thêm tối đa 10'
+                            ]);
+                        }
+                    }
                 }
-                if ($newcart->totalQuanty > $remain_quantity) {
-                    return response()->json([
-                        'status' => 'error',
-                        'message' => 'Số lượng sản phẩm trong giỏ hàng vượt quá số lượng tồn kho hoặc sản phẩm đã hết hàng.'
-                    ]);
-                }
-
                 $req->session()->put('Cart', $newcart);
             }
-
+    
             $array = [];
             foreach ($newcart->products as $item) {
                 $productInfo = $item['productInfo'];
                 $inventories = Inventories::where('product_id', $productInfo->id)->get();
                 $array[] = $inventories;
             }
-
+    
             return response()->json([
                 'status' => 'success',
                 'view_1' => view('cart-items', ['inventories' => $array])->render(),
-                'view_2' => view('list-cart', ['inventories' => $array])->render()
+                'view_2' => view('list-cart', ['inventories' => $array])->render(),
+                'view_3' => view('ajax.ajax_total_quanty_show')->render()
+
             ]);
         } catch (\Exception $e) {
             abort(404);
@@ -90,11 +105,29 @@ class CartController extends Controller
 
                 $newcart->AddQuantyCart($product, $id, $quanty);
 
-                if ($newcart->totalQuanty > $remain_quantity) {
-                    return response()->json([
-                        'status' => 'error',
-                        'message' => 'Số lượng sản phẩm trong giỏ hàng vượt quá số lượng tồn kho hoặc sản phẩm đã hết hàng.'
-                    ]);
+                foreach ($newcart->products as $item) {
+                    //dd($item['quanty']);
+                    if($item['productInfo']->id == $id){
+                        if ($remain_quantity == 0) {
+                            return response()->json([
+                                'status' => 'error',
+                                'message' => 'Sản phẩm đã hết hàng.'
+                            ]);
+                        }
+                        else if ($item['quanty'] > $remain_quantity) {
+                            dd($item['quanty']);
+                            return response()->json([
+                                'status' => 'error',
+                                'message' => 'Số lượng sản phẩm thêm vượt quá tồn kho.'
+                            ]);
+                        }
+                        else if ($item['quanty'] > 10) {
+                            return response()->json([
+                                'status' => 'error',
+                                'message' => 'Mỗi sản phẩm chỉ thêm tối đa 10'
+                            ]);
+                        }
+                    }
                 }
 
 
@@ -112,20 +145,14 @@ class CartController extends Controller
                 }
             }
 
-            // return response()->json([
-
-            //     'view_1' => view('cart-items', ['inventories' => $array])->render(),
-
-            //     'view_2' => view('list-cart', ['inventories' => $array])->render()
-
-            // ]);
             return response()->json([
                 'status' => 'success',
                 'view_1' => view('cart-items', ['inventories' => $array])->render(),
-                'view_2' => view('list-cart', ['inventories' => $array])->render()
+                'view_2' => view('list-cart', ['inventories' => $array])->render(),
+                'view_3' => view('ajax.ajax_total_quanty_show')->render()
+
             ]);
 
-            return view('cart-items');
 
         } catch (\Exception $e) {
 
@@ -161,8 +188,12 @@ class CartController extends Controller
         }
 
 
-
-        return view('cart-items');
+        return response()->json([
+            'status' => 'success',
+            'view_1' => view('cart-items')->render(),
+            'view_2' => view('ajax.ajax_total_quanty_show')->render()
+        ]);
+        //return view('cart-items');
 
     }
 
@@ -184,7 +215,7 @@ class CartController extends Controller
             } else {
                 return view('list-cart');
             }
-
+            
         } catch (ModelNotFoundException $e) {
 
             abort(404);
@@ -218,13 +249,36 @@ class CartController extends Controller
             foreach (Session::get('Cart')->products as $item) {
                 $productInfo = $item['productInfo'];
                 $inventories = Inventories::where('product_id', $productInfo->id)->get();
+                // dd($inventories->product_id);
                 $array[] = $inventories;
             }
-            return view('list-item-cart', ['inventories' => $array]);
-        } else {
-            return view('list-item-cart');
+            return response()->json([
+
+                'view_1' => view('cart-items', ['inventories' => $array])->render(),
+    
+                'view_2' => view('list-item-cart', ['inventories' => $array])->render(),
+                'view_3' => view('ajax.ajax_total_quanty_show')->render()
+    
+    
+            ]);
         }
+        
+        return response()->json([
+
+            'view_1' => view('cart-items')->render(),
+
+            'view_2' => view('list-item-cart')->render(),
+            'view_3' => view('ajax.ajax_total_quanty_show')->render()
+
+
+        ]);
+
+        
+
     }
+
+    //
+
     public function saveListItemCart(Request $req, $id, $quanty)
     {
 
@@ -232,28 +286,62 @@ class CartController extends Controller
 
         $newcart = new Cart($oldcart);
 
+        $remain_quantity = Inventories::where('product_id', $id)->sum('remain_quantity');
+
+
         $newcart->UpdateItemCart($id, $quanty);
 
         if (Session::has('Cart')) {
             foreach (Session::get('Cart')->products as $item) {
+                
                 $productInfo = $item['productInfo'];
                 $inventories = Inventories::where('product_id', $productInfo->id)->get();
                 // dd($inventories->product_id);
                 $array[] = $inventories;
+
+                
+            }
+        }
+
+        foreach ($newcart->products as $item) {
+            //dd($item['quanty']);
+            if($item['productInfo']->id == $id){
+                if ($remain_quantity == 0) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Sản phẩm đã hết hàng.'
+                    ]);
+                }
+                else if ($item['quanty'] > $remain_quantity) {
+                    dd($item['quanty']);
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Số lượng sản phẩm thêm vượt quá tồn kho.'
+                    ]);
+                }
+                else if ($item['quanty'] > 10) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Mỗi sản phẩm chỉ thêm tối đa 10'
+                    ]);
+                }
             }
         }
 
         $req->session()->put('Cart', $newcart);
 
-        // return response()->json([
+        return response()->json([
+            'status' => 'success',
 
-        //     'view_1' => view('cart-items', ['inventories' => $array])->render(),
+            'view_1' => view('cart-items', ['inventories' => $array])->render(),
 
-        //     //'view_2' => view('list-cart', ['inventories' => $array])->render()
+            'view_2' => view('list-item-cart', ['inventories' => $array])->render(),
+            'view_3' => view('ajax.ajax_total_quanty_show')->render()
 
-        // ]);
 
-        return view('list-item-cart', ['inventories' => $array]);
+        ]);
+
+        //return view('list-item-cart', ['inventories' => $array]);
 
     }
 

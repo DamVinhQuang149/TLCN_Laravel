@@ -158,12 +158,13 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                 <i class="fa fa-shopping-bag"></i>
                                 <span>Giỏ hàng</span>
-                                @if (Session::has('Cart') != null)
-                                    <div id="total-quanty-show" class="qty">{{ Session::get('Cart')->totalQuanty }}
-                                    </div>
-                                @else
-                                    <div id="total-quanty-show" class="qty">0</div>
-                                @endif
+                                <div id="total-quanty-show" class="qty">
+                                    @if (Session::has('Cart') != null)
+                                        {{ Session::get('Cart')->totalQuanty }}
+                                    @else
+                                        0
+                                    @endif
+                                </div>
                             </a>
                             <div class="cart-dropdown">
                                 <div id="change-item-cart">

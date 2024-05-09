@@ -114,28 +114,23 @@
                                                                         </a>
                                                                     </td>
                                                                 </tr>
-
                                                             </tbody>
                                                         <?php endif; ?>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="actions" colspan="8">
-                                                        <div class="add-to-cart">
-                                                            <button class="add-to-cart-btn">
-                                                                <a style="text-decoration: none;"
-                                                                    href="<?php echo e(route('view.checkout')); ?>">
-                                                                    <i class="fa fa-credit-card"></i> Thanh toán
-                                                                </a>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-
-                                            </tbody>
-
+                                            <tr>
+                                                <td class="actions" colspan="7">
+                                                    <div class="add-to-cart">
+                                                        <button class="add-to-cart-btn">
+                                                            <a style="text-decoration: none;"
+                                                                href="<?php echo e(route('view.checkout')); ?>">
+                                                                <i class="fa fa-credit-card"></i> Thanh toán
+                                                            </a>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
                                         </table>
                                         <div class="cart-collaterals">
                                             <div class="cart_totals col-lg-offset-4">

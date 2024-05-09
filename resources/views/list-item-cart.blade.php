@@ -143,7 +143,7 @@
 
         <tr>
 
-            <td class="actions" colspan="7">
+            <td class="actions" colspan="9">
 
                 <div class="add-to-cart">
 

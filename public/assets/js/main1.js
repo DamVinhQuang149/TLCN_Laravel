@@ -7,6 +7,8 @@ function AddCart(id) {
             if (response.status === "success") {
                 RenderCart(response.view_1);
                 RenderListCart(response.view_2);
+                RenderTotalQuanty(response.view_3);
+
                 alertify.success("Thêm vào giỏ hàng thành công!");
             } else if (response.status === "error") {
                 alertify.error(response.message);
@@ -14,21 +16,18 @@ function AddCart(id) {
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             console.error("AJAX Error:", textStatus, errorThrown);
-        })
-        .always(function () {
-            setTimeout(function () {}, 720);
         });
 }
-
 function AddQuantyCart(id) {
     $.ajax({
-        url: "/add-quanty-cart/" + id + "/" + quantity,
+        url: "/add-quanty-cart/" + id + "/" + $("#quanty-item-" + id).val(),
         type: "GET",
     })
         .done(function (response) {
             if (response.status === "success") {
                 RenderCart(response.view_1);
                 RenderListCart(response.view_2);
+                RenderTotalQuanty(response.view_3);
                 alertify.success("Thêm vào giỏ hàng thành công!");
             } else if (response.status === "error") {
                 alertify.error(response.message);
@@ -45,8 +44,10 @@ $("#change-item-cart").on("click", ".delete i", function () {
         type: "GET",
     })
         .done(function (response) {
-            RenderCart(response);
-            alertify.error("Đã xóa sản phẩm trong giỏ hàng");
+            RenderCart(response.view_1);
+            RenderTotalQuanty(response.view_2);
+
+            alertify.success("Đã xóa sản phẩm trong giỏ hàng");
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             console.error("AJAX Error:", textStatus, errorThrown);
@@ -61,10 +62,9 @@ function DeleteListItemCart(id) {
         .done(function (response) {
             RenderCart(response.view_1);
             RenderListCart(response.view_2);
+            RenderTotalQuanty(response.view_3);
+
             alertify.error("Đã xóa sản phẩm trong giỏ hàng");
-            setTimeout(function () {
-                location.reload();
-            }, 300);
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             console.error("AJAX Error:", textStatus, errorThrown);
@@ -85,12 +85,15 @@ function SaveListItemCart(id) {
         type: "GET",
     })
         .done(function (response) {
-            RenderCart(response.view_1);
-            RenderListCart(response.view_2);
-            alertify.success("Đã cập nhật sản phẩm trong giỏ hàng");
-            setTimeout(function () {
-                location.reload();
-            }, 300);
+            if (response.status === "success") {
+                RenderCart(response.view_1);
+                RenderListCart(response.view_2);
+                RenderTotalQuanty(response.view_3);
+
+                alertify.success("Đã cập nhật sản phẩm trong giỏ hàng");
+            } else if (response.status === "error") {
+                alertify.error(response.message);
+            }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             console.error("AJAX Error:", textStatus, errorThrown);
@@ -101,13 +104,17 @@ function RenderCart(response) {
     $("#change-item-cart").empty();
     $("#change-item-cart").html(response);
 
-    $("#total-quanty-show").text($("#total-quanty-cart").val());
+    //$("#total-quanty-show").text($("#total-quanty-cart").val());
+}
+function RenderTotalQuanty(response) {
+    $("#total-quanty-show").empty();
+    $("#total-quanty-show").html(response);
 }
 function RenderListCart(response) {
     $("#change-list-cart").empty();
     $("#change-list-cart").html(response);
     //$("#change-list-cart").replaceWith(response);
-    $("#total-quanty-show").text($("#total-quanty-cart").val());
+    //$("#total-quanty-show").text($("#total-quanty-cart").val());
 }
 
 //Coupon

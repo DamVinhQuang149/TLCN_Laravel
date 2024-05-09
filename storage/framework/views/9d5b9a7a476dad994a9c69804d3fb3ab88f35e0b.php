@@ -213,10 +213,7 @@
     <div class="section">
         <!-- container -->
         <div class="container">
-            <!-- row -->
             <div class="row">
-
-                <!-- section title -->
                 <div class="col-md-12">
                     <div class="section-title">
                         <h3 class="title">Sản phẩm tươi mới mỗi ngày</h3>
@@ -239,64 +236,86 @@
                             <div id="tab1" class="tab-pane active">
                                 <div class="products-slick" data-nav="#slick-nav-1">
                                     <?php $__currentLoopData = $productsby1; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <!-- product -->
-                                        <div class="product">
-                                            <div class="product-img">
-                                                <img style="width=100px"
-                                                    src="<?php echo e(asset('assets/img/' . $value['pro_image'])); ?>" alt="">
-                                                <div class="product-label">
-                                                    <span class="new">MỚI</span>
-                                                </div>
-                                            </div>
-                                            <div class="product-body">
-                                                <p class="product-category"></p>
-                                                <h3 class="product-name"><a
-                                                        href="<?php echo e(route('detail.product', ['type_id' => $value->type_id, 'id' => $value->id])); ?>"><?php echo e($value->name); ?></a>
-                                                </h3>
-                                                <?php if($value['discount_price'] > 0): ?>
-                                                    <h4 class="product-price">
-                                                        <del><?php echo e(number_format($value->price)); ?> VND</del>
-                                                    </h4>
-                                                    <h4 class="discount-price">
-                                                        <?php echo e(number_format($value->discount_price)); ?> VND
-                                                    </h4>
-                                                <?php else: ?>
-                                                    <h4 class="discount-price">
-                                                        <?php echo e(number_format($value->price)); ?> VND
-                                                    </h4>
-                                                <?php endif; ?>
-                                                <ul class="ratingW-comment">
-                                                    <small>
-                                                    <?php if($value->average_rating): ?>
-                                                    <?php
-                                                        for ($i = 1; $i <= 5; $i++) {
-                                                            if ($i <= $value->average_rating) {
-                                                                echo '<li class="on"><div class="star-comm"></div></li>';
-                                                            } else {
-                                                                echo '<li><div class="star-comm"></div></li>';
-                                                            }
-                                                        }
-                                                    ?>
+                                        <?php $__currentLoopData = $inventories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $inven): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php if($value->id === $inven->product_id): ?>
+                                                <!-- product -->
+                                                <div class="product">
+                                                    <div class="product-img">
+                                                        <img style="width=100px"
+                                                            src="<?php echo e(asset('assets/img/' . $value['pro_image'])); ?>"
+                                                            alt="">
+                                                        <div class="product-label">
+                                                            <span class="new">MỚI</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-body">
+                                                        <p class="product-category"></p>
+                                                        <h3 class="product-name"><a
+                                                                href="<?php echo e(route('detail.product', ['type_id' => $value->type_id, 'id' => $value->id])); ?>"><?php echo e($value->name); ?></a>
+                                                        </h3>
+                                                        <?php if($value['discount_price'] > 0): ?>
+                                                            <h4 class="product-price">
+                                                                <del><?php echo e(number_format($value->price)); ?> VND</del>
+                                                            </h4>
+                                                            <h4 class="discount-price">
+                                                                <?php echo e(number_format($value->discount_price)); ?> VND
+                                                            </h4>
+                                                        <?php else: ?>
+                                                            <h4 class="discount-price">
+                                                                <?php echo e(number_format($value->price)); ?> VND
+                                                            </h4>
+                                                        <?php endif; ?>
+                                                        <ul class="ratingW-comment">
+                                                            <small>
+                                                                <?php if($value->average_rating): ?>
+                                                                    <?php
+                                                                    for ($i = 1; $i <= 5; $i++) {
+                                                                        if ($i <= $value->average_rating) {
+                                                                            echo '<li class="on"><div class="star-comm"></div></li>';
+                                                                        } else {
+                                                                            echo '<li><div class="star-comm"></div></li>';
+                                                                        }
+                                                                    }
+                                                                    ?>
+                                                                <?php else: ?>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                <?php endif; ?>
+                                                            </small>
+                                                        </ul>
+                                                    </div>
+                                                    <?php if($inven->remain_quantity): ?>
+                                                        <a onclick="AddCart(<?php echo e($value->id); ?>)" href="javascript:">
+                                                            <div class="add-to-cart">
+                                                                <button class="add-to-cart-btn"><i
+                                                                        class="fa fa-shopping-cart"></i>
+                                                                    Thêm vào
+                                                                    giỏ</button>
+                                                            </div>
+                                                        </a>
                                                     <?php else: ?>
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
+                                                        <div class="out-of-stock">
+                                                            <button class="out-of-stock-btn"><i
+                                                                    class="fa fa-exclamation-circle"></i> Hết hàng</button>
+                                                        </div>
                                                     <?php endif; ?>
-                                                    </small>
-                                                </ul>
-                                                
-                                            </div>
-                                            <a onclick="AddCart(<?php echo e($value->id); ?>)" href="javascript:">
-                                                <div class="add-to-cart">
-                                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>
-                                                        Thêm vào
-                                                        giỏ</button>
                                                 </div>
-                                            </a>
-                                        </div>
-                                        <!-- /product -->
+                                                <!-- /product -->
+                                            <?php endif; ?>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
                                 <div id="slick-nav-1" class="products-slick-nav"></div>
@@ -307,72 +326,86 @@
                             <div id="tab2" class="tab-pane ">
                                 <div class="products-slick">
                                     <?php $__currentLoopData = $productsby2; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <!-- product -->
-                                        <div class="product">
-                                            <div class="product-img">
-                                                <img style="width=100px"
-                                                    src="<?php echo e(asset('assets/img/' . $value['pro_image'])); ?>"
-                                                    alt="">
-                                                <div class="product-label">
-                                                    <span class="new">MỚI</span>
-                                                </div>
-                                            </div>
-                                            <div class="product-body">
-                                                <p class="product-category"></p>
-                                                <h3 class="product-name"><a
-                                                        href="<?php echo e(route('detail.product', ['type_id' => $value->type_id, 'id' => $value->id])); ?>"><?php echo e($value->name); ?></a>
-                                                </h3>
-                                                <?php if($value['discount_price'] > 0): ?>
-                                                    <h4 class="product-price">
-                                                        <del><?php echo e(number_format($value->price)); ?> VND</del>
-                                                    </h4>
-                                                    <h4 class="discount-price">
-                                                        <?php echo e(number_format($value->discount_price)); ?> VND
-                                                    </h4>
-                                                <?php else: ?>
-                                                    <h4 class="discount-price">
-                                                        <?php echo e(number_format($value->price)); ?> VND
-                                                    </h4>
-                                                <?php endif; ?>
-                                                <ul class="ratingW-comment">
-                                                    <small>
-                                                    <?php if($value->average_rating): ?>
-                                                    <?php
-                                                        for ($i = 1; $i <= 5; $i++) {
-                                                            if ($i <= $value->average_rating) {
-                                                                echo '<li class="on"><div class="star-comm"></div></li>';
-                                                            } else {
-                                                                echo '<li><div class="star-comm"></div></li>';
-                                                            }
-                                                        }
-                                                    ?>
+                                        <?php $__currentLoopData = $inventories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $inven): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php if($value->id === $inven->product_id): ?>
+                                                <div class="product">
+                                                    <div class="product-img">
+                                                        <img style="width=100px"
+                                                            src="<?php echo e(asset('assets/img/' . $value['pro_image'])); ?>"
+                                                            alt="">
+                                                        <div class="product-label">
+                                                            <span class="new">MỚI</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-body">
+                                                        <p class="product-category"></p>
+                                                        <h3 class="product-name"><a
+                                                                href="<?php echo e(route('detail.product', ['type_id' => $value->type_id, 'id' => $value->id])); ?>"><?php echo e($value->name); ?></a>
+                                                        </h3>
+                                                        <?php if($value['discount_price'] > 0): ?>
+                                                            <h4 class="product-price">
+                                                                <del><?php echo e(number_format($value->price)); ?> VND</del>
+                                                            </h4>
+                                                            <h4 class="discount-price">
+                                                                <?php echo e(number_format($value->discount_price)); ?> VND
+                                                            </h4>
+                                                        <?php else: ?>
+                                                            <h4 class="discount-price">
+                                                                <?php echo e(number_format($value->price)); ?> VND
+                                                            </h4>
+                                                        <?php endif; ?>
+                                                        <ul class="ratingW-comment">
+                                                            <small>
+                                                                <?php if($value->average_rating): ?>
+                                                                    <?php
+                                                                    for ($i = 1; $i <= 5; $i++) {
+                                                                        if ($i <= $value->average_rating) {
+                                                                            echo '<li class="on"><div class="star-comm"></div></li>';
+                                                                        } else {
+                                                                            echo '<li><div class="star-comm"></div></li>';
+                                                                        }
+                                                                    }
+                                                                    ?>
+                                                                <?php else: ?>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                <?php endif; ?>
+                                                            </small>
+                                                        </ul>
+
+                                                    </div>
+                                                    <?php if($inven->remain_quantity): ?>
+                                                        <a onclick="AddCart(<?php echo e($value->id); ?>)" href="javascript:">
+                                                            <div class="add-to-cart">
+                                                                <button class="add-to-cart-btn"><i
+                                                                        class="fa fa-shopping-cart"></i>
+                                                                    Thêm vào
+                                                                    giỏ</button>
+                                                            </div>
+                                                        </a>
                                                     <?php else: ?>
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
+                                                        <div class="out-of-stock">
+                                                            <button class="out-of-stock-btn"><i
+                                                                    class="fa fa-exclamation-circle"></i> Hết hàng</button>
+                                                        </div>
                                                     <?php endif; ?>
-                                                    </small>
-                                                </ul>
-                                               <!-- <div class="product-btns">
-                                                    <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
-                                                            class="tooltipp">Add to wishlist</span></button>
-                                                    <button class="add-to-compare"><i class="fa fa-exchange"></i><span
-                                                            class="tooltipp">Add to compare</span></button>
-                                                    <button class="quick-view"><i class="fa fa-eye"></i><span
-                                                            class="tooltipp">Quick view</span></button>
-                                                </div>-->
-                                            </div>
-                                            <a onclick="AddCart(<?php echo e($value->id); ?>)" href="javascript:">
-                                                <div class="add-to-cart">
-                                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>
-                                                        Thêm vào
-                                                        giỏ</button>
                                                 </div>
-                                            </a>
-                                        </div>
-                                        <!-- /product -->
+                                                <!-- /product -->
+                                            <?php endif; ?>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
                                 <div id="slick-nav-1" class="products-slick-nav"></div>
@@ -383,72 +416,86 @@
                             <div id="tab3" class="tab-pane ">
                                 <div class="products-slick">
                                     <?php $__currentLoopData = $productsby3; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <!-- product -->
-                                        <div class="product">
-                                            <div class="product-img">
-                                                <img style="width=100px"
-                                                    src="<?php echo e(asset('assets/img/' . $value['pro_image'])); ?>"
-                                                    alt="">
-                                                <div class="product-label">
-                                                    <span class="new">MỚI</span>
-                                                </div>
-                                            </div>
-                                            <div class="product-body">
-                                                <p class="product-category"></p>
-                                                <h3 class="product-name"><a
-                                                        href="<?php echo e(route('detail.product', ['type_id' => $value->type_id, 'id' => $value->id])); ?>"><?php echo e($value->name); ?></a>
-                                                </h3>
-                                                <?php if($value['discount_price'] > 0): ?>
-                                                    <h4 class="product-price">
-                                                        <del><?php echo e(number_format($value->price)); ?> VND</del>
-                                                    </h4>
-                                                    <h4 class="discount-price">
-                                                        <?php echo e(number_format($value->discount_price)); ?> VND
-                                                    </h4>
-                                                <?php else: ?>
-                                                    <h4 class="discount-price">
-                                                        <?php echo e(number_format($value->price)); ?> VND
-                                                    </h4>
-                                                <?php endif; ?>
-                                                <ul class="ratingW-comment">
-                                                    <small>
-                                                    <?php if($value->average_rating): ?>
-                                                    <?php
-                                                        for ($i = 1; $i <= 5; $i++) {
-                                                            if ($i <= $value->average_rating) {
-                                                                echo '<li class="on"><div class="star-comm"></div></li>';
-                                                            } else {
-                                                                echo '<li><div class="star-comm"></div></li>';
-                                                            }
-                                                        }
-                                                    ?>
+                                        <?php $__currentLoopData = $inventories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $inven): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php if($value->id === $inven->product_id): ?>
+                                                <div class="product">
+                                                    <div class="product-img">
+                                                        <img style="width=100px"
+                                                            src="<?php echo e(asset('assets/img/' . $value['pro_image'])); ?>"
+                                                            alt="">
+                                                        <div class="product-label">
+                                                            <span class="new">MỚI</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-body">
+                                                        <p class="product-category"></p>
+                                                        <h3 class="product-name"><a
+                                                                href="<?php echo e(route('detail.product', ['type_id' => $value->type_id, 'id' => $value->id])); ?>"><?php echo e($value->name); ?></a>
+                                                        </h3>
+                                                        <?php if($value['discount_price'] > 0): ?>
+                                                            <h4 class="product-price">
+                                                                <del><?php echo e(number_format($value->price)); ?> VND</del>
+                                                            </h4>
+                                                            <h4 class="discount-price">
+                                                                <?php echo e(number_format($value->discount_price)); ?> VND
+                                                            </h4>
+                                                        <?php else: ?>
+                                                            <h4 class="discount-price">
+                                                                <?php echo e(number_format($value->price)); ?> VND
+                                                            </h4>
+                                                        <?php endif; ?>
+                                                        <ul class="ratingW-comment">
+                                                            <small>
+                                                                <?php if($value->average_rating): ?>
+                                                                    <?php
+                                                                    for ($i = 1; $i <= 5; $i++) {
+                                                                        if ($i <= $value->average_rating) {
+                                                                            echo '<li class="on"><div class="star-comm"></div></li>';
+                                                                        } else {
+                                                                            echo '<li><div class="star-comm"></div></li>';
+                                                                        }
+                                                                    }
+                                                                    ?>
+                                                                <?php else: ?>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                    <li class="on">
+                                                                        <div class="star-comm"></div>
+                                                                    </li>
+                                                                <?php endif; ?>
+                                                            </small>
+                                                        </ul>
+
+                                                    </div>
+                                                    <?php if($inven->remain_quantity): ?>
+                                                        <a onclick="AddCart(<?php echo e($value->id); ?>)" href="javascript:">
+                                                            <div class="add-to-cart">
+                                                                <button class="add-to-cart-btn"><i
+                                                                        class="fa fa-shopping-cart"></i>
+                                                                    Thêm vào
+                                                                    giỏ</button>
+                                                            </div>
+                                                        </a>
                                                     <?php else: ?>
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
-                                                    <li class="on"><div class="star-comm"></div></li>
+                                                        <div class="out-of-stock">
+                                                            <button class="out-of-stock-btn"><i
+                                                                    class="fa fa-exclamation-circle"></i> Hết hàng</button>
+                                                        </div>
                                                     <?php endif; ?>
-                                                    </small>
-                                                </ul>
-                                       <!--         <div class="product-btns">
-                                                    <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
-                                                            class="tooltipp">Add to wishlist</span></button>
-                                                    <button class="add-to-compare"><i class="fa fa-exchange"></i><span
-                                                            class="tooltipp">Add to compare</span></button>
-                                                    <button class="quick-view"><i class="fa fa-eye"></i><span
-                                                            class="tooltipp">Quick view</span></button>
-                                                </div>-->
-                                            </div>
-                                            <a onclick="AddCart(<?php echo e($value->id); ?>)" href="javascript:">
-                                                <div class="add-to-cart">
-                                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>
-                                                        Thêm vào
-                                                        giỏ</button>
                                                 </div>
-                                            </a>
-                                        </div>
-                                        <!-- /product -->
+                                                <!-- /product -->
+                                            <?php endif; ?>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
                                 <div id="slick-nav-1" class="products-slick-nav"></div>
@@ -473,7 +520,7 @@
     <!-- /SECTION -->
 
     <!-- HOT DEAL SECTION -->
-   
+
     <div id="hot-deal" class="section">
         <!-- container -->
         <div class="container">
@@ -507,11 +554,11 @@
                                 </div>
                             </li>
                         </ul>
-                        
+
                         <h2 class="text-uppercase">Khuyến mãi trong tuần</h2>
                         <p>Sản phẩm mới giảm tới 50%</p>
                         <a class="primary-btn cta-btn" href="<?php echo e(route('products', ['type_id' => 1])); ?>">Mua ngay</a>
-                        
+
                     </div>
                 </div>
             </div>

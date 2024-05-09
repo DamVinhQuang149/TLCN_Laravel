@@ -58,6 +58,7 @@
                                                     <option value="<?php echo e($manu->manu_id); ?>"
                                                         <?php echo e($manu->manu_id == $value->manu_id ? 'selected' : ''); ?>>
                                                         <?php echo e($manu->manu_name); ?>
+
                                                     </option>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </select>
@@ -71,6 +72,7 @@
                                                     <option value="<?php echo e($type->type_id); ?>"
                                                         <?php echo e($type->type_id == $value->type_id ? 'selected' : ''); ?>>
                                                         <?php echo e($type->type_name); ?>
+
                                                     </option>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </select>
