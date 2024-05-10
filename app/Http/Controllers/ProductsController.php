@@ -336,7 +336,7 @@ class ProductsController extends Controller
         $inventories = Inventories::select('inventories.*')->where('product_id', $id)->first();
 
         // foreach ($inventories as $remain_quantity)
-
+        $list_inven = Inventories::all();
 
         return view('detail-product', [
             'products' => $products,
@@ -344,6 +344,7 @@ class ProductsController extends Controller
             'comments' => $comments,
             'starRating' => $star,
             'inventories' => $inventories,
+            'inven' => $list_inven,
         ]);
     }
 

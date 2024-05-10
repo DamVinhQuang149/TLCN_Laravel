@@ -36,15 +36,16 @@
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <div class="product-inner">
+                                    <div class="product-inner" style="font-weight:600">
 
-                                        <h2 class="product-name"><strong>Tên sản phẩm: <?php echo e($probyid['name']); ?></strong></h2>
+                                        <h2 class="product-name" style="color: #FE9705"><strong>
+                                                <?php echo e($probyid['name']); ?></strong></h2>
                                         <ins class="product-inner-price">Loại sản phẩm: <?php echo e($probyid['type_name']); ?></ins>
                                         <br>
                                         <ins class="product-inner-price">Nhà sản xuất: <?php echo e($probyid['manu_name']); ?></ins>
                                         <br>
                                         <div class="remain-quantity">Tồn kho: <?php echo e($inventories['remain_quantity']); ?></div>
-                                        <div style="margin-top:10px; color:#80bb35">
+                                        <div style="margin-top:10px; color:#fe9705">
                                             <h5><del><strong><?php echo e(number_format($probyid['price'])); ?> VND</strong></del></h5>
                                         </div>
                                         <div class="product-inner-price">
@@ -52,15 +53,22 @@
                                                 </strong></h4>
                                         </div>
                                         <div class="product-inner-price">
-                                            <div class="quantity">
-                                                <input id="quanty-item-<?php echo e($probyid->id); ?>" type="number"
-                                                    class="input-text qty text" title="Qty" probyid="1" size="1"
-                                                    name="quantity" min="1" max=<?php echo e($inventories->remain_quantity); ?>
+                                            <?php if($inventories->remain_quantity): ?>
+                                                <div class="quantity">
+                                                    <input id="quanty-item-<?php echo e($probyid->id); ?>" type="number"
+                                                        class="input-text qty text" title="Qty" probyid="1"
+                                                        size="1" name="quantity" min="1"
+                                                        max=<?php echo e($inventories->remain_quantity); ?> step="1"
+                                                        value="1">
+                                                </div>
 
-                                                    step="1" value="1">
-                                            </div>
-                                            <button onclick="AddQuantyCart(<?php echo e($probyid->id); ?>)" type="submit"
-                                                name="submit">thêm vào giỏ</button>
+                                                <button class="add-to-card-detail"
+                                                    onclick="AddQuantyCart(<?php echo e($probyid->id); ?>)" type="submit"
+                                                    name="submit">thêm vào giỏ hàng</button>
+                                            <?php else: ?>
+                                                <button class="out-of-stock-detail"> HẾT HÀNG</button>
+                                            <?php endif; ?>
+
                                         </div>
 
                                         <div role="tabpanel">
@@ -181,8 +189,8 @@
                                                                     <p><?php echo e($comm->comment); ?></p>
                                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('my-comment', $comm)): ?>
                                                                         <!-- <form action="" method="get" class="text-right">
-                                                                                                                                                                <a href="" class="btn btn-primary btn-sm">Sửa</a>
-                                                                                                                                                            </form> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <a href="" class="btn btn-primary btn-sm">Sửa</a>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </form> -->
                                                                         <form class="text-right">
                                                                             <button type="button" id="applyCouponButton"
                                                                                 style="background-color: #f80808; color: #fff; border: none; border-radius: 4px; padding: 9px; cursor: pointer;"
@@ -255,24 +263,31 @@
                                                             <div class="product-btns">
                                                                 <button class="add-to-wishlist"><i
                                                                         class="fa fa-heart-o"></i><span
-                                                                        class="tooltipp">add to
-                                                                        wishlist</span></button>
-                                                                <button class="add-to-compare"><i
-                                                                        class="fa fa-exchange"></i><span
-                                                                        class="tooltipp">add to
-                                                                        compare</span></button>
-                                                                <button class="quick-view"><i class="fa fa-eye"></i><span
-                                                                        class="tooltipp">quick view</span></button>
+                                                                        class="tooltipp">Yêu thích</span></button>
+                                                                
                                                             </div>
                                                         </div>
-                                                        <a onclick="AddCart(<?php echo e($product->id); ?>)" href="javascript:">
-                                                            <div class="add-to-cart">
-                                                                <button class="add-to-cart-btn"><i
-                                                                        class="fa fa-shopping-cart"></i>
-                                                                    Thêm vào
-                                                                    giỏ</button>
-                                                            </div>
-                                                        </a>
+                                                        <?php $__currentLoopData = $inven; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                            <?php if($value->product_id === $product->id): ?>
+                                                                <?php if($value->remain_quantity > 0): ?>
+                                                                    <a onclick="AddCart(<?php echo e($product->id); ?>)"
+                                                                        href="javascript:">
+                                                                        <div class="add-to-cart">
+                                                                            <button class="add-to-cart-btn"><i
+                                                                                    class="fa fa-shopping-cart"></i>
+                                                                                Thêm vào giỏ</button>
+
+                                                                        </div>
+                                                                    </a>
+                                                                <?php else: ?>
+                                                                    <div class="out-of-stock">
+                                                                        <button class="out-of-stock-btn"><i
+                                                                                class="fa fa-exclamation-circle"></i> Hết
+                                                                            hàng</button>
+                                                                    </div>
+                                                                <?php endif; ?>
+                                                            <?php endif; ?>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </div>
                                                     <!-- /product -->
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

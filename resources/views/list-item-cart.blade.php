@@ -42,13 +42,16 @@
                                         <strong>
                                             <input id="quanty-item-{{ $item['productInfo']->id }}"
                                                 style="border-color: #000; border-radius: 4px; padding: 5px; width: 40px; text-align: center;"
-                                                type="number" min="1" max={{ $inventory->remain_quantity }}
+                                                type="number" min="1"
+                                                @if ($inventory->remain_quantity <= 10) max={{ $inventory->remain_quantity }}
+                                                @else
+                                                    max=10 @endif
                                                 class="input-text qty text" title="Qty"
                                                 value="{{ $item['quanty'] }}">
                                         </strong>
                                     </div>
                                 </td>
-                                <td class="reamain-quantity">
+                                <td class="remain-quantity">
 
                                     <span class="amount">
                                         <strong>{{ $inventory['remain_quantity'] }}
@@ -78,22 +81,27 @@
                                     </a>
                                 </td>
                             </tr>
+
                         </tbody>
                     @endif
                 @endforeach
             @endforeach
         @endforeach
-        <tr>
-            <td class="actions" colspan="7">
-                <div class="add-to-cart">
-                    <button class="add-to-cart-btn">
-                        <a style="text-decoration: none;" href="{{ route('view.checkout') }}">
-                            <i class="fa fa-credit-card"></i> Thanh toán
-                        </a>
-                    </button>
-                </div>
-            </td>
-        </tr>
+        <tbody>
+            <tr>
+                <td class="actions" colspan="9">
+                    <div class="add-to-cart">
+                        <button class="add-to-cart-btn">
+                            <a style="text-decoration: none;" href="{{ route('view.checkout') }}">
+                                <i class="fa fa-credit-card"></i> Thanh toán
+                            </a>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+
+        </tbody>
+
     </table>
     <div class="cart-collaterals">
         <div class="cart_totals col-lg-offset-4">
@@ -116,81 +124,41 @@
     </div>
 @else
     <table cellspacing="0" class="shop_table cart">
-
         <thead>
-
             <tr>
-
                 <th class="product-image">ảnh</th>
-
                 <th class="product-name">sản phẩm</th>
-
                 <th class="product-price">giá</th>
-
                 <th class="product-quantity">số lượng</th>
-
-                <th class="remain_quantity">Tồn kho</th>
-
                 <th class="product-subtotal">tổng giá</th>
-
                 <th class="product-remove">Xóa</th>
-
                 <th class="product-save">Sửa</th>
-
             </tr>
-
         </thead>
-
         <tr>
-
-            <td class="actions" colspan="9">
-
+            <td class="actions" colspan="7">
                 <div class="add-to-cart">
-
                     <strong>Giỏ hàng của bạn hiện đang trống</strong>
-
                 </div>
-
             </td>
-
         </tr>
-
     </table>
-
     <div class="cart-collaterals">
-
         <div class="cart_totals col-lg-offset-4">
-
             <table cellspacing="0">
-
                 <tbody>
-
                     <tr class="order-total">
-
                         <th>Tổng</th>
-
                         <td>
-
                             <strong>
-
                                 <span class="amount">
-
                                     0 VND
-
                                 </span>
-
                             </strong>
-
                         </td>
-
                     </tr>
-
                 </tbody>
-
             </table>
-
         </div>
-
     </div>
-
 @endif

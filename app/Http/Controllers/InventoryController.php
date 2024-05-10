@@ -118,9 +118,7 @@ class InventoryController extends Controller
 
         $remain_quantity = $request->input('remain_quantity');
         // dd($remain_quantity, $inventories->sold_quantity);
-        if ($remain_quantity < $inventories->sold_quantity) {
-            return redirect('admin/inventories')->with('error', 'Remain quantity must be greater than or equal sold quantity');
-        }
+
         // dd($remain_quantity);
         if ($remain_quantity < 7 && $remain_quantity > 0) {
             $status = "Nearly Out Of Stock";

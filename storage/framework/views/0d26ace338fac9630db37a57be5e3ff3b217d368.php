@@ -73,15 +73,17 @@
                                                                                     id="quanty-item-<?php echo e($item['productInfo']->id); ?>"
                                                                                     style="border-color: #000; border-radius: 4px; padding: 5px; width: 40px; text-align: center;"
                                                                                     type="number" min="1"
-                                                                                    max=<?php echo e($inventory->remain_quantity); ?>
+                                                                                    <?php if($inventory->remain_quantity <= 10): ?> max=<?php echo e($inventory->remain_quantity); ?>
 
+                                                                                    <?php else: ?>
+                                                                                        max=10 <?php endif; ?>
                                                                                     class="input-text qty text"
                                                                                     title="Qty"
                                                                                     value="<?php echo e($item['quanty']); ?>">
                                                                             </strong>
                                                                         </div>
                                                                     </td>
-                                                                    <td class="reamain-quantity">
+                                                                    <td class="remain-quantity">
 
                                                                         <span class="amount">
                                                                             <strong><?php echo e($inventory['remain_quantity']); ?>
@@ -114,23 +116,28 @@
                                                                         </a>
                                                                     </td>
                                                                 </tr>
+
                                                             </tbody>
                                                         <?php endif; ?>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                            <tr>
-                                                <td class="actions" colspan="7">
-                                                    <div class="add-to-cart">
-                                                        <button class="add-to-cart-btn">
-                                                            <a style="text-decoration: none;"
-                                                                href="<?php echo e(route('view.checkout')); ?>">
-                                                                <i class="fa fa-credit-card"></i> Thanh toán
-                                                            </a>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="actions" colspan="9">
+                                                        <div class="add-to-cart">
+                                                            <button class="add-to-cart-btn">
+                                                                <a style="text-decoration: none;"
+                                                                    href="<?php echo e(route('view.checkout')); ?>">
+                                                                    <i class="fa fa-credit-card"></i> Thanh toán
+                                                                </a>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+
                                         </table>
                                         <div class="cart-collaterals">
                                             <div class="cart_totals col-lg-offset-4">

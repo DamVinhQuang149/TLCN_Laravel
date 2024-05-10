@@ -1520,15 +1520,14 @@ button[type="submit"]:hover {
 
 .quantity {
     float: left;
-
     margin-right: 15px;
 }
 
 .quantity input[type="number"] {
     border: 1px solid #80bb35;
-
-    padding: 5px;
-
+    border-radius: 6px;
+    padding: 11px;
+    font-weight: 600;
     width: 50px;
 }
 
@@ -1569,7 +1568,7 @@ form.cart {
 
     padding: 0;
 
-    text-align: center;
+    text-align: left;
 }
 
 .product-tab li {
@@ -1578,6 +1577,7 @@ form.cart {
 
 .product-tab li.active {
     background: none repeat scroll 0 0 #80bb35;
+    border-radius: 9px;
 }
 
 .product-tab li.active a {

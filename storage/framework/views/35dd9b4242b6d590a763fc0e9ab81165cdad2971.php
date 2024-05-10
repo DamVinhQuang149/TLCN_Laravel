@@ -92,16 +92,14 @@
 
                         </div>
 
-                        <div>
-
-                            <?php
-
-                                $coupon_amount =
-                                    $cou['coupon_type'] == 0
-                                        ? $cou['coupon_amount']
-                                        : (Session::get('Cart')->totalPrice * $cou['coupon_amount']) / 100;
-                            ?>
-
+                        <div><?php
+                            $coupon_amount =
+                                $cou['coupon_type'] == 0
+                                    ? $cou['coupon_amount']
+                                    : ((Session::get('Cart')->totalPrice + Session::get('shipping_fee.fee')) *
+                                            $cou['coupon_amount']) /
+                                        100;
+                        ?>
                             <strong>- <?php echo e(number_format($coupon_amount, 0, ',', '.')); ?> đ</strong>
 
                         </div>

@@ -17,7 +17,7 @@
 
                         <div class="col-sm-6">
 
-                            <h1>Edit Inventory</h1>
+                            <h1>Update Quantity</h1>
 
                         </div>
 

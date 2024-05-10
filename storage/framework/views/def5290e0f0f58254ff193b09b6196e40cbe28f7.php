@@ -17,7 +17,7 @@
 
                         <div class="col-sm-6">
 
-                            <h1>Edit Inventory</h1>
+                            <h1>Update Quantity</h1>
 
                         </div>
 
@@ -93,10 +93,10 @@
 
                                         <div class="form-group">
 
-                                            <label for="inputName">Import quantity</label>
+                                            <label for="inputName">Remain quantity</label>
 
-                                            <input value="<?php echo e($value->import_quantity); ?>" type="text" id="inputName"
-                                                class="form-control" name="import_quantity">
+                                            <input value="<?php echo e($value->import_quantity); ?>" type="text" class="form-control"
+                                                name="remain_quantity">
 
                                         </div>
 

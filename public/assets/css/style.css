@@ -28,14 +28,15 @@ a:focus {
     text-decoration: none;
     outline: none;
 }
-
+a:hover {
+    color: #fe9705 !important;
+}
 ul,
 ol {
     margin: 0;
     padding: 0;
     list-style: none;
 }
-
 .primary-btn {
     display: inline-block;
     padding: 12px 30px;
@@ -118,6 +119,36 @@ textarea.input {
     border-bottom: 0px;
 }
 
+/* */
+.out-of-stock-detail {
+    background-color: white !important;
+    color: red !important;
+    border-radius: 6px;
+    font-weight: 600;
+    padding: 11px;
+    border: 1px solid red !important;
+}
+
+/* */
+
+/* */
+.add-to-card-detail {
+    background-color: white !important;
+    color: #80bb35 !important;
+    border-radius: 6px;
+    font-weight: 600;
+    border: 1px solid #80bb35 !important;
+}
+
+.add-to-card-detail:hover {
+    background-color: #80bb35 !important;
+    color: white !important;
+    border-radius: 6px;
+    font-weight: 600;
+    border: 1px solid #80bb35 !important;
+}
+
+/* */
 .input-number .qty-down {
     right: 0;
     bottom: 0;
@@ -262,7 +293,7 @@ textarea.input {
 
 .section-title .title {
     display: inline-block;
-    border-radius: 20px;
+    border-radius: 9px;
     background: #80bb35;
     padding: 9px 20px;
     font-size: 16px;
@@ -687,11 +718,98 @@ textarea.input {
 	04 -> CATEGORY SHOP
 ===========================================================*/
 
+.dancing-script {
+    font-family: "Dancing Script", cursive;
+    font-optical-sizing: auto;
+    font-size: 21px;
+}
+
+/* */
+.policy {
+    position: relative;
+    overflow: hidden;
+    margin: 15px 0px;
+    border: 2px solid #80bb35;
+    border-radius: 9px;
+    min-height: 270px;
+}
+
+.policy:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0px;
+    width: 60%;
+    opacity: 0.9;
+    -webkit-transform: skewX(-45deg);
+    -ms-transform: skewX(-45deg);
+    transform: skewX(-45deg);
+}
+.policy:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 1px;
+    width: 100%;
+    opacity: 0.9;
+    -webkit-transform: skewX(-45deg) translateX(-100%);
+    -ms-transform: skewX(-45deg) translateX(-100%);
+    transform: skewX(-45deg) translateX(-100%);
+}
+
+.policy .shop-img {
+    position: relative;
+    z-index: -1;
+}
+.policy .shop-img > img {
+    width: 100%;
+    -webkit-transition: 0.2s all;
+    transition: 0.2s all;
+}
+
+.policy:hover .shop-img > img {
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+.policy .shop-body {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: 15px;
+    z-index: 10;
+}
+
+.policy .shop-body h3 {
+    color: white;
+    background-color: #fe9705;
+    width: 100%;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 700;
+    border-width: 2px;
+    border-style: double;
+    position: relative;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    top: 210px;
+}
+
+.policy .shop-body .cta-btn {
+    color: #fff;
+    text-transform: uppercase;
+}
+
+/*
+*/
 .shop {
     position: relative;
     overflow: hidden;
     margin: 15px 0px;
-    border-radius: 15px;
+    border-radius: 9px;
 }
 
 .shop:before {
@@ -722,10 +840,8 @@ textarea.input {
 
 .shop .shop-img {
     position: relative;
-    background-color: #e4e7ed;
     z-index: -1;
 }
-
 .shop .shop-img > img {
     width: 100%;
     -webkit-transition: 0.2s all;
@@ -878,6 +994,8 @@ textarea.input {
     background-color: #fe9705;
     border-color: #fe9705;
     color: #fff;
+    border-radius: 100px;
+    font-weight: 900;
 }
 
 .product .product-body {
@@ -905,11 +1023,11 @@ textarea.input {
 
 .product .product-body .product-name > a:hover,
 .product .product-body .product-name > a:focus {
-    color: #80bb35;
+    color: #fe9705;
 }
 
 .product .product-body .product-price {
-    color: #80bb35;
+    color: #fe9705;
     font-size: 18px;
 }
 
@@ -985,10 +1103,13 @@ textarea.input {
     transform: translate(-50%, -15px);
     width: 150px;
     padding: 10px;
-    font-size: 12px;
-    line-height: 10px;
-    background: #80bb35;
-    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 13px;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #80bb35;
+    color: #80bb35;
     text-transform: uppercase;
     z-index: 10;
     opacity: 0;
@@ -996,7 +1117,11 @@ textarea.input {
     -webkit-transition: 0.2s all;
     transition: 0.2s all;
 }
-
+.product .product-body .product-btns > button .tooltipp:hover {
+    background: #80bb35;
+    border-radius: 6px;
+    color: white;
+}
 .product .product-body .product-btns > button:hover .tooltipp {
     opacity: 1;
     visibility: visible;
@@ -1173,7 +1298,7 @@ textarea.input {
 
 .product-widget .product-body .product-price {
     font-size: 14px;
-    color: #80bb35;
+    color: #fe9705;
 }
 
 .product-widget .product-body .product-price .product-old-price {
@@ -1213,6 +1338,8 @@ textarea.input {
 
 .products-slick .product.slick-slide {
     margin: 15px;
+    border-radius: 9px;
+    min-height: 423px;
 }
 
 .products-tabs > .tab-pane {
@@ -2357,7 +2484,7 @@ h6 {
     margin-right: 0.9em;
     margin-bottom: 1.2em;
     border-right: 0.3em solid transparent;
-    border-bottom: 0.7em solid #fc0;
+    border-bottom: 0.7em solid #fe9705;
     border-left: 0.3em solid transparent;
     /* Controlls the size of the stars. */
     font-size: 24px;
@@ -2372,11 +2499,12 @@ h6 {
     top: 0.6em;
     left: -1em;
     border-right: 1em solid transparent;
-    border-bottom: 0.7em solid #fc0;
+    border-bottom: 0.7em solid #fe9705;
     border-left: 1em solid transparent;
     -webkit-transform: rotate(-35deg);
     transform: rotate(-35deg);
 }
+
 .ratingW li.on .star:after {
     -webkit-transform: rotate(35deg);
     transform: rotate(35deg);
@@ -2439,7 +2567,7 @@ h6 {
     margin-right: 0.9em;
     margin-bottom: 1.2em;
     border-right: 0.3em solid transparent;
-    border-bottom: 0.7em solid #fc0;
+    border-bottom: 0.7em solid #fe9705;
     border-left: 0.3em solid transparent;
     /* Controlls the size of the stars. */
     font-size: 8px;
@@ -2454,7 +2582,7 @@ h6 {
     top: 0.6em;
     left: -1em;
     border-right: 1em solid transparent;
-    border-bottom: 0.7em solid #fc0;
+    border-bottom: 0.7em solid #fe9705;
     border-left: 1em solid transparent;
     -webkit-transform: rotate(-35deg);
     transform: rotate(-35deg);

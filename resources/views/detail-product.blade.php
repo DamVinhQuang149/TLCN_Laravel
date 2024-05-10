@@ -36,19 +36,16 @@
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <div class="product-inner">
+                                    <div class="product-inner" style="font-weight:600">
 
-                                        <h2 class="product-name"><strong>Tên sản phẩm: {{ $probyid['name'] }}</strong></h2>
+                                        <h2 class="product-name" style="color: #FE9705"><strong>
+                                                {{ $probyid['name'] }}</strong></h2>
                                         <ins class="product-inner-price">Loại sản phẩm: {{ $probyid['type_name'] }}</ins>
                                         <br>
                                         <ins class="product-inner-price">Nhà sản xuất: {{ $probyid['manu_name'] }}</ins>
                                         <br>
                                         <div class="remain-quantity">Tồn kho: {{ $inventories['remain_quantity'] }}</div>
-                                        @if ($inventories['remain_quantity'] == 0)
-                                            <div style="color: #f80808" class="remain-quantity">Sản phẩm đã hết hàng</div>
-                                        @endif
-
-                                        <div style="margin-top:10px; color:#80bb35">
+                                        <div style="margin-top:10px; color:#fe9705">
                                             <h5><del><strong>{{ number_format($probyid['price']) }} VND</strong></del></h5>
                                         </div>
                                         <div class="product-inner-price">
@@ -56,14 +53,22 @@
                                                 </strong></h4>
                                         </div>
                                         <div class="product-inner-price">
-                                            <div class="quantity">
-                                                <input id="quanty-item-{{ $probyid->id }}" type="number"
-                                                    class="input-text qty text" title="Qty" probyid="1" size="1"
-                                                    name="quantity" min="1" max={{ $inventories->remain_quantity }}
-                                                    step="1" value="1">
-                                            </div>
-                                            <button onclick="AddQuantyCart({{ $probyid->id }})" type="submit"
-                                                name="submit">thêm vào giỏ</button>
+                                            @if ($inventories->remain_quantity)
+                                                <div class="quantity">
+                                                    <input id="quanty-item-{{ $probyid->id }}" type="number"
+                                                        class="input-text qty text" title="Qty" probyid="1"
+                                                        size="1" name="quantity" min="1"
+                                                        max={{ $inventories->remain_quantity }} step="1"
+                                                        value="1">
+                                                </div>
+
+                                                <button class="add-to-card-detail"
+                                                    onclick="AddQuantyCart({{ $probyid->id }})" type="submit"
+                                                    name="submit">thêm vào giỏ hàng</button>
+                                            @else
+                                                <button class="out-of-stock-detail"> HẾT HÀNG</button>
+                                            @endif
+
                                         </div>
 
                                         <div role="tabpanel">
@@ -185,8 +190,8 @@
                                                                     <p>{{ $comm->comment }}</p>
                                                                     @can('my-comment', $comm)
                                                                         <!-- <form action="" method="get" class="text-right">
-                                                                                                                                                                                <a href="" class="btn btn-primary btn-sm">Sửa</a>
-                                                                                                                                                                            </form> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <a href="" class="btn btn-primary btn-sm">Sửa</a>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </form> -->
                                                                         <form class="text-right">
                                                                             <button type="button" id="applyCouponButton"
                                                                                 style="background-color: #f80808; color: #fff; border: none; border-radius: 4px; padding: 9px; cursor: pointer;"
@@ -256,24 +261,36 @@
                                                             <div class="product-btns">
                                                                 <button class="add-to-wishlist"><i
                                                                         class="fa fa-heart-o"></i><span
-                                                                        class="tooltipp">add to
-                                                                        wishlist</span></button>
-                                                                <button class="add-to-compare"><i
+                                                                        class="tooltipp">Yêu thích</span></button>
+                                                                {{-- <button class="add-to-compare"><i
                                                                         class="fa fa-exchange"></i><span
                                                                         class="tooltipp">add to
                                                                         compare</span></button>
                                                                 <button class="quick-view"><i class="fa fa-eye"></i><span
-                                                                        class="tooltipp">quick view</span></button>
+                                                                        class="tooltipp">quick view</span></button> --}}
                                                             </div>
                                                         </div>
-                                                        <a onclick="AddCart({{ $product->id }})" href="javascript:">
-                                                            <div class="add-to-cart">
-                                                                <button class="add-to-cart-btn"><i
-                                                                        class="fa fa-shopping-cart"></i>
-                                                                    Thêm vào
-                                                                    giỏ</button>
-                                                            </div>
-                                                        </a>
+                                                        @foreach ($inven as $value)
+                                                            @if ($value->product_id === $product->id)
+                                                                @if ($value->remain_quantity > 0)
+                                                                    <a onclick="AddCart({{ $product->id }})"
+                                                                        href="javascript:">
+                                                                        <div class="add-to-cart">
+                                                                            <button class="add-to-cart-btn"><i
+                                                                                    class="fa fa-shopping-cart"></i>
+                                                                                Thêm vào giỏ</button>
+
+                                                                        </div>
+                                                                    </a>
+                                                                @else
+                                                                    <div class="out-of-stock">
+                                                                        <button class="out-of-stock-btn"><i
+                                                                                class="fa fa-exclamation-circle"></i> Hết
+                                                                            hàng</button>
+                                                                    </div>
+                                                                @endif
+                                                            @endif
+                                                        @endforeach
                                                     </div>
                                                     <!-- /product -->
                                                 @endforeach

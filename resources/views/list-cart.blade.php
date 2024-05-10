@@ -73,14 +73,16 @@
                                                                                     id="quanty-item-{{ $item['productInfo']->id }}"
                                                                                     style="border-color: #000; border-radius: 4px; padding: 5px; width: 40px; text-align: center;"
                                                                                     type="number" min="1"
-                                                                                    max={{ $inventory->remain_quantity }}
+                                                                                    @if ($inventory->remain_quantity <= 10) max={{ $inventory->remain_quantity }}
+                                                                                    @else
+                                                                                        max=10 @endif
                                                                                     class="input-text qty text"
                                                                                     title="Qty"
                                                                                     value="{{ $item['quanty'] }}">
                                                                             </strong>
                                                                         </div>
                                                                     </td>
-                                                                    <td class="reamain-quantity">
+                                                                    <td class="remain-quantity">
 
                                                                         <span class="amount">
                                                                             <strong>{{ $inventory['remain_quantity'] }}

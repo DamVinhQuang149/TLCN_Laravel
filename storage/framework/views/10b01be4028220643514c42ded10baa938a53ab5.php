@@ -67,13 +67,21 @@
                                 <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                     <i class="fa fa-shopping-bag"></i>
                                     <span>Giỏ hàng</span>
-                                    <?php if(Session::has('Cart') != null): ?>
-                                        <div id="total-quanty-show" class="qty">
-                                            <?php echo e(Session::get('Cart')->totalQuanty); ?></div>
-                                    <?php else: ?>
-                                        <div id="total-quanty-show" class="qty">0</div>
-                                    <?php endif; ?>
+
+                                    <div id="total-quanty-show" class="qty">
+                                        <?php if(Session::has('Cart') != null): ?>
+                                            <?php echo e(Session::get('Cart')->totalQuanty); ?>
+
+                                        <?php else: ?>
+                                            0
+                                        <?php endif; ?>
+                                    </div>
+
+
+                                    
+
                                 </a>
+
                                 <div class="cart-dropdown">
                                     <div id="change-item-cart">
                                         <?php if(Session::has('Cart') != null): ?>
@@ -114,7 +122,7 @@
                                             </div>
                                         <?php else: ?>
                                             <div class="cart-summary">
-                                                <h5>Không có sản phẩm nào trong giỏ hàng</h5>
+                                                <h5>Giỏ hàng trống.</h5>
                                             </div>
                                         <?php endif; ?>
                                     </div>
