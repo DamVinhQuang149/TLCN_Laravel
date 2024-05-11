@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Favorites;
 use App\Models\OrderDetails;
 use App\Models\Orders;
@@ -12,6 +13,7 @@ use App\Models\Protypes;
 use App\Models\Manufactures;
 use App\Models\Comments;
 use App\Models\Inventories;
+use App\Models\FlashSales;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -165,8 +167,14 @@ class ProductsController extends Controller
         $feature = $request->input('feature');
         $products = Products::find($id);
 
+        $flashsales = FlashSales::where('product_id', '=', $id)->first();
+        $current_time = Carbon::now();
         if (!is_numeric($price) || !is_numeric($discount_price)) {
             return redirect('admin/products')->with('warning', 'Price and discount price must be numeric!');
+        }
+
+        if ($flashsales && $flashsales->end_date > $current_time) {
+            return redirect('admin/products')->with('error', 'This product is currently in Flash Sales season and cannot update the price!');
         }
         switch (true) {
             case empty($name):
@@ -230,9 +238,13 @@ class ProductsController extends Controller
     {
         $products = Products::find($id);
         if ($products) {
+            $flashsales = FlashSales::where('product_id', $id)->get();
             $inventories = Inventories::where("product_id", $id)->get();
             foreach ($inventories as $inventory) {
                 $inventory->delete();
+            }
+            foreach ($flashsales as $value) {
+                $value->delete();
             }
             $products->delete();
         }

@@ -167,6 +167,15 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="/admin/flashsales" class="nav-link">
+                            <i class="nav-icon fas fa-gift"></i>
+                            <p>
+                                Flash Sales
+                                <span class="right badge badge-danger">New</span>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="/admin/manufactures" class="nav-link">
                             <i class="nav-icon fas fa-industry"></i>
                             <p>

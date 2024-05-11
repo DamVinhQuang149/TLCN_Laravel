@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 10, 2024 lúc 08:54 PM
+-- Thời gian đã tạo: Th5 11, 2024 lúc 01:24 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -196,6 +196,31 @@ INSERT INTO `favorites` (`id`, `user_id`, `product_id`, `created_at`, `updated_a
 (12, 35, 7, '2024-03-20', '2024-03-20'),
 (13, 35, 23, '2024-03-20', '2024-03-20'),
 (15, 35, 3, '2024-04-02', '2024-04-02');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `flash_sales`
+--
+
+CREATE TABLE `flash_sales` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `start_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `end_date` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `flash_sales`
+--
+
+INSERT INTO `flash_sales` (`id`, `product_id`, `start_date`, `end_date`) VALUES
+(21, 7, '2024-05-11 05:59:39', '2024-05-23 05:59:00'),
+(22, 125, '2024-05-11 06:00:48', '2024-05-28 06:00:00'),
+(23, 126, '2024-05-11 06:00:58', '2024-05-15 06:00:00'),
+(24, 13, '2024-05-11 06:01:21', '2024-05-16 06:01:00'),
+(25, 106, '2024-05-11 08:23:06', '2024-05-16 08:23:00'),
+(26, 104, '2024-05-11 08:23:29', '2024-05-25 08:23:00');
 
 -- --------------------------------------------------------
 
@@ -520,7 +545,7 @@ INSERT INTO `orders` (`order_id`, `user_id`, `address`, `shipping_fee`, `phone`,
 (393, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 5, 0, 301000, NULL, 1, '2024-04-18 18:08:58'),
 (394, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 5, 0, 2520000, NULL, 1, '2024-04-18 18:13:03'),
 (395, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 3, 0, 870000, NULL, 0, '2024-04-18 20:03:32'),
-(396, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', 19500, '0935540795', 0, 0, 21950000, NULL, 1, '2024-05-10 01:04:14');
+(396, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', 19500, '0935540795', 1, 0, 21950000, NULL, 1, '2024-05-10 01:04:14');
 
 -- --------------------------------------------------------
 
@@ -1085,28 +1110,28 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `manu_id`, `type_id`, `price`, `discount_price`, `pro_image`, `description`, `feature`, `created_at`) VALUES
-(96, 'Nho Pháp thượng hạng (kg)', 18, 1, 190000, 150000, 'image1715349937-Nho Pháp thượng hạng (kg).png', 'Loại nho Pháp thượng hạng này được Napoleon cho trồng vào giữa thế kỷ XVII và thịnh hành đến bây giờ. Được mình nhập khẩu chui về bán cho bạn ăn<br>', 1, '2023-12-11 14:07:51'),
+(96, 'Nho Pháp thượng hạng (kg)', 18, 1, 190000, 348500, 'image1715349937-Nho Pháp thượng hạng (kg).png', 'Loại nho Pháp thượng hạng này được Napoleon cho trồng vào giữa thế kỷ XVII và thịnh hành đến bây giờ. Được mình nhập khẩu chui về bán cho bạn ăn<br>', 1, '2023-12-11 14:07:51'),
 (23, 'Ớt chuông đỏ (kg)', 18, 3, 240000, 60000, 'otchuongdo.png', 'Ớt chuông đỏ cung cấp nhiều Vitamin D. Loại này ít cay nhưng ngon khi xào chung với Mực', 1, '2022-11-18 08:20:15'),
-(22, 'Bánh kem Matcha', 18, 2, 890000, 600000, 'banhkemmatcha.jpg', 'Bánh kem matcha trà xanh, cực kỳ thơm ngon. Được khá nhiều người ưa chuộng', 1, '2022-11-18 08:22:01'),
+(22, 'Bánh kem Matcha', 18, 2, 890000, 377360, 'banhkemmatcha.jpg', 'Bánh kem matcha trà xanh, cực kỳ thơm ngon. Được khá nhiều người ưa chuộng', 1, '2022-11-18 08:22:01'),
 (17, 'Bánh kem Táo Hàn Quốc', 18, 2, 1120000, 550000, 'banhkemtao.jpg', 'Bánh kem táo Hàn Quốc siêu đẹp và ngon', 0, '2022-11-18 08:21:15'),
 (18, 'Dâu tây đỏ ngọt (kg)', 18, 1, 160000, 100000, 'dautay.png', 'Loại dâu tây này siêu ngọt và thơm. Ăn ngon nhé bạn', 1, '2022-11-18 08:21:01'),
 (21, 'Vải thiều loại to (kg)', 18, 1, 140000, 85000, 'vaithieuloaito.png', 'Vải thiều loại to, tươi mới mỗi ngày. Cung cấp Vitamin tốt cho sức khỏe', 1, '2022-11-18 08:20:52'),
 (16, 'Chanh dây Nga tươi (kg)', 18, 1, 120000, 90000, 'chanhday.png', 'Loại chanh dây đặc biệt này chỉ trồng được ở nước Hàn Đới như Nga, nên đừng thắc ắc giá cả. Mua ăn liền đi nhé!!!', 1, '2022-11-18 08:21:23'),
-(13, 'Dưa leo Ấn Độ (kg)', 18, 3, 120000, 50000, 'dualeoando.png', 'Dưa leo Ấn Độ chỉ được trồng ở Ấn Độ. Không xuất khẩu, nay có ở Việt Nam nhờ tui buôn l*u. Mua ăn đi nhé!!!', 1, '2022-11-18 08:21:34'),
+(13, 'Dưa leo Ấn Độ (kg)', 18, 3, 120000, 72000, 'dualeoando.png', 'Dưa leo Ấn Độ chỉ được trồng ở Ấn Độ. Không xuất khẩu, nay có ở Việt Nam nhờ tui buôn l*u. Mua ăn đi nhé!!!', 1, '2022-11-18 08:21:34'),
 (12, 'Bánh kem Matcha Nho', 18, 2, 990000, 870000, 'banhkemnhomatcha.jpg', 'Sản phẩm tốt với giá thành rẻ. Ngon mà đẹp, thích hợp với sinh viên', 1, '2022-11-18 08:21:53'),
 (11, 'Hồng đỏ Nam Mỹ (kg)', 18, 1, 225000, 190000, 'hongdomy.png', 'Hồng đỏ tươi Nam Mỹ, cung cấp nhiều khoáng chất tốt cho cơ thể', 1, '2022-11-18 08:22:12'),
-(7, 'Cà tím Châu Phi (kg)', 18, 3, 180000, 120000, 'catim.jpg', 'Loại cà tím Châu Phi này to thì khỏi phải nói :)). Ăn thì cũng ngon, làm ngất ngây bao nhiêu chị em. Mua ăn thử bạn nhé', 1, '2022-11-18 08:22:20'),
-(5, 'Bánh kem dâu Ý', 18, 2, 1600000, 1200000, 'banhkemdau.jpg', 'Xuất xứ từ Ý, du nhập Việt Nam năm 2022. Mới lạ và đang là xu hướng', 0, '2022-11-18 08:22:28'),
-(3, 'Chanh tươi Irag (kg)', 18, 3, 500000, 250000, 'chanhtuoiirag.png', 'Loại tranh xuất xứ từ những anh Iran, Irag đẹp trai. Khủng b*, nên chanh này ăn ngon và hấp dẫn. Tận hưởng những phút giây như bị kh**g bố khi ăn nó', 0, '2022-11-18 08:22:41'),
+(7, 'Cà tím Châu Phi (kg)', 18, 3, 180000, 108000, 'catim.jpg', 'Loại cà tím Châu Phi này to thì khỏi phải nói :)). Ăn thì cũng ngon, làm ngất ngây bao nhiêu chị em. Mua ăn thử bạn nhé', 1, '2022-11-18 08:22:20'),
+(5, 'Bánh kem dâu Ý', 18, 2, 1600000, 800000, 'banhkemdau.jpg', 'Xuất xứ từ Ý, du nhập Việt Nam năm 2022. Mới lạ và đang là xu hướng', 0, '2022-11-18 08:22:28'),
+(3, 'Chanh tươi Irag (kg)', 18, 3, 500000, 300000, 'chanhtuoiirag.png', 'Loại tranh xuất xứ từ những anh Iran, Irag đẹp trai. Khủng b*, nên chanh này ăn ngon và hấp dẫn. Tận hưởng những phút giây như bị kh**g bố khi ăn nó', 0, '2022-11-18 08:22:41'),
 (55, 'Cà chua Nhật Bản (kg)', 18, 3, 160000, 110000, 'cachua.png', 'Do Thiên Hoàng Minh Trị trồng từ thời chiến tranh thế giới thứ 2. Đặc biệt loại này không dính phóng xạ nên ăn bổ lắm nha.', 0, '2022-11-18 08:19:46'),
 (54, 'Cà rốt Bắc Mỹ (kg)', 18, 3, 180000, 120000, 'carot.png', 'Cà rốt Bắc Mỹ do ông Donald Trump đích thân trồng tại nông trại. Không qua bất cứ máy móc và hóa chất. Nên rất ngon và đắt', 1, '2022-11-18 08:19:55'),
 (53, 'Cải thìa Triều Tiên (kg)', 18, 3, 190000, 70000, 'caithia.png', 'Cải thìa Triều Tiên do ông Kim trồng ăn rất ngon nhé. Mua ăn thử đi biết', 1, '2022-11-18 08:20:02'),
-(1, 'Bánh kem bơ Pháp', 18, 2, 850000, 620000, 'banhkembophap.jpg', '<font color=\"#000000\" style=\"\">Vẫn sở hữu phần cốt bánh bông lan xốp mịn, điều làm cho những chiếc bánh kem này trở nên đặc biệt và cuốn hút nằm ở phần kem bơ.\r\n\r\nKem bơ Pháp được làm từ những nguyên liệu gồm lòng đỏ trứng, syrup đường và bơ lạt. Nhờ sử dụng thêm lòng đỏ trứng, thành phẩm kem bơ sẽ có hương vị cực kì thơm ngon, mềm mượt và tan ngay khi vào miệng.\r\n\r\nNhững người thợ tài hoa của Grand Castella còn tận dụng phần kem bơ này, sáng tạo nên những hình ảnh trang trí độc đáo, giúp chiếc bánh kem đã ngon nay trở nên xinh đẹp hơn.</font>', 0, '2021-10-22 04:15:10'),
-(104, 'Bánh kem cặp đôi cute', 18, 2, 650000, 450000, 'image1715345866-Bánh kem cặp đôi cute.png', 'Bánh kem dành cho các cặp đôi yêu nhau, tặng nhau những ngày ý nghĩa, ngày lễ, ngày kỷ niệm... Với thiết kế dễ thương và hương vị đặc biệt thơm ngon', 1, '2024-05-10 12:57:46'),
+(1, 'Bánh kem bơ Pháp', 18, 2, 850000, 348500, 'banhkembophap.jpg', '<font color=\"#000000\" style=\"\">Vẫn sở hữu phần cốt bánh bông lan xốp mịn, điều làm cho những chiếc bánh kem này trở nên đặc biệt và cuốn hút nằm ở phần kem bơ.\r\n\r\nKem bơ Pháp được làm từ những nguyên liệu gồm lòng đỏ trứng, syrup đường và bơ lạt. Nhờ sử dụng thêm lòng đỏ trứng, thành phẩm kem bơ sẽ có hương vị cực kì thơm ngon, mềm mượt và tan ngay khi vào miệng.\r\n\r\nNhững người thợ tài hoa của Grand Castella còn tận dụng phần kem bơ này, sáng tạo nên những hình ảnh trang trí độc đáo, giúp chiếc bánh kem đã ngon nay trở nên xinh đẹp hơn.</font>', 0, '2021-10-22 04:15:10'),
+(104, 'Bánh kem cặp đôi cute', 18, 2, 650000, 344500, 'image1715345866-Bánh kem cặp đôi cute.png', 'Bánh kem dành cho các cặp đôi yêu nhau, tặng nhau những ngày ý nghĩa, ngày lễ, ngày kỷ niệm... Với thiết kế dễ thương và hương vị đặc biệt thơm ngon', 1, '2024-05-10 12:57:46'),
 (103, 'Kiwi ngọt Brazil (kg)', 18, 1, 320000, 280000, 'image1715327867-Kiwi ngọt Brazil (kg).png', 'Kiwi được hái từ trong rừng Amazon tại Brazil, hương vị phải nói là ngây ngất lòng người, ăn 1 lần là lần sau khỏi ăn luôn', 1, '2024-05-10 07:57:47'),
 (105, 'Bánh kem cho bé', 18, 2, 450000, 350000, 'image1715345948-Bánh kem cho bé.png', 'Bánh kem dành cho những bé nhỏ với thiết kế dễ thương, phong cách Hàn Quốc', 0, '2024-05-10 12:59:08'),
-(106, 'Bánh kem KitKat', 18, 2, 890000, 800000, 'image1715346040-Bánh kem Chocolate KitKat.png', 'Bánh kem với vị ngon đặc trưng của Socola và được tạo một cách tỉ mỉ theo phong cách của thương hiệu KitKat', 1, '2024-05-10 13:00:40'),
-(107, 'Bánh kem sữa béo ngậy', 18, 2, 670000, 570000, 'image1715346106-Bánh kem sữa thơm ngon béo ngậy.png', 'Bánh kem gồm hương vị sữa + phô mai thơm ngon béo ngậy', 1, '2024-05-10 13:01:46'),
+(106, 'Bánh kem KitKat', 18, 2, 890000, 445000, 'image1715346040-Bánh kem Chocolate KitKat.png', 'Bánh kem với vị ngon đặc trưng của Socola và được tạo một cách tỉ mỉ theo phong cách của thương hiệu KitKat', 1, '2024-05-10 13:00:40'),
+(107, 'Bánh kem sữa béo ngậy', 18, 2, 670000, 301500, 'image1715346106-Bánh kem sữa thơm ngon béo ngậy.png', 'Bánh kem gồm hương vị sữa + phô mai thơm ngon béo ngậy', 1, '2024-05-10 13:01:46'),
 (108, 'Bánh kem Nhật Bản', 18, 2, 890000, 780000, 'image1715346190-Bánh kem phong cách đơn giản Nhật Bản.png', 'Bánh kem theo phong cách Nhật Bản, thiết kế đơn giản nhưng rất thơm ngon, khiến khách hàng ăn 1 lần là nhớ cả đời', 1, '2024-05-10 13:03:10'),
 (109, 'Bắp Indonesia (kg)', 18, 3, 120000, 78000, 'image1715360800-Bắp Indonesia (kg).jpg', 'Bắp này được trồng ở Indo, với từng hạt ngon ngọt, thơm nứt mũi', 0, '2024-05-10 15:56:28'),
 (110, 'Bắp cải trắng Malaysia (kg)', 18, 3, 250000, 210000, 'image1715356698-Bắp cải trắng Malaysia (kg).jpg', 'Bắp cải trắng tốt cho sức khỏe, cung cấp nhiều khoáng chất cho cơ thể được nhập khẩu từ Malaysia', 0, '2024-05-10 15:58:18'),
@@ -1115,8 +1140,8 @@ INSERT INTO `products` (`id`, `name`, `manu_id`, `type_id`, `price`, `discount_p
 (113, 'Cam tươi Trung Quốc (kg)', 18, 1, 340000, 310000, 'image1715359193-Cam tươi Trung Quốc (kg).jpg', 'Loại cam được trồng ở đất nước tỷ dân, không thiếu người chăm bón nên về độ ngon thì không cần bàn cãi', 0, '2024-05-10 16:03:18'),
 (114, 'Cherry Campuchia (kg)', 18, 1, 890000, 760000, 'image1715359203-Cherry đỏ ngọt Campuchia.jpg', 'Loại Cherry đỏ ngọt được trồng và xuất khẩu tại Campuchia, có thể nói loại trái cây này chỉ dành cho những giới thượng lưu :))', 1, '2024-05-10 16:04:35'),
 (115, 'Đậu Hà Lan Brunei (kg)', 18, 3, 210000, 180000, 'image1715357176-Đậu Hà Lan Brunei (kg).jpg', 'Đậu Hà Lan là loại đậu hạt tròn thuộc Chi Đậu Hà Lan, dùng làm thực phẩm. Đây là loài thực vật một năm, được trồng theo vụ vào mùa có khí hậu mát mẻ tại nhiều nơi trên thế giới.', 0, '2024-05-10 16:06:16'),
-(116, 'Dưa hấu đỏ Long An (kg)', 18, 1, 450000, 420000, 'image1715359388-Dưa hấu đỏ Long An (kg).png', 'Đặc sản Long An, dưa hấu đỏ chứa nhiều khoáng chất &amp; vitamin', 0, '2024-05-10 16:07:28'),
-(117, 'Dưa hấu ruột vàng Úc (kg)', 18, 1, 650000, 620000, 'image1715359063-Dưa hấu ruột vàng Châu Phi (kg).jpg', 'Dưa hấu ruột vàng có nguồn gốc từ Châu Phi, thuộc họ bầu bí. Loại dưa hấu này có vỏ mỏng, cứng, ruột nhiều nước nên thường được lựa chọn để giải nhiệt', 1, '2024-05-10 16:09:00'),
+(116, 'Dưa hấu đỏ Long An (kg)', 18, 1, 450000, 184500, 'image1715359388-Dưa hấu đỏ Long An (kg).png', 'Đặc sản Long An, dưa hấu đỏ chứa nhiều khoáng chất &amp; vitamin', 0, '2024-05-10 16:07:28'),
+(117, 'Dưa hấu ruột vàng Úc (kg)', 18, 1, 650000, 266500, 'image1715359063-Dưa hấu ruột vàng Châu Phi (kg).jpg', 'Dưa hấu ruột vàng có nguồn gốc từ Châu Phi, thuộc họ bầu bí. Loại dưa hấu này có vỏ mỏng, cứng, ruột nhiều nước nên thường được lựa chọn để giải nhiệt', 1, '2024-05-10 16:09:00'),
 (118, 'Dừa tươi mọng nước (kg)', 18, 1, 240000, 185000, 'image1715359376-Dừa tươi mọng nước Thái Lan (kg).png', 'Tốt cho hệ tiêu hóa và hệ miễn dịch. Không chỉ đẹp dáng, đẹp da, tốt cho tim mạch mà dừa tươi còn tốt cho hệ tiêu hóa cũng như hệ miễn dịch của chúng ta', 0, '2024-05-10 16:10:26'),
 (119, 'Hành tím Myanmar (kg)', 18, 3, 150000, 120000, 'image1715357658-Hành tím Myanmar (kg).jpg', 'Trong hành tím có chứa các thành phần dinh dưỡng mang lại nhiều lợi ích sức khỏe như điều trị huyết áp cao, tăng tiết sữa mẹ, giảm rụng tóc', 1, '2024-05-10 16:14:18'),
 (120, 'Khoai tây Phillipines (kg)', 18, 3, 456000, 440000, 'image1715360742-Khoai tây Phillipines (kg).png', 'Khoai tây là loại củ mọc ngầm trên rễ của cây khoai tây, có tên tiếng Anh là Solanum tuberosum. Loại cây này thuộc bộ Cà, có liên quan đến cây cà chua và thuốc lá', 0, '2024-05-10 16:16:03'),
@@ -1124,12 +1149,12 @@ INSERT INTO `products` (`id`, `name`, `manu_id`, `type_id`, `price`, `discount_p
 (122, 'Khổ qua Singapore (kg)', 18, 3, 560000, 530000, 'image1715360723-Khổ qua Singapore (kg).jpg', 'Khổ qua hay mướp đắng với nhiều tên gọi được liệt kê bên dưới, là một loài thực vật thân thảo nhiệt đới và cận nhiệt đới thuộc họ Cucurbitaceae, được trồng rộng rãi ở châu Á, châu Phi và vùng Caribe để trồng lấy quả ăn được, nhồi thịt thì hết sẩy', 0, '2024-05-10 16:19:02'),
 (123, 'Lượu đỏ ngọt Lào (kg)', 18, 1, 780000, 720000, 'image1715359689-Lượu đỏ ngọt mọng nước Lào (kg).jpg', 'Hỗ trợ trị rối loạn cương dương. Tác dụng của nước ép lựu trong việc cải thiện khả năng tình dục ở nam giới đã được chứng minh.&nbsp; Đồng thời vị của quả này rất ngon ngọt', 0, '2024-05-10 16:20:36'),
 (124, 'Súp lơ tươi Bhutan (kg)', 18, 3, 550000, 420000, 'image1715358141-Súp lơ xanh tươi Bhutan (kg).jpg', 'Bông cải trắng hay còn gọi là súp lơ, hay su lơ, bắp su lơ, hoa lơ, cải hoa hay cải bông trắng là một loại cải ăn được, thuộc loài Brassica oleracea, họ Cải, mọc quanh năm, gieo giống bằng hạt. Được trồng tại quốc gia chủ trương ăn chay theo tinh thần Phật giáo', 0, '2024-05-10 16:22:21'),
-(125, 'Táo đỏ Canada (kg)', 18, 1, 650000, 630000, 'image1715359625-Táo đỏ xuất khẩu Canada (kg).jpg', 'Táo đỏ chứa 19 loại axit amin, trong đó 8 loại axit amin thiết yếu cho cơ thể con người mỗi ngày. Ngoài ra, còn chứa một lượng lớn vitamin A, phức hợp vitamin B, C và E', 1, '2024-05-10 16:23:35'),
-(126, 'Táo xanh México (kg)', 18, 1, 550000, 430000, 'image1715359612-Táo xanh ngọt chát México (kg).jpg', 'Táo này có thể giúp kích thích tiêu hóa, phòng ngừa táo bón. Lượng chất xơ dồi dào trong táo có tác dụng nhuận tràng cực tốt.', 1, '2024-05-10 16:25:14'),
+(125, 'Táo đỏ Canada (kg)', 18, 1, 650000, 390000, 'image1715359625-Táo đỏ xuất khẩu Canada (kg).jpg', 'Táo đỏ chứa 19 loại axit amin, trong đó 8 loại axit amin thiết yếu cho cơ thể con người mỗi ngày. Ngoài ra, còn chứa một lượng lớn vitamin A, phức hợp vitamin B, C và E', 1, '2024-05-10 16:23:35'),
+(126, 'Táo xanh México (kg)', 18, 1, 550000, 302500, 'image1715359612-Táo xanh ngọt chát México (kg).jpg', 'Táo này có thể giúp kích thích tiêu hóa, phòng ngừa táo bón. Lượng chất xơ dồi dào trong táo có tác dụng nhuận tràng cực tốt.', 1, '2024-05-10 16:25:14'),
 (127, 'Thanh long ruột đỏ (kg)', 18, 1, 780000, 710000, 'image1715358382-Thanh long ruột đỏ Italia (kg).png', 'Thanh long ruột đỏ cung cấp vitamin, khoáng chất giúp tăng cường sức khỏe, đẩy lùi bệnh tật. Ăn thanh long đỏ cũng giúp thải độc cơ thể', 0, '2024-05-10 16:26:22'),
 (128, 'Tỏi cay Kazakhstan (kg)', 18, 3, 230000, 210000, 'image1715360710-Tỏi cay Kazakhstan (kg).png', 'Phòng ngừa các bệnh tim mạch. Tỏi có tác dụng hạ mức cholesterol xấu và tăng lượng cholesterol tốt trong cơ thể, giúp loại bỏ các mảnh xơ vữa', 0, '2024-05-10 16:27:36'),
-(131, 'Xoài xanh thơm Nepal (kg)', 18, 1, 570000, 550000, 'image1715358682-Xoài xanh thơm Nepal (kg).png', 'Xoài xanh là một phương thuốc tự nhiên tuyệt vời để điều trị các vấn đề về đường tiêu hóa. Nó kích thích sự tiết dịch tiêu hóa', 0, '2024-05-10 16:31:22'),
-(130, 'Xoài chín cây miền tây (kg)', 18, 1, 380000, 360000, 'image1715359760-Xoài cát chín cây miền tây (kg).jpg', 'Xoài cát Hòa Lộc là giống xoài đặc sản nổi tiếng của vùng đất Định Tường, một trong những loại trái cây chủ lực của Tiền Giang', 0, '2024-05-10 16:30:13');
+(131, 'Xoài xanh thơm Nepal (kg)', 18, 1, 570000, 256500, 'image1715358682-Xoài xanh thơm Nepal (kg).png', 'Xoài xanh là một phương thuốc tự nhiên tuyệt vời để điều trị các vấn đề về đường tiêu hóa. Nó kích thích sự tiết dịch tiêu hóa', 0, '2024-05-10 16:31:22'),
+(130, 'Xoài chín cây miền tây (kg)', 18, 1, 380000, 171000, 'image1715359760-Xoài cát chín cây miền tây (kg).jpg', 'Xoài cát Hòa Lộc là giống xoài đặc sản nổi tiếng của vùng đất Định Tường, một trong những loại trái cây chủ lực của Tiền Giang', 0, '2024-05-10 16:30:13');
 
 -- --------------------------------------------------------
 
@@ -1207,6 +1232,7 @@ INSERT INTO `star_rating` (`user_id`, `product_id`, `star`, `id`, `updated_at`, 
 --
 
 CREATE TABLE `status` (
+  `id` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `status_name` varchar(100) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -1215,21 +1241,14 @@ CREATE TABLE `status` (
 -- Đang đổ dữ liệu cho bảng `status`
 --
 
-INSERT INTO `status` (`status`, `status_name`) VALUES
-(0, 'Đang gói hàng'),
-(1, 'Đã giao hàng'),
-(2, 'Đang thanh toán'),
-(3, 'Đã thanh toán'),
-(4, 'Đang giao hàng'),
-(5, 'Đơn đã hủy'),
-(6, 'Đã hủy thanh toán'),
-(0, 'Đang gói hàng'),
-(1, 'Đã giao hàng'),
-(2, 'Đang thanh toán'),
-(3, 'Đã thanh toán'),
-(4, 'Đang giao hàng'),
-(5, 'Đơn đã hủy'),
-(6, 'Đã hủy thanh toán');
+INSERT INTO `status` (`id`, `status`, `status_name`) VALUES
+(1, 0, 'Đang gói hàng'),
+(2, 1, 'Đã giao hàng'),
+(3, 2, 'Đang thanh toán'),
+(4, 3, 'Đã thanh toán'),
+(5, 4, 'Đang giao hàng'),
+(6, 5, 'Đơn đã hủy'),
+(7, 6, 'Đã hủy thanh toán');
 
 -- --------------------------------------------------------
 
@@ -1312,6 +1331,13 @@ ALTER TABLE `favorites`
   ADD KEY `product_id` (`product_id`);
 
 --
+-- Chỉ mục cho bảng `flash_sales`
+--
+ALTER TABLE `flash_sales`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `product_id` (`product_id`);
+
+--
 -- Chỉ mục cho bảng `inventories`
 --
 ALTER TABLE `inventories`
@@ -1367,6 +1393,12 @@ ALTER TABLE `star_rating`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Chỉ mục cho bảng `status`
+--
+ALTER TABLE `status`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Chỉ mục cho bảng `users`
 --
 ALTER TABLE `users`
@@ -1408,10 +1440,16 @@ ALTER TABLE `favorites`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
+-- AUTO_INCREMENT cho bảng `flash_sales`
+--
+ALTER TABLE `flash_sales`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
 -- AUTO_INCREMENT cho bảng `inventories`
 --
 ALTER TABLE `inventories`
-  MODIFY `inventory_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `inventory_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT cho bảng `manufactures`
@@ -1435,7 +1473,7 @@ ALTER TABLE `order_details`
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
 
 --
 -- AUTO_INCREMENT cho bảng `protypes`
@@ -1448,6 +1486,12 @@ ALTER TABLE `protypes`
 --
 ALTER TABLE `star_rating`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT cho bảng `status`
+--
+ALTER TABLE `status`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT cho bảng `users`

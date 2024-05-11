@@ -215,6 +215,160 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="section-title">
+                        <h3 style="background-color: red" class="title flash-sales">FLASH SALES</h3>
+
+                    </div>
+                </div>
+                <!-- /section title -->
+
+                <!-- Products tab & slick -->
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="products-tabs">
+                            <!-- tab -->
+                            <div id="tab1" class="tab-pane active">
+                                <div class="products-slick" data-nav="#slick-nav-10">
+                                    @foreach ($products as $value)
+                                        @foreach ($flashsales as $flash)
+                                            @foreach ($inventories as $inven)
+                                                @if ($flash->product_id === $value->id)
+                                                    @if ($value->id === $inven->product_id)
+                                                        <div class="product">
+                                                            <div class="clock" data-endTime="{{ $flash->end_date }}">
+                                                                <div id="days" class="date"></div>
+                                                                <div id="hours" class="hour"></div>
+                                                                <div id="minutes" class="minute"></div>
+                                                                <div id="seconds" class="second"></div>
+                                                            </div>
+                                                            <div class="clock-info">
+                                                                <div class="date-display">NGÀY</div>
+                                                                <div class="hour-display">GIỜ</div>
+                                                                <div class="minute-display">PHÚT</div>
+                                                                <div class="second-display">GIÂY</div>
+                                                            </div>
+                                                            <script src="{{ asset('assets/js/clock.js') }}" defer></script>
+                                                            <div class="product-img">
+                                                                <img style="width=100px"
+                                                                    src="{{ asset('assets/img/' . $value['pro_image']) }}"
+                                                                    alt="">
+                                                                <div class="product-label" style="border-radius: 3px">
+                                                                    <span
+                                                                        class="new flash">-{{ (1 - $value->discount_price / $value->price) * 100 }}%</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="product-body">
+                                                                <p class="product-category"></p>
+                                                                <h3 class="product-name"><a
+                                                                        href="{{ route('detail.product', ['type_id' => $value->type_id, 'id' => $value->id]) }}">{{ $value->name }}</a>
+                                                                </h3>
+
+                                                                @if ($value['discount_price'] > 0)
+                                                                    <h4 class="product-price">
+                                                                        <del>{{ number_format($value->price) }}
+                                                                            <u>đ</u></del>
+                                                                    </h4>
+                                                                    <h4 class="discount-price">
+                                                                        {{ number_format($value->discount_price) }}
+                                                                        <u>đ</u>
+                                                                    </h4>
+                                                                @else
+                                                                    <h4 class="discount-price">
+                                                                        {{ number_format($value->price) }} <u>đ</u>
+                                                                    </h4>
+                                                                @endif
+                                                                <ul class="ratingW-comment">
+                                                                    <small>
+                                                                        @if ($value->average_rating)
+                                                                            <?php
+                                                                            for ($i = 1; $i <= 5; $i++) {
+                                                                                if ($i <= $value->average_rating) {
+                                                                                    echo '<li class="on"><div class="star-comm"></div></li>';
+                                                                                } else {
+                                                                                    echo '<li><div class="star-comm"></div></li>';
+                                                                                }
+                                                                            }
+                                                                            ?>
+                                                                        @else
+                                                                            <li class="on">
+                                                                                <div class="star-comm"></div>
+                                                                            </li>
+                                                                            <li class="on">
+                                                                                <div class="star-comm"></div>
+                                                                            </li>
+                                                                            <li class="on">
+                                                                                <div class="star-comm"></div>
+                                                                            </li>
+                                                                            <li class="on">
+                                                                                <div class="star-comm"></div>
+                                                                            </li>
+                                                                            <li class="on">
+                                                                                <div class="star-comm"></div>
+                                                                            </li>
+                                                                        @endif
+                                                                    </small>
+                                                                </ul>
+                                                                <div class="product-btns">
+                                                                    <button class="add-to-wishlist"><i
+                                                                            class="fa fa-heart-o"></i><span
+                                                                            class="tooltipp">Yêu
+                                                                            thích</span></button>
+                                                                </div>
+                                                            </div>
+                                                            @if ($inven->remain_quantity)
+                                                                <a onclick="AddCart({{ $value->id }})"
+                                                                    href="javascript:">
+                                                                    <div class="add-to-cart">
+                                                                        <button class="add-to-cart-btn"><i
+                                                                                class="fa fa-shopping-cart"></i>
+                                                                            Thêm vào
+                                                                            giỏ</button>
+                                                                    </div>
+                                                                </a>
+                                                            @else
+                                                                <div class="out-of-stock">
+                                                                    <button class="out-of-stock-btn"><i
+                                                                            class="fa fa-exclamation-circle"></i> Hết
+                                                                        hàng</button>
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                        <!-- /product -->
+                                                    @endif
+                                                @endif
+                                            @endforeach
+                                        @endforeach
+                                    @endforeach
+                                </div>
+                                <div id="slick-nav-10" class="products-slick-nav"></div>
+                            </div>
+                            <!-- /tab -->
+
+                            <!-- tab -->
+
+                            <!-- /tab -->
+
+                            <!-- tab -->
+
+
+                            <!-- /tab -->
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- Products tab & slick -->
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    {{-- SECTION --}}
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-title">
                         <h3 class="title">Sản phẩm top bán chạy</h3>
                         <div class="section-nav">
                             <ul class="section-tab-nav tab-nav">

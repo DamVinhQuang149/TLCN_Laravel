@@ -18,7 +18,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\EmailsController;
 use App\Http\Controllers\RevenuesController;
 use App\Http\Controllers\InventoryController;
-
+use App\Http\Controllers\FlashSalesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UsersController;
 
@@ -129,6 +129,7 @@ Route::middleware('admin')->group(function () {
     Route::resource('/admin/payments', PaymentsController::class);
     Route::resource('/admin/users', UsersController::class);
     Route::resource('/admin/emails', EmailsController::class);
+    Route::resource('/admin/flashsales', FlashSalesController::class);
     //
     Route::resource('/admin/advertisements', AdvertisementController::class);
     Route::get('admin/sendmailadvertisements/{id}', [AdvertisementController::class, 'sendMailAdvertisements'])->name('sendmail.ad');
