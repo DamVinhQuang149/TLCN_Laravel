@@ -173,25 +173,24 @@
                                                                         <small>{{ $comm->created_at->format('d/m/Y') }}</small>
                                                                         <ul class="ratingW-comment">
                                                                             <small>
-                                                                                @if ($starRating)
-                                                                                    <?php
-                                                                                    for ($i = 1; $i <= 5; $i++) {
-                                                                                        if ($i <= $starRating->star) {
-                                                                                            echo '<li class="on"><div class="star-comm"></div></li>';
-                                                                                        } else {
-                                                                                            echo '<li><div class="star-comm"></div></li>';
-                                                                                        }
+                                                                                <?php
+                                                                                for ($i = 1; $i <= 5; $i++) {
+                                                                                    if ($i <= $comm->star) {
+                                                                                        echo '<li class="on"><div class="star-comm"></div></li>';
+                                                                                    } else {
+                                                                                        echo '<li><div class="star-comm"></div></li>';
                                                                                     }
-                                                                                    ?>
-                                                                                @endif
+                                                                                }
+                                                                                ?>
                                                                             </small>
                                                                         </ul>
                                                                     </h4>
+
                                                                     <p>{{ $comm->comment }}</p>
                                                                     @can('my-comment', $comm)
                                                                         <!-- <form action="" method="get" class="text-right">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <a href="" class="btn btn-primary btn-sm">Sửa</a>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </form> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <a href="" class="btn btn-primary btn-sm">Sửa</a>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </form> -->
                                                                         <form class="text-right">
                                                                             <button type="button" id="applyCouponButton"
                                                                                 style="background-color: #f80808; color: #fff; border: none; border-radius: 4px; padding: 9px; cursor: pointer;"
@@ -202,6 +201,7 @@
                                                                             </button>
                                                                         </form>
                                                                     @endcan
+
                                                                 </div>
                                                             </div>
                                                         @endforeach
@@ -259,9 +259,28 @@
                                                                 <i class="fa fa-star"></i>
                                                             </div>
                                                             <div class="product-btns">
-                                                                <button class="add-to-wishlist"><i
-                                                                        class="fa fa-heart-o"></i><span
-                                                                        class="tooltipp">Yêu thích</span></button>
+                                                                @if (auth()->check())
+                                                                    @if ($product->favorited)
+                                                                        <button class="add-to-wishlist"><a
+                                                                                href={{ route('favorite', $product->id) }}
+                                                                                class="heart"><i
+                                                                                    class="fa fa-heart"></i></a><span
+                                                                                class="tooltipp">Bỏ yêu
+                                                                                thích</span></button>
+                                                                    @else
+                                                                        <button class="add-to-wishlist"><a
+                                                                                href={{ route('favorite', $product->id) }}><i
+                                                                                    class="fa fa-heart-o"></i></a><span
+                                                                                class="tooltipp">Yêu
+                                                                                thích</span></button>
+                                                                    @endif
+                                                                @else
+                                                                    <button class="add-to-wishlist"><a
+                                                                            href={{ route('login') }}><i
+                                                                                class="fa fa-heart-o"></i></a><span
+                                                                            class="tooltipp">Yêu
+                                                                            thích</span></button>
+                                                                @endif
                                                                 {{-- <button class="add-to-compare"><i
                                                                         class="fa fa-exchange"></i><span
                                                                         class="tooltipp">add to

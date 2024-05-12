@@ -49,8 +49,8 @@
                     <div class="col-md-3 col-xs-6">
                         <div class="footer">
                             <h3 class="footer-title">Chúng tôi</h3>
-                            <p><strong>Tiểu luận chuyên ngành xây dựng website bán đồ ăn trực tuyến</strong></p>
-                            <ul class="footer-links">
+                            {{-- <p><strong>Tiểu luận chuyên ngành xây dựng website bán đồ ăn trực tuyến</strong></p>
+                            <ul class="footer-links"> --}}
                                 <li><i class="fa fa-map-marker"></i>01 Võ Văn Ngân - Phường Linh Chiểu- Thành phố Thủ
                                     Đức</li>
                                 <li><i class="fa fa-phone"></i>0935.540.795</li>

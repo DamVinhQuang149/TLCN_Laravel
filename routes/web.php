@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdvertisementController;
+use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CouponsController;
@@ -52,9 +53,9 @@ Route::get('/', [HomeController::class, 'index'])->name('index');
 //search
 Route::get('/products/search', [ProductsController::class, 'search'])->name('products.search');
 //comment
-Route::get('/post-comment/{product_id}/{comment}/{star}', [ProductsController::class, 'commentPost'])->name('comment.post');
-Route::get('/comment/{comment_id}', [ProductsController::class, 'editComment'])->name('comment.edit');
-Route::get('/delete-comment/{comment_id}', [ProductsController::class, 'deleteComment'])->name('comment.delete');
+Route::get('/post-comment/{product_id}/{comment}/{star}', [CommentsController::class, 'commentPost'])->name('comment.post');
+Route::get('/comment/{comment_id}', [CommentsController::class, 'editComment'])->name('comment.edit');
+Route::get('/delete-comment/{comment_id}', [CommentsController::class, 'deleteComment'])->name('comment.delete');
 
 //favorite
 Route::get('/favorite/{product_id}', [ProductsController::class, 'favorite'])->name('favorite');
@@ -129,6 +130,7 @@ Route::middleware('admin')->group(function () {
     Route::resource('/admin/payments', PaymentsController::class);
     Route::resource('/admin/users', UsersController::class);
     Route::resource('/admin/emails', EmailsController::class);
+    Route::resource('/admin/comments', CommentsController::class);
     //
     Route::resource('/admin/advertisements', AdvertisementController::class);
     Route::get('admin/sendmailadvertisements/{id}', [AdvertisementController::class, 'sendMailAdvertisements'])->name('sendmail.ad');

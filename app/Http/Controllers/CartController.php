@@ -40,7 +40,7 @@ class CartController extends Controller
                 $newcart->AddCart($product, $id);
                 
                 foreach ($newcart->products as $item) {
-                    //dd($item);
+
                     if($item['productInfo']->id == $id){
                         if ($remain_quantity == 0) {
                             return response()->json([
@@ -49,7 +49,6 @@ class CartController extends Controller
                             ]);
                         }
                         else if ($item['quanty'] > $remain_quantity) {
-                            dd($item['quanty']);
                             return response()->json([
                                 'status' => 'error',
                                 'message' => 'Số lượng sản phẩm thêm vượt quá tồn kho.'
@@ -106,7 +105,7 @@ class CartController extends Controller
                 $newcart->AddQuantyCart($product, $id, $quanty);
 
                 foreach ($newcart->products as $item) {
-                    //dd($item['quanty']);
+
                     if($item['productInfo']->id == $id){
                         if ($remain_quantity == 0) {
                             return response()->json([
@@ -115,7 +114,7 @@ class CartController extends Controller
                             ]);
                         }
                         else if ($item['quanty'] > $remain_quantity) {
-                            dd($item['quanty']);
+  
                             return response()->json([
                                 'status' => 'error',
                                 'message' => 'Số lượng sản phẩm thêm vượt quá tồn kho.'
@@ -140,7 +139,7 @@ class CartController extends Controller
                 foreach (Session::get('Cart')->products as $item) {
                     $productInfo = $item['productInfo'];
                     $inventories = Inventories::where('product_id', $productInfo->id)->get();
-                    // dd($inventories->product_id);
+                
                     $array[] = $inventories;
                 }
             }
@@ -249,7 +248,7 @@ class CartController extends Controller
             foreach (Session::get('Cart')->products as $item) {
                 $productInfo = $item['productInfo'];
                 $inventories = Inventories::where('product_id', $productInfo->id)->get();
-                // dd($inventories->product_id);
+
                 $array[] = $inventories;
             }
             return response()->json([
@@ -296,7 +295,7 @@ class CartController extends Controller
                 
                 $productInfo = $item['productInfo'];
                 $inventories = Inventories::where('product_id', $productInfo->id)->get();
-                // dd($inventories->product_id);
+                
                 $array[] = $inventories;
 
                 
@@ -304,7 +303,7 @@ class CartController extends Controller
         }
 
         foreach ($newcart->products as $item) {
-            //dd($item['quanty']);
+           
             if($item['productInfo']->id == $id){
                 if ($remain_quantity == 0) {
                     return response()->json([
@@ -313,7 +312,7 @@ class CartController extends Controller
                     ]);
                 }
                 else if ($item['quanty'] > $remain_quantity) {
-                    dd($item['quanty']);
+                
                     return response()->json([
                         'status' => 'error',
                         'message' => 'Số lượng sản phẩm thêm vượt quá tồn kho.'

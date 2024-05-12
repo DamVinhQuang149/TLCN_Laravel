@@ -194,6 +194,15 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="/admin/comments" class="nav-link">
+                            <i class="nav-icon fas fa-comments"></i>
+                            <p>
+                                Comments
+                                <span class="right badge badge-danger">New</span>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="/admin/emails" class="nav-link">
                             <i class="nav-icon fas fa-envelope"></i>
                             <p>

@@ -250,9 +250,16 @@ function writeComment() {
             },
         })
             .done(function (response) {
+                if (response.status === "success") {
+                    renderListComm(response.comment_view);
+                    //alertify.success("Đánh giá sản phẩm thành công");
+                    alertify.success(
+                        "Bình luận của bạn đã được gửi đi và đang chờ được duyệt. Cảm ơn bạn đã góp ý!"
+                    );
+                } else if (response.status === "error") {
+                    alertify.error(response.message);
+                }
                 //console.log(response.comment_view);
-                renderListComm(response.comment_view);
-                //alertify.success("Đánh giá sản phẩm thành công");
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 console.error("AJAX Error:", textStatus, errorThrown);
@@ -273,8 +280,13 @@ function deleteComment(id) {
             type: "GET",
         })
             .done(function (response) {
-                renderListComm(response);
-                alertify.error("Đã xóa bình luận");
+                if (response.status === "success") {
+                    renderListComm(response.comment_view);
+                    //alertify.success("Đánh giá sản phẩm thành công");
+                    alertify.success("Đã xóa bình luận");
+                } else if (response.status === "error") {
+                    alertify.error(response.message);
+                }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 console.error("AJAX Error:", textStatus, errorThrown);

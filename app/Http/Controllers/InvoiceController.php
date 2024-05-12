@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Orders;
 use App\Models\OrderDetails;
+use App\Models\Inventories;
+
 use PDF;
 
 class InvoiceController extends Controller

@@ -90,7 +90,7 @@
             @if ($order->total >= 300000)
                 0đ
             @else
-                30.000đ
+                {{ number_format($order->shipping_fee, 0, ',', '.') }} đ</strong>
             @endif
         </p>
         <p><strong>Mã giảm giá: </strong>
