@@ -141,6 +141,7 @@
     <!-- /FOOTER -->
 
     <!-- Trong phần head của trang HTML -->
+    <link rel="stylesheet" href="{{ asset('assets/css/clock.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>

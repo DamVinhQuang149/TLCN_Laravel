@@ -46,7 +46,7 @@
                                             <tr>
                                                 <td class="order-id">
                                                     <strong>
-                                                        {{ $item->order_id }}
+                                                        {{ $item->order_code }}
                                                     </strong>
                                                 </td>
 

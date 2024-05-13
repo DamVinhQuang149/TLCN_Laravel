@@ -17,6 +17,9 @@
 
     <p>Đơn hàng của {{ $user->First_name }} {{ $user->Last_name }}</p>
 
+    <p>Mã đơn hàng: {{ $order->order_code }}</p>
+
+    <p>Chi tiết đơn hàng</p>
     <table cellpadding="10" cellspacing="0" style="border: 1px solid #ccc; width: 100%;">
         <thead>
             <tr>

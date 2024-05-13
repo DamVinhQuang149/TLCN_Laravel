@@ -1,5 +1,48 @@
 @extends('layout.appadmin')
 @section('content')
+    <style>
+        .form-search {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .input-select {
+            margin-right: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .input {
+            margin-right: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .search-btn {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Tùy chỉnh cho các nút tương tác */
+        .btn {
+            margin-right: 10px;
+        }
+
+        .btn:last-child {
+            margin-right: 0;
+        }
+    </style>
     <div class="content-wrapper">
         <section class="content-header">
             <div class="container-fluid">
@@ -13,6 +56,11 @@
                             <li class="breadcrumb-item active">Orders</li>
                         </ol>
                     </div>
+                    <form action="/admin/orders/search" method="GET">
+                        @csrf
+                        <input name="keyword" class="input" placeholder="Tìm kiếm">
+                        <button type="submit" class="search-btn">Search</button>
+                    </form>
                 </div>
             </div>
         </section>
@@ -38,10 +86,14 @@
                                 <th style="width: 5%">
                                     Order_id
                                 </th>
+
                                 <th style="width: 5%">
                                     User_id
                                 </th>
-                                <th style="width: 15%" class="text-center">
+                                <th style="width: 5%">
+                                    Order_code
+                                </th>
+                                <th style="width: 10%" class="text-center">
                                     Address
                                 </th>
                                 <th style="width: 10%">
@@ -71,8 +123,10 @@
                             @foreach ($orders as $value)
                                 <tr>
                                     <td class="text-center" style="width: 5%">#{{ $value->order_id }}</td>
+
                                     <td class="text-center" style="width: 5%">#{{ $value->user_id }}</td>
-                                    <td class="text-center" style="width: 15%">{{ $value->address }}</td>
+                                    <td class="text-center" style="width: 5%">{{ $value->order_code }}</td>
+                                    <td class="text-center" style="width: 10%">{{ $value->address }}</td>
                                     <td style="width: 10%">{{ $value->phone }}</td>
                                     <td style="width: 9%">Mã giảm giá:
                                         @if ($value->coupon_discount > 100)
@@ -108,7 +162,7 @@
                                                 <i class="fa fa-print"></i> Print
                                             </a>
                                         </button>
-                                        <form action="orderdetails/{{ $value->order_id }}" method="POST"
+                                        <form action="{{ route('orderdetails.show', $value->order_id) }}" method="POST"
                                             enctype="multipart/form-data">
                                             @csrf
                                             @method('GET')
@@ -118,7 +172,7 @@
                                                 View
                                             </button>
                                         </form>
-                                        <form action="orders/{{ $value->order_id }}/edit" method="POST"
+                                        <form action="{{ route('orders.edit', $value->order_id) }}" method="POST"
                                             enctype="multipart/form-data">
                                             @csrf
                                             @method('GET')

@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 10, 2024 lúc 08:54 PM
--- Phiên bản máy phục vụ: 10.4.32-MariaDB
--- Phiên bản PHP: 8.2.12
+-- Host: 127.0.0.1
+-- Generation Time: May 13, 2024 at 08:22 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `bandoan`
+-- Database: `bandoan`
 --
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `advertisements`
+-- Table structure for table `advertisements`
 --
 
 CREATE TABLE `advertisements` (
@@ -37,7 +37,7 @@ CREATE TABLE `advertisements` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `advertisements`
+-- Dumping data for table `advertisements`
 --
 
 INSERT INTO `advertisements` (`id`, `title`, `content`, `offer`, `contact_info`, `created_at`) VALUES
@@ -48,39 +48,36 @@ INSERT INTO `advertisements` (`id`, `title`, `content`, `offer`, `contact_info`,
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `comments`
+-- Table structure for table `comments`
 --
 
 CREATE TABLE `comments` (
   `comm_id` int(11) NOT NULL,
+  `reply_to_comment_id` int(11) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `created_at` date DEFAULT current_timestamp(),
   `updated_at` date DEFAULT NULL,
-  `comment` varchar(255) NOT NULL
+  `comment` varchar(255) NOT NULL,
+  `star` int(11) DEFAULT NULL,
+  `isApproved` int(11) NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `comments`
+-- Dumping data for table `comments`
 --
 
-INSERT INTO `comments` (`comm_id`, `user_id`, `product_id`, `created_at`, `updated_at`, `comment`) VALUES
-(44, 35, 11, '2024-04-13', '2024-04-13', 'sản phẩm này tốt nha'),
-(3, 35, 1, '2024-04-02', '2024-04-02', 'svav'),
-(37, 35, 16, '2024-04-13', '2024-04-13', 'd'),
-(38, 36, 11, '2024-04-13', '2024-04-13', 'áva'),
-(39, 38, 11, '2024-04-13', '2024-04-13', 's'),
-(40, 38, 1, '2024-04-13', '2024-04-13', 'âcC'),
-(41, 38, 3, '2024-04-13', '2024-04-13', 'aVAV'),
-(42, 27, 1, '2024-04-13', '2024-04-13', 'jfruyfuy'),
-(45, 26, 18, '2024-05-10', '2024-05-10', '123'),
-(46, 26, 21, '2024-05-10', '2024-05-10', 'Good'),
-(47, 26, 21, '2024-05-10', '2024-05-10', 'Good');
+INSERT INTO `comments` (`comm_id`, `reply_to_comment_id`, `user_id`, `product_id`, `created_at`, `updated_at`, `comment`, `star`, `isApproved`) VALUES
+(48, NULL, 27, 11, '2024-05-13', '2024-05-13', 'Sản phẩm tốt', 3, 0),
+(49, NULL, 27, 11, '2024-05-13', '2024-05-13', 'Ngon lắm ạ', 3, 1),
+(50, NULL, 35, 11, '2024-05-13', '2024-05-13', 'tưới ngon, ngọt lắm ạ', 5, 1),
+(53, 50, 27, 11, '2024-05-13', '2024-05-13', 'Cảm ơn bạn', NULL, 1),
+(54, 49, 27, 11, '2024-05-13', '2024-05-13', 'oke bạn :v', NULL, 1);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `coupons`
+-- Table structure for table `coupons`
 --
 
 CREATE TABLE `coupons` (
@@ -96,7 +93,7 @@ CREATE TABLE `coupons` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `coupons`
+-- Dumping data for table `coupons`
 --
 
 INSERT INTO `coupons` (`coupon_id`, `coupon_code`, `coupon_type`, `coupon_amount`, `min_order`, `coupon_quantity`, `coupon_used`, `coupon_remain`, `coupon_expired`) VALUES
@@ -117,7 +114,7 @@ INSERT INTO `coupons` (`coupon_id`, `coupon_code`, `coupon_type`, `coupon_amount
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `coupons_type`
+-- Table structure for table `coupons_type`
 --
 
 CREATE TABLE `coupons_type` (
@@ -126,7 +123,7 @@ CREATE TABLE `coupons_type` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `coupons_type`
+-- Dumping data for table `coupons_type`
 --
 
 INSERT INTO `coupons_type` (`coupon_type`, `type_name`) VALUES
@@ -136,7 +133,7 @@ INSERT INTO `coupons_type` (`coupon_type`, `type_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `email_lists`
+-- Table structure for table `email_lists`
 --
 
 CREATE TABLE `email_lists` (
@@ -146,7 +143,7 @@ CREATE TABLE `email_lists` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `email_lists`
+-- Dumping data for table `email_lists`
 --
 
 INSERT INTO `email_lists` (`email_id`, `email`, `created_at`) VALUES
@@ -172,7 +169,7 @@ INSERT INTO `email_lists` (`email_id`, `email`, `created_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `favorites`
+-- Table structure for table `favorites`
 --
 
 CREATE TABLE `favorites` (
@@ -184,7 +181,7 @@ CREATE TABLE `favorites` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `favorites`
+-- Dumping data for table `favorites`
 --
 
 INSERT INTO `favorites` (`id`, `user_id`, `product_id`, `created_at`, `updated_at`) VALUES
@@ -195,12 +192,42 @@ INSERT INTO `favorites` (`id`, `user_id`, `product_id`, `created_at`, `updated_a
 (11, 35, 13, '2024-03-20', '2024-03-20'),
 (12, 35, 7, '2024-03-20', '2024-03-20'),
 (13, 35, 23, '2024-03-20', '2024-03-20'),
-(15, 35, 3, '2024-04-02', '2024-04-02');
+(15, 35, 3, '2024-04-02', '2024-04-02'),
+(19, 27, 13, '2024-05-12', '2024-05-12'),
+(20, 27, 104, '2024-05-12', '2024-05-12'),
+(21, 27, 125, '2024-05-12', '2024-05-12'),
+(22, 27, 16, '2024-05-12', '2024-05-12'),
+(23, 27, 18, '2024-05-12', '2024-05-12');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `inventories`
+-- Table structure for table `flash_sales`
+--
+
+CREATE TABLE `flash_sales` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `initial_price` int(11) NOT NULL,
+  `start_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `end_date` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `flash_sales`
+--
+
+INSERT INTO `flash_sales` (`id`, `product_id`, `initial_price`, `start_date`, `end_date`) VALUES
+(29, 128, 210000, '2024-05-12 10:09:24', '2024-05-15 10:09:00'),
+(30, 131, 256500, '2024-05-12 10:10:00', '2024-05-16 10:09:00'),
+(31, 104, 325000, '2024-05-12 10:10:26', '2024-05-20 10:10:00'),
+(32, 127, 710000, '2024-05-12 10:10:45', '2024-05-21 10:10:00'),
+(33, 7, 90000, '2024-05-12 10:11:05', '2024-05-23 10:11:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inventories`
 --
 
 CREATE TABLE `inventories` (
@@ -216,7 +243,7 @@ CREATE TABLE `inventories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `inventories`
+-- Dumping data for table `inventories`
 --
 
 INSERT INTO `inventories` (`inventory_id`, `product_name`, `product_image`, `product_id`, `import_quantity`, `sold_quantity`, `remain_quantity`, `inventory_status`, `created_at`) VALUES
@@ -224,10 +251,10 @@ INSERT INTO `inventories` (`inventory_id`, `product_name`, `product_image`, `pro
 (8, 'Bánh kem bơ Pháp', 'banhkembophap.jpg', 1, 13, 40, 3, 'Nearly Out Of Stock', '2024-05-10 08:20:52'),
 (9, 'Chanh tươi Irag (kg)', 'chanhtuoiirag.png', 3, 123, 0, 123, 'In Stocks', '2024-04-16 10:40:50'),
 (10, 'Bánh kem dâu Ý', 'banhkemdau.jpg', 5, 12, 30, 9, 'In Stock', '2024-05-10 08:21:00'),
-(11, 'Hồng đỏ Nam Mỹ (kg)', 'hongdomy.png', 11, 12, 4, 8, 'In Stock', '2024-04-16 12:48:55'),
+(11, 'Hồng đỏ Nam Mỹ (kg)', 'hongdomy.png', 11, 12, 6, 6, 'Nearly Out Of Stock', '2024-05-13 04:55:38'),
 (12, 'Bánh kem Matcha Nho', 'banhkemnhomatcha.jpg', 12, 24, 31, 12, 'In Stock', '2024-05-10 08:21:04'),
 (13, 'Dưa leo Ấn Độ (kg)', 'dualeoando.png', 13, 500, 1, 499, 'In Stock', '2024-04-16 12:45:45'),
-(14, 'Chanh dây Nga tươi (kg)', 'chanhday.png', 16, 450, 6, 444, 'In Stock', '2024-04-16 13:04:28'),
+(14, 'Chanh dây Nga tươi (kg)', 'chanhday.png', 16, 450, 7, 443, 'In Stock', '2024-05-12 10:42:49'),
 (15, 'Bánh kem Táo Hàn Quốc', 'banhkemtao.jpg', 17, 25, 0, 25, 'In Stocks', '2024-04-16 10:42:16'),
 (16, 'Dâu tây đỏ ngọt (kg)', 'dautay.png', 18, 600, 40, 0, 'Out Of Stock', '2024-05-10 17:31:22'),
 (17, 'Vải thiều loại to (kg)', 'vaithieuloaito.png', 21, 780, 60, 770, 'In Stock', '2024-05-10 08:21:08'),
@@ -262,14 +289,14 @@ INSERT INTO `inventories` (`inventory_id`, `product_name`, `product_image`, `pro
 (49, 'Táo đỏ xuất khẩu Canada (kg)', 'image1715358215-Táo đỏ xuất khẩu Canada (kg).jpg', 125, 333, 100, 333, 'In Stocks', '2024-05-10 17:12:49'),
 (50, 'Táo xanh ngọt chát México (kg)', 'image1715358314-Táo xanh ngọt chát México (kg).jpg', 126, 197, 100, 197, 'In Stocks', '2024-05-10 17:12:45'),
 (51, 'Thanh long ruột đỏ Italia (kg)', 'image1715358382-Thanh long ruột đỏ Italia (kg).png', 127, 197, 0, 197, 'In Stocks', '2024-05-10 16:26:22'),
-(52, 'Tỏi cay Kazakhstan (kg)', 'image1715358456-Tỏi cay Kazakhstan (kg).png', 128, 197, 0, 197, 'In Stocks', '2024-05-10 16:27:36'),
+(52, 'Tỏi cay Kazakhstan (kg)', 'image1715358456-Tỏi cay Kazakhstan (kg).png', 128, 197, 1, 196, 'In Stock', '2024-05-12 10:24:38'),
 (54, 'Xoài cát chín cây miền tây (kg)', 'image1715358613-Xoài cát chín cây miền tây (kg).jpg', 130, 197, 0, 197, 'In Stocks', '2024-05-10 16:30:13'),
 (55, 'Xoài xanh thơm Nepal (kg)', 'image1715358682-Xoài xanh thơm Nepal (kg).png', 131, 197, 0, 197, 'In Stocks', '2024-05-10 16:31:22');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `manufactures`
+-- Table structure for table `manufactures`
 --
 
 CREATE TABLE `manufactures` (
@@ -278,7 +305,7 @@ CREATE TABLE `manufactures` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `manufactures`
+-- Dumping data for table `manufactures`
 --
 
 INSERT INTO `manufactures` (`manu_id`, `manu_name`) VALUES
@@ -287,11 +314,12 @@ INSERT INTO `manufactures` (`manu_id`, `manu_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `orders`
+-- Table structure for table `orders`
 --
 
 CREATE TABLE `orders` (
   `order_id` int(11) NOT NULL,
+  `order_code` varchar(255) NOT NULL,
   `user_id` int(11) NOT NULL,
   `address` varchar(100) NOT NULL,
   `shipping_fee` int(11) DEFAULT NULL,
@@ -305,227 +333,19 @@ CREATE TABLE `orders` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `orders`
+-- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`order_id`, `user_id`, `address`, `shipping_fee`, `phone`, `status`, `coupon_discount`, `total`, `note`, `checkout`, `created_at`) VALUES
-(245, 14, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 1, 150000, 450000, '', 1, '2023-10-30 17:42:21'),
-(244, 14, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 1, 0, 660000, '', 1, '2023-10-30 17:41:36'),
-(243, 14, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 1, 150000, 15000, '', 1, '2023-10-30 17:40:50'),
-(242, 14, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 1, 150000, -50000, '', 0, '2023-10-30 17:25:32'),
-(241, 1, '566/72/63R Nguyễn Thái Sơn, P.5, Quận Gò Vấp', NULL, '0935540795', 1, 20, 212000, '', 0, '2023-10-30 16:12:37'),
-(240, 1, '566/72/63R Nguyễn Thái Sơn, P.5, Quận Gò Vấp', NULL, '0935540795', 1, 20, 376000, 'Chúc mừng sinh nhật', 1, '2023-10-30 16:11:26'),
-(157, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 1, 0, 165000, '', 0, '2023-10-28 04:15:44'),
-(158, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 1, 0, 120000, '', 0, '2023-10-28 04:17:30'),
-(239, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 1, 15000, 340000, '', 1, '2023-10-30 16:03:34'),
-(238, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 1, 20, 364000, '', 1, '2023-10-30 16:01:12'),
-(237, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 1, 20, 924000, '', 1, '2023-10-30 15:54:55'),
-(236, 1, 'test', NULL, '0357369820', 1, 20, 308000, '', 1, '2023-10-30 14:57:59'),
-(164, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 1, 0, 120000, '', 0, '2023-10-28 04:31:30'),
-(165, 1, 'test', NULL, '0357369820', 1, 0, 165000, '', 0, '2023-10-28 04:33:48'),
-(166, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 1, 0, 1200000, '', 1, '2023-10-28 04:35:46'),
-(167, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 1, 0, 320000, '', 0, '2023-10-28 04:39:03'),
-(168, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 1, 0, 355000, '', 0, '2023-10-28 06:44:03'),
-(169, 1, '566/72/63R Nguyễn Thái Sơn, P.5, Quận Gò Vấp', NULL, '0935540795', 1, 0, 850000, '', 0, '2023-10-28 06:44:17'),
-(170, 1, 'test', NULL, '0357369820', 1, 0, 550000, '', 0, '2023-10-28 06:45:00'),
-(171, 1, 'test', NULL, '0357369820', 0, 0, 1550000, '', 1, '2023-10-28 06:56:01'),
-(172, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 0, 0, 380000, '', 1, '2023-10-28 07:41:52'),
-(173, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 0, 0, 190000, '', 1, '2023-10-28 07:44:48'),
-(174, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 0, 0, 190000, '', 1, '2023-10-28 08:01:10'),
-(175, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 0, 0, 190000, '', 1, '2023-10-28 08:04:00'),
-(176, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 0, 0, 190000, '', 1, '2023-10-28 08:10:25'),
-(177, 1, '15 An Nhon', NULL, '0935540795', 0, 0, 310000, '', 1, '2023-10-28 08:16:54'),
-(178, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 0, 0, 190000, '', 1, '2023-10-28 08:17:55'),
-(179, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 0, 0, 380000, '', 1, '2023-10-28 09:32:36'),
-(180, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 0, 0, 355000, '', 1, '2023-10-29 03:24:10'),
-(181, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 0, 0, 190000, '', 0, '2023-10-29 03:24:40'),
-(182, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 0, 0, 165000, '', 1, '2023-10-29 03:29:24'),
-(183, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 0, 0, 190000, '', 1, '2023-10-29 03:30:00'),
-(184, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 0, 0, 190000, '', 0, '2023-10-29 03:31:15'),
-(185, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 0, 0, 1200000, '', 0, '2023-10-29 03:32:32'),
-(186, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 0, 0, 190000, '', 0, '2023-10-29 03:34:29'),
-(187, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 1, 0, 100000, '', 0, '2023-10-29 03:35:56'),
-(188, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 0, 0, 190000, '', 0, '2023-10-29 03:52:28'),
-(189, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 0, 0, 190000, '', 1, '2023-10-29 03:53:16'),
-(190, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 0, 0, 190000, '', 0, '2023-10-29 03:55:11'),
-(191, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 0, 0, 190000, '', 0, '2023-10-29 04:12:05'),
-(192, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 0, 0, 190000, '', 0, '2023-10-29 04:14:47'),
-(193, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 6, 0, 190000, '', 0, '2023-10-29 04:15:27'),
-(194, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 6, 0, 190000, '', 0, '2023-10-29 04:23:04'),
-(195, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 0, 0, 165000, '', 0, '2023-10-29 04:26:09'),
-(196, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 1, 0, 190000, '', 0, '2023-10-29 04:27:49'),
-(197, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 1, 0, 190000, '', 1, '2023-10-29 04:31:24'),
-(198, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 6, 0, 100000, '', 0, '2023-10-29 06:24:19'),
-(199, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 1, 0, 190000, '', 0, '2023-10-29 06:27:52'),
-(200, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 1, 0, 190000, '', 0, '2023-10-29 06:33:02'),
-(201, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 0, 0, 190000, '', 1, '2023-10-29 06:36:33'),
-(202, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 6, 0, 190000, '', 0, '2023-10-29 06:40:05'),
-(203, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 1, 0, 310000, '', 0, '2023-10-29 06:45:42'),
-(204, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 6, 0, 190000, '', 0, '2023-10-29 06:47:36'),
-(205, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 6, 0, 190000, '', 0, '2023-10-29 07:18:21'),
-(206, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 6, 0, 190000, '', 0, '2023-10-29 07:52:14'),
-(207, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 1, 0, 310000, '', 0, '2023-10-29 08:01:47'),
-(208, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 6, 0, 190000, '', 0, '2023-10-29 08:06:07'),
-(209, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 1, 0, 190000, '', 0, '2023-10-29 08:07:42'),
-(210, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 1, 0, 190000, '', 0, '2023-10-29 08:08:21'),
-(211, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 1, 0, 190000, '', 0, '2023-10-29 08:10:41'),
-(212, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 0, 0, 190000, '', 0, '2023-10-29 08:15:46'),
-(213, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 1, 0, 190000, '', 0, '2023-10-29 08:39:48'),
-(214, 1, '22 Lang Hai', NULL, '935540795', 6, 0, 120000, '', 0, '2023-10-29 08:40:03'),
-(215, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 6, 0, 85000, '', 0, '2023-10-29 10:24:43'),
-(216, 1, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '0935540795', 6, 0, 120000, '', 0, '2023-10-29 10:47:12'),
-(217, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 6, 0, 660000, '', 0, '2023-10-30 06:52:10'),
-(218, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 6, 0, 165000, '', 0, '2023-10-30 07:00:01'),
-(219, 1, 'test', NULL, '0357369820', 6, 0, 165000, '', 0, '2023-10-30 07:01:16'),
-(220, 1, '190 Nguyễn Thái Sơn, Phường 4, Quận Gò Vấp', NULL, '935540795', 6, 0, 165000, '', 0, '2023-10-30 07:02:51'),
-(221, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 6, 0, 240000, '', 0, '2023-10-30 07:04:08'),
-(222, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 6, 0, 165000, '', 0, '2023-10-30 07:06:19'),
-(223, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 6, 0, 190000, '', 0, '2023-10-30 07:08:02'),
-(224, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 6, 0, 600000, '', 0, '2023-10-30 07:11:49'),
-(225, 1, 'test', NULL, '0357369820', 6, 0, 0, '', 0, '2023-10-30 07:13:39'),
-(226, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 6, 0, 0, '', 0, '2023-10-30 07:14:24'),
-(227, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 6, 0, 330000, '', 0, '2023-10-30 07:15:05'),
-(228, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 1, 0, 1005000, '', 1, '2023-10-30 07:33:49'),
-(229, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 0, 0, 990000, '', 1, '2023-10-30 08:22:09'),
-(230, 1, 'test', NULL, '0357369820', 0, 150000, 1170000, '', 1, '2023-10-30 08:37:30'),
-(231, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 1, 150000, 1170000, '', 0, '2023-10-30 09:30:53'),
-(232, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 0, 0, 1155000, '', 1, '2023-10-30 10:22:39'),
-(233, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 6, 0, 990000, '', 0, '2023-10-30 10:32:50'),
-(234, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 0, 0, 1155000, '', 1, '2023-10-30 10:39:31'),
-(235, 1, '566/72/63R Nguyễn Thái Sơn, P.5, Quận Gò Vấp', NULL, '0935540795', 6, 20, 1320000, '', 0, '2023-10-30 14:31:03'),
-(246, 14, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 0, 0, 510000, '', 1, '2023-10-31 05:32:29'),
-(247, 14, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 0, 150000, 450000, '', 1, '2023-10-31 06:47:56'),
-(248, 14, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 0, 150000, 450000, '', 1, '2023-10-31 06:50:42'),
-(249, 14, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 0, 10, 540000, '', 1, '2023-10-31 06:53:08'),
-(250, 14, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 0, 0, 70000, '', 1, '2023-10-31 06:54:47'),
-(251, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 0, 2000000, 10170000, '', 0, '2023-10-31 09:06:06'),
-(252, 14, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 6, 150000, 620000, '', 0, '2023-10-31 11:08:06'),
-(253, 1, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 0, 0, 595000, '', 1, '2023-10-31 12:56:30'),
-(254, 1, '566/72/63R Nguyễn Thái Sơn, P.5, Quận Gò Vấp', NULL, '0935540795', 0, 150000, 450000, '', 1, '2023-10-31 14:16:54'),
-(278, 18, 'ad', NULL, '385273123', 1, 10000, 155000, 'ad', 1, '2023-12-02 01:01:06'),
-(279, 25, 'add', NULL, '385273123', 0, 0, 285000, NULL, 1, '2023-12-02 08:34:40'),
-(280, 18, 'ass', NULL, '385273123', 1, 0, 165000, NULL, 0, '2023-12-02 09:22:32'),
-(281, 18, 'asss', NULL, '385273123', 0, 0, 285000, NULL, 1, '2023-12-02 09:24:27'),
-(282, 18, 'aaaaa', NULL, '385273123', 1, 0, 835000, NULL, 1, '2023-12-02 09:31:17'),
-(283, 18, 'ahaha', NULL, '385273123', 0, 0, 835000, NULL, 1, '2023-12-02 10:47:06'),
-(284, 25, 'aw', NULL, '385273123', 0, 10000, 360000, NULL, 1, '2023-12-03 06:10:19'),
-(285, 25, 'a123', NULL, '385273123', 0, 10000, 3240000, NULL, 1, '2023-12-03 06:16:22'),
-(286, 25, 'a123', NULL, '385273123', 0, 10000, 3240000, NULL, 1, '2023-12-03 06:16:46'),
-(287, 25, '123', NULL, '385273123', 0, 10000, 3240000, NULL, 1, '2023-12-03 06:17:47'),
-(288, 25, 'ad123', NULL, '385273123', 0, 0, 3250000, NULL, 1, '2023-12-03 07:23:11'),
-(289, 25, '123', NULL, '385273123', 0, 10000, 275000, NULL, 1, '2023-12-03 07:26:51'),
-(290, 25, '123', NULL, '385273123', 0, 0, 275000, NULL, 1, '2023-12-03 07:27:28'),
-(291, 18, 'ad', NULL, '385273123', 0, 0, 165000, NULL, 1, '2023-12-03 07:31:53'),
-(292, 18, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 0, 0, 120000, NULL, 0, '2023-12-06 00:51:27'),
-(293, 18, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 1, 0, 220000, NULL, 0, '2023-12-06 00:52:01'),
-(294, 18, 'test', NULL, '0357369820', 6, 0, 420000, NULL, 0, '2023-12-06 00:56:58'),
-(295, 18, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 1, 0, 100000, NULL, 0, '2023-12-06 00:58:12'),
-(296, 18, '15 An Nhon', NULL, '0935540795', 0, 0, 900000, NULL, 0, '2023-12-06 01:20:50'),
-(297, 18, '285/6/8 Phạm Văn Chiêu, P.14, Quận Gò Vấp', NULL, '0935540795', 6, 0, 1020000, NULL, 0, '2023-12-06 01:22:58'),
-(298, 28, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 0, 120000, 1055000, NULL, 1, '2023-12-09 20:37:19'),
-(299, 28, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 0, 0, 90000, NULL, 1, '2023-12-09 20:39:40'),
-(300, 28, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 0, 120000, 1055000, NULL, 1, '2023-12-09 20:46:14'),
-(301, 30, '19/21A Vo Van Ngan', NULL, '0917407137', 1, 120000, 120000, 'NO NOTE', 0, '2023-12-10 13:41:22'),
-(302, 30, '19/21A Vo Van Ngan', NULL, '0917407137', 1, 120000, 120000, 'NO NOTE', 0, '2023-12-10 13:41:52'),
-(303, 31, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 0, 0, 160000, 'hhhh', 1, '2023-12-11 08:11:23'),
-(304, 31, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 6, 0, 90000, 'gaga', 0, '2023-12-11 08:12:06'),
-(305, 31, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 6, 0, 90000, '12312', 0, '2023-12-11 08:12:35'),
-(306, 31, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 1, 0, 2795000, '123123', 0, '2023-12-11 08:13:38'),
-(307, 26, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 1, 10, 495000, 'NO NOTE', 0, '2023-12-12 15:59:35'),
-(308, 26, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 1, 0, 550000, NULL, 1, '2023-12-12 16:03:49'),
-(309, 26, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 5, 0, 550000, NULL, 1, '2023-12-12 16:22:11'),
-(310, 26, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 0, 0, 550000, NULL, 1, '2023-12-12 17:06:54'),
-(311, 26, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 5, 0, 550000, NULL, 1, '2023-12-12 17:07:17'),
-(312, 26, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 5, 0, 550000, NULL, 1, '2023-12-12 17:08:19'),
-(313, 26, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 5, 0, 550000, '123123', 1, '2023-12-12 17:12:42'),
-(314, 26, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 1, 0, 120000, NULL, 1, '2023-12-12 17:13:34'),
-(315, 26, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 5, 0, 120000, NULL, 1, '2023-12-12 17:20:31'),
-(316, 31, '123', NULL, '978533147', 6, 0, 120000, NULL, 0, '2023-12-12 17:28:08'),
-(317, 31, '123', NULL, '978533147', 0, 0, 120000, '22', 1, '2023-12-12 17:28:49'),
-(318, 31, '123', NULL, '978533147', 0, 0, 575000, NULL, 1, '2023-12-12 17:37:47'),
-(319, 31, 'Cvc', NULL, '978533147', 0, 120000, 210000, NULL, 1, '2023-12-12 19:12:38'),
-(320, 31, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 4, 120000, 130000, NULL, 1, '2023-12-12 21:01:37'),
-(321, 31, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 0, 0, 220000, '12312', 1, '2023-12-12 21:08:05'),
-(322, 31, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 5, 0, 120000, NULL, 1, '2023-12-12 21:10:28'),
-(323, 31, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 1, 120000, 3375000, '123123', 0, '2023-12-12 21:11:52'),
-(324, 31, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 1, 10, 3145500, '123', 0, '2023-12-12 21:15:46'),
-(325, 26, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '+84935540795', 1, 10, 3919500, 'Chúc mừng sinh nhật', 1, '2023-12-12 21:34:19'),
-(326, 31, '123123', NULL, '978533147', 1, 0, 745000, NULL, 1, '2023-12-12 23:24:49'),
-(327, 26, 'ad', NULL, '935540795', 5, 0, 4355000, NULL, 1, '2023-12-13 00:09:13'),
-(328, 31, '01 Võ Văn Ngân', NULL, '978533147', 3, 120000, 2115000, NULL, 0, '2023-12-13 13:13:33'),
-(329, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 0, 0, 120000, NULL, 1, '2023-12-13 16:01:22'),
-(330, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 5, 0, 360000, NULL, 1, '2023-12-13 16:09:53'),
-(331, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 6, 0, 1590000, 'Chúc mừng sinh nhật', 0, '2023-12-13 16:21:21'),
-(332, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 5, 120000, 1470000, NULL, 1, '2023-12-13 16:22:06'),
-(333, 33, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '084935540795', 0, 0, 120000, NULL, 1, '2023-12-13 16:45:53'),
-(334, 33, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', NULL, '084935540795', 0, 10, 4320000, 'Chúc mừng sinh nhật', 0, '2023-12-13 21:40:27'),
-(335, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 1, 0, 465000, 'Chúc mừng sinh nhật', 1, '2023-12-13 21:45:41'),
-(336, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 3, 0, 465000, NULL, 0, '2023-12-13 21:47:11'),
-(337, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 6, 0, 120000, NULL, 0, '2023-12-13 21:53:11'),
-(338, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 3, 0, 120000, NULL, 0, '2023-12-13 21:54:05'),
-(339, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 5, 0, 400000, NULL, 1, '2023-12-15 12:09:28'),
-(340, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 1, 10, 4131000, 'Chúc mừng sinh nhật', 0, '2023-12-17 00:07:21'),
-(341, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 0, 0, 300000, NULL, 1, '2023-12-17 00:19:25'),
-(342, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 5, 0, 800000, NULL, 1, '2023-12-17 00:21:02'),
-(343, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 5, 0, 4590000, NULL, 1, '2023-12-17 00:22:54'),
-(344, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 5, 0, 120000, NULL, 1, '2024-03-21 07:30:53'),
-(345, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 5, 0, 220000, NULL, 1, '2024-03-21 07:43:32'),
-(346, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 5, 0, 220000, NULL, 1, '2024-03-21 07:50:47'),
-(347, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 5, 0, 220000, NULL, 1, '2024-03-21 08:04:38'),
-(348, 35, 'se', NULL, '0385273875', 0, 0, 220000, NULL, 1, '2024-03-21 08:05:36'),
-(349, 35, 'se', NULL, '0385273875', 0, 0, 220000, NULL, 1, '2024-03-21 08:10:02'),
-(350, 35, 'se', NULL, '0385273875', 0, 0, 220000, NULL, 1, '2024-03-21 08:10:14'),
-(351, 35, 'se', NULL, '0385273875', 0, 0, 220000, NULL, 1, '2024-03-21 08:11:38'),
-(352, 35, 'se', NULL, '0385273875', 0, 0, 220000, NULL, 1, '2024-03-21 08:12:53'),
-(353, 35, 'se', NULL, '0385273875', 0, 0, 220000, NULL, 1, '2024-03-21 08:14:12'),
-(354, 35, 'se', NULL, '0385273875', 0, 0, 220000, NULL, 1, '2024-03-21 08:14:56'),
-(355, 35, 'se', NULL, '0385273875', 0, 0, 220000, NULL, 1, '2024-03-21 08:15:17'),
-(356, 35, 'acs', NULL, '0385273875', 0, 0, 310000, NULL, 1, '2024-03-21 08:16:04'),
-(357, 35, 'acs', NULL, '0385273875', 0, 0, 310000, NULL, 1, '2024-03-21 08:16:41'),
-(358, 35, 'acs', NULL, '0385273875', 0, 0, 310000, NULL, 1, '2024-03-21 08:18:36'),
-(359, 35, 'acs', NULL, '0385273875', 0, 0, 310000, NULL, 1, '2024-03-21 08:18:46'),
-(360, 35, 'acs', NULL, '0385273875', 0, 0, 310000, NULL, 1, '2024-03-21 08:18:56'),
-(361, 35, 'acs', NULL, '0385273875', 0, 0, 310000, NULL, 1, '2024-03-21 08:19:42'),
-(362, 35, 'acs', NULL, '0385273875', 0, 0, 310000, NULL, 1, '2024-03-21 08:20:07'),
-(363, 35, 'acs', NULL, '0385273875', 0, 0, 310000, NULL, 1, '2024-03-21 08:20:24'),
-(364, 35, 'acs', NULL, '0385273875', 0, 0, 310000, NULL, 1, '2024-03-21 08:25:10'),
-(365, 35, 'acs', NULL, '0385273875', 0, 0, 310000, NULL, 1, '2024-03-21 08:25:31'),
-(366, 35, 'acs', NULL, '0385273875', 0, 0, 310000, NULL, 1, '2024-03-21 08:26:09'),
-(367, 35, 'acs', NULL, '0385273875', 0, 0, 310000, NULL, 1, '2024-03-21 08:26:30'),
-(368, 35, 'acs', NULL, '0385273875', 0, 0, 310000, NULL, 1, '2024-03-21 08:27:14'),
-(369, 35, 'acs', NULL, '0385273875', 0, 0, 310000, NULL, 1, '2024-03-21 08:27:35'),
-(370, 35, 'acs', NULL, '0385273875', 0, 0, 310000, NULL, 1, '2024-03-21 08:31:51'),
-(371, 35, 'acs', NULL, '0385273875', 0, 0, 310000, NULL, 1, '2024-03-21 08:32:00'),
-(372, 35, 'ùaw', NULL, '0385273875', 0, 0, 530000, NULL, 1, '2024-03-21 08:40:33'),
-(373, 35, 'ùaw', NULL, '0385273875', 0, 0, 530000, NULL, 1, '2024-03-21 08:41:40'),
-(374, 35, 'svavs', NULL, '0385273875', 0, 0, 420000, NULL, 1, '2024-03-21 08:44:22'),
-(375, 35, 'Av', NULL, '0385273875', 0, 0, 380000, NULL, 1, '2024-03-21 08:48:20'),
-(376, 35, 'avs', NULL, '0385273875', 0, 0, 2690000, NULL, 1, '2024-03-21 08:53:44'),
-(377, 35, 'àawf', NULL, '0385273875', 0, 0, 420000, NULL, 1, '2024-03-21 08:59:29'),
-(378, 35, 'savasv', NULL, '0385273875', 0, 0, 420000, NULL, 1, '2024-03-21 09:05:41'),
-(379, 35, '219 Hoàng Diệu 2, Linh Trung', NULL, '0385273875', 0, 10, 181000, NULL, 1, '2024-03-30 00:45:59'),
-(380, 35, 'hoàng diệu 2', NULL, '0385273875', 0, 0, 200000, NULL, 1, '2024-03-31 01:33:32'),
-(381, 35, 'hoàng diệu 2', NULL, '0385273875', 0, 0, 200000, NULL, 1, '2024-03-31 21:45:31'),
-(382, 35, 'gvấpò', NULL, '0385273875', 0, 0, 317000, NULL, 1, '2024-04-13 07:41:57'),
-(383, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 5, 0, 5590000, NULL, 1, '2024-04-16 05:45:45'),
-(384, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 0, 0, 5590000, NULL, 1, '2024-04-16 05:47:29'),
-(385, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 5, 0, 5590000, NULL, 1, '2024-04-16 05:48:30'),
-(386, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 0, 0, 4590000, NULL, 1, '2024-04-16 05:48:55'),
-(387, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 5, 0, 990000, NULL, 1, '2024-04-16 05:49:34'),
-(388, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 5, 0, 960000, NULL, 1, '2024-04-16 06:04:28'),
-(389, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 0, 0, 12312330, NULL, 1, '2024-04-18 17:29:17'),
-(390, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 5, 0, 301000, NULL, 1, '2024-04-18 17:52:19'),
-(391, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 5, 0, 301000, NULL, 1, '2024-04-18 17:55:05'),
-(392, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 0, 0, 301000, NULL, 1, '2024-04-18 18:08:54'),
-(393, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 5, 0, 301000, NULL, 1, '2024-04-18 18:08:58'),
-(394, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 5, 0, 2520000, NULL, 1, '2024-04-18 18:13:03'),
-(395, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', NULL, '0935540795', 3, 0, 870000, NULL, 0, '2024-04-18 20:03:32'),
-(396, 26, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', 19500, '0935540795', 0, 0, 21950000, NULL, 1, '2024-05-10 01:04:14');
+INSERT INTO `orders` (`order_id`, `order_code`, `user_id`, `address`, `shipping_fee`, `phone`, `status`, `coupon_discount`, `total`, `note`, `checkout`, `created_at`) VALUES
+(397, '27-12052024-142000', 27, 'gò vấp', 27000, '0987788611', 0, 0, 142000, NULL, 1, '2024-05-12 03:24:30'),
+(398, '27-12052024-117000', 27, 'gò vấp', 27000, '0987788611', 4, 0, 117000, NULL, 1, '2024-05-12 03:42:43'),
+(399, '27-13052024-211000', 27, 'gò vấp', 21000, '0987788611', 0, 0, 211000, NULL, 1, '2024-05-12 21:53:38'),
+(400, '35-13052024-211000', 35, 'gvấpò', 21000, '0385273875', 0, 0, 211000, NULL, 1, '2024-05-12 21:55:32');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `order_details`
+-- Table structure for table `order_details`
 --
 
 CREATE TABLE `order_details` (
@@ -541,7 +361,7 @@ CREATE TABLE `order_details` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `order_details`
+-- Dumping data for table `order_details`
 --
 
 INSERT INTO `order_details` (`order_id`, `product_name`, `discount_price`, `product_quantity`, `cost`, `product_id`, `type_id`, `product_image`, `orderdetail_id`) VALUES
@@ -984,12 +804,16 @@ INSERT INTO `order_details` (`order_id`, `product_name`, `discount_price`, `prod
 (396, 'Cà chua Nhật Bản (kg)', 110000, 10, 1100000, 55, 3, 'cachua.png', 507),
 (396, 'Ớt chuông đỏ (kg)', 60000, 10, 600000, 23, 3, 'otchuongdo.png', 508),
 (396, 'Vải thiều loại to (kg)', 85000, 10, 850000, 21, 1, 'vaithieuloaito.png', 509),
-(396, 'Dâu tây đỏ ngọt (kg)', 100000, 10, 1000000, 18, 1, 'dautay.png', 510);
+(396, 'Dâu tây đỏ ngọt (kg)', 100000, 10, 1000000, 18, 1, 'dautay.png', 510),
+(397, 'Tỏi cay Kazakhstan (kg)', 115000, 1, 115000, 128, 3, 'image1715360710-Tỏi cay Kazakhstan (kg).png', 511),
+(398, 'Chanh dây Nga tươi (kg)', 90000, 1, 90000, 16, 1, 'chanhday.png', 512),
+(399, 'Hồng đỏ Nam Mỹ (kg)', 190000, 1, 190000, 11, 1, 'hongdomy.png', 513),
+(400, 'Hồng đỏ Nam Mỹ (kg)', 190000, 1, 190000, 11, 1, 'hongdomy.png', 514);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `payments`
+-- Table structure for table `payments`
 --
 
 CREATE TABLE `payments` (
@@ -1003,7 +827,7 @@ CREATE TABLE `payments` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `payments`
+-- Dumping data for table `payments`
 --
 
 INSERT INTO `payments` (`order_id`, `total_cost`, `bankcode`, `content`, `card_type`, `status`, `created_at`) VALUES
@@ -1064,7 +888,7 @@ INSERT INTO `payments` (`order_id`, `total_cost`, `bankcode`, `content`, `card_t
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `products`
+-- Table structure for table `products`
 --
 
 CREATE TABLE `products` (
@@ -1081,32 +905,32 @@ CREATE TABLE `products` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `products`
+-- Dumping data for table `products`
 --
 
 INSERT INTO `products` (`id`, `name`, `manu_id`, `type_id`, `price`, `discount_price`, `pro_image`, `description`, `feature`, `created_at`) VALUES
-(96, 'Nho Pháp thượng hạng (kg)', 18, 1, 190000, 150000, 'image1715349937-Nho Pháp thượng hạng (kg).png', 'Loại nho Pháp thượng hạng này được Napoleon cho trồng vào giữa thế kỷ XVII và thịnh hành đến bây giờ. Được mình nhập khẩu chui về bán cho bạn ăn<br>', 1, '2023-12-11 14:07:51'),
+(96, 'Nho Pháp thượng hạng (kg)', 18, 1, 190000, 348500, 'image1715349937-Nho Pháp thượng hạng (kg).png', 'Loại nho Pháp thượng hạng này được Napoleon cho trồng vào giữa thế kỷ XVII và thịnh hành đến bây giờ. Được mình nhập khẩu chui về bán cho bạn ăn<br>', 1, '2023-12-11 14:07:51'),
 (23, 'Ớt chuông đỏ (kg)', 18, 3, 240000, 60000, 'otchuongdo.png', 'Ớt chuông đỏ cung cấp nhiều Vitamin D. Loại này ít cay nhưng ngon khi xào chung với Mực', 1, '2022-11-18 08:20:15'),
-(22, 'Bánh kem Matcha', 18, 2, 890000, 600000, 'banhkemmatcha.jpg', 'Bánh kem matcha trà xanh, cực kỳ thơm ngon. Được khá nhiều người ưa chuộng', 1, '2022-11-18 08:22:01'),
+(22, 'Bánh kem Matcha', 18, 2, 890000, 390000, 'banhkemmatcha.jpg', 'Bánh kem matcha trà xanh, cực kỳ thơm ngon. Được khá nhiều người ưa chuộng', 1, '2022-11-18 08:22:01'),
 (17, 'Bánh kem Táo Hàn Quốc', 18, 2, 1120000, 550000, 'banhkemtao.jpg', 'Bánh kem táo Hàn Quốc siêu đẹp và ngon', 0, '2022-11-18 08:21:15'),
 (18, 'Dâu tây đỏ ngọt (kg)', 18, 1, 160000, 100000, 'dautay.png', 'Loại dâu tây này siêu ngọt và thơm. Ăn ngon nhé bạn', 1, '2022-11-18 08:21:01'),
 (21, 'Vải thiều loại to (kg)', 18, 1, 140000, 85000, 'vaithieuloaito.png', 'Vải thiều loại to, tươi mới mỗi ngày. Cung cấp Vitamin tốt cho sức khỏe', 1, '2022-11-18 08:20:52'),
 (16, 'Chanh dây Nga tươi (kg)', 18, 1, 120000, 90000, 'chanhday.png', 'Loại chanh dây đặc biệt này chỉ trồng được ở nước Hàn Đới như Nga, nên đừng thắc ắc giá cả. Mua ăn liền đi nhé!!!', 1, '2022-11-18 08:21:23'),
-(13, 'Dưa leo Ấn Độ (kg)', 18, 3, 120000, 50000, 'dualeoando.png', 'Dưa leo Ấn Độ chỉ được trồng ở Ấn Độ. Không xuất khẩu, nay có ở Việt Nam nhờ tui buôn l*u. Mua ăn đi nhé!!!', 1, '2022-11-18 08:21:34'),
+(13, 'Dưa leo Ấn Độ (kg)', 18, 3, 120000, 72000, 'dualeoando.png', 'Dưa leo Ấn Độ chỉ được trồng ở Ấn Độ. Không xuất khẩu, nay có ở Việt Nam nhờ tui buôn l*u. Mua ăn đi nhé!!!', 1, '2022-11-18 08:21:34'),
 (12, 'Bánh kem Matcha Nho', 18, 2, 990000, 870000, 'banhkemnhomatcha.jpg', 'Sản phẩm tốt với giá thành rẻ. Ngon mà đẹp, thích hợp với sinh viên', 1, '2022-11-18 08:21:53'),
 (11, 'Hồng đỏ Nam Mỹ (kg)', 18, 1, 225000, 190000, 'hongdomy.png', 'Hồng đỏ tươi Nam Mỹ, cung cấp nhiều khoáng chất tốt cho cơ thể', 1, '2022-11-18 08:22:12'),
-(7, 'Cà tím Châu Phi (kg)', 18, 3, 180000, 120000, 'catim.jpg', 'Loại cà tím Châu Phi này to thì khỏi phải nói :)). Ăn thì cũng ngon, làm ngất ngây bao nhiêu chị em. Mua ăn thử bạn nhé', 1, '2022-11-18 08:22:20'),
-(5, 'Bánh kem dâu Ý', 18, 2, 1600000, 1200000, 'banhkemdau.jpg', 'Xuất xứ từ Ý, du nhập Việt Nam năm 2022. Mới lạ và đang là xu hướng', 0, '2022-11-18 08:22:28'),
-(3, 'Chanh tươi Irag (kg)', 18, 3, 500000, 250000, 'chanhtuoiirag.png', 'Loại tranh xuất xứ từ những anh Iran, Irag đẹp trai. Khủng b*, nên chanh này ăn ngon và hấp dẫn. Tận hưởng những phút giây như bị kh**g bố khi ăn nó', 0, '2022-11-18 08:22:41'),
+(7, 'Cà tím Châu Phi (kg)', 18, 3, 180000, 93600, 'catim.jpg', 'Loại cà tím Châu Phi này to thì khỏi phải nói :)). Ăn thì cũng ngon, làm ngất ngây bao nhiêu chị em. Mua ăn thử bạn nhé', 1, '2022-11-18 08:22:20'),
+(5, 'Bánh kem dâu Ý', 18, 2, 1600000, 800000, 'banhkemdau.jpg', 'Xuất xứ từ Ý, du nhập Việt Nam năm 2022. Mới lạ và đang là xu hướng', 0, '2022-11-18 08:22:28'),
+(3, 'Chanh tươi Irag (kg)', 18, 3, 500000, 300000, 'chanhtuoiirag.png', 'Loại tranh xuất xứ từ những anh Iran, Irag đẹp trai. Khủng b*, nên chanh này ăn ngon và hấp dẫn. Tận hưởng những phút giây như bị kh**g bố khi ăn nó', 0, '2022-11-18 08:22:41'),
 (55, 'Cà chua Nhật Bản (kg)', 18, 3, 160000, 110000, 'cachua.png', 'Do Thiên Hoàng Minh Trị trồng từ thời chiến tranh thế giới thứ 2. Đặc biệt loại này không dính phóng xạ nên ăn bổ lắm nha.', 0, '2022-11-18 08:19:46'),
 (54, 'Cà rốt Bắc Mỹ (kg)', 18, 3, 180000, 120000, 'carot.png', 'Cà rốt Bắc Mỹ do ông Donald Trump đích thân trồng tại nông trại. Không qua bất cứ máy móc và hóa chất. Nên rất ngon và đắt', 1, '2022-11-18 08:19:55'),
 (53, 'Cải thìa Triều Tiên (kg)', 18, 3, 190000, 70000, 'caithia.png', 'Cải thìa Triều Tiên do ông Kim trồng ăn rất ngon nhé. Mua ăn thử đi biết', 1, '2022-11-18 08:20:02'),
-(1, 'Bánh kem bơ Pháp', 18, 2, 850000, 620000, 'banhkembophap.jpg', '<font color=\"#000000\" style=\"\">Vẫn sở hữu phần cốt bánh bông lan xốp mịn, điều làm cho những chiếc bánh kem này trở nên đặc biệt và cuốn hút nằm ở phần kem bơ.\r\n\r\nKem bơ Pháp được làm từ những nguyên liệu gồm lòng đỏ trứng, syrup đường và bơ lạt. Nhờ sử dụng thêm lòng đỏ trứng, thành phẩm kem bơ sẽ có hương vị cực kì thơm ngon, mềm mượt và tan ngay khi vào miệng.\r\n\r\nNhững người thợ tài hoa của Grand Castella còn tận dụng phần kem bơ này, sáng tạo nên những hình ảnh trang trí độc đáo, giúp chiếc bánh kem đã ngon nay trở nên xinh đẹp hơn.</font>', 0, '2021-10-22 04:15:10'),
-(104, 'Bánh kem cặp đôi cute', 18, 2, 650000, 450000, 'image1715345866-Bánh kem cặp đôi cute.png', 'Bánh kem dành cho các cặp đôi yêu nhau, tặng nhau những ngày ý nghĩa, ngày lễ, ngày kỷ niệm... Với thiết kế dễ thương và hương vị đặc biệt thơm ngon', 1, '2024-05-10 12:57:46'),
+(1, 'Bánh kem bơ Pháp', 18, 2, 850000, 348500, 'banhkembophap.jpg', '<font color=\"#000000\" style=\"\">Vẫn sở hữu phần cốt bánh bông lan xốp mịn, điều làm cho những chiếc bánh kem này trở nên đặc biệt và cuốn hút nằm ở phần kem bơ.\r\n\r\nKem bơ Pháp được làm từ những nguyên liệu gồm lòng đỏ trứng, syrup đường và bơ lạt. Nhờ sử dụng thêm lòng đỏ trứng, thành phẩm kem bơ sẽ có hương vị cực kì thơm ngon, mềm mượt và tan ngay khi vào miệng.\r\n\r\nNhững người thợ tài hoa của Grand Castella còn tận dụng phần kem bơ này, sáng tạo nên những hình ảnh trang trí độc đáo, giúp chiếc bánh kem đã ngon nay trở nên xinh đẹp hơn.</font>', 0, '2021-10-22 04:15:10'),
+(104, 'Bánh kem cặp đôi cute', 18, 2, 650000, 357500, 'image1715345866-Bánh kem cặp đôi cute.png', 'Bánh kem dành cho các cặp đôi yêu nhau, tặng nhau những ngày ý nghĩa, ngày lễ, ngày kỷ niệm... Với thiết kế dễ thương và hương vị đặc biệt thơm ngon', 1, '2024-05-10 12:57:46'),
 (103, 'Kiwi ngọt Brazil (kg)', 18, 1, 320000, 280000, 'image1715327867-Kiwi ngọt Brazil (kg).png', 'Kiwi được hái từ trong rừng Amazon tại Brazil, hương vị phải nói là ngây ngất lòng người, ăn 1 lần là lần sau khỏi ăn luôn', 1, '2024-05-10 07:57:47'),
 (105, 'Bánh kem cho bé', 18, 2, 450000, 350000, 'image1715345948-Bánh kem cho bé.png', 'Bánh kem dành cho những bé nhỏ với thiết kế dễ thương, phong cách Hàn Quốc', 0, '2024-05-10 12:59:08'),
-(106, 'Bánh kem KitKat', 18, 2, 890000, 800000, 'image1715346040-Bánh kem Chocolate KitKat.png', 'Bánh kem với vị ngon đặc trưng của Socola và được tạo một cách tỉ mỉ theo phong cách của thương hiệu KitKat', 1, '2024-05-10 13:00:40'),
-(107, 'Bánh kem sữa béo ngậy', 18, 2, 670000, 570000, 'image1715346106-Bánh kem sữa thơm ngon béo ngậy.png', 'Bánh kem gồm hương vị sữa + phô mai thơm ngon béo ngậy', 1, '2024-05-10 13:01:46'),
+(106, 'Bánh kem KitKat', 18, 2, 890000, 445000, 'image1715346040-Bánh kem Chocolate KitKat.png', 'Bánh kem với vị ngon đặc trưng của Socola và được tạo một cách tỉ mỉ theo phong cách của thương hiệu KitKat', 1, '2024-05-10 13:00:40'),
+(107, 'Bánh kem sữa béo ngậy', 18, 2, 670000, 301500, 'image1715346106-Bánh kem sữa thơm ngon béo ngậy.png', 'Bánh kem gồm hương vị sữa + phô mai thơm ngon béo ngậy', 1, '2024-05-10 13:01:46'),
 (108, 'Bánh kem Nhật Bản', 18, 2, 890000, 780000, 'image1715346190-Bánh kem phong cách đơn giản Nhật Bản.png', 'Bánh kem theo phong cách Nhật Bản, thiết kế đơn giản nhưng rất thơm ngon, khiến khách hàng ăn 1 lần là nhớ cả đời', 1, '2024-05-10 13:03:10'),
 (109, 'Bắp Indonesia (kg)', 18, 3, 120000, 78000, 'image1715360800-Bắp Indonesia (kg).jpg', 'Bắp này được trồng ở Indo, với từng hạt ngon ngọt, thơm nứt mũi', 0, '2024-05-10 15:56:28'),
 (110, 'Bắp cải trắng Malaysia (kg)', 18, 3, 250000, 210000, 'image1715356698-Bắp cải trắng Malaysia (kg).jpg', 'Bắp cải trắng tốt cho sức khỏe, cung cấp nhiều khoáng chất cho cơ thể được nhập khẩu từ Malaysia', 0, '2024-05-10 15:58:18'),
@@ -1115,8 +939,8 @@ INSERT INTO `products` (`id`, `name`, `manu_id`, `type_id`, `price`, `discount_p
 (113, 'Cam tươi Trung Quốc (kg)', 18, 1, 340000, 310000, 'image1715359193-Cam tươi Trung Quốc (kg).jpg', 'Loại cam được trồng ở đất nước tỷ dân, không thiếu người chăm bón nên về độ ngon thì không cần bàn cãi', 0, '2024-05-10 16:03:18'),
 (114, 'Cherry Campuchia (kg)', 18, 1, 890000, 760000, 'image1715359203-Cherry đỏ ngọt Campuchia.jpg', 'Loại Cherry đỏ ngọt được trồng và xuất khẩu tại Campuchia, có thể nói loại trái cây này chỉ dành cho những giới thượng lưu :))', 1, '2024-05-10 16:04:35'),
 (115, 'Đậu Hà Lan Brunei (kg)', 18, 3, 210000, 180000, 'image1715357176-Đậu Hà Lan Brunei (kg).jpg', 'Đậu Hà Lan là loại đậu hạt tròn thuộc Chi Đậu Hà Lan, dùng làm thực phẩm. Đây là loài thực vật một năm, được trồng theo vụ vào mùa có khí hậu mát mẻ tại nhiều nơi trên thế giới.', 0, '2024-05-10 16:06:16'),
-(116, 'Dưa hấu đỏ Long An (kg)', 18, 1, 450000, 420000, 'image1715359388-Dưa hấu đỏ Long An (kg).png', 'Đặc sản Long An, dưa hấu đỏ chứa nhiều khoáng chất &amp; vitamin', 0, '2024-05-10 16:07:28'),
-(117, 'Dưa hấu ruột vàng Úc (kg)', 18, 1, 650000, 620000, 'image1715359063-Dưa hấu ruột vàng Châu Phi (kg).jpg', 'Dưa hấu ruột vàng có nguồn gốc từ Châu Phi, thuộc họ bầu bí. Loại dưa hấu này có vỏ mỏng, cứng, ruột nhiều nước nên thường được lựa chọn để giải nhiệt', 1, '2024-05-10 16:09:00'),
+(116, 'Dưa hấu đỏ Long An (kg)', 18, 1, 450000, 184500, 'image1715359388-Dưa hấu đỏ Long An (kg).png', 'Đặc sản Long An, dưa hấu đỏ chứa nhiều khoáng chất &amp; vitamin', 0, '2024-05-10 16:07:28'),
+(117, 'Dưa hấu ruột vàng Úc (kg)', 18, 1, 650000, 266500, 'image1715359063-Dưa hấu ruột vàng Châu Phi (kg).jpg', 'Dưa hấu ruột vàng có nguồn gốc từ Châu Phi, thuộc họ bầu bí. Loại dưa hấu này có vỏ mỏng, cứng, ruột nhiều nước nên thường được lựa chọn để giải nhiệt', 1, '2024-05-10 16:09:00'),
 (118, 'Dừa tươi mọng nước (kg)', 18, 1, 240000, 185000, 'image1715359376-Dừa tươi mọng nước Thái Lan (kg).png', 'Tốt cho hệ tiêu hóa và hệ miễn dịch. Không chỉ đẹp dáng, đẹp da, tốt cho tim mạch mà dừa tươi còn tốt cho hệ tiêu hóa cũng như hệ miễn dịch của chúng ta', 0, '2024-05-10 16:10:26'),
 (119, 'Hành tím Myanmar (kg)', 18, 3, 150000, 120000, 'image1715357658-Hành tím Myanmar (kg).jpg', 'Trong hành tím có chứa các thành phần dinh dưỡng mang lại nhiều lợi ích sức khỏe như điều trị huyết áp cao, tăng tiết sữa mẹ, giảm rụng tóc', 1, '2024-05-10 16:14:18'),
 (120, 'Khoai tây Phillipines (kg)', 18, 3, 456000, 440000, 'image1715360742-Khoai tây Phillipines (kg).png', 'Khoai tây là loại củ mọc ngầm trên rễ của cây khoai tây, có tên tiếng Anh là Solanum tuberosum. Loại cây này thuộc bộ Cà, có liên quan đến cây cà chua và thuốc lá', 0, '2024-05-10 16:16:03'),
@@ -1124,17 +948,17 @@ INSERT INTO `products` (`id`, `name`, `manu_id`, `type_id`, `price`, `discount_p
 (122, 'Khổ qua Singapore (kg)', 18, 3, 560000, 530000, 'image1715360723-Khổ qua Singapore (kg).jpg', 'Khổ qua hay mướp đắng với nhiều tên gọi được liệt kê bên dưới, là một loài thực vật thân thảo nhiệt đới và cận nhiệt đới thuộc họ Cucurbitaceae, được trồng rộng rãi ở châu Á, châu Phi và vùng Caribe để trồng lấy quả ăn được, nhồi thịt thì hết sẩy', 0, '2024-05-10 16:19:02'),
 (123, 'Lượu đỏ ngọt Lào (kg)', 18, 1, 780000, 720000, 'image1715359689-Lượu đỏ ngọt mọng nước Lào (kg).jpg', 'Hỗ trợ trị rối loạn cương dương. Tác dụng của nước ép lựu trong việc cải thiện khả năng tình dục ở nam giới đã được chứng minh.&nbsp; Đồng thời vị của quả này rất ngon ngọt', 0, '2024-05-10 16:20:36'),
 (124, 'Súp lơ tươi Bhutan (kg)', 18, 3, 550000, 420000, 'image1715358141-Súp lơ xanh tươi Bhutan (kg).jpg', 'Bông cải trắng hay còn gọi là súp lơ, hay su lơ, bắp su lơ, hoa lơ, cải hoa hay cải bông trắng là một loại cải ăn được, thuộc loài Brassica oleracea, họ Cải, mọc quanh năm, gieo giống bằng hạt. Được trồng tại quốc gia chủ trương ăn chay theo tinh thần Phật giáo', 0, '2024-05-10 16:22:21'),
-(125, 'Táo đỏ Canada (kg)', 18, 1, 650000, 630000, 'image1715359625-Táo đỏ xuất khẩu Canada (kg).jpg', 'Táo đỏ chứa 19 loại axit amin, trong đó 8 loại axit amin thiết yếu cho cơ thể con người mỗi ngày. Ngoài ra, còn chứa một lượng lớn vitamin A, phức hợp vitamin B, C và E', 1, '2024-05-10 16:23:35'),
-(126, 'Táo xanh México (kg)', 18, 1, 550000, 430000, 'image1715359612-Táo xanh ngọt chát México (kg).jpg', 'Táo này có thể giúp kích thích tiêu hóa, phòng ngừa táo bón. Lượng chất xơ dồi dào trong táo có tác dụng nhuận tràng cực tốt.', 1, '2024-05-10 16:25:14'),
-(127, 'Thanh long ruột đỏ (kg)', 18, 1, 780000, 710000, 'image1715358382-Thanh long ruột đỏ Italia (kg).png', 'Thanh long ruột đỏ cung cấp vitamin, khoáng chất giúp tăng cường sức khỏe, đẩy lùi bệnh tật. Ăn thanh long đỏ cũng giúp thải độc cơ thể', 0, '2024-05-10 16:26:22'),
-(128, 'Tỏi cay Kazakhstan (kg)', 18, 3, 230000, 210000, 'image1715360710-Tỏi cay Kazakhstan (kg).png', 'Phòng ngừa các bệnh tim mạch. Tỏi có tác dụng hạ mức cholesterol xấu và tăng lượng cholesterol tốt trong cơ thể, giúp loại bỏ các mảnh xơ vữa', 0, '2024-05-10 16:27:36'),
-(131, 'Xoài xanh thơm Nepal (kg)', 18, 1, 570000, 550000, 'image1715358682-Xoài xanh thơm Nepal (kg).png', 'Xoài xanh là một phương thuốc tự nhiên tuyệt vời để điều trị các vấn đề về đường tiêu hóa. Nó kích thích sự tiết dịch tiêu hóa', 0, '2024-05-10 16:31:22'),
-(130, 'Xoài chín cây miền tây (kg)', 18, 1, 380000, 360000, 'image1715359760-Xoài cát chín cây miền tây (kg).jpg', 'Xoài cát Hòa Lộc là giống xoài đặc sản nổi tiếng của vùng đất Định Tường, một trong những loại trái cây chủ lực của Tiền Giang', 0, '2024-05-10 16:30:13');
+(125, 'Táo đỏ Canada (kg)', 18, 1, 650000, 390000, 'image1715359625-Táo đỏ xuất khẩu Canada (kg).jpg', 'Táo đỏ chứa 19 loại axit amin, trong đó 8 loại axit amin thiết yếu cho cơ thể con người mỗi ngày. Ngoài ra, còn chứa một lượng lớn vitamin A, phức hợp vitamin B, C và E', 1, '2024-05-10 16:23:35'),
+(126, 'Táo xanh México (kg)', 18, 1, 550000, 302500, 'image1715359612-Táo xanh ngọt chát México (kg).jpg', 'Táo này có thể giúp kích thích tiêu hóa, phòng ngừa táo bón. Lượng chất xơ dồi dào trong táo có tác dụng nhuận tràng cực tốt.', 1, '2024-05-10 16:25:14'),
+(127, 'Thanh long ruột đỏ (kg)', 18, 1, 780000, 421200, 'image1715358382-Thanh long ruột đỏ Italia (kg).png', 'Thanh long ruột đỏ cung cấp vitamin, khoáng chất giúp tăng cường sức khỏe, đẩy lùi bệnh tật. Ăn thanh long đỏ cũng giúp thải độc cơ thể', 0, '2024-05-10 16:26:22'),
+(128, 'Tỏi cay Kazakhstan (kg)', 18, 3, 230000, 115000, 'image1715360710-Tỏi cay Kazakhstan (kg).png', 'Phòng ngừa các bệnh tim mạch. Tỏi có tác dụng hạ mức cholesterol xấu và tăng lượng cholesterol tốt trong cơ thể, giúp loại bỏ các mảnh xơ vữa', 0, '2024-05-10 16:27:36'),
+(131, 'Xoài xanh thơm Nepal (kg)', 18, 1, 570000, 324900, 'image1715358682-Xoài xanh thơm Nepal (kg).png', 'Xoài xanh là một phương thuốc tự nhiên tuyệt vời để điều trị các vấn đề về đường tiêu hóa. Nó kích thích sự tiết dịch tiêu hóa', 0, '2024-05-10 16:31:22'),
+(130, 'Xoài chín cây miền tây (kg)', 18, 1, 380000, 228000, 'image1715359760-Xoài cát chín cây miền tây (kg).jpg', 'Xoài cát Hòa Lộc là giống xoài đặc sản nổi tiếng của vùng đất Định Tường, một trong những loại trái cây chủ lực của Tiền Giang', 0, '2024-05-10 16:30:13');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `protypes`
+-- Table structure for table `protypes`
 --
 
 CREATE TABLE `protypes` (
@@ -1143,7 +967,7 @@ CREATE TABLE `protypes` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `protypes`
+-- Dumping data for table `protypes`
 --
 
 INSERT INTO `protypes` (`type_id`, `type_name`) VALUES
@@ -1154,7 +978,7 @@ INSERT INTO `protypes` (`type_id`, `type_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `roles`
+-- Table structure for table `roles`
 --
 
 CREATE TABLE `roles` (
@@ -1163,7 +987,7 @@ CREATE TABLE `roles` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `roles`
+-- Dumping data for table `roles`
 --
 
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES
@@ -1173,7 +997,7 @@ INSERT INTO `roles` (`role_id`, `role_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `star_rating`
+-- Table structure for table `star_rating`
 --
 
 CREATE TABLE `star_rating` (
@@ -1186,55 +1010,42 @@ CREATE TABLE `star_rating` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `star_rating`
+-- Dumping data for table `star_rating`
 --
 
 INSERT INTO `star_rating` (`user_id`, `product_id`, `star`, `id`, `updated_at`, `created_at`) VALUES
-(35, 11, 5, 3, '2024-04-13 08:28:01', '2024-04-02 22:48:48'),
-(35, 16, 3, 4, '2024-04-12 19:16:20', '2024-04-12 19:16:20'),
-(36, 11, 5, 5, '2024-04-12 19:16:59', '2024-04-12 19:16:59'),
-(38, 11, 1, 6, '2024-04-12 19:20:31', '2024-04-12 19:20:31'),
-(38, 1, 4, 7, '2024-04-12 19:26:29', '2024-04-12 19:26:29'),
-(38, 3, 3, 8, '2024-04-12 19:26:57', '2024-04-12 19:26:57'),
-(27, 1, 2, 9, '2024-04-13 07:14:31', '2024-04-13 07:14:31'),
-(26, 18, 4, 10, '2024-05-10 11:11:18', '2024-05-10 11:11:18'),
-(26, 21, 4, 11, '2024-05-10 11:14:34', '2024-05-10 11:14:22');
+(27, 11, 3, 12, '2024-05-12 21:54:48', '2024-05-12 21:54:12'),
+(35, 11, 5, 13, '2024-05-12 21:58:10', '2024-05-12 21:58:10');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `status`
+-- Table structure for table `status`
 --
 
 CREATE TABLE `status` (
+  `id` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `status_name` varchar(100) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `status`
+-- Dumping data for table `status`
 --
 
-INSERT INTO `status` (`status`, `status_name`) VALUES
-(0, 'Đang gói hàng'),
-(1, 'Đã giao hàng'),
-(2, 'Đang thanh toán'),
-(3, 'Đã thanh toán'),
-(4, 'Đang giao hàng'),
-(5, 'Đơn đã hủy'),
-(6, 'Đã hủy thanh toán'),
-(0, 'Đang gói hàng'),
-(1, 'Đã giao hàng'),
-(2, 'Đang thanh toán'),
-(3, 'Đã thanh toán'),
-(4, 'Đang giao hàng'),
-(5, 'Đơn đã hủy'),
-(6, 'Đã hủy thanh toán');
+INSERT INTO `status` (`id`, `status`, `status_name`) VALUES
+(1, 0, 'Đang gói hàng'),
+(2, 1, 'Đã giao hàng'),
+(3, 2, 'Đang thanh toán'),
+(4, 3, 'Đã thanh toán'),
+(5, 4, 'Đang giao hàng'),
+(6, 5, 'Đơn đã hủy'),
+(7, 6, 'Đã hủy thanh toán');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -1251,11 +1062,11 @@ CREATE TABLE `users` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`user_id`, `image`, `First_name`, `Last_name`, `email`, `phone`, `address`, `username`, `password`, `role_id`) VALUES
-(27, 'image1702269401-.jpg', 'Quang', 'Đàm', 'quang@gmail.com', 987788611, '', 'quang', '$2y$10$TyLhloLXh5KOxQNsKCDdUOnJJL5YrwjjHzCjyyt0Cy6yAusNNUqkO', 1),
+(27, 'image1702269401-.jpg', 'Quang', 'Đàm', 'quang@gmail.com', 987788611, 'gò vấp', 'quang', '$2y$10$TyLhloLXh5KOxQNsKCDdUOnJJL5YrwjjHzCjyyt0Cy6yAusNNUqkO', 1),
 (26, 'admin.jpg', 'Hoang', 'Ho', 'duyhoang04244@gmail.com', 935540795, '15 An Nhơn, Phường 17, Quận Gò Vấp, Tp. Hồ Chí Minh', 'hoang', '$2y$10$p50TzDlT4qiLWvfQzdzgSObw.BrKBb.oXQSeAZH0zL0C4nS1SaZlO', 1),
 (30, 'image1702272187-.jpg', 'DIP', 'TRUONG', 'khanhdip@gmail.com', 917123456, '', 'khanhdip', '$2y$10$80OkmsUOqH3nA/2ZOuQdbevVvK1MdNxIf.N6wSHV39Fw2qDiMsRGe', 2),
 (31, 'image1702455768-.png', 'Mới', 'Khách Hàng', 'utal2322ik.com@gmail.com', 978533147, '', 'customer', '$2y$10$mU1JMFDim2fFLsewbgJPF.cfCsf2OEyr1rSIB7zIE1mgckmJa24F.', 2),
@@ -1266,17 +1077,17 @@ INSERT INTO `users` (`user_id`, `image`, `First_name`, `Last_name`, `email`, `ph
 (38, 'avatar1.png', 'Nguyen Van', 'B', 'damquang14911113@gmail.com', 385273875, NULL, 'customer3', '$2y$10$8J.6r6HPYVdxCQhm0BK4R.pgQZVQNNIFYM85RL8PX5qcShyotLY/q', 2);
 
 --
--- Chỉ mục cho các bảng đã đổ
+-- Indexes for dumped tables
 --
 
 --
--- Chỉ mục cho bảng `advertisements`
+-- Indexes for table `advertisements`
 --
 ALTER TABLE `advertisements`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `comments`
+-- Indexes for table `comments`
 --
 ALTER TABLE `comments`
   ADD PRIMARY KEY (`comm_id`),
@@ -1284,7 +1095,7 @@ ALTER TABLE `comments`
   ADD KEY `product_id` (`product_id`);
 
 --
--- Chỉ mục cho bảng `coupons`
+-- Indexes for table `coupons`
 --
 ALTER TABLE `coupons`
   ADD PRIMARY KEY (`coupon_id`,`coupon_code`),
@@ -1292,19 +1103,19 @@ ALTER TABLE `coupons`
   ADD KEY `coupon_type` (`coupon_type`);
 
 --
--- Chỉ mục cho bảng `coupons_type`
+-- Indexes for table `coupons_type`
 --
 ALTER TABLE `coupons_type`
   ADD PRIMARY KEY (`coupon_type`);
 
 --
--- Chỉ mục cho bảng `email_lists`
+-- Indexes for table `email_lists`
 --
 ALTER TABLE `email_lists`
   ADD PRIMARY KEY (`email_id`);
 
 --
--- Chỉ mục cho bảng `favorites`
+-- Indexes for table `favorites`
 --
 ALTER TABLE `favorites`
   ADD PRIMARY KEY (`id`),
@@ -1312,27 +1123,34 @@ ALTER TABLE `favorites`
   ADD KEY `product_id` (`product_id`);
 
 --
--- Chỉ mục cho bảng `inventories`
+-- Indexes for table `flash_sales`
+--
+ALTER TABLE `flash_sales`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `product_id` (`product_id`);
+
+--
+-- Indexes for table `inventories`
 --
 ALTER TABLE `inventories`
   ADD PRIMARY KEY (`inventory_id`),
   ADD UNIQUE KEY `product_id` (`product_id`);
 
 --
--- Chỉ mục cho bảng `manufactures`
+-- Indexes for table `manufactures`
 --
 ALTER TABLE `manufactures`
   ADD PRIMARY KEY (`manu_id`);
 
 --
--- Chỉ mục cho bảng `orders`
+-- Indexes for table `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`order_id`),
   ADD KEY `user_id` (`user_id`);
 
 --
--- Chỉ mục cho bảng `order_details`
+-- Indexes for table `order_details`
 --
 ALTER TABLE `order_details`
   ADD PRIMARY KEY (`orderdetail_id`),
@@ -1341,7 +1159,7 @@ ALTER TABLE `order_details`
   ADD KEY `order_id` (`order_id`);
 
 --
--- Chỉ mục cho bảng `products`
+-- Indexes for table `products`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`),
@@ -1349,108 +1167,126 @@ ALTER TABLE `products`
   ADD KEY `manu_id` (`manu_id`);
 
 --
--- Chỉ mục cho bảng `protypes`
+-- Indexes for table `protypes`
 --
 ALTER TABLE `protypes`
   ADD PRIMARY KEY (`type_id`);
 
 --
--- Chỉ mục cho bảng `roles`
+-- Indexes for table `roles`
 --
 ALTER TABLE `roles`
   ADD PRIMARY KEY (`role_id`);
 
 --
--- Chỉ mục cho bảng `star_rating`
+-- Indexes for table `star_rating`
 --
 ALTER TABLE `star_rating`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `users`
+-- Indexes for table `status`
+--
+ALTER TABLE `status`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`),
   ADD KEY `role_id` (`role_id`);
 
 --
--- AUTO_INCREMENT cho các bảng đã đổ
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT cho bảng `advertisements`
+-- AUTO_INCREMENT for table `advertisements`
 --
 ALTER TABLE `advertisements`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT cho bảng `comments`
+-- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `comm_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `comm_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
--- AUTO_INCREMENT cho bảng `coupons`
+-- AUTO_INCREMENT for table `coupons`
 --
 ALTER TABLE `coupons`
   MODIFY `coupon_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
--- AUTO_INCREMENT cho bảng `email_lists`
+-- AUTO_INCREMENT for table `email_lists`
 --
 ALTER TABLE `email_lists`
   MODIFY `email_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT cho bảng `favorites`
+-- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
--- AUTO_INCREMENT cho bảng `inventories`
+-- AUTO_INCREMENT for table `flash_sales`
+--
+ALTER TABLE `flash_sales`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+
+--
+-- AUTO_INCREMENT for table `inventories`
 --
 ALTER TABLE `inventories`
-  MODIFY `inventory_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `inventory_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
--- AUTO_INCREMENT cho bảng `manufactures`
+-- AUTO_INCREMENT for table `manufactures`
 --
 ALTER TABLE `manufactures`
   MODIFY `manu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT cho bảng `orders`
+-- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=397;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=401;
 
 --
--- AUTO_INCREMENT cho bảng `order_details`
+-- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `orderdetail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=511;
+  MODIFY `orderdetail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=515;
 
 --
--- AUTO_INCREMENT cho bảng `products`
+-- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
 
 --
--- AUTO_INCREMENT cho bảng `protypes`
+-- AUTO_INCREMENT for table `protypes`
 --
 ALTER TABLE `protypes`
   MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT cho bảng `star_rating`
+-- AUTO_INCREMENT for table `star_rating`
 --
 ALTER TABLE `star_rating`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT cho bảng `users`
+-- AUTO_INCREMENT for table `status`
+--
+ALTER TABLE `status`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;

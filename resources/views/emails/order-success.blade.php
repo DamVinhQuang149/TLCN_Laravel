@@ -19,6 +19,7 @@
     <p>Cảm ơn bạn đã đặt hàng tại cửa hàng của chúng tôi. Chúng tôi rất trân trọng sự ủng hộ của bạn.</p>
 
     <p>Dưới đây là một số thông tin về đơn hàng của bạn:</p>
+    <p>Mã đơn hàng: {{ $order->order_code }}</p>
 
     <table cellpadding="10" cellspacing="0" style="border: 1px solid #ccc; width: 100%;">
         <thead>

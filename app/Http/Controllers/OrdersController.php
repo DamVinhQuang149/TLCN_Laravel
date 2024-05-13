@@ -62,9 +62,26 @@ class OrdersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
         //
+        $keyword = $request->input('keyword');
+
+        $orders = Orders::select('orders.*', 'users.Last_name as name')
+        ->join('users', 'orders.user_id', '=', 'users.user_id')
+        ->where('orders.order_code', $keyword)
+        ->orderBy('orders.order_id', 'desc')
+        ->paginate(6);
+        $status = Status::get();
+    
+
+        if ($orders) {
+            // Nếu đơn hàng tồn tại, bạn có thể thực hiện các xử lý khác ở đây nếu cần
+            return view('admin.orders.index', ['orders' => $orders, 'status' => $status]);
+        }
+        else{
+            return redirect()->back()->with('error', 'This order could not be found');
+        }
     }
 
     /**
@@ -135,10 +152,14 @@ class OrdersController extends Controller
                 $total = ($req->total > 0) ? $req->total : Session::get('Cart')->totalPrice;
 
                 $checkout = $req->payment_method;
+
+                $order_code = $user_id . "-" . date("dmY") . "-" . $total;
+                
                 // dd($shipping_fee);
                 $order = Orders::create([
                     'user_id' => $user_id,
                     'address' => $address,
+                    'order_code' => $order_code,
                     'shipping_fee' => $shipping_fee,
                     'phone' => $phone,
                     'coupon_discount' => $coupon_discount,

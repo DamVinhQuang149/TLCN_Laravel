@@ -51,6 +51,8 @@
                                     <option value="1">Trái cây</option>
                                     <option value="2">Bánh ngọt</option>
                                     <option value="3">Rau củ</option>
+                                    <option value="4">Mã đơn hàng</option>
+
                                 </select>
                                 <input name="keyword" class="input" placeholder="Tìm kiếm">
                                 <button type="submit" class="search-btn">Tìm</button>

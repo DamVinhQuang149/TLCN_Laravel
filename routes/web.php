@@ -19,7 +19,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\EmailsController;
 use App\Http\Controllers\RevenuesController;
 use App\Http\Controllers\InventoryController;
-
+use App\Http\Controllers\FlashSalesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UsersController;
 
@@ -118,7 +118,9 @@ Route::get('/logout-admin', [AdminController::class, 'logoutAdmin'])->name('logo
 Route::middleware('admin')->group(function () {
     Route::any('/admin', [PagesController::class, 'count'])->name('home_admin');
     Route::resource('/admin/revenues', RevenuesController::class);
+    Route::get('/admin/products/search', [ProductsController::class, 'searchProductAdmin'])->name('products.search.admin');
     Route::resource('/admin/products', ProductsController::class);
+    
     Route::resource('/admin/inventories', InventoryController::class);
     Route::resource('/admin/coupons', CouponsController::class);
     Route::resource('/admin/manufactures', ManufacturesController::class);
@@ -130,6 +132,7 @@ Route::middleware('admin')->group(function () {
     Route::resource('/admin/payments', PaymentsController::class);
     Route::resource('/admin/users', UsersController::class);
     Route::resource('/admin/emails', EmailsController::class);
+    Route::resource('/admin/flashsales', FlashSalesController::class);
     Route::resource('/admin/comments', CommentsController::class);
     //
     Route::resource('/admin/advertisements', AdvertisementController::class);

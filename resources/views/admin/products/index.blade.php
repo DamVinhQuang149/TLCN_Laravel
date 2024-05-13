@@ -1,5 +1,48 @@
 @extends('layout.appadmin')
 @section('content')
+    <style>
+        .form-search {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .input-select {
+            margin-right: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .input {
+            margin-right: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .search-btn {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Tùy chỉnh cho các nút tương tác */
+        .btn {
+            margin-right: 10px;
+        }
+
+        .btn:last-child {
+            margin-right: 0;
+        }
+    </style>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -15,6 +58,18 @@
                             <li class="breadcrumb-item active">Products</li>
                         </ol>
                     </div>
+
+                    <form action="{{ route('products.search.admin') }}" method="GET">
+                        @csrf
+                        <select class="input-select" name="searchCol">
+                            <option value="0">Select one</option>
+                            <option value="1">Trái cây</option>
+                            <option value="2">Bánh ngọt</option>
+                            <option value="3">Rau củ</option>
+                        </select>
+                        <input name="keyword" class="input" placeholder="Tìm kiếm">
+                        <button type="submit" class="search-btn">Search</button>
+                    </form>
                 </div>
             </div><!-- /.container-fluid -->
         </section>
@@ -28,7 +83,7 @@
                     <h3 class="card-title">Products</h3>
 
                     <div class="card-tools">
-                        <a class="btn btn-sm bg-green" href="products/create">
+                        <a class="btn btn-sm bg-green" href="{{ route('products.create') }}">
                             <i class="fas fa-plus"></i>
                             Add
                         </a>
@@ -112,7 +167,7 @@
                                         {{ $value['created_at'] }}
                                     </td>
                                     <td class="project-actions text-right">
-                                        <form action="products/{{ $value->id }}/edit" method="POST"
+                                        <form action="{{ route('products.edit', $value->id) }}" method="POST"
                                             enctype="multipart/form-data">
                                             @csrf
                                             @method('GET')
@@ -122,7 +177,7 @@
                                                 Update
                                             </button>
                                         </form>
-                                        <form action="products/{{ $value->id }}" method="POST"
+                                        <form action="{{ route('products.destroy', $value->id) }}" method="POST"
                                             enctype="multipart/form-data">
                                             @csrf
                                             @method('DELETE')

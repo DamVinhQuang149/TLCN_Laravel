@@ -12,6 +12,7 @@ use App\Models\StarRating;
 use Illuminate\Http\Request;
 
 use App\Models\Products;
+use App\Models\FlashSales;
 
 use App\Models\Inventories;
 
@@ -36,6 +37,7 @@ class HomeController extends Controller
 
         $productsby3 = Products::where('type_id', 3)->get();
 
+        $flashsales = FlashSales::get();
 
         $productsFeatureBy1 = Products::where('type_id', 1)->where('feature', 1)->get();
 
@@ -59,6 +61,7 @@ class HomeController extends Controller
         return view('index', [
 
             'products' => $products,
+            'flashsales' => $flashsales,
 
             'productsby1' => $productsby1,
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Status;
+use Carbon\Carbon;
 use App\Models\Favorites;
 use App\Models\OrderDetails;
 use App\Models\Orders;
@@ -12,6 +14,7 @@ use App\Models\Protypes;
 use App\Models\Manufactures;
 use App\Models\Comments;
 use App\Models\Inventories;
+use App\Models\FlashSales;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -128,6 +131,28 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function show($id, Request $request)
+    {
+        //
+        $keyword = $request->input('keyword');
+        $type_id = $request->input('searchCol');
+        $query = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
+            ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
+            ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
+            ->orderBy('products.id', 'desc');
+
+        if (!empty($keyword)) {
+            $query->where('name', 'like', "%$keyword%");
+        }
+
+        if (!empty($type_id) && $type_id != 0) {
+            $query->where('products.type_id', $type_id);
+        }
+
+        $products = $query->paginate(10)->appends(request()->query());
+
+        return view('admin.products.index', ['products' => $products]);
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -165,8 +190,14 @@ class ProductsController extends Controller
         $feature = $request->input('feature');
         $products = Products::find($id);
 
+        $flashsales = FlashSales::where('product_id', '=', $id)->first();
+        $current_time = Carbon::now();
         if (!is_numeric($price) || !is_numeric($discount_price)) {
             return redirect('admin/products')->with('warning', 'Price and discount price must be numeric!');
+        }
+
+        if ($flashsales && $flashsales->end_date > $current_time) {
+            return redirect('admin/products')->with('error', 'This product is currently in Flash Sales season and cannot update the price!');
         }
         switch (true) {
             case empty($name):
@@ -230,9 +261,13 @@ class ProductsController extends Controller
     {
         $products = Products::find($id);
         if ($products) {
+            $flashsales = FlashSales::where('product_id', $id)->get();
             $inventories = Inventories::where("product_id", $id)->get();
             foreach ($inventories as $inventory) {
                 $inventory->delete();
+            }
+            foreach ($flashsales as $value) {
+                $value->delete();
             }
             $products->delete();
         }
@@ -330,6 +365,7 @@ class ProductsController extends Controller
             ->orderBy('products.id', 'asc')
             ->paginate(4);
         $comments = Comments::where('product_id', $id)->orderBy('comm_id', 'DESC')->paginate(4);
+        $allcomment = Comments::all();
 
         $star = StarRating::where(['product_id' => $id, 'user_id' => auth()->id()])->first();
         $allRatings = StarRating::where('product_id', $id)->get();
@@ -346,6 +382,7 @@ class ProductsController extends Controller
             'allRatings' => $allRatings,
             'inventories' => $inventories,
             'inven' => $list_inven,
+            'allcomment' => $allcomment
         ]);
     }
 
@@ -353,6 +390,25 @@ class ProductsController extends Controller
     {
         $keyword = $request->input('keyword');
         $type_id = $request->input('searchCol');
+
+        if($type_id == 4){
+            $list_order = Orders::select('orders.*', 'users.Last_name as name')
+            ->join('users', 'orders.user_id', '=', 'users.user_id')
+            ->where('orders.order_code', $keyword)
+            ->orderBy('orders.order_id', 'desc')
+            ->paginate(6);
+            $status = Status::get();
+        
+
+            if ($list_order) {
+                // Nếu đơn hàng tồn tại, bạn có thể thực hiện các xử lý khác ở đây nếu cần
+                return view('list-order', ['listorder' => $list_order, 'status' => $status]);
+            }
+            else{
+                return redirect()->back()->with('error', 'Không tìm thấy đơn hàng này');
+            }
+        }
+
         $query = Products::query();
 
         $query->where('name', 'like', "%$keyword%");
@@ -368,6 +424,27 @@ class ProductsController extends Controller
             'count_product' => $count_product,
             'inventories' => $inventories
         ]);
+    }
+    public function searchProductAdmin(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        $type_id = $request->input('searchCol');
+        $query = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
+            ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
+            ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
+            ->orderBy('products.id', 'desc');
+
+        if (!empty($keyword)) {
+            $query->where('name', 'like', "%$keyword%");
+        }
+
+        if (!empty($type_id) && $type_id != 0) {
+            $query->where('products.type_id', $type_id);
+        }
+
+        $products = $query->paginate(10)->appends(request()->query());
+
+        return view('admin.products.index', ['products' => $products]);
     }
 
     //Comments

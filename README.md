@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## Tiểu luận chuyên ngành: Nhóm 20 - Xây dựng website bán thức ăn trực tuyến
+## Khóa Luận chuyên ngành: Nhóm 2 - Xây dựng website bán thức ăn trực tuyến
 
 ### Hồ Duy Hoàng - 20110487
 
@@ -101,4 +101,7 @@ quang (Admin)
 customer (Customer)
 123123
 ```
+
 ```python
+
+```

@@ -75,53 +75,63 @@
                         </thead>
                         <tbody>
                             @foreach ($comments as $comment)
-                                <tr>
-                                    <td style="width: 10%">#{{ $comment->comm_id }}</td>
+                                @if ($comment->reply_to_comment_id == '')
+                                    <tr>
+                                        <td style="width: 10%">#{{ $comment->comm_id }}</td>
 
-                                    <td style="width: 15%">{{ $comment->First_name }} {{ $comment->Last_name }}</td>
-                                    <td style="width: 5%">
-                                        <img style="width:50px"src="{{ asset('assets/img/' . $comment->pro_image) }}"
-                                            alt="">
-                                    </td>
-                                    <td class="project_progress" style="width: 15%">
-                                        {{ $comment->name }}
-                                    </td>
-                                    <td style="width: 15%">{{ $comment->comment }}</td>
-                                    <td class="text-center" style="width: 15%"></td>
-                                    <td class="project_progress text-center" style="width: 10%">
-                                        @if ($comment->isApproved == 1)
-                                            Approved
-                                        @else
-                                            Pending Approval
-                                        @endif
+                                        <td style="width: 15%">{{ $comment->First_name }} {{ $comment->Last_name }}</td>
+                                        <td style="width: 5%">
+                                            <img style="width:50px"src="{{ asset('assets/img/' . $comment->pro_image) }}"
+                                                alt="">
+                                        </td>
+                                        <td class="project_progress" style="width: 15%">
+                                            {{ $comment->name }}
+                                        </td>
+                                        <td style="width: 15%">{{ $comment->comment }}</td>
+                                        <td style="width: 15%">
+                                            @foreach ($allcomment as $item)
+                                                @if ($comment->comm_id == $item->reply_to_comment_id)
+                                                    {{ $item->comment }}
+                                                @endif
+                                            @endforeach
 
-                                    </td>
-                                    <td class="project_progress text-center" style="width: 10%">
-                                        {{ $comment->created_at }}
-                                    </td>
+                                        </td>
+                                        <td class="project_progress text-center" style="width: 10%">
+                                            @if ($comment->isApproved == 1)
+                                                Approved
+                                            @else
+                                                Pending Approval
+                                            @endif
 
-                                    <td class="project-actions text-right" style="width: 5%">
-                                        <form action="comments/{{ $comment->comm_id }}/edit" method="POST"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            @method('GET')
-                                            <button type="submit" class="btn btn-info btn-sm" style="margin-bottom: 10px;">
-                                                <i class="fas fa-pencil-alt">
-                                                </i>
-                                                Update
-                                            </button>
-                                        </form>
-                                        <form action="comments/{{ $comment->comm_id }}" method="POST"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="confirmDelete(event)">
-                                                <i class="fas fa-trash"></i> Delete
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
+                                        </td>
+                                        <td class="project_progress text-center" style="width: 10%">
+                                            {{ $comment->created_at }}
+                                        </td>
+
+                                        <td class="project-actions text-right" style="width: 5%">
+                                            <form action="comments/{{ $comment->comm_id }}/edit" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                @method('GET')
+                                                <button type="submit" class="btn btn-info btn-sm"
+                                                    style="margin-bottom: 10px;">
+                                                    <i class="fas fa-pencil-alt">
+                                                    </i>
+                                                    Update
+                                                </button>
+                                            </form>
+                                            <form action="comments/{{ $comment->comm_id }}" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="confirmDelete(event)">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>

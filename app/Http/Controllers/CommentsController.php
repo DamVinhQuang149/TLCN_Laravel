@@ -24,7 +24,9 @@ class CommentsController extends Controller
                     ->join('users', 'comments.user_id', '=', 'users.user_id')
                     ->orderBy('comments.comm_id', 'desc')
                     ->paginate(10);
-        return view('admin.comments.index', ['comments' => $comments]);
+
+        $allcomment = Comments::all();
+        return view('admin.comments.index', ['comments' => $comments, 'allcomment' => $allcomment]);
     }
 
     /**
@@ -68,8 +70,14 @@ class CommentsController extends Controller
     public function edit($id)
     {
         //
-        $comment = Comments::find($id);
+        // $comment = Comments::find($id);
 
+        $comment = Comments::select('Comments.*', 'products.name', 'products.id', 'products.pro_image', 'users.Last_name', 'users.First_name')
+                    ->where('comm_id', $id)
+                    ->join('products', 'comments.product_id', '=', 'products.id')
+                    ->join('users', 'comments.user_id', '=', 'users.user_id')
+                    ->orderBy('comments.comm_id', 'desc')
+                    ->paginate(10);
         if($comment){
             return view('admin.comments.update', ['comment' => $comment]);
         }
@@ -90,14 +98,33 @@ class CommentsController extends Controller
     {
         //
         $status = $request->input('status');
+        $product_id = $request->input('product_id');
+        $comment = $request->input('reply-comment');
+        $user_id = auth()->id();
+        $reply_to_comment_id = $id;
+        $comments = Comments::find($id);
+        $isApproved = 1;
 
-        $comment = Comments::find($id);
-        $comment->update([
-            'isApproved' => $status
-        ]);
-        
-        return redirect('admin/comments')->with('success', 'Update Comment Successfully!');
-        
+        if($status === null){
+            return redirect()->back()->with('error', 'Status is required.');
+        }
+        else  if($comment === null){
+            return redirect()->back()->with('error', 'reply to comment is required.');
+        }else {
+            $comments->update([
+                'isApproved' => $status
+            ]);
+            Comments::create([
+                'product_id' => $product_id,
+                'comment' => $comment,
+                'user_id' => $user_id,
+                'reply_to_comment_id' => $reply_to_comment_id,
+                'isApproved' => $isApproved
+            ]);
+            
+            return redirect('admin/comments')->with('success', 'Update Comment Successfully!');
+        }
+               
     }
 
     /**

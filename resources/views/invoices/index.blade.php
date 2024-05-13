@@ -46,7 +46,7 @@
 <body>
     <div class="invoice">
         <h1 style="color:black">Hóa đơn đặt hàng</h1>
-        <h2>Mã đơn hàng: {{ $order->order_id }}</h2>
+        <h2>Mã đơn hàng: {{ $order->order_code }}</h2>
         <p><strong>Họ & tên khách hàng:</strong> {{ $order->First_name }} {{ $order->Last_name }}</p>
         <p><strong>Địa chỉ:</strong> {{ $order->address }}</p>
         <p><strong>Số điện thoại:</strong> {{ $order->phone }}</p>

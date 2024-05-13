@@ -25,6 +25,6 @@ class Orders extends Model
 
     public $timestamps = true;
 
-    protected $fillable = ['user_id', 'address', 'shipping_fee', 'phone', 'coupon_discount', 'total', 'note', 'checkout', 'status'];
+    protected $fillable = ['user_id', 'order_code', 'address', 'shipping_fee', 'phone', 'coupon_discount', 'total', 'note', 'checkout', 'status'];
 
 }

@@ -45,62 +45,101 @@
 
             <section class="content">
 
+                @foreach ($comment as $comment)
+                    <form action="/admin/comments/{{ $comment->comm_id }}" method="POST" enctype="multipart/form-data">
 
-                <form action="/admin/comments/{{ $comment->comm_id }}" method="POST" enctype="multipart/form-data">
+                        @csrf
 
-                    @csrf
+                        @method('PUT')
 
-                    @method('PUT')
+                        <div class="row">
 
-                    <div class="row">
+                            <div class="col-md-12">
 
-                        <div class="col-md-12">
+                                <div class="card card-primary">
 
-                            <div class="card card-primary">
+                                    <div class="card-header">
 
-                                <div class="card-header">
+                                        <h3 class="card-title">General</h3>
 
-                                    <h3 class="card-title">General</h3>
+                                        <div class="card-tools">
 
-                                    <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse"
+                                                title="Collapse">
 
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"
-                                            title="Collapse">
+                                                <i class="fas fa-minus"></i>
 
-                                            <i class="fas fa-minus"></i>
+                                            </button>
 
-                                        </button>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="card-body">
-
-                                    <div class="form-group">
-
-                                        <label for="inputID">ID</label>
-
-                                        <input readonly value="{{ $comment->comm_id }}" type="text" id="inputID"
-                                            class="form-control" name="id">
+                                        </div>
 
                                     </div>
 
+                                    <div class="card-body">
 
-                                    <div class="form-group">
-                                        <label for="inputType">Status</label>
-                                        <select id="inputType" class="form-control custom-select" name="status" required>
-                                            <option selected disabled>Select one</option>
-                                            <option value="1">Approved</option>
-                                            <option value="0">Pending Approved</option>
-                                        </select>
-                                    </div>
+                                        <div class="form-group">
 
-                                    <div class="form-group">
+                                            <label for="inputID">ID</label>
 
-                                        <label for="inputDescription">Comment</label>
+                                            <input readonly value="{{ $comment->comm_id }}" type="text" id="inputID"
+                                                class="form-control" name="id">
 
-                                        <textarea readonly name="desc" class="form-control" rows="4">{{ $comment->comment }}</textarea>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <label for="inputID">ID Product</label>
+
+                                            <input readonly value="{{ $comment->id }}" type="text" id="inputID"
+                                                class="form-control" name="product_id">
+
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <label for="inputName">Name</label>
+
+                                            <input readonly value="{{ $comment->name }}" type="text" id="inputName"
+                                                class="form-control" name="name">
+
+                                        </div>
+                                        <div class="form-group">
+
+                                            <label for="inputProjectLeader">Image</label>
+
+                                            <img style="width:50px" src="{{ asset('assets/img/' . $comment->pro_image) }}"
+                                                alt="">
+
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <label for="inputDescription" class="comment-label">
+                                                <span class="username"
+                                                    style="font-weight: bold; color: blue;">{{ $comment->First_name }}
+                                                    {{ $comment->Last_name }}</span> commented
+                                            </label>
+
+                                            <textarea readonly name="comment" class="form-control" rows="4">{{ $comment->comment }}</textarea>
+
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <label for="inputDescription">Reply To Comment</label>
+
+                                            <textarea placeholder="reply to comment" name="reply-comment" class="form-control" rows="4"></textarea>
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputType">Status</label>
+                                            <select id="inputType" class="form-control custom-select" name="status"
+                                                required>
+                                                <option selected disabled>Select one</option>
+                                                <option value="1">Approved</option>
+                                                <option value="0">Pending Approved</option>
+                                            </select>
+                                        </div>
 
                                     </div>
 
@@ -110,19 +149,20 @@
 
                         </div>
 
-                    </div>
+                        <div class="row">
 
-                    <div class="row">
+                            <div class="col-12">
 
-                        <div class="col-12">
+                                <input type="submit" name="submit" value="Apply change"
+                                    class="btn btn-success float-right">
 
-                            <input type="submit" name="submit" value="Apply change" class="btn btn-success float-right">
+                            </div>
 
                         </div>
 
-                    </div>
+                    </form>
+                @endforeach
 
-                </form>
 
             </section>
 
