@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 13, 2024 at 08:22 AM
+-- Generation Time: May 14, 2024 at 05:40 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -68,11 +68,12 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`comm_id`, `reply_to_comment_id`, `user_id`, `product_id`, `created_at`, `updated_at`, `comment`, `star`, `isApproved`) VALUES
-(48, NULL, 27, 11, '2024-05-13', '2024-05-13', 'Sản phẩm tốt', 3, 0),
+(48, NULL, 27, 11, '2024-05-13', '2024-05-14', 'Sản phẩm tốt', 3, 1),
 (49, NULL, 27, 11, '2024-05-13', '2024-05-13', 'Ngon lắm ạ', 3, 1),
 (50, NULL, 35, 11, '2024-05-13', '2024-05-13', 'tưới ngon, ngọt lắm ạ', 5, 1),
 (53, 50, 27, 11, '2024-05-13', '2024-05-13', 'Cảm ơn bạn', NULL, 1),
-(54, 49, 27, 11, '2024-05-13', '2024-05-13', 'oke bạn :v', NULL, 1);
+(54, 49, 27, 11, '2024-05-13', '2024-05-13', 'oke bạn :v', NULL, 1),
+(55, NULL, 27, 11, '2024-05-13', '2024-05-14', 'xịn', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -98,7 +99,7 @@ CREATE TABLE `coupons` (
 
 INSERT INTO `coupons` (`coupon_id`, `coupon_code`, `coupon_type`, `coupon_amount`, `min_order`, `coupon_quantity`, `coupon_used`, `coupon_remain`, `coupon_expired`) VALUES
 (2, 'GIAMGIA10', 1, 10, 30000, 30, 12, 18, '2024-12-31'),
-(3, 'GIAMGIA100K', 0, 100000, 1000000, 30, 5, 25, '2023-11-10'),
+(3, 'GIAMGIA100K', 0, 100000, 1000000, 30, 5, 25, '2024-11-10'),
 (4, 'GIAMGIA150K', 0, 150000, 500000, 30, 9, 21, '2023-11-09'),
 (5, '', 0, 0, 0, 123125, 5, 123120, '2114-12-31'),
 (6, 'GIAMGIATEST', 0, 120000, 1000000, 12, 5, 7, '2023-12-15'),
@@ -197,7 +198,8 @@ INSERT INTO `favorites` (`id`, `user_id`, `product_id`, `created_at`, `updated_a
 (20, 27, 104, '2024-05-12', '2024-05-12'),
 (21, 27, 125, '2024-05-12', '2024-05-12'),
 (22, 27, 16, '2024-05-12', '2024-05-12'),
-(23, 27, 18, '2024-05-12', '2024-05-12');
+(23, 27, 18, '2024-05-12', '2024-05-12'),
+(24, 27, 7, '2024-05-13', '2024-05-13');
 
 -- --------------------------------------------------------
 
@@ -247,25 +249,25 @@ CREATE TABLE `inventories` (
 --
 
 INSERT INTO `inventories` (`inventory_id`, `product_name`, `product_image`, `product_id`, `import_quantity`, `sold_quantity`, `remain_quantity`, `inventory_status`, `created_at`) VALUES
-(7, 'Cà tím Châu Phi (kg)', 'catim.jpg', 7, 123, 90, 33, 'In Stocks', '2024-04-16 09:00:49'),
+(7, 'Cà tím Châu Phi (kg)', 'catim.jpg', 7, 123, 100, 23, 'In Stock', '2024-05-14 03:10:28'),
 (8, 'Bánh kem bơ Pháp', 'banhkembophap.jpg', 1, 13, 40, 3, 'Nearly Out Of Stock', '2024-05-10 08:20:52'),
-(9, 'Chanh tươi Irag (kg)', 'chanhtuoiirag.png', 3, 123, 0, 123, 'In Stocks', '2024-04-16 10:40:50'),
+(9, 'Chanh tươi Irag (kg)', 'chanhtuoiirag.png', 3, 123, 10, 113, 'In Stock', '2024-05-14 03:10:28'),
 (10, 'Bánh kem dâu Ý', 'banhkemdau.jpg', 5, 12, 30, 9, 'In Stock', '2024-05-10 08:21:00'),
 (11, 'Hồng đỏ Nam Mỹ (kg)', 'hongdomy.png', 11, 12, 6, 6, 'Nearly Out Of Stock', '2024-05-13 04:55:38'),
-(12, 'Bánh kem Matcha Nho', 'banhkemnhomatcha.jpg', 12, 24, 31, 12, 'In Stock', '2024-05-10 08:21:04'),
+(12, 'Bánh kem Matcha Nho', 'banhkemnhomatcha.jpg', 12, 24, 41, 2, 'Nearly Out Of Stock', '2024-05-14 03:10:27'),
 (13, 'Dưa leo Ấn Độ (kg)', 'dualeoando.png', 13, 500, 1, 499, 'In Stock', '2024-04-16 12:45:45'),
 (14, 'Chanh dây Nga tươi (kg)', 'chanhday.png', 16, 450, 7, 443, 'In Stock', '2024-05-12 10:42:49'),
 (15, 'Bánh kem Táo Hàn Quốc', 'banhkemtao.jpg', 17, 25, 0, 25, 'In Stocks', '2024-04-16 10:42:16'),
 (16, 'Dâu tây đỏ ngọt (kg)', 'dautay.png', 18, 600, 40, 0, 'Out Of Stock', '2024-05-10 17:31:22'),
-(17, 'Vải thiều loại to (kg)', 'vaithieuloaito.png', 21, 780, 60, 770, 'In Stock', '2024-05-10 08:21:08'),
+(17, 'Vải thiều loại to (kg)', 'vaithieuloaito.png', 21, 780, 70, 760, 'In Stock', '2024-05-14 03:12:57'),
 (18, 'Bánh kem Matcha', 'banhkemmatcha.jpg', 22, 12, 2, 10, 'In Stock', '2024-04-16 12:49:34'),
 (19, 'Ớt chuông đỏ (kg)', 'otchuongdo.png', 23, 15, 60, 0, 'Out Of Stock', '2024-05-10 15:03:26'),
 (20, 'Cải thìa Triều Tiên (kg)', 'caithia.png', 53, 70, 40, 60, 'In Stock', '2024-05-10 08:21:11'),
 (21, 'Cà rốt Bắc Mỹ (kg)', 'carot.png', 54, 123, 0, 123, 'In Stocks', '2024-04-16 10:44:02'),
 (22, 'Cà chua Nhật Bản (kg)', 'cachua.png', 55, 123, 50, 113, 'In Stock', '2024-05-10 08:21:15'),
-(23, 'Nho Pháp thượng hạng (kg)', 'image1702303842-Nho Pháp thượng hạng (kg).jpg', 96, 900, 2, 898, 'In Stock', '2024-04-16 12:49:34'),
-(27, 'Kiwi ngọt Brazil (kg)', 'image1715327867-Kiwi ngọt Brazil (kg).png', 103, 120, 80, 110, 'In Stock', '2024-05-10 08:21:18'),
-(28, 'Bánh kem cặp đôi cute', 'image1715345866-Bánh kem cặp đôi cute.png', 104, 120, 31, 120, 'In Stocks', '2024-05-10 17:13:57'),
+(23, 'Nho Pháp thượng hạng (kg)', 'image1702303842-Nho Pháp thượng hạng (kg).jpg', 96, 900, 12, 888, 'In Stock', '2024-05-14 03:12:57'),
+(27, 'Kiwi ngọt Brazil (kg)', 'image1715327867-Kiwi ngọt Brazil (kg).png', 103, 120, 90, 100, 'In Stock', '2024-05-14 03:12:57'),
+(28, 'Bánh kem cặp đôi cute', 'image1715345866-Bánh kem cặp đôi cute.png', 104, 120, 42, 109, 'In Stock', '2024-05-14 03:12:57'),
 (29, 'Bánh kem cho bé', 'image1715345948-Bánh kem cho bé.png', 105, 12, 0, 12, 'In Stocks', '2024-05-10 12:59:08'),
 (30, 'Bánh kem Chocolate KitKat', 'image1715346040-Bánh kem Chocolate KitKat.png', 106, 12, 100, 12, 'In Stocks', '2024-05-10 17:13:51'),
 (31, 'Bánh kem sữa thơm ngon béo ngậy', 'image1715346106-Bánh kem sữa thơm ngon béo ngậy.png', 107, 12, 0, 12, 'In Stocks', '2024-05-10 13:01:46'),
@@ -288,10 +290,10 @@ INSERT INTO `inventories` (`inventory_id`, `product_name`, `product_image`, `pro
 (48, 'Súp lơ xanh tươi Bhutan (kg)', 'image1715358141-Súp lơ xanh tươi Bhutan (kg).jpg', 124, 122, 0, 122, 'In Stocks', '2024-05-10 16:22:21'),
 (49, 'Táo đỏ xuất khẩu Canada (kg)', 'image1715358215-Táo đỏ xuất khẩu Canada (kg).jpg', 125, 333, 100, 333, 'In Stocks', '2024-05-10 17:12:49'),
 (50, 'Táo xanh ngọt chát México (kg)', 'image1715358314-Táo xanh ngọt chát México (kg).jpg', 126, 197, 100, 197, 'In Stocks', '2024-05-10 17:12:45'),
-(51, 'Thanh long ruột đỏ Italia (kg)', 'image1715358382-Thanh long ruột đỏ Italia (kg).png', 127, 197, 0, 197, 'In Stocks', '2024-05-10 16:26:22'),
-(52, 'Tỏi cay Kazakhstan (kg)', 'image1715358456-Tỏi cay Kazakhstan (kg).png', 128, 197, 1, 196, 'In Stock', '2024-05-12 10:24:38'),
+(51, 'Thanh long ruột đỏ Italia (kg)', 'image1715358382-Thanh long ruột đỏ Italia (kg).png', 127, 197, 1, 196, 'In Stock', '2024-05-14 02:50:53'),
+(52, 'Tỏi cay Kazakhstan (kg)', 'image1715358456-Tỏi cay Kazakhstan (kg).png', 128, 197, 2, 195, 'In Stock', '2024-05-14 02:50:53'),
 (54, 'Xoài cát chín cây miền tây (kg)', 'image1715358613-Xoài cát chín cây miền tây (kg).jpg', 130, 197, 0, 197, 'In Stocks', '2024-05-10 16:30:13'),
-(55, 'Xoài xanh thơm Nepal (kg)', 'image1715358682-Xoài xanh thơm Nepal (kg).png', 131, 197, 0, 197, 'In Stocks', '2024-05-10 16:31:22');
+(55, 'Xoài xanh thơm Nepal (kg)', 'image1715358682-Xoài xanh thơm Nepal (kg).png', 131, 197, 1, 196, 'In Stock', '2024-05-14 02:50:53');
 
 -- --------------------------------------------------------
 
@@ -338,9 +340,12 @@ CREATE TABLE `orders` (
 
 INSERT INTO `orders` (`order_id`, `order_code`, `user_id`, `address`, `shipping_fee`, `phone`, `status`, `coupon_discount`, `total`, `note`, `checkout`, `created_at`) VALUES
 (397, '27-12052024-142000', 27, 'gò vấp', 27000, '0987788611', 0, 0, 142000, NULL, 1, '2024-05-12 03:24:30'),
-(398, '27-12052024-117000', 27, 'gò vấp', 27000, '0987788611', 4, 0, 117000, NULL, 1, '2024-05-12 03:42:43'),
-(399, '27-13052024-211000', 27, 'gò vấp', 21000, '0987788611', 0, 0, 211000, NULL, 1, '2024-05-12 21:53:38'),
-(400, '35-13052024-211000', 35, 'gvấpò', 21000, '0385273875', 0, 0, 211000, NULL, 1, '2024-05-12 21:55:32');
+(398, '27-12052024-117000', 27, 'gò vấp', 27000, '0987788611', 1, 0, 117000, NULL, 1, '2024-05-12 03:42:43'),
+(399, '27-13052024-211000', 27, 'gò vấp', 21000, '0987788611', 1, 0, 211000, NULL, 1, '2024-05-12 21:53:38'),
+(400, '35-13052024-211000', 35, 'gvấpò', 21000, '0385273875', 1, 0, 211000, NULL, 1, '2024-05-12 21:55:32'),
+(401, '27-14052024-1218600', 27, 'gò vấp', 22500, '0987788611', 1, 0, 1218600, NULL, 1, '2024-05-13 19:50:45'),
+(402, '35-14052024-12636000', 35, 'gvấpò', 21000, '0385273875', 1, 0, 12636000, NULL, 1, '2024-05-13 20:10:20'),
+(403, '36-14052024-10710000', 36, 'bình thạch', 15000, '0385273875', 1, 0, 10710000, NULL, 1, '2024-05-13 20:12:51');
 
 -- --------------------------------------------------------
 
@@ -808,7 +813,18 @@ INSERT INTO `order_details` (`order_id`, `product_name`, `discount_price`, `prod
 (397, 'Tỏi cay Kazakhstan (kg)', 115000, 1, 115000, 128, 3, 'image1715360710-Tỏi cay Kazakhstan (kg).png', 511),
 (398, 'Chanh dây Nga tươi (kg)', 90000, 1, 90000, 16, 1, 'chanhday.png', 512),
 (399, 'Hồng đỏ Nam Mỹ (kg)', 190000, 1, 190000, 11, 1, 'hongdomy.png', 513),
-(400, 'Hồng đỏ Nam Mỹ (kg)', 190000, 1, 190000, 11, 1, 'hongdomy.png', 514);
+(400, 'Hồng đỏ Nam Mỹ (kg)', 190000, 1, 190000, 11, 1, 'hongdomy.png', 514),
+(401, 'Bánh kem cặp đôi cute', 357500, 1, 357500, 104, 2, 'image1715345866-Bánh kem cặp đôi cute.png', 515),
+(401, 'Thanh long ruột đỏ (kg)', 421200, 1, 421200, 127, 1, 'image1715358382-Thanh long ruột đỏ Italia (kg).png', 516),
+(401, 'Tỏi cay Kazakhstan (kg)', 115000, 1, 115000, 128, 3, 'image1715360710-Tỏi cay Kazakhstan (kg).png', 517),
+(401, 'Xoài xanh thơm Nepal (kg)', 324900, 1, 324900, 131, 1, 'image1715358682-Xoài xanh thơm Nepal (kg).png', 518),
+(402, 'Bánh kem Matcha Nho', 870000, 10, 8700000, 12, 2, 'banhkemnhomatcha.jpg', 519),
+(402, 'Chanh tươi Irag (kg)', 300000, 10, 3000000, 3, 3, 'chanhtuoiirag.png', 520),
+(402, 'Cà tím Châu Phi (kg)', 93600, 10, 936000, 7, 3, 'catim.jpg', 521),
+(403, 'Nho Pháp thượng hạng (kg)', 348500, 10, 3485000, 96, 1, 'image1715349937-Nho Pháp thượng hạng (kg).png', 522),
+(403, 'Kiwi ngọt Brazil (kg)', 280000, 10, 2800000, 103, 1, 'image1715327867-Kiwi ngọt Brazil (kg).png', 523),
+(403, 'Vải thiều loại to (kg)', 85000, 10, 850000, 21, 1, 'vaithieuloaito.png', 524),
+(403, 'Bánh kem cặp đôi cute', 357500, 10, 3575000, 104, 2, 'image1715345866-Bánh kem cặp đôi cute.png', 525);
 
 -- --------------------------------------------------------
 
@@ -925,7 +941,7 @@ INSERT INTO `products` (`id`, `name`, `manu_id`, `type_id`, `price`, `discount_p
 (55, 'Cà chua Nhật Bản (kg)', 18, 3, 160000, 110000, 'cachua.png', 'Do Thiên Hoàng Minh Trị trồng từ thời chiến tranh thế giới thứ 2. Đặc biệt loại này không dính phóng xạ nên ăn bổ lắm nha.', 0, '2022-11-18 08:19:46'),
 (54, 'Cà rốt Bắc Mỹ (kg)', 18, 3, 180000, 120000, 'carot.png', 'Cà rốt Bắc Mỹ do ông Donald Trump đích thân trồng tại nông trại. Không qua bất cứ máy móc và hóa chất. Nên rất ngon và đắt', 1, '2022-11-18 08:19:55'),
 (53, 'Cải thìa Triều Tiên (kg)', 18, 3, 190000, 70000, 'caithia.png', 'Cải thìa Triều Tiên do ông Kim trồng ăn rất ngon nhé. Mua ăn thử đi biết', 1, '2022-11-18 08:20:02'),
-(1, 'Bánh kem bơ Pháp', 18, 2, 850000, 348500, 'banhkembophap.jpg', '<font color=\"#000000\" style=\"\">Vẫn sở hữu phần cốt bánh bông lan xốp mịn, điều làm cho những chiếc bánh kem này trở nên đặc biệt và cuốn hút nằm ở phần kem bơ.\r\n\r\nKem bơ Pháp được làm từ những nguyên liệu gồm lòng đỏ trứng, syrup đường và bơ lạt. Nhờ sử dụng thêm lòng đỏ trứng, thành phẩm kem bơ sẽ có hương vị cực kì thơm ngon, mềm mượt và tan ngay khi vào miệng.\r\n\r\nNhững người thợ tài hoa của Grand Castella còn tận dụng phần kem bơ này, sáng tạo nên những hình ảnh trang trí độc đáo, giúp chiếc bánh kem đã ngon nay trở nên xinh đẹp hơn.</font>', 0, '2021-10-22 04:15:10'),
+(1, 'Bánh kem bơ Pháp', 18, 2, 850000, 348500, 'banhkembophap.jpg', 'Vẫn sở hữu phần cốt bánh bông lan xốp mịn, điều làm cho những chiếc bánh kem này trở nên đặc biệt và cuốn hút nằm ở phần kem bơ.\n\nKem bơ Pháp được làm từ những nguyên liệu gồm lòng đỏ trứng, syrup đường và bơ lạt. Nhờ sử dụng thêm lòng đỏ trứng, thành phẩm kem bơ sẽ có hương vị cực kì thơm ngon, mềm mượt và tan ngay khi vào miệng.\n\nNhững người thợ tài hoa của Grand Castella còn tận dụng phần kem bơ này, sáng tạo nên những hình ảnh trang trí độc đáo, giúp chiếc bánh kem đã ngon nay trở nên xinh đẹp hơn.', 0, '2021-10-22 04:15:10'),
 (104, 'Bánh kem cặp đôi cute', 18, 2, 650000, 357500, 'image1715345866-Bánh kem cặp đôi cute.png', 'Bánh kem dành cho các cặp đôi yêu nhau, tặng nhau những ngày ý nghĩa, ngày lễ, ngày kỷ niệm... Với thiết kế dễ thương và hương vị đặc biệt thơm ngon', 1, '2024-05-10 12:57:46'),
 (103, 'Kiwi ngọt Brazil (kg)', 18, 1, 320000, 280000, 'image1715327867-Kiwi ngọt Brazil (kg).png', 'Kiwi được hái từ trong rừng Amazon tại Brazil, hương vị phải nói là ngây ngất lòng người, ăn 1 lần là lần sau khỏi ăn luôn', 1, '2024-05-10 07:57:47'),
 (105, 'Bánh kem cho bé', 18, 2, 450000, 350000, 'image1715345948-Bánh kem cho bé.png', 'Bánh kem dành cho những bé nhỏ với thiết kế dễ thương, phong cách Hàn Quốc', 0, '2024-05-10 12:59:08'),
@@ -1073,7 +1089,7 @@ INSERT INTO `users` (`user_id`, `image`, `First_name`, `Last_name`, `email`, `ph
 (33, 'image1702616800-.png', 'Hoang', 'Ho', 'utalik.com@gmail.com', 84935540795, '566/72/63R Nguyen Thai Son, Phuong 5, Quan Go Vap', 'user', '$2y$10$OXwsJxowRh6Kl8Z1FX1eK.RkRyEGdoUOzYn06l2wTKXuLaCeJtTIO', 2),
 (34, NULL, 'Hoang', 'Ho', 'ut213123alik.com@gmail.com', 84935540795, NULL, '123123', '$2y$10$YeuYnbpiTHVvOrmMNA.bT.smQ7OG/pbiObahbl9RSfHhpOvYDIh7i', 2),
 (35, 'image1710856912-.jpg', 'Quang', 'shinro', 'damquang149@gmail.com', 385273875, 'gvấpò', 'customer1', '$2y$10$VrD0g6KrsLDavP/BuWfWTuPQUOYsiblAdEehlqFI0CfQHvrwHdw.a', 2),
-(36, 'image1710867857-.jpg', 'Nguyen Van', 'A', 'damquang14911112@gmail.com', 385273875, NULL, 'customer2', '$2y$10$YBrW2RIWtR1564i7oz8g3O.koDhZg/PgMFhspvm8QCGUbkmvV.bJC', 2),
+(36, 'image1710867857-.jpg', 'Nguyen Van', 'A', 'damquang14911112@gmail.com', 385273875, 'bình thạch', 'customer2', '$2y$10$YBrW2RIWtR1564i7oz8g3O.koDhZg/PgMFhspvm8QCGUbkmvV.bJC', 2),
 (38, 'avatar1.png', 'Nguyen Van', 'B', 'damquang14911113@gmail.com', 385273875, NULL, 'customer3', '$2y$10$8J.6r6HPYVdxCQhm0BK4R.pgQZVQNNIFYM85RL8PX5qcShyotLY/q', 2);
 
 --
@@ -1211,7 +1227,7 @@ ALTER TABLE `advertisements`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `comm_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `comm_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `coupons`
@@ -1229,13 +1245,13 @@ ALTER TABLE `email_lists`
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `flash_sales`
 --
 ALTER TABLE `flash_sales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `inventories`
@@ -1253,13 +1269,13 @@ ALTER TABLE `manufactures`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=401;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=404;
 
 --
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `orderdetail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=515;
+  MODIFY `orderdetail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=526;
 
 --
 -- AUTO_INCREMENT for table `products`

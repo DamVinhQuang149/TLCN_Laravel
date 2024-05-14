@@ -10,10 +10,10 @@
 .clock div {
     width: 22%;
     height: 100%;
-    color: #fe9705;
+    color: black;
     border-radius: 10px;
     background-color: white;
-    border: 2px #fe9705 solid;
+    border: 2px #80bb35 solid;
     display: flex;
     justify-content: center;
     font-weight: 700;
@@ -27,7 +27,7 @@
 }
 .clock-info {
     width: 100%;
-    color: #fe9705;
+    color: black;
     display: flex;
     font-weight: 700;
     font-size: small;

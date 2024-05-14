@@ -8,6 +8,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <title>Capple - Website bán đồ ăn, trái cây, rau củ trực tuyến</title>
+    <link rel="icon" href="<?php echo e(asset('assets/img/iconbandoan.png')); ?>" type="image/x-icon">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-JvhFJK5BX2y5SJk/jUyZQflWwK4p+ljKnt5O3lzCFcyAG6yEezNAMhn+aVo8vNSfXtq+ZyZB+cfqlMoUEEGkqw=="

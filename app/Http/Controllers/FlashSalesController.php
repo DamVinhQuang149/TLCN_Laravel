@@ -16,6 +16,7 @@ class FlashSalesController extends Controller
      */
     public function index()
     {
+        $all = FlashSales::all();
         $products = Products::all();
         $flashsales = FlashSales::orderBy('end_date', 'desc')->paginate(10);
         return view(
@@ -23,6 +24,7 @@ class FlashSalesController extends Controller
             [
                 'flashsales' => $flashsales,
                 'products' => $products,
+                'all' => $all
             ]
         );
     }

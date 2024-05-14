@@ -67,7 +67,8 @@
         <section class="content">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Orders</h3>
+                    <h3 class="card-title">There are <?php echo e($all->count()); ?> Orders </h3>
+
 
                     <div class="card-tools">
 

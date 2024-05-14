@@ -95,11 +95,31 @@
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                                         </td>
-                                        <td class="project_progress text-center" style="width: 10%">
-                                            <?php if($comment->isApproved == 1): ?>
-                                                Approved
+                                        
+                                        <td class="project-actions" style="width: 5%">
+                                            <?php if($comment->isApproved == 0): ?>
+                                                <form action="/admin/comment/<?php echo e($comment->comm_id); ?>/approve" method="POST"
+                                                    enctype="multipart/form-data">
+                                                    <?php echo csrf_field(); ?>
+                                                    <?php echo method_field('POST'); ?>
+                                                    <input type="hidden" value="1" name="isApproved">
+                                                    <button type="submit" class="btn btn-info btn-sm"
+                                                        style="margin-bottom: 10px;">
+
+                                                        Approved
+                                                    </button>
+                                                </form>
                                             <?php else: ?>
-                                                Pending Approval
+                                                <form action="/admin/comment/<?php echo e($comment->comm_id); ?>/approve" method="POST"
+                                                    enctype="multipart/form-data">
+                                                    <?php echo csrf_field(); ?>
+                                                    <?php echo method_field('POST'); ?>
+                                                    <input type="hidden" value="0" name="isApproved">
+                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                        style="margin-bottom: 10px;">
+                                                        Cancel
+                                                    </button>
+                                                </form>
                                             <?php endif; ?>
 
                                         </td>
@@ -117,7 +137,7 @@
                                                     style="margin-bottom: 10px;">
                                                     <i class="fas fa-pencil-alt">
                                                     </i>
-                                                    Update
+                                                    Reply comment
                                                 </button>
                                             </form>
                                             <form action="comments/<?php echo e($comment->comm_id); ?>" method="POST"

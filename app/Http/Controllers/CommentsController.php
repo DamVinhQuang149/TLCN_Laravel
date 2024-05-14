@@ -103,7 +103,6 @@ class CommentsController extends Controller
         $user_id = auth()->id();
         $reply_to_comment_id = $id;
         $comments = Comments::find($id);
-        $isApproved = 1;
 
         if($status === null){
             return redirect()->back()->with('error', 'Status is required.');
@@ -118,8 +117,7 @@ class CommentsController extends Controller
                 'product_id' => $product_id,
                 'comment' => $comment,
                 'user_id' => $user_id,
-                'reply_to_comment_id' => $reply_to_comment_id,
-                'isApproved' => $isApproved
+                'reply_to_comment_id' => $reply_to_comment_id
             ]);
             
             return redirect('admin/comments')->with('success', 'Update Comment Successfully!');
@@ -242,5 +240,18 @@ class CommentsController extends Controller
             'message' => 'Bình luận này không tồn tại!'
         ]);
         
+    }
+
+    public function isApproveComm(Request $request, $id){
+        //dd($request->input('isApproved'));
+        $comment = Comments::find($id);
+        if ($comment) {
+            $comment->isApproved = $request->input('isApproved');
+            $comment->save();
+            return redirect('admin/comments')->with('success', 'Approved Comment Successfully!');
+        } else {
+            return redirect('admin/comments')->with('error', 'Approved Comment failed!');
+
+        }
     }
 }

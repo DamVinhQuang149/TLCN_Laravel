@@ -19,7 +19,8 @@
         <section class="content">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Users</h3>
+                    <h3 class="card-title">There are <?php echo e($all->count()); ?> Users </h3>
+
                     <div class="card-tools">
                         <a class="btn  btn-sm bg-green" href="users/create">
                             <i class="fas fa-plus"></i>

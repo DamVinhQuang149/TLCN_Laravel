@@ -15,11 +15,13 @@ class InventoryController extends Controller
      */
     public function index()
     {
+        $productAll = Products::all();
         $inventories = Inventories::orderBy('created_at', 'desc')->paginate(10);
         return view(
             'admin.inventories.index',
             [
-                'inventories' => $inventories
+                'inventories' => $inventories,
+                'productAll' => $productAll
             ]
         );
     }

@@ -24,7 +24,8 @@
             <!-- Default box -->
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Customer's Emails</h3>
+                    <h3 class="card-title">There are {{ $all->count() }} Customer's Emails </h3>
+
 
                     <div class="card-tools">
 

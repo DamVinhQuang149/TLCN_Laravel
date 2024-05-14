@@ -41,7 +41,8 @@
 
                 <div class="card-header">
 
-                    <h3 class="card-title">Coupons</h3>
+                    <h3 class="card-title">There are <?php echo e($couponAll->count()); ?> Coupon </h3>
+
 
 
 

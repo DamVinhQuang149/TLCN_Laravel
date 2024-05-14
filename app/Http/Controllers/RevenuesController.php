@@ -18,8 +18,14 @@ class RevenuesController extends Controller
     {
         $emails = Emails::get();
         $orders = Orders::where('status', 1)->get();
+
+        if($orders->isEmpty()) {
+            return redirect()->back()->with('error', 'No orders were successfully delivered during this period.');
+        }
+
         $totalAmount = $orders->sum('total');
         return view('admin.revenues.index', compact('totalAmount', 'orders', 'emails'));
+        
     }
 
     public function getTime(Request $request)

@@ -27,12 +27,13 @@ class OrdersController extends Controller
      */
     public function index()
     {
+        $all = Orders::all();
         $orders = Orders::join('users', 'orders.user_id', '=', 'users.user_id')
             ->select('orders.*', 'users.Last_name as name')
             ->orderBy('orders.order_id', 'desc')
             ->paginate(6);
         $status = Status::get();
-        return view('admin.orders.index', ['orders' => $orders, 'status' => $status]);
+        return view('admin.orders.index', ['orders' => $orders, 'status' => $status, 'all' => $all]);
     }
 
     /**
@@ -221,133 +222,137 @@ class OrdersController extends Controller
 
     public function viewThanks(Request $req)
     {
+        try {
+            $order_id = $req->input('vnp_TxnRef');
+            $total_cost = $req->input('vnp_Amount') / 100;
+            $bankcode = $req->input('vnp_BankCode');
+            $content = $req->input('vnp_OrderInfo');
+            $card_type = $req->input('vnp_CardType');
+            $status_cvt = $req->input('vnp_ResponseCode');
+            $status = 0;
 
-        $order_id = $req->input('vnp_TxnRef');
-        $total_cost = $req->input('vnp_Amount') / 100;
-        $bankcode = $req->input('vnp_BankCode');
-        $content = $req->input('vnp_OrderInfo');
-        $card_type = $req->input('vnp_CardType');
-        $status_cvt = $req->input('vnp_ResponseCode');
-        $status = 0;
+            $order_idmax = Orders::select('*')->max('order_id');
+            $order = Orders::where('order_id', $order_idmax)->first();
 
-        $order_idmax = Orders::select('*')->max('order_id');
-        $order = Orders::where('order_id', $order_idmax)->first();
-
-        if ($status_cvt == '00') {
-            $status_bank = 'Thanh toán thành công';
-            $status = 3;
-        } else {
-            $status_bank = 'Thanh toán thất bại';
-            $status = 6;
-        }
-        if (!empty($order_id)) {
-            Payments::create([
-                'order_id' => $order_id,
-                'total_cost' => $total_cost,
-                'bankcode' => $bankcode,
-                'content' => $content,
-                'card_type' => $card_type,
-                'status' => $status_bank
-            ]);
-
-            $order = Orders::find($order_id);
-            if ($order) {
-                $order->update([
-                    'status' => $status
+            if ($status_cvt == '00') {
+                $status_bank = 'Thanh toán thành công';
+                $status = 3;
+            } else {
+                $status_bank = 'Thanh toán thất bại';
+                $status = 6;
+            }
+            if (!empty($order_id)) {
+                Payments::create([
+                    'order_id' => $order_id,
+                    'total_cost' => $total_cost,
+                    'bankcode' => $bankcode,
+                    'content' => $content,
+                    'card_type' => $card_type,
+                    'status' => $status_bank
                 ]);
-            }
-        }
 
-        if ($order->status == 0 || $order->status == 3) {
-            // gửi email cho khách hàng về thông tin đã đặt hàng
-            $user = User::select()->where('user_id', auth()->id())->first();
-            $orderdetails = OrderDetails::select('order_details.*', 'products.id', 'products.discount_price', 'protypes.*')
-
-                ->join('products', 'order_details.product_id', '=', 'products.id')
-
-                ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
-
-                ->where('order_id', $order_idmax)
-
-                ->get();
-
-            Mail::send("emails.order-success", ['orderdetails' => $orderdetails, 'user' => $user, 'order' => $order], function ($message) use ($user) {
-
-                $message->to($user->email);
-
-                $message->subject("Thông báo về đơn đặt hàng");
-
-            });
-            //
-            $userAdmin = 'capplevip12345@gmail.com';
-            //Gửi email thông báo cho admin có đơn hàng mới
-            Mail::send("emails.new-order-notification", ['orderdetails' => $orderdetails, 'user' => $user, 'order' => $order], function ($message) use ($userAdmin) {
-
-                $message->to($userAdmin);
-
-                $message->subject("Thông báo về đơn đặt hàng mới");
-
-            });
-            //
-            //Tồn kho
-            foreach (Session::get('Cart')->products as $item) {
-
-                $product_quantity = $item['quanty'];
-                $product_id = $item['productInfo']->id;
-
-                $inventories = Inventories::where("product_id", $product_id)->get();
-
-                foreach ($inventories as $inventory) {
-                    $remain_quantity = $inventory->remain_quantity - $product_quantity;
-                    if ($remain_quantity < 7 && $remain_quantity > 0) {
-                        $status = "Nearly Out Of Stock";
-                    } elseif ($remain_quantity == 0) {
-                        $status = "Out Of Stock";
-
-                    } else {
-                        $status = "In Stock";
-                    }
-
-                    $inventory->sold_quantity = $inventory->sold_quantity + $product_quantity;
-                    $inventory->remain_quantity = $remain_quantity;
-                    $inventory->inventory_status = $status;
-                    $inventory->save();
-                    //
-
-                    if ($inventory->inventory_status == "Nearly Out Of Stock" || $inventory->inventory_status == "Out Of Stock") {
-                        Mail::send("emails.inventory-quantity-notification", ['inventory' => $inventory], function ($message) use ($userAdmin) {
-
-                            $message->to($userAdmin);
-
-                            $message->subject("Thông báo về số lượng tồn kho");
-
-                        });
-                    }
-                }
-
-            }
-        }
-        if (Session::has('Coupon')) {
-            foreach (Session::get('Coupon') as $key => $cou) {
-                if ($cou['coupon_remain'] > 0 && $cou['min_order'] < Session::get('Cart')->totalPrice) {
-                    $coupon_used = $cou['coupon_used'] + 1;
-                    $coupon_remain = $cou['coupon_quantity'] - $coupon_used;
-
-                    Coupons::find($cou['coupon_id'])->update([
-                        'coupon_used' => $coupon_used,
-                        'coupon_remain' => $coupon_remain,
+                $order = Orders::find($order_id);
+                if ($order) {
+                    $order->update([
+                        'status' => $status
                     ]);
                 }
-                $req->session()->forget('Coupon');
             }
+
+            if ($order->status == 0 || $order->status == 3) {
+                // gửi email cho khách hàng về thông tin đã đặt hàng
+                $user = User::select()->where('user_id', auth()->id())->first();
+                $orderdetails = OrderDetails::select('order_details.*', 'products.id', 'products.discount_price', 'protypes.*')
+
+                    ->join('products', 'order_details.product_id', '=', 'products.id')
+
+                    ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
+
+                    ->where('order_id', $order_idmax)
+
+                    ->get();
+
+                Mail::send("emails.order-success", ['orderdetails' => $orderdetails, 'user' => $user, 'order' => $order], function ($message) use ($user) {
+
+                    $message->to($user->email);
+
+                    $message->subject("Thông báo về đơn đặt hàng");
+
+                });
+                //
+                $userAdmin = 'capplevip12345@gmail.com';
+                //Gửi email thông báo cho admin có đơn hàng mới
+                Mail::send("emails.new-order-notification", ['orderdetails' => $orderdetails, 'user' => $user, 'order' => $order], function ($message) use ($userAdmin) {
+
+                    $message->to($userAdmin);
+
+                    $message->subject("Thông báo về đơn đặt hàng mới");
+
+                });
+                //
+                //Tồn kho
+                foreach (Session::get('Cart')->products as $item) {
+
+                    $product_quantity = $item['quanty'];
+                    $product_id = $item['productInfo']->id;
+
+                    $inventories = Inventories::where("product_id", $product_id)->get();
+
+                    foreach ($inventories as $inventory) {
+                        $remain_quantity = $inventory->remain_quantity - $product_quantity;
+                        if ($remain_quantity < 7 && $remain_quantity > 0) {
+                            $status = "Nearly Out Of Stock";
+                        } elseif ($remain_quantity == 0) {
+                            $status = "Out Of Stock";
+
+                        } else {
+                            $status = "In Stock";
+                        }
+
+                        $inventory->sold_quantity = $inventory->sold_quantity + $product_quantity;
+                        $inventory->remain_quantity = $remain_quantity;
+                        $inventory->inventory_status = $status;
+                        $inventory->save();
+                        //
+
+                        if ($inventory->inventory_status == "Nearly Out Of Stock" || $inventory->inventory_status == "Out Of Stock") {
+                            Mail::send("emails.inventory-quantity-notification", ['inventory' => $inventory], function ($message) use ($userAdmin) {
+
+                                $message->to($userAdmin);
+
+                                $message->subject("Thông báo về số lượng tồn kho");
+
+                            });
+                        }
+                    }
+
+                }
+            }
+            if (Session::has('Coupon')) {
+                foreach (Session::get('Coupon') as $key => $cou) {
+                    if ($cou['coupon_remain'] > 0 && $cou['min_order'] < Session::get('Cart')->totalPrice) {
+                        $coupon_used = $cou['coupon_used'] + 1;
+                        $coupon_remain = $cou['coupon_quantity'] - $coupon_used;
+
+                        Coupons::find($cou['coupon_id'])->update([
+                            'coupon_used' => $coupon_used,
+                            'coupon_remain' => $coupon_remain,
+                        ]);
+                    }
+                    $req->session()->forget('Coupon');
+                }
+            }
+            if (Session::has('Cart')) {
+                $req->session()->forget('Cart');
+            }
+            if (Session::has('shipping_fee')) {
+                $req->session()->forget('shipping_fee');
+            }
+            return view('thanks')->with('success', 'Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!');
+        } catch (\Throwable $th) {
+            //throw $th;
+            return redirect()->route('index');
         }
-        if (Session::has('Cart')) {
-            $req->session()->forget('Cart');
-        }
-        if (Session::has('shipping_fee')) {
-            $req->session()->forget('shipping_fee');
-        }
-        return view('thanks')->with('success', 'Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!');
     }
 
     public function listOrder()

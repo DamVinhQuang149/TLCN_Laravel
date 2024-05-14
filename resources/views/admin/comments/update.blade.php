@@ -17,7 +17,7 @@
 
                         <div class="col-sm-6">
 
-                            <h1>Edit Comments</h1>
+                            <h1>Reply Comments</h1>
 
                         </div>
 
@@ -27,7 +27,7 @@
 
                                 <li class="breadcrumb-item"><a href="{{ route('home_admin') }}">Home</a></li>
 
-                                <li class="breadcrumb-item active">Edit Comments</li>
+                                <li class="breadcrumb-item active">Reply Comments</li>
 
                             </ol>
 
@@ -129,16 +129,6 @@
 
                                             <textarea placeholder="reply to comment" name="reply-comment" class="form-control" rows="4"></textarea>
 
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="inputType">Status</label>
-                                            <select id="inputType" class="form-control custom-select" name="status"
-                                                required>
-                                                <option selected disabled>Select one</option>
-                                                <option value="1">Approved</option>
-                                                <option value="0">Pending Approved</option>
-                                            </select>
                                         </div>
 
                                     </div>

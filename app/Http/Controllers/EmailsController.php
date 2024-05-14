@@ -14,8 +14,9 @@ class EmailsController extends Controller
      */
     public function index()
     {
+        $all = Emails::all();
         $emails = Emails::orderBy('email_id', 'desc')->paginate(6);
-        return view('admin.emails.index', ['emails' => $emails]);
+        return view('admin.emails.index', ['emails' => $emails, 'all' => $all]);
     }
 
     /**

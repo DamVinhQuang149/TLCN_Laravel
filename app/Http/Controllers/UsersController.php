@@ -18,11 +18,12 @@ class UsersController extends Controller
      */
     public function index()
     {
+        $all = Users::all();
         $users = Users::select('users.*', 'roles.*')
             ->join('roles', 'users.role_id', '=', 'roles.role_id')
             ->paginate(5);
         ;
-        return view('admin.users.index', ['users' => $users]);
+        return view('admin.users.index', ['users' => $users, 'all' => $all]);
     }
 
     /**

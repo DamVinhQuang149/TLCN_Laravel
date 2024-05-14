@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Quản lý Capple - Website bán đồ ăn trực tuyến</title>
+    <link rel="icon" href="<?php echo e(asset('assets/img/iconbandoan.png')); ?>" type="image/x-icon">
+
     <script src="<?php echo e(asset('assets/admin/js/main.js')); ?>"></script>
     <script src="<?php echo e(asset('assets/js/ButtonClickHandler.js')); ?>"></script>
     <script src="<?php echo e(asset('assets/admin/js/validateExpired.js')); ?>"></script>

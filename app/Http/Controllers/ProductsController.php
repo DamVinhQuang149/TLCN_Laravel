@@ -32,12 +32,13 @@ class ProductsController extends Controller
      */
     public function index()
     {
+        $productAll = Products::all();
         $products = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
             ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
             ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
             ->orderBy('products.id', 'desc')
             ->paginate(10);
-        return view('admin.products.index', ['products' => $products]);
+        return view('admin.products.index', ['products' => $products, 'productAll' => $productAll]);
     }
 
     /**
@@ -134,24 +135,6 @@ class ProductsController extends Controller
     public function show($id, Request $request)
     {
         //
-        $keyword = $request->input('keyword');
-        $type_id = $request->input('searchCol');
-        $query = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
-            ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
-            ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
-            ->orderBy('products.id', 'desc');
-
-        if (!empty($keyword)) {
-            $query->where('name', 'like', "%$keyword%");
-        }
-
-        if (!empty($type_id) && $type_id != 0) {
-            $query->where('products.type_id', $type_id);
-        }
-
-        $products = $query->paginate(10)->appends(request()->query());
-
-        return view('admin.products.index', ['products' => $products]);
     }
 
     /**
@@ -364,7 +347,7 @@ class ProductsController extends Controller
             ->where('products.type_id', $type_id)
             ->orderBy('products.id', 'asc')
             ->paginate(4);
-        $comments = Comments::where('product_id', $id)->orderBy('comm_id', 'DESC')->paginate(4);
+        $comments = Comments::where('product_id', $id)->orderBy('comm_id', 'DESC')->paginate(10);
         $allcomment = Comments::all();
 
         $star = StarRating::where(['product_id' => $id, 'user_id' => auth()->id()])->first();
@@ -429,6 +412,7 @@ class ProductsController extends Controller
     {
         $keyword = $request->input('keyword');
         $type_id = $request->input('searchCol');
+        $productAll = Products::all();
         $query = Products::select('products.*', 'manufactures.manu_name', 'protypes.type_name')
             ->join('manufactures', 'products.manu_id', '=', 'manufactures.manu_id')
             ->join('protypes', 'products.type_id', '=', 'protypes.type_id')
@@ -444,7 +428,7 @@ class ProductsController extends Controller
 
         $products = $query->paginate(10)->appends(request()->query());
 
-        return view('admin.products.index', ['products' => $products]);
+        return view('admin.products.index', ['products' => $products, 'productAll' => $productAll]);
     }
 
     //Comments

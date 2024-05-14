@@ -96,11 +96,38 @@
                                             @endforeach
 
                                         </td>
-                                        <td class="project_progress text-center" style="width: 10%">
+                                        {{-- <td class="project_progress text-center" style="width: 10%">
                                             @if ($comment->isApproved == 1)
                                                 Approved
                                             @else
                                                 Pending Approval
+                                            @endif
+
+                                        </td> --}}
+                                        <td class="project-actions" style="width: 5%">
+                                            @if ($comment->isApproved == 0)
+                                                <form action="/admin/comment/{{ $comment->comm_id }}/approve" method="POST"
+                                                    enctype="multipart/form-data">
+                                                    @csrf
+                                                    @method('POST')
+                                                    <input type="hidden" value="1" name="isApproved">
+                                                    <button type="submit" class="btn btn-info btn-sm"
+                                                        style="margin-bottom: 10px;">
+
+                                                        Approved
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <form action="/admin/comment/{{ $comment->comm_id }}/approve" method="POST"
+                                                    enctype="multipart/form-data">
+                                                    @csrf
+                                                    @method('POST')
+                                                    <input type="hidden" value="0" name="isApproved">
+                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                        style="margin-bottom: 10px;">
+                                                        Cancel
+                                                    </button>
+                                                </form>
                                             @endif
 
                                         </td>
@@ -117,7 +144,7 @@
                                                     style="margin-bottom: 10px;">
                                                     <i class="fas fa-pencil-alt">
                                                     </i>
-                                                    Update
+                                                    Reply comment
                                                 </button>
                                             </form>
                                             <form action="comments/{{ $comment->comm_id }}" method="POST"

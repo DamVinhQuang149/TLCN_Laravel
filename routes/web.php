@@ -133,6 +133,8 @@ Route::middleware('admin')->group(function () {
     Route::resource('/admin/users', UsersController::class);
     Route::resource('/admin/emails', EmailsController::class);
     Route::resource('/admin/flashsales', FlashSalesController::class);
+
+    Route::post('/admin/comment/{id}/approve', [CommentsController::class, 'isApproveComm'])->name('comment.approve');
     Route::resource('/admin/comments', CommentsController::class);
     //
     Route::resource('/admin/advertisements', AdvertisementController::class);
