@@ -21,10 +21,12 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex flex-column align-items-center text-center">
-                                    @if($user->image)
-                                        <img src="{{ asset('assets/img/' . $user->image) }}" class="rounded-circle" width="150">
+                                    @if ($user->image)
+                                        <img src="{{ asset('assets/img/' . $user->image) }}" class="rounded-circle"
+                                            width="150">
                                     @else
-                                        <img src="{{ asset('assets/img/avatar3.jpg') }}" class="rounded-circle" width="150">
+                                        <img src="{{ asset('assets/img/avatar3.jpg') }}" class="rounded-circle"
+                                            width="150">
                                     @endif
                                     <div class="mt-3">
                                         <h4>{{ $user->First_name }} {{ $user->Last_name }}</h4>
@@ -56,9 +58,9 @@
                                 <hr>
                                 <div class="row">
                                     <div class="col-sm-3">
-                                        <h6 class="mb-0">Tên tài khoản</h6>
+                                        <h6>Tên tài khoản</h6>
                                     </div>
-                                    <div class="col-sm-9 text-secondary">
+                                    <div class="col-sm-9">
                                         {{ $user->username }}
                                     </div>
                                 </div>

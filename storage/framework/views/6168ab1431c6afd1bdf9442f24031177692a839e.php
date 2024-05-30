@@ -22,12 +22,19 @@
                         <div class="store-sort">
                             <label>
                                 Sắp xếp:
-                                <select class="input-select select-filter" id="select-filter" onchange="window.location.href=this.value;">
+                                <select class="input-select select-filter" id="select-filter"
+                                    onchange="window.location.href=this.value;">
                                     <option value="">---Lọc theo---</option>
-                                    <option value="<?php echo e(Request::url()); ?>?sort_by=kytu_az" <?php echo e(Request::input('sort_by') == 'kytu_az' ? 'selected' : ''); ?>>Ký tự A-Z</option>
-                                    <option value="<?php echo e(Request::url()); ?>?sort_by=kytu_za" <?php echo e(Request::input('sort_by') == 'kytu_za' ? 'selected' : ''); ?>>Ký tự Z-A</option>
-                                    <option value="<?php echo e(Request::url()); ?>?sort_by=tang_dan" <?php echo e(Request::input('sort_by') == 'tang_dan' ? 'selected' : ''); ?>>Giá tăng dần</option>
-                                    <option value="<?php echo e(Request::url()); ?>?sort_by=giam_dan" <?php echo e(Request::input('sort_by') == 'giam_dan' ? 'selected' : ''); ?>>Giá giảm dần</option>
+                                    <option value="<?php echo e(Request::url()); ?>?sort_by=kytu_az"
+                                        <?php echo e(Request::input('sort_by') == 'kytu_az' ? 'selected' : ''); ?>>Ký tự A-Z</option>
+                                    <option value="<?php echo e(Request::url()); ?>?sort_by=kytu_za"
+                                        <?php echo e(Request::input('sort_by') == 'kytu_za' ? 'selected' : ''); ?>>Ký tự Z-A</option>
+                                    <option value="<?php echo e(Request::url()); ?>?sort_by=tang_dan"
+                                        <?php echo e(Request::input('sort_by') == 'tang_dan' ? 'selected' : ''); ?>>Giá tăng dần
+                                    </option>
+                                    <option value="<?php echo e(Request::url()); ?>?sort_by=giam_dan"
+                                        <?php echo e(Request::input('sort_by') == 'giam_dan' ? 'selected' : ''); ?>>Giá giảm dần
+                                    </option>
                                 </select>
 
                             </label>
@@ -42,7 +49,7 @@
                                     </p>
 
                                     <div id="slider-range"></div>
-                                    
+
                                     <input type="hidden" class="price_from" name="from">
                                     <input type="hidden" class="price_to" name="to">
 
@@ -52,83 +59,124 @@
                             </div>
                             <h4 class="title text-right" style="color:#f6931f;">
                                 <?php if(request()->has('to') && request()->get('to')): ?>
-                                     Giá từ: <?php echo e(number_format(request()->get('from'), 0, ',', '.')); ?>đ - <?php echo e(number_format(request()->get('to'), 0, ',', '.')); ?>đ
+                                    Giá từ: <?php echo e(number_format(request()->get('from'), 0, ',', '.')); ?>đ -
+                                    <?php echo e(number_format(request()->get('to'), 0, ',', '.')); ?>đ
                                 <?php endif; ?>
                             </h4>
                         </div>
-                        
+
                     </div>
                     <!-- /store top filter -->
 
                     <!-- store products -->
                     <div class="row">
                         <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <!-- product -->
-                            <div class="col-md-4 col-xs-6">
-                                <div class="product">
-                                    <div class="product-img">
-                                        <img src="<?php echo e(asset('assets/img/' . $product->pro_image)); ?>" alt="">
-                                        <div class="product-label">
-                                        </div>
-                                    </div>
-                                    <div class="product-body">
-                                        <p class="product-category"></p>
-                                        <h3 class="product-name">
-                                            <a
-                                                href="<?php echo e(route('detail.product', ['type_id' => $product->type_id, 'id' => $product->id])); ?>"><?php echo e($product->name); ?></a>
+                            <?php $__currentLoopData = $inventories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $inven): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if($product->id === $inven->product_id): ?>
+                                    <!-- product -->
+                                    <div class="col-md-4 col-xs-6">
+                                        <div class="product">
+                                            <div class="product-img">
+                                                <img src="<?php echo e(asset('assets/img/' . $product->pro_image)); ?>" alt="">
+                                                <div class="product-label">
+                                                </div>
+                                            </div>
+                                            <div class="product-body">
+                                                <p class="product-category"></p>
+                                                <h3 class="product-name">
+                                                    <a
+                                                        href="<?php echo e(route('detail.product', ['type_id' => $product->type_id, 'id' => $product->id])); ?>"><?php echo e($product->name); ?></a>
 
-                                        </h3>
-                                        
-                                        <?php if($product->discount_price > 0): ?>
-                                            <h4 class="product-price">
-                                                <del><?php echo e(number_format($product->price)); ?>
+                                                </h3>
+                                                
+                                                <?php if($product->discount_price > 0): ?>
+                                                    <h4 class="product-price">
+                                                        <del><?php echo e(number_format($product->price)); ?>
 
-                                                    VND</del>
-                                            </h4>
-                                            <h4 class="discount-price">
-                                                <?php echo e(number_format($product->discount_price)); ?> VND
-                                            </h4>
-                                        <?php else: ?>
-                                            <h4 class="discount-price">
-                                                <?php echo e(number_format($product->price)); ?> VND
-                                            </h4>
-                                        <?php endif; ?>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        
-                                       <div class="product-btns">
-                                        <?php if(auth()->check()): ?>
-                                            <?php if($product->favorited): ?>
-                                                <button  class="add-to-wishlist"><a href=<?php echo e(route('favorite', $product->id)); ?> class="heart"><i class="fa fa-heart"></i></a><span
-                                                    class="tooltipp">Bỏ yêu thích</span></button>
+                                                            VND</del>
+                                                    </h4>
+                                                    <h4 class="discount-price">
+                                                        <?php echo e(number_format($product->discount_price)); ?> VND
+                                                    </h4>
+                                                <?php else: ?>
+                                                    <h4 class="discount-price">
+                                                        <?php echo e(number_format($product->price)); ?> VND
+                                                    </h4>
+                                                <?php endif; ?>
+                                                <ul class="ratingW-comment">
+                                                    <small>
+                                                        <?php if($product->average_rating): ?>
+                                                            <?php
+                                                            for ($i = 1; $i <= 5; $i++) {
+                                                                if ($i <= $product->average_rating) {
+                                                                    echo '<li class="on"><div class="star-comm"></div></li>';
+                                                                } else {
+                                                                    echo '<li><div class="star-comm"></div></li>';
+                                                                }
+                                                            }
+                                                            ?>
+                                                        <?php else: ?>
+                                                            <li class="on">
+                                                                <div class="star-comm"></div>
+                                                            </li>
+                                                            <li class="on">
+                                                                <div class="star-comm"></div>
+                                                            </li>
+                                                            <li class="on">
+                                                                <div class="star-comm"></div>
+                                                            </li>
+                                                            <li class="on">
+                                                                <div class="star-comm"></div>
+                                                            </li>
+                                                            <li class="on">
+                                                                <div class="star-comm"></div>
+                                                            </li>
+                                                        <?php endif; ?>
+                                                    </small>
+                                                </ul>
+                                                <div class="product-btns">
+                                                    <?php if(auth()->check()): ?>
+                                                        <?php if($product->favorited): ?>
+                                                            <button class="add-to-wishlist"><a
+                                                                    href=<?php echo e(route('favorite', $product->id)); ?>
+
+                                                                    class="heart"><i class="fa fa-heart"></i></a><span
+                                                                    class="tooltipp">Bỏ yêu
+                                                                    thích</span></button>
+                                                        <?php else: ?>
+                                                            <button class="add-to-wishlist"><a
+                                                                    href=<?php echo e(route('favorite', $product->id)); ?>><i
+                                                                        class="fa fa-heart-o"></i></a><span
+                                                                    class="tooltipp">Yêu
+                                                                    thích</span></button>
+                                                        <?php endif; ?>
+                                                    <?php else: ?>
+                                                        <button class="add-to-wishlist"><a href=<?php echo e(route('login')); ?>><i
+                                                                    class="fa fa-heart-o"></i></a><span class="tooltipp">Yêu
+                                                                thích</span></button>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
+                                            <?php if($inven->remain_quantity): ?>
+                                                <a onclick="AddCart(<?php echo e($product->id); ?>)" href="javascript:">
+                                                    <div class="add-to-cart">
+                                                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>
+                                                            Thêm vào
+                                                            giỏ</button>
+                                                    </div>
+                                                </a>
                                             <?php else: ?>
-                                                <button class="add-to-wishlist"><a href=<?php echo e(route('favorite', $product->id)); ?>><i class="fa fa-heart-o"></i></a><span
-                                                    class="tooltipp">Yêu thích</span></button>
+                                                <div class="out-of-stock">
+                                                    <button class="out-of-stock-btn"><i
+                                                            class="fa fa-exclamation-circle"></i> Hết
+                                                        hàng</button>
+                                                </div>
                                             <?php endif; ?>
-                                            
-                                            
-                                        <?php else: ?>
-                                            <button class="add-to-wishlist"><a href=<?php echo e(route('login')); ?>><i class="fa fa-heart-o"></i></a><span
-                                                class="tooltipp">Yêu thích</span></button>
-                                        <?php endif; ?>
-                                            
-                                            
                                         </div>
                                     </div>
-                                    <a onclick="AddCart(<?php echo e($product->id); ?>)" href="javascript:">
-                                        <div class="add-to-cart">
-                                            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> thêm vào
-                                                giỏ</button>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- /product -->
+                                    <!-- /product -->
+                                <?php endif; ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
                     <!-- /store products -->

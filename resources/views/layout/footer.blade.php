@@ -10,7 +10,8 @@
                         <form action="{{ route('emails.addNotify') }}" method="post">
                             @csrf
                             @method('POST')
-                            <input class="input" type="email" name="emails" placeholder="Email của bạn" required>
+                            <input style="border-radius: 10px 0px 0px 10px !important" class="input" type="email"
+                                name="emails" placeholder="Email của bạn" required>
                             <button type="submit" class="newsletter-btn"><i class="fa fa-envelope"></i> Đăng
                                 ký</button>
                         </form>
@@ -51,10 +52,10 @@
                             <h3 class="footer-title">Chúng tôi</h3>
                             {{-- <p><strong>Tiểu luận chuyên ngành xây dựng website bán đồ ăn trực tuyến</strong></p>
                             <ul class="footer-links"> --}}
-                                <li><i class="fa fa-map-marker"></i>01 Võ Văn Ngân - Phường Linh Chiểu- Thành phố Thủ
-                                    Đức</li>
-                                <li><i class="fa fa-phone"></i>0935.540.795</li>
-                                <li><i class="fa fa-envelope-o"></i>@student.hcmute.edu.vn</li>
+                            <li><i class="fa fa-map-marker"></i> 01 Võ Văn Ngân - Phường Linh Chiểu- Thành phố Thủ
+                                Đức</li>
+                            <li><i class="fa fa-phone"></i> 0935.540.795</li>
+                            <li><i class="fa fa-envelope-o"></i> @student.hcmute.edu.vn</li>
                             </ul>
                         </div>
                     </div>
@@ -95,9 +96,7 @@
                                             Của Tôi</a></li>
                                 @endif
                                 <li><a href="{{ route('list.cart') }}">Xem Giỏ Hàng</a></li>
-                                <li><a href="#">Yêu Thích</a></li>
                                 <li><a href="{{ route('list.order') }}">Xem Đơn Hàng</a></li>
-                                <li><a href="#">Giúp Đỡ</a></li>
                             </ul>
                         </div>
                     </div>

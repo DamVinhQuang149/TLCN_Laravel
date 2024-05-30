@@ -61,7 +61,7 @@ class UsersController extends Controller
                 return redirect('admin/users')->with('error', 'This Username Already Exists! Please enter a different other');
             }
         }
-        if (empty ($role)) {
+        if (empty($role)) {
             return redirect('admin/users')->with('warning', 'Please Choose a Role!');
         }
         if ($request->hasFile('image')) {
@@ -150,7 +150,7 @@ class UsersController extends Controller
         if (!is_numeric($phone)) {
             return redirect('admin/users')->with('error', 'This Phone Number Not Valid!');
         }
-        if (empty ($role)) {
+        if (empty($role)) {
             return redirect('admin/users')->with('warning', 'Please Choose a Role!');
         }
         if ($request->hasFile('image')) {
@@ -167,7 +167,7 @@ class UsersController extends Controller
             $image_name = 'image' . time() . '-' . $request->name . '.'
                 . $request->image->extension();
             $request->image->move('assets/img', $image_name);
-            if (!empty ($password)) {
+            if (!empty($password)) {
                 $users->update([
                     'First_name' => $First_name,
                     'Last_name' => $Last_name,
@@ -195,7 +195,7 @@ class UsersController extends Controller
             foreach ($userimg as $user) {
                 $image_name = $user->image;
             }
-            if (!empty ($password)) {
+            if (!empty($password)) {
                 $users->update([
                     'First_name' => $First_name,
                     'Last_name' => $Last_name,
@@ -256,13 +256,16 @@ class UsersController extends Controller
         // dd($req->password);
         try {
             $validator = Validator::make($req->all(), [
-                'username' => 'required|unique:users,username',
+                'username' => 'required|unique:users,username|min:6|max:10|regex:/^[a-zA-Z0-9_]+$/',
                 'email' => 'required|unique:users,email',
                 'password' => 'required|min:6',
                 'passwordAgain' => 'required|same:password',
 
             ], [
+                'username.max' => 'Tài khoản chỉ tối đa 10 ký tự. Vui lòng nhập lại',
                 'username.unique' => 'Tài khoản đã được đăng ký. Vui lòng nhập lại',
+                'username.min' => 'Tài khoản phải lớn hơn 6 ký tự. Vui lòng nhập lại',
+                'username.regex' => 'Tài khoản không được chứa ký tự đặc biệt. Vui lòng nhập lại',
                 'email.unique' => 'email này đã được đăng ký. Vui lòng nhập lại',
                 'password.min' => 'Độ dài của mật khẩu phải lớn hơn 6. Vui lòng thử lại.',
                 'passwordAgain.min' => 'Độ dài của mật khẩu phải lớn hơn 6. Vui lòng thử lại.',

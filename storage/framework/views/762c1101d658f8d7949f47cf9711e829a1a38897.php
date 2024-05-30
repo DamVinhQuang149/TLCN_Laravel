@@ -74,17 +74,7 @@
             </div>
 
             <!-- SidebarSearch Form -->
-            <div class="form-inline">
-                <div class="input-group" data-widget="sidebar-search">
-                    <input class="form-control form-control-sidebar" type="search" placeholder="Search"
-                        aria-label="Search">
-                    <div class="input-group-append">
-                        <button class="btn btn-sidebar">
-                            <i class="fas fa-search fa-fw"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+            
 
             <!-- Sidebar Menu -->
             <nav class="mt-2">
@@ -159,6 +149,15 @@
                             <i class="nav-icon fas fa-users"></i>
                             <p>
                                 Users
+                                <span class="right badge badge-danger">New</span>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/comments" class="nav-link">
+                            <i class="nav-icon fas fa-comments"></i>
+                            <p>
+                                Comments
                                 <span class="right badge badge-danger">New</span>
                             </p>
                         </a>

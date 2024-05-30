@@ -7,7 +7,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Products</h1>
+                        <h1>Products Flash Sales</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -25,7 +25,9 @@
             <!-- Default box -->
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Products</h3>
+
+                    <h3 class="card-title">There are <?php echo e($all->count()); ?> Products Flash Sales</h3>
+
 
                     <div class="card-tools">
                         <a class="btn btn-sm bg-green" href="flashsales/create">
@@ -95,7 +97,7 @@
                                             <td style="width:15%" class="text-center"><?php echo e($value['start_date']); ?></td>
                                             <td style="width:15%" class="text-center"><?php echo e($value['end_date']); ?></td>
                                             <td style="width:5%" class="project-actions text-right">
-                                                <form action="inventories/<?php echo e($value->inventory_id); ?>/edit" method="POST"
+                                                <form action="flashsales/<?php echo e($value->id); ?>/edit" method="POST"
                                                     enctype="multipart/form-data">
                                                     <?php echo csrf_field(); ?>
                                                     <?php echo method_field('GET'); ?>
@@ -107,7 +109,23 @@
                                                     </button>
                                                 </form>
 
+                                                <form action="flashsales/<?php echo e($value->id); ?>" method="POST"
+                                                    enctype="multipart/form-data">
+
+                                                    <?php echo csrf_field(); ?>
+
+                                                    <?php echo method_field('DELETE'); ?>
+
+                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                        style="margin-top:6px" onclick="confirmDelete(event)">
+
+                                                        <i class="fas fa-trash"></i> Delete
+
+                                                    </button>
+
+                                                </form>
                                             </td>
+
                                         </tr>
                                     <?php endif; ?>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

@@ -8,8 +8,8 @@
                     <li><a href="tel:0935540795"><i class="fa fa-phone"></i> 0935.540.795</a></li>
                     <li><a href="mailto:duyhoang04244@gmail.com"><i class="fa fa-envelope-o"></i>
                             duyhoang042444@gmail.com</a></li>
-                    <li><a href="https://goo.gl/maps/HATUMepFByXb91iT7"><i class="fa fa-map-marker"></i> 01 Võ Văn Ngân
-                            - Phường Linh Chiểu - Thành phố Thủ Đức</a></li>
+                    <li><a href="https://goo.gl/maps/HATUMepFByXb91iT7"><i class="fa fa-map-marker"></i> 01 Võ Văn Ngân -
+                            Thành phố Thủ Đức</a></li>
                 </ul>
                 <ul class="header-links pull-right">
                     <?php if(Auth::check()): ?>
@@ -51,6 +51,8 @@
                                     <option value="1">Trái cây</option>
                                     <option value="2">Bánh ngọt</option>
                                     <option value="3">Rau củ</option>
+                                    <option value="4">Mã đơn hàng</option>
+
                                 </select>
                                 <input name="keyword" class="input" placeholder="Tìm kiếm">
                                 <button type="submit" class="search-btn">Tìm</button>
@@ -142,6 +144,7 @@
                                     <span>Menu</span>
                                 </a>
                             </div>
+
                             <!-- /Menu Toogle -->
                         </div>
                     </div>
