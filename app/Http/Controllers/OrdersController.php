@@ -155,8 +155,10 @@ class OrdersController extends Controller
                 $checkout = $req->payment_method;
 
                 $order_code = $user_id . "-" . date("dmY") . "-" . $total;
+                if(Session::get('Cart')->totalPrice >= 300000){
+                    $shipping_fee = 0;
+                }
                 
-                // dd($shipping_fee);
                 $order = Orders::create([
                     'user_id' => $user_id,
                     'address' => $address,

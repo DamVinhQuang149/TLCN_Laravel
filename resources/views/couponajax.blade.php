@@ -83,25 +83,31 @@
                         Mã giảm giá: {{ $cou['coupon_code'] }} được áp dụng thành công.
 
                     </div>
+                    <div id="coupon-amount-view">
+                        <div class="order-col" style="margin-top:12px">
 
-                    <div class="order-col" style="margin-top:12px">
+                            <div>
 
-                        <div>
+                                <strong>Mã giảm giá: </strong>
 
-                            <strong>Mã giảm giá: </strong>
+                            </div>
+                            <div>
 
-                        </div>
+                                @php
+                                    $totalPrice = Session::get('Cart')->totalPrice;
 
-                        <div>@php
-                            $coupon_amount =
-                                $cou['coupon_type'] == 0
-                                    ? $cou['coupon_amount']
-                                    : ((Session::get('Cart')->totalPrice + Session::get('shipping_fee.fee')) *
-                                            $cou['coupon_amount']) /
-                                        100;
-                        @endphp
-                            <strong>- {{ number_format($coupon_amount, 0, ',', '.') }} đ</strong>
+                                    if ($totalPrice < 300000 && Session::has('shipping_fee')) {
+                                        $totalPrice += Session::get('shipping_fee')['fee'];
+                                    }
 
+                                    $coupon_amount =
+                                        $cou['coupon_type'] == 0
+                                            ? $cou['coupon_amount']
+                                            : ($totalPrice * $cou['coupon_amount']) / 100;
+                                @endphp
+                                <strong>- {{ number_format($coupon_amount, 0, ',', '.') }} đ</strong>
+
+                            </div>
                         </div>
 
                     </div>
@@ -130,25 +136,25 @@
 
     </div>
 
-    <div>
+    <div id="total-price">
 
         @php
             if (Session::has('shipping_fee')) {
+                $shipping_fee = Session::has('shipping_fee.fee');
+                $totalPrice = Session::get('Cart')->totalPrice;
                 if (Session::has('Coupon')) {
-                    $total_coupon = Session::get('Cart')->totalPrice - $coupon_amount;
+                    $total_coupon = $totalPrice - $coupon_amount;
                 } else {
-                    $total_coupon = Session::get('Cart')->totalPrice;
+                    $total_coupon = $totalPrice;
                 }
-                if (Session::get('Cart')->totalPrice >= 300000) {
-                    $total_coupon += 0;
-                } else {
+                if ($totalPrice < 300000) {
                     $total_coupon += Session::get('shipping_fee.fee');
                 }
             } else {
                 if (Session::has('Coupon')) {
-                    $total_coupon = Session::get('Cart')->totalPrice - $coupon_amount;
+                    $total_coupon = $totalPrice - $coupon_amount;
                 } else {
-                    $total_coupon = Session::get('Cart')->totalPrice;
+                    $total_coupon = $totalPrice;
                 }
             }
 

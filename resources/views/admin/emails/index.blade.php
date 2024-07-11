@@ -38,47 +38,49 @@
                     </div>
                 </div>
                 <div class="card-body p-0">
-                    <table class="table table-striped projects">
-                        <thead>
-                            <tr>
-                                <th class="text-center">
-                                    Email ID
-                                </th>
-                                <th class="text-center" style="width: 30%">
-                                    Emails
-                                </th>
-                                <th class="text-center" style="width: 30%">
-                                    Created at
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($emails as $value)
+                    <div style="overflow-x: auto;">
+                        <table class="table table-striped projects">
+                            <thead>
                                 <tr>
-                                    <td class="text-center" style="width: 9%">#{{ $value->email_id }}</td>
-                                    <td class="text-center" style="width: 30%">{{ $value->email }}</td>
-                                    <td class="text-center" style="width: 30%">
-                                        <?php
-                                        $created_at = strtotime($value->created_at);
-                                        echo '<span style="margin-right: 25px;">' . date('d/m/Y', $created_at) . '</span>At:<span style="margin-left: 5px;">' . date('g:i a', $created_at) . '</span>';
-                                        ?>
-                                    </td>
-
-                                    <td class="project-actions text-right" style="width:15%">
-                                        <form action="emails/{{ $value->email_id }}" method="POST"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" style="margin-top:6px"
-                                                onclick="confirmDelete(event)">
-                                                <i class="fas fa-trash"></i> Delete
-                                            </button>
-                                        </form>
-                                    </td>
+                                    <th class="text-center">
+                                        Email ID
+                                    </th>
+                                    <th class="text-center" style="width: 30%">
+                                        Emails
+                                    </th>
+                                    <th class="text-center" style="width: 30%">
+                                        Created at
+                                    </th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($emails as $value)
+                                    <tr>
+                                        <td class="text-center" style="width: 9%">#{{ $value->email_id }}</td>
+                                        <td class="text-center" style="width: 30%">{{ $value->email }}</td>
+                                        <td class="text-center" style="width: 30%">
+                                            <?php
+                                            $created_at = strtotime($value->created_at);
+                                            echo '<span style="margin-right: 25px;">' . date('d/m/Y', $created_at) . '</span>At:<span style="margin-left: 5px;">' . date('g:i a', $created_at) . '</span>';
+                                            ?>
+                                        </td>
+
+                                        <td class="project-actions text-right" style="width:15%">
+                                            <form action="emails/{{ $value->email_id }}" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm" style="margin-top:6px"
+                                                    onclick="confirmDelete(event)">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="pagination-container" style="margin-top: 30px; text-align: center;">
                         {{ $emails->render('/admin/pagination') }}
                     </div>

@@ -96,101 +96,103 @@
                     </div>
                 </div>
                 <div class="card-body p-0">
-                    <table class="table table-striped projects">
-                        <thead>
-                            <tr>
-                                <th style="width: 1%">
-                                    Product_id
-                                </th>
-                                <th style="width: 15%">
-                                    Name
-                                </th>
-                                <th style="width: 5%">
-                                    Image
-                                </th>
-                                <th style="width: 25%">
-                                    Description
-                                </th>
-                                <th style="width: 8%">
-                                    Price
-                                </th>
-                                <th class="text-center" style="width: 13%">
-                                    Discount price
-                                </th>
-                                <th style="width: 3%">
-                                    Manufactures
-                                </th>
-                                <th style="width: 6%">
-                                    Protype
-                                </th>
-                                <th style="width: 3%">
-                                    Feature
-                                </th>
-                                <th style="width: 8%">
-                                    Created_at
-                                </th>
-                                <th style="width: 5%" class="text-center">
-                                    Action
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($products as $value)
+                    <div style="overflow-x: auto;">
+                        <table class="table table-striped projects">
+                            <thead>
                                 <tr>
-                                    <td style="text-align:center">#{{ $value['id'] }}</td>
-                                    <td>{{ $value['name'] }}</td>
-                                    <td><img style="width:50px"
-                                            src="{{ asset('assets/img/' . $value['pro_image']) }}"alt=""></td>
-                                    <td class="project_progress">
-                                        @if (strlen($value['description']) > 120)
-                                            {{ substr($value['description'], 0, 120) }}<a style="color: black;">...</a>
-                                        @else
-                                            {{ $value['description'] }}
-                                        @endif
-                                    </td>
-                                    <td>{{ number_format($value['price']) }}đ</td>
-                                    <td class="text-center">{{ number_format($value['discount_price']) }}đ</td>
-                                    <td class="project_progress text-center">
-                                        {{ $value['manu_name'] }}
-                                    </td>
-                                    <td class="project-state">
-                                        {{ $value['type_name'] }}
-                                    </td>
-                                    <td class="project-state">
-                                        @if ($value['feature'] == 1)
-                                            {{ 'Nổi bật' }}
-                                        @else
-                                            {{ 'Không nổi bật' }}
-                                        @endif
-                                    </td>
-                                    <td class="project-state">
-                                        {{ $value['created_at'] }}
-                                    </td>
-                                    <td class="project-actions text-right">
-                                        <form action="{{ route('products.edit', $value->id) }}" method="POST"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            @method('GET')
-                                            <button type="submit" class="btn btn-info btn-sm" style="margin-bottom: 10px;">
-                                                <i class="fas fa-pencil-alt">
-                                                </i>
-                                                Update
-                                            </button>
-                                        </form>
-                                        <form action="{{ route('products.destroy', $value->id) }}" method="POST"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="confirmDelete(event)">
-                                                <i class="fas fa-trash"></i> Delete
-                                            </button>
-                                        </form>
-                                    </td>
+                                    <th style="width: 1%">
+                                        Product_id
+                                    </th>
+                                    <th style="width: 15%">
+                                        Name
+                                    </th>
+                                    <th style="width: 5%">
+                                        Image
+                                    </th>
+                                    <th style="width: 25%">
+                                        Description
+                                    </th>
+                                    <th style="width: 8%">
+                                        Price
+                                    </th>
+                                    <th class="text-center" style="width: 13%">
+                                        Discount price
+                                    </th>
+                                    <th style="width: 3%">
+                                        Manufactures
+                                    </th>
+                                    <th style="width: 6%">
+                                        Protype
+                                    </th>
+                                    <th style="width: 3%">
+                                        Feature
+                                    </th>
+                                    <th style="width: 8%">
+                                        Created_at
+                                    </th>
+                                    <th style="width: 5%" class="text-center">
+                                        Action
+                                    </th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($products as $value)
+                                    <tr>
+                                        <td style="text-align:center">#{{ $value['id'] }}</td>
+                                        <td>{{ $value['name'] }}</td>
+                                        <td><img style="width:50px"
+                                                src="{{ asset('assets/img/' . $value['pro_image']) }}"alt=""></td>
+                                        <td class="project_progress">
+                                            @if (strlen($value['description']) > 120)
+                                                {{ substr($value['description'], 0, 120) }}<a style="color: black;">...</a>
+                                            @else
+                                                {{ $value['description'] }}
+                                            @endif
+                                        </td>
+                                        <td>{{ number_format($value['price']) }}đ</td>
+                                        <td class="text-center">{{ number_format($value['discount_price']) }}đ</td>
+                                        <td class="project_progress text-center">
+                                            {{ $value['manu_name'] }}
+                                        </td>
+                                        <td class="project-state">
+                                            {{ $value['type_name'] }}
+                                        </td>
+                                        <td class="project-state">
+                                            @if ($value['feature'] == 1)
+                                                {{ 'Nổi bật' }}
+                                            @else
+                                                {{ 'Không nổi bật' }}
+                                            @endif
+                                        </td>
+                                        <td class="project-state">
+                                            {{ $value['created_at'] }}
+                                        </td>
+                                        <td class="project-actions text-right">
+                                            <form action="{{ route('products.edit', $value->id) }}" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                @method('GET')
+                                                <button type="submit" class="btn btn-info btn-sm" style="margin-bottom: 10px;">
+                                                    <i class="fas fa-pencil-alt">
+                                                    </i>
+                                                    Update
+                                                </button>
+                                            </form>
+                                            <form action="{{ route('products.destroy', $value->id) }}" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="confirmDelete(event)">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="pagination-container" style="margin-top: 30px; text-align: center;">
                         {{ $products->render('/admin/pagination') }}
                     </div>

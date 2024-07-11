@@ -25,8 +25,9 @@
                 <div class="col-md-12">
                     <div class="product-content-right">
                         <div class="woocommerce">
-                            <form method="get" action="#">
-                                @csrf
+                            {{-- <form method="get" action="#"> --}}
+                            {{-- @csrf --}}
+                            <div style="overflow-x: auto;">
                                 <table cellspacing="0" class="shop_table cart">
                                     <thead>
                                         <tr>
@@ -126,12 +127,19 @@
                                                         </button>
                                                     @endif
                                                     @if ($item->status == 1 || $item->status == 5 || $item->status == 6)
-                                                        <button class="btn btn-reorder" style="background-color: #80bb35">
-                                                            <a style="text-decoration: none;color:#fff;"
-                                                                href="{{ route('reset.order', $item->order_id) }}">
-                                                                <i class="fa fa-refresh"></i> ĐẶT HÀNG LẠI
-                                                            </a>
-                                                        </button>
+                                                        <form action="{{ route('view.checkout') }}" method="GET">
+                                                            @csrf
+                                                            <input type="hidden" name="resetorder" value="1">
+                                                            <input type="hidden" name="order_id"
+                                                                value="{{ $item->order_id }}">
+                                                            <button type="submit" class="btn btn-reorder"
+                                                                style="background-color: #80bb35; color: #fff;">
+
+                                                                <a style="text-decoration: none;color:#fff;">
+                                                                    <i class="fa fa-refresh"></i> ĐẶT HÀNG LẠI
+                                                                </a>
+                                                            </button>
+                                                        </form>
                                                     @endif
                                                     @if ($item->status == 0)
                                                         <button class="btn btn-reorder" style="background-color:red;">
@@ -148,7 +156,8 @@
                                     </tbody>
 
                                 </table>
-                            </form>
+                            </div>
+                            {{-- </form> --}}
                             <div class="pagination-container" style="margin-top: 30px; text-align: center;">
                                 {{ $listorder->render('/admin/pagination') }}
                             </div>

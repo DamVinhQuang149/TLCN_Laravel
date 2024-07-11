@@ -80,92 +80,92 @@
                 </div>
 
                 <div class="card-body p-0">
+                    <div style="overflow-x: auto;">
+                        <table class="table table-striped projects">
 
-                    <table class="table table-striped projects">
+                            <thead>
 
-                        <thead>
-
-                            <tr>
-
-                                <th style="width: 43%">
-
-                                    Manu_id
-
-                                </th>
-
-                                <th style="width: 42%">
-
-                                    Name
-
-                                </th>
-
-                                <th style="width: 5%">
-
-
-
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody>
-
-                            @foreach ($manufactures as $value)
                                 <tr>
 
-                                    <td>#{{ $value->manu_id }}</td>
+                                    <th style="width: 43%">
 
-                                    <td>{{ $value->manu_name }}</td>
+                                        Manu_id
+
+                                    </th>
+
+                                    <th style="width: 42%">
+
+                                        Name
+
+                                    </th>
+
+                                    <th style="width: 5%">
 
 
 
-                                    <td class="project-actions text-right" style="width: 5%">
-
-                                        <form action="manufactures/{{ $value->manu_id }}/edit" method="POST"
-                                            enctype="multipart/form-data">
-
-                                            @csrf
-
-                                            @method('GET')
-
-                                            <button type="submit" class="btn btn-info btn-sm" style="margin-bottom: 10px;">
-
-                                                <i class="fas fa-pencil-alt">
-
-                                                </i>
-
-                                                Update
-
-                                            </button>
-
-                                        </form>
-
-                                        <form action="manufactures/{{ $value->manu_id }}" method="POST"
-                                            enctype="multipart/form-data">
-
-                                            @csrf
-
-                                            @method('DELETE')
-
-                                            <button type="submit" class="btn btn-danger btn-sm" style="margin-top:6px"
-                                                onclick="confirmDelete(event)">
-
-                                                <i class="fas fa-trash"></i> Delete
-
-                                            </button>
-
-                                        </form>
-
-                                    </td>
+                                    </th>
 
                                 </tr>
-                            @endforeach
 
-                        </tbody>
+                            </thead>
 
-                    </table>
+                            <tbody>
 
+                                @foreach ($manufactures as $value)
+                                    <tr>
+
+                                        <td>#{{ $value->manu_id }}</td>
+
+                                        <td>{{ $value->manu_name }}</td>
+
+
+
+                                        <td class="project-actions text-right" style="width: 5%">
+
+                                            <form action="manufactures/{{ $value->manu_id }}/edit" method="POST"
+                                                enctype="multipart/form-data">
+
+                                                @csrf
+
+                                                @method('GET')
+
+                                                <button type="submit" class="btn btn-info btn-sm" style="margin-bottom: 10px;">
+
+                                                    <i class="fas fa-pencil-alt">
+
+                                                    </i>
+
+                                                    Update
+
+                                                </button>
+
+                                            </form>
+
+                                            <form action="manufactures/{{ $value->manu_id }}" method="POST"
+                                                enctype="multipart/form-data">
+
+                                                @csrf
+
+                                                @method('DELETE')
+
+                                                <button type="submit" class="btn btn-danger btn-sm" style="margin-top:6px"
+                                                    onclick="confirmDelete(event)">
+
+                                                    <i class="fas fa-trash"></i> Delete
+
+                                                </button>
+
+                                            </form>
+
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+
+                            </tbody>
+
+                        </table>
+                    </div>
                 </div>
 
                 <!-- /.card-body -->

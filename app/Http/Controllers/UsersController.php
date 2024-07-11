@@ -143,9 +143,7 @@ class UsersController extends Controller
         $email = $request->input('email');
         $phone = $request->input('phone');
         $username = $request->input('username');
-        $password = bcrypt($request->input('newpass'));
         $role = $request->input('role');
-        $oldpass = $request->input('oldpass');
         $users = Users::find($id);
         if (!is_numeric($phone)) {
             return redirect('admin/users')->with('error', 'This Phone Number Not Valid!');
@@ -185,7 +183,6 @@ class UsersController extends Controller
                     'email' => $email,
                     'phone' => $phone,
                     'username' => $username,
-                    'password' => $oldpass,
                     'role_id' => $role,
                     'image' => $image_name
                 ]);
@@ -202,7 +199,6 @@ class UsersController extends Controller
                     'email' => $email,
                     'phone' => $phone,
                     'username' => $username,
-                    'password' => $password,
                     'role_id' => $role,
                     'image' => $image_name
                 ]);
@@ -213,7 +209,6 @@ class UsersController extends Controller
                     'email' => $email,
                     'phone' => $phone,
                     'username' => $username,
-                    'password' => $oldpass,
                     'role_id' => $role,
                     'image' => $image_name
                 ]);
@@ -252,37 +247,43 @@ class UsersController extends Controller
     }
     public function postRegister(Request $req)
     {
-
-        // dd($req->password);
         try {
+            // Validate the request data
             $validator = Validator::make($req->all(), [
-                'username' => 'required|unique:users,username|min:6|max:10|regex:/^[a-zA-Z0-9_]+$/',
-                'email' => 'required|unique:users,email',
+                'First_name' => 'required',
+                'Last_name' => 'required',
+                'username' => 'required|unique:users,username|min:6|max:10',
                 'password' => 'required|min:6',
                 'passwordAgain' => 'required|same:password',
-
+                'email' => 'required|unique:users,email|email',            
+                'phone' => 'nullable|numeric',
             ], [
-                'username.max' => 'Tài khoản chỉ tối đa 10 ký tự. Vui lòng nhập lại',
-                'username.unique' => 'Tài khoản đã được đăng ký. Vui lòng nhập lại',
-                'username.min' => 'Tài khoản phải lớn hơn 6 ký tự. Vui lòng nhập lại',
-                'username.regex' => 'Tài khoản không được chứa ký tự đặc biệt. Vui lòng nhập lại',
-                'email.unique' => 'email này đã được đăng ký. Vui lòng nhập lại',
+                'First_name.required' => 'Vui lòng nhập tên.',
+                'Last_name.required' => 'Vui lòng nhập họ.',
+                'username.unique' => 'Tài khoản đã được đăng ký. Vui lòng nhập lại.',
+                'username.min' => 'Tài khoản phải lớn hơn 6 ký tự. Vui lòng nhập lại.',
+                'username.max' => 'Tài khoản phải nhỏ hơn 10 ký tự. Vui lòng nhập lại.',
                 'password.min' => 'Độ dài của mật khẩu phải lớn hơn 6. Vui lòng thử lại.',
-                'passwordAgain.min' => 'Độ dài của mật khẩu phải lớn hơn 6. Vui lòng thử lại.',
-                'passwordAgain.same' => 'Mật khẩu nhập lại không khớp. Vui lòng thử lại.'
+                'passwordAgain.same' => 'Mật khẩu nhập lại không khớp. Vui lòng thử lại.',
+                'email.unique' => 'Email này đã được đăng ký. Vui lòng nhập lại.',
+                'email.email' => 'Email không hợp lệ. Vui lòng nhập lại.',
+                'phone.numeric' => 'Số điện thoại không hợp lệ.',
             ]);
 
-            $errors = collect($validator->errors()->messages())->map(function ($messages, $field) {
-                return implode(' ', $messages);
-            })->all();
+            // Check if validation fails
             if ($validator->fails()) {
                 return redirect()->route('register')
-                    ->withErrors($errors)
+                    ->withErrors($validator)
                     ->withInput();
             }
-            $imagename = 'avatar1.png';
-            $image = asset('assets/img/' . $imagename);
+
+            // Encrypt the password
             $password = bcrypt($req->input('password'));
+
+            // Default avatar
+            $imagename = 'avatar1.png';
+
+            // Create the user
             $user = Users::create([
                 'First_name' => $req->input('First_name'),
                 'Last_name' => $req->input('Last_name'),
@@ -292,11 +293,15 @@ class UsersController extends Controller
                 'email' => $req->input('email'),
                 'phone' => $req->input('phone'),
             ]);
-            $user->save();
-            return redirect()->route('login')->with('success', 'Đăng ký tài khoản thành công');
-        } catch (\Throwable $th) {
 
-            return redirect()->route('register')->with('error', 'Đăng ký tài khoản thất bại');
+            // Save the user
+            $user->save();
+
+            // Redirect to login with success message
+            return redirect()->route('login')->with('success', 'Đăng ký tài khoản thành công.');
+        } catch (\Throwable $th) {
+            // Redirect to register with error message
+            return redirect()->route('register')->with('error', 'Đăng ký tài khoản thất bại. Vui lòng thử lại.');
         }
     }
     public function logout()

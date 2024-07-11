@@ -19,12 +19,11 @@ class CommentsController extends Controller
      */
     public function index()
     {
-        $comments = Comments::select('Comments.*', 'products.name', 'products.pro_image', 'users.Last_name', 'users.First_name')
+        $comments = Comments::select('comments.*', 'products.name as name', 'products.pro_image as pro_img', 'users.Last_name as Last_name', 'users.First_name as First_name')
                     ->join('products', 'comments.product_id', '=', 'products.id')
                     ->join('users', 'comments.user_id', '=', 'users.user_id')
                     ->orderBy('comments.comm_id', 'desc')
                     ->paginate(10);
-
         $allcomment = Comments::all();
         return view('admin.comments.index', ['comments' => $comments, 'allcomment' => $allcomment]);
     }
@@ -248,9 +247,9 @@ class CommentsController extends Controller
         if ($comment) {
             $comment->isApproved = $request->input('isApproved');
             $comment->save();
-            return redirect('admin/comments')->with('success', 'Approved Comment Successfully!');
+            return redirect('admin/comments')->with('success', 'Action Successfully!');
         } else {
-            return redirect('admin/comments')->with('error', 'Approved Comment failed!');
+            return redirect('admin/comments')->with('error', 'Action Failed!');
 
         }
     }

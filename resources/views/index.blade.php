@@ -772,8 +772,8 @@
         <div class="container">
             <div class="col-md-12">
                 <div class="row">
-                    <img style="border: 1px; border-radius: 9px" src="{{ asset('assets/img/banner.png') }}"
-                        alt="banner">
+                    <img class="img-fluid" style="border: 1px solid; border-radius: 9px; max-width: 100%; height: auto;" src="{{ asset('assets/img/banner.png') }}" alt="banner">
+
                 </div>
             </div>
         </div>

@@ -35,74 +35,76 @@
                     </div>
                 </div>
                 <div class="card-body p-0">
-                    <table class="table table-striped projects">
-                        <thead>
-                            <tr>
-                                <th style="width: 3%">
-                                    User_id
-                                </th>
-                                <th style="width: 10%">
-                                    Image
-                                </th>
-                                <th style="width: 14%">
-                                    First name
-                                </th>
-                                <th class="text-center" style="width: 30%">
-                                    Last name
-                                </th>
-                                <th class="text-center" style="width: 20%">
-                                    Phone
-                                </th>
-                                <th style="width: 6%">
-                                    Username
-                                </th>
-                                <th class="text-center" style="width: 8%;">
-                                    Password
-                                </th>
-                                <th style="width: 10%;text-align:center">
-                                    Role
-                                </th>
-                                <th style="width: 5%">
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($users as $value)
+                    <div style="overflow-x: auto;">
+                        <table class="table table-striped projects">
+                            <thead>
                                 <tr>
-                                    <td class="text-center" style="width:3%">#{{ $value->user_id }}</td>
-                                    <td style="width:10%"><img style="width:50px;border-radius:9px"
-                                            src="{{ asset('assets/img/' . $value->image) }}" alt=""></td>
-                                    <td class="text-center" style="width:14%">{{ $value->First_name }}</td>
-                                    <td class="text-center" style="width:30%">{{ $value->Last_name }}</td>
-                                    <td class="text-center" style="width:20%">(+84) {{ $value->phone }}</td>
-                                    <td style="width:6%">{{ $value->username }}</td>
-                                    <td style="width:8%">{{ substr($value->password, 0, 40) . '...' }}</td>
-                                    <td style="text-align:center;width:10%">{{ $value->role_name }}</td>
-                                    <td class="project-actions text-right" style="width:5%">
-                                        <form action="users/{{ $value->user_id }}/edit" method="POST"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            @method('GET')
-                                            <button type="submit" class="btn btn-info btn-sm" style="margin-bottom: 10px;">
-                                                <i class="fas fa-pencil-alt">
-                                                </i>
-                                                Update
-                                            </button>
-                                        </form>
-                                        <form action="users/{{ $value->user_id }}" method="POST"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="confirmDelete(event)">
-                                                <i class="fas fa-trash"></i> Delete
-                                            </button>
-                                        </form>
-                                    </td>
+                                    <th style="width: 3%">
+                                        User_id
+                                    </th>
+                                    <th style="width: 10%">
+                                        Image
+                                    </th>
+                                    <th style="width: 14%">
+                                        First name
+                                    </th>
+                                    <th class="text-center" style="width: 30%">
+                                        Last name
+                                    </th>
+                                    <th class="text-center" style="width: 20%">
+                                        Phone
+                                    </th>
+                                    <th style="width: 6%">
+                                        Username
+                                    </th>
+                                    <th class="text-center" style="width: 8%;">
+                                        Password
+                                    </th>
+                                    <th style="width: 10%;text-align:center">
+                                        Role
+                                    </th>
+                                    <th style="width: 5%">
+                                    </th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($users as $value)
+                                    <tr>
+                                        <td class="text-center" style="width:3%">#{{ $value->user_id }}</td>
+                                        <td style="width:10%"><img style="width:50px;border-radius:9px"
+                                                src="{{ asset('assets/img/' . $value->image) }}" alt=""></td>
+                                        <td class="text-center" style="width:14%">{{ $value->First_name }}</td>
+                                        <td class="text-center" style="width:30%">{{ $value->Last_name }}</td>
+                                        <td class="text-center" style="width:20%">(+84) {{ $value->phone }}</td>
+                                        <td style="width:6%">{{ $value->username }}</td>
+                                        <td style="width:8%">{{ substr($value->password, 0, 40) . '...' }}</td>
+                                        <td style="text-align:center;width:10%">{{ $value->role_name }}</td>
+                                        <td class="project-actions text-right" style="width:5%">
+                                            <form action="users/{{ $value->user_id }}/edit" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                @method('GET')
+                                                <button type="submit" class="btn btn-info btn-sm" style="margin-bottom: 10px;">
+                                                    <i class="fas fa-pencil-alt">
+                                                    </i>
+                                                    Update
+                                                </button>
+                                            </form>
+                                            <form action="users/{{ $value->user_id }}" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="confirmDelete(event)">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="pagination-container" style="margin-top: 30px; text-align: center;">
                         {{ $users->render('/admin/pagination') }}
                     </div>

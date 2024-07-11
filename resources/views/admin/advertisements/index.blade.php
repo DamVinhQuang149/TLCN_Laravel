@@ -40,68 +40,69 @@
                     </div>
                 </div>
                 <div class="card-body p-0">
-                    <table class="table table-striped projects">
-                        <thead>
-                            <tr>
-                                <th style="width: 20%">
-                                    Title
-                                </th>
-                                <th style="width: 35%">
-                                    Content
-                                </th>
-                                <th style="width: 20%">
-                                    Offer
-                                </th>
-                                <th style="width: 20%">
-                                    Contact_info
-                                </th>
-                                <th style="width: 5%">
-                                    Action
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($advertisements as $value)
+                    <div style="overflow-x: auto;">
+                        <table class="table table-striped projects">
+                            <thead>
                                 <tr>
-                                    <td style="width:20%"><?php echo $value->title; ?></td>
-                                    <td style="width:35%"><?php echo $value->content; ?></td>
-                                    <td style="width:20%"><?php echo $value->offer; ?></td>
-                                    <td style="width:20%"><?php echo $value->contact_info; ?></td>
-                                    <td class="project-actions text-right" style="width:5%">
-                                        <form action="advertisements/{{ $value->id }}/edit" method="POST"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            @method('GET')
-                                            <button type="submit" class="btn btn-info btn-sm">
-                                                <i class="fas fa-pencil-alt">
-                                                </i>
-                                                Update
-                                            </button>
-                                        </form>
-                                        <form action="advertisements/{{ $value->id }}" method="POST"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" style="margin-top:6px"
-                                                onclick="confirmDelete(event)">
-                                                <i class="fas fa-trash"></i> Delete
-                                            </button>
-                                        </form>
-                                        <form action="{{ route('sendmail.ad', $value->id) }}" method="POST"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            @method('GET')
-                                            <button type="submit" class="btn btn-print"
-                                                style="background-color: green; margin-top:6px; color: white">
-                                                <i class="fas fa-paper-plane"></i> Send
-                                            </button>
-                                        </form>
-                                    </td>
+                                    <th style="width: 20%">
+                                        Title
+                                    </th>
+                                    <th style="width: 35%">
+                                        Content
+                                    </th>
+                                    <th style="width: 20%">
+                                        Offer
+                                    </th>
+                                    <th style="width: 20%">
+                                        Contact_info
+                                    </th>
+                                    <th style="width: 5%">
+                                        Action
+                                    </th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-
+                            </thead>
+                            <tbody>
+                                @foreach ($advertisements as $value)
+                                    <tr>
+                                        <td style="width:20%"><?php echo $value->title; ?></td>
+                                        <td style="width:35%"><?php echo $value->content; ?></td>
+                                        <td style="width:20%"><?php echo $value->offer; ?></td>
+                                        <td style="width:20%"><?php echo $value->contact_info; ?></td>
+                                        <td class="project-actions text-right" style="width:5%">
+                                            <form action="advertisements/{{ $value->id }}/edit" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                @method('GET')
+                                                <button type="submit" class="btn btn-info btn-sm">
+                                                    <i class="fas fa-pencil-alt">
+                                                    </i>
+                                                    Update
+                                                </button>
+                                            </form>
+                                            <form action="advertisements/{{ $value->id }}" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm" style="margin-top:6px"
+                                                    onclick="confirmDelete(event)">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </button>
+                                            </form>
+                                            <form action="{{ route('sendmail.ad', $value->id) }}" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                @method('GET')
+                                                <button type="submit" class="btn btn-print"
+                                                    style="background-color: green; margin-top:6px; color: white">
+                                                    <i class="fas fa-paper-plane"></i> Send
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

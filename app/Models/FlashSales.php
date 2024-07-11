@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+
 
 class FlashSales extends Model
 {
@@ -20,4 +22,15 @@ class FlashSales extends Model
         'end_date',
         'initial_price'
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        // Trước khi tạo một bản ghi mới, đảm bảo rằng createdAt và updatedAt được thiết lập đúng múi giờ
+        self::creating(function ($model) {
+            $model->start_date = Carbon::now()->setTimezone('Asia/Ho_Chi_Minh');
+            // $model->updatedAt = Carbon::now()->setTimezone('Asia/Ho_Chi_Minh');
+        });
+    }
 }

@@ -134,10 +134,14 @@ function addCoupon() {
                 console.error("AJAX Error:", textStatus, errorThrown);
             });
     } else {
-        couponResult.innerHTML =
-            "Không được bỏ trống, vui lòng nhập mã giảm giá.";
-        couponResult.style.cssText =
-            "color: red; font-family: Montserrat; font-weight: 500; margin-top: 12px; margin-bottom: 24px;";
+        // couponResult.innerHTML =
+        //     "Không được bỏ trống, vui lòng nhập mã giảm giá.";
+        // couponResult.style.cssText =
+        //     "color: red; font-family: Montserrat; font-weight: 500; margin-top: 12px; margin-bottom: 24px;";
+        // setTimeout(function () {
+        //     couponResult.innerHTML = "";
+        // }, 3000);
+        alertify.error("Vui lòng nhập mã giảm giá!");
     }
 }
 function Rendercoupon(response) {
@@ -173,45 +177,35 @@ $(".select-filter").change(function () {
 
 //fee ship
 function shippingFee() {
-    var feeResult = document.getElementById("fee-result");
     var address = $("#address").val();
 
-    if (address.trim() !== "") {
-        $.ajax({
-            url: "/shipping-fee/" + address,
-            type: "GET",
-        })
-            .done(function (response) {
-                renderFee(response.shipping_fee_view);
-                renderTotalPrice(response.total_price_view);
-            })
+    if (address !== "") {
+        // Kiểm tra xem địa chỉ không được để trống
+        // Kiểm tra không cho nhập ký tự đặc biệt
+        //if (/^[^\!@#$%^&*()_+={}\[\]:;"'<>,.?\\/]+$/.test(address)) {
+            $.ajax({
+                url: "/shipping-fee/" + address,
+                type: "GET",
+            }).done(function (response) {
+                if (response.status === "success") {
+                    renderFee(response.shipping_fee_view);
+                    renderTotalPrice(response.total_price_view);
+                    renderCouponAmount(response.coupon_amount_view);
 
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                console.error("AJAX Error:", textStatus, errorThrown);
-
-                $("#shipping_error").html(
-                    "Địa chỉ bạn nhập chưa hợp lệ, vui lòng nhập lại!"
-                );
-
-                $("#shipping_error").css({
-                    color: "red",
-                    "font-family": "Montserrat",
-                    "font-weight": "500",
-                    "margin-top": "12px",
-                    "margin-bottom": "24px",
-                });
-                $("#shipping_error").delay(1500).fadeOut("slow");
+                    alertify.success(
+                        "Địa chỉ nhận hàng đã được nhập thành công."
+                    );
+                } else if (response.status === "error") {
+                    alertify.error(response.message);
+                }
             });
+        // } else {
+        //     alertify.error(
+        //         "Vui lòng nhập địa chỉ nhận hàng không chứa ký tự đặc biệt!"
+        //     );
+        // }
     } else {
-        $("#shipping_error").html("Vui lòng nhập đầy đủ địa chỉ nhận hàng!");
-        $("#shipping_error").css({
-            color: "red",
-            "font-family": "Montserrat",
-            "font-weight": "500",
-            "margin-top": "12px",
-            "margin-bottom": "24px",
-        });
-        $("#shipping_error").delay(1500).fadeOut("slow");
+        alertify.error("Vui lòng nhập địa chỉ nhận hàng!");
     }
 }
 function renderFee(response) {
@@ -221,6 +215,10 @@ function renderFee(response) {
 function renderTotalPrice(response) {
     $("#total-price").empty();
     $("#total-price").html(response);
+}
+function renderCouponAmount(response) {
+    $("#coupon-amount-view").empty();
+    $("#coupon-amount-view").html(response);
 }
 function renderShippingErr(response) {
     $("#shipping_error").empty();

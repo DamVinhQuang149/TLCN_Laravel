@@ -64,7 +64,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <title>Capple - Website bán đồ ăn, trái cây, rau củ trực tuyến</title>
-
+    <link rel="icon" href="{{ asset('assets/img/iconbandoan.png') }}" type="image/x-icon">
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
@@ -136,12 +136,15 @@
                 <!-- SEARCH BAR -->
                 <div class="col-md-6">
                     <div class="header-search">
-                        <form method="get" action="result.php">
+                        <form action="{{ route('products.search') }}" method="GET">
+                            @csrf
                             <select class="input-select" name="searchCol">
                                 <option value="0">Tất cả</option>
                                 <option value="1">Trái cây</option>
                                 <option value="2">Bánh ngọt</option>
                                 <option value="3">Rau củ</option>
+                                <option value="4">Mã đơn hàng</option>
+
                             </select>
                             <input name="keyword" class="input" placeholder="Tìm kiếm">
                             <button type="submit" class="search-btn">Tìm</button>

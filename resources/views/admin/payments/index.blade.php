@@ -37,47 +37,49 @@
                     </div>
                 </div>
                 <div class="card-body p-0">
-                    <table class="table table-striped projects">
-                        <thead>
-                            <tr>
-                                <th style="width: 15%" class="text-center">
-                                    Order_id
-                                </th>
-                                <th style="width: 15%" class="text-center">
-                                    Total cost
-                                </th>
-                                <th style="width: 15%" class="text-center">
-                                    Bank code
-                                </th>
-                                <th style="width: 15%" class="text-center">
-                                    Payment content
-                                </th>
-                                <th style="width: 15%" class="text-center">
-                                    Payment method
-                                </th>
-                                <th style="width: 15%" class="text-center">
-                                    Payment status
-                                </th>
-                                <th style="width: 15%" class="text-center">
-                                    Created at
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($payments as $value)
+                    <div style="overflow-x: auto;">
+                        <table class="table table-striped projects">
+                            <thead>
                                 <tr>
-                                    <td class="text-center" style="width: 15%">#{{ $value->order_id }}</td>
-                                    <td class="text-center" style="width: 15%">
-                                        {{ number_format($value->total_cost, 0, ',', '.') }}đ</td>
-                                    <td class="text-center" style="width: 15%">{{ $value->bankcode }}</td>
-                                    <td class="text-center" style="width: 15%">{{ $value->content }}</td>
-                                    <td class="text-center" style="width: 15%">{{ $value->card_type }}</td>
-                                    <td class="text-center" style="width: 15%">{{ $value->status }}</td>
-                                    <td class="text-center" style="width: 15%">{{ $value->created_at }}</td>
+                                    <th style="width: 15%" class="text-center">
+                                        Order_id
+                                    </th>
+                                    <th style="width: 15%" class="text-center">
+                                        Total cost
+                                    </th>
+                                    <th style="width: 15%" class="text-center">
+                                        Bank code
+                                    </th>
+                                    <th style="width: 15%" class="text-center">
+                                        Payment content
+                                    </th>
+                                    <th style="width: 15%" class="text-center">
+                                        Payment method
+                                    </th>
+                                    <th style="width: 15%" class="text-center">
+                                        Payment status
+                                    </th>
+                                    <th style="width: 15%" class="text-center">
+                                        Created at
+                                    </th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($payments as $value)
+                                    <tr>
+                                        <td class="text-center" style="width: 15%">#{{ $value->order_id }}</td>
+                                        <td class="text-center" style="width: 15%">
+                                            {{ number_format($value->total_cost, 0, ',', '.') }}đ</td>
+                                        <td class="text-center" style="width: 15%">{{ $value->bankcode }}</td>
+                                        <td class="text-center" style="width: 15%">{{ $value->content }}</td>
+                                        <td class="text-center" style="width: 15%">{{ $value->card_type }}</td>
+                                        <td class="text-center" style="width: 15%">{{ $value->status }}</td>
+                                        <td class="text-center" style="width: 15%">{{ $value->created_at }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="pagination-container" style="margin-top: 30px; text-align: center;">
                         {{ $payments->render('/admin/pagination') }}
                     </div>

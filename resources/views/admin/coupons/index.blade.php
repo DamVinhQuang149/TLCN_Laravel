@@ -73,158 +73,158 @@
                 </div>
 
                 <div class="card-body p-0">
+                    <div style="overflow-x: auto;">
+                        <table class="table table-striped projects">
 
-                    <table class="table table-striped projects">
+                            <thead>
 
-                        <thead>
-
-                            <tr>
-
-                                <th style="width: 11%" class="text-center">
-
-                                    Coupon_id
-
-                                </th>
-
-                                <th style="width: 11%" class="text-center">
-
-                                    Coupon code
-
-                                </th>
-
-                                <th style="width: 11%" class="text-center">
-
-                                    Coupon type
-
-                                </th>
-
-                                <th style="width: 15%" class="text-center">
-
-                                    Coupon discount
-
-                                </th>
-
-                                <th style="width: 11%" class="text-center">
-
-                                    Min order
-
-                                </th>
-
-                                <th style="width: 5%" class="text-center">
-
-                                    Quantity
-
-                                </th>
-
-                                <th style="width: 5%" class="text-center">
-
-                                    Used
-
-                                </th>
-
-                                <th style="width: 5%" class="text-center">
-
-                                    Remain
-
-                                </th>
-
-                                <th style="width: 13%" class="text-center">
-
-                                    Expired date
-
-                                </th>
-
-                                <th style="width: 5%" class="text-center">
-
-
-
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody>
-
-                            @foreach ($couponlist as $value)
                                 <tr>
 
-                                    <td class="text-center" style="width: 11%">#{{ $value->coupon_id }}</td>
+                                    <th style="width: 11%" class="text-center">
 
-                                    <td class="text-center" style="width: 11%">{{ $value->coupon_code }}</td>
+                                        Coupon_id
 
-                                    <td class="text-center" style="width: 11%">{{ $value->type_name }}</td>
+                                    </th>
 
-                                    <td class="text-center" style="width: 15%">
+                                    <th style="width: 11%" class="text-center">
 
-                                        @if ($value->coupon_amount > 0 && $value->coupon_amount < 100)
-                                            {{ number_format($value->coupon_amount, 0, ',', '.') }} %
-                                        @else
-                                            {{ number_format($value->coupon_amount, 0, ',', '.') }} đ
-                                        @endif
+                                        Coupon code
 
-                                    </td>
+                                    </th>
 
-                                    <td class="text-center" style="width: 11%">
+                                    <th style="width: 11%" class="text-center">
 
-                                        {{ number_format($value->min_order, 0, ',', '.') }} đ</td>
+                                        Coupon type
 
-                                    <td class="text-center" style="width: 5%">{{ $value->coupon_quantity }}</td>
+                                    </th>
 
-                                    <td class="text-center" style="width: 5%">{{ $value->coupon_used }}</td>
+                                    <th style="width: 15%" class="text-center">
 
-                                    <td class="text-center" style="width: 5%">{{ $value->coupon_remain }}</td>
+                                        Coupon discount
 
-                                    <td class="text-center" style="width: 13%">
+                                    </th>
 
-                                        {{ date('d/m/Y', strtotime($value->coupon_expired)) }}</td>
+                                    <th style="width: 11%" class="text-center">
 
-                                    <td class="text-center" style="width: 5%">
+                                        Min order
 
-                                        <form action="coupons/{{ $value->coupon_id }}/edit" method="POST"
-                                            enctype="multipart/form-data">
+                                    </th>
 
-                                            @csrf
+                                    <th style="width: 5%" class="text-center">
 
-                                            @method('GET')
+                                        Quantity
 
-                                            <button type="submit" class="btn btn-info btn-sm">
+                                    </th>
 
-                                                <i class="fas fa-pencil-alt">
+                                    <th style="width: 5%" class="text-center">
 
-                                                </i>
+                                        Used
 
-                                                Update
+                                    </th>
 
-                                            </button>
+                                    <th style="width: 5%" class="text-center">
 
-                                        </form>
+                                        Remain
 
-                                        <form action="coupons/{{ $value->coupon_id }}" method="POST"
-                                            enctype="multipart/form-data">
+                                    </th>
 
-                                            @csrf
+                                    <th style="width: 13%" class="text-center">
 
-                                            @method('DELETE')
+                                        Expired date
 
-                                            <button type="submit" class="btn btn-danger btn-sm" style="margin-top:6px"
-                                                onclick="confirmDelete(event)">
+                                    </th>
 
-                                                <i class="fas fa-trash"></i> Delete
+                                    <th style="width: 5%" class="text-center">
 
-                                            </button>
 
-                                        </form>
 
-                                    </td>
+                                    </th>
 
                                 </tr>
-                            @endforeach
 
-                        </tbody>
+                            </thead>
 
-                    </table>
+                            <tbody>
 
+                                @foreach ($couponlist as $value)
+                                    <tr>
+
+                                        <td class="text-center" style="width: 11%">#{{ $value->coupon_id }}</td>
+
+                                        <td class="text-center" style="width: 11%">{{ $value->coupon_code }}</td>
+
+                                        <td class="text-center" style="width: 11%">{{ $value->type_name }}</td>
+
+                                        <td class="text-center" style="width: 15%">
+
+                                            @if ($value->coupon_amount > 0 && $value->coupon_amount < 100)
+                                                {{ number_format($value->coupon_amount, 0, ',', '.') }} %
+                                            @else
+                                                {{ number_format($value->coupon_amount, 0, ',', '.') }} đ
+                                            @endif
+
+                                        </td>
+
+                                        <td class="text-center" style="width: 11%">
+
+                                            {{ number_format($value->min_order, 0, ',', '.') }} đ</td>
+
+                                        <td class="text-center" style="width: 5%">{{ $value->coupon_quantity }}</td>
+
+                                        <td class="text-center" style="width: 5%">{{ $value->coupon_used }}</td>
+
+                                        <td class="text-center" style="width: 5%">{{ $value->coupon_remain }}</td>
+
+                                        <td class="text-center" style="width: 13%">
+
+                                            {{ date('d/m/Y', strtotime($value->coupon_expired)) }}</td>
+
+                                        <td class="text-center" style="width: 5%">
+
+                                            <form action="coupons/{{ $value->coupon_id }}/edit" method="POST"
+                                                enctype="multipart/form-data">
+
+                                                @csrf
+
+                                                @method('GET')
+
+                                                <button type="submit" class="btn btn-info btn-sm">
+
+                                                    <i class="fas fa-pencil-alt">
+
+                                                    </i>
+
+                                                    Update
+
+                                                </button>
+
+                                            </form>
+
+                                            <form action="coupons/{{ $value->coupon_id }}" method="POST"
+                                                enctype="multipart/form-data">
+
+                                                @csrf
+
+                                                @method('DELETE')
+
+                                                <button type="submit" class="btn btn-danger btn-sm" style="margin-top:6px"
+                                                    onclick="confirmDelete(event)">
+
+                                                    <i class="fas fa-trash"></i> Delete
+
+                                                </button>
+
+                                            </form>
+
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+
+                            </tbody>
+
+                        </table>
+                    </div>
                     <div class="pagination-container" style="margin-top: 30px; text-align: center;">
 
                         {{ $couponlist->render('/admin/pagination') }}

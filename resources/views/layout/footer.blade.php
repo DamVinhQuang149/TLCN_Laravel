@@ -50,12 +50,11 @@
                     <div class="col-md-3 col-xs-6">
                         <div class="footer">
                             <h3 class="footer-title">Chúng tôi</h3>
-                            {{-- <p><strong>Tiểu luận chuyên ngành xây dựng website bán đồ ăn trực tuyến</strong></p>
-                            <ul class="footer-links"> --}}
-                            <li><i class="fa fa-map-marker"></i> 01 Võ Văn Ngân - Phường Linh Chiểu- Thành phố Thủ
-                                Đức</li>
-                            <li><i class="fa fa-phone"></i> 0935.540.795</li>
-                            <li><i class="fa fa-envelope-o"></i> @student.hcmute.edu.vn</li>
+                            <p><strong>Khóa luận tốt nghiệp xây dựng website bán đồ ăn trực tuyến</strong></p>
+                            <ul class="footer-links">
+                                <li><i class="fa fa-map-marker"></i>01 Võ Văn Ngân - Phường Linh Chiểu- Thành phố Thủ Đức</li>
+                                <li><i class="fa fa-phone"></i>0935.540.795</li>
+                                <li><i class="fa fa-envelope-o"></i>@student.hcmute.edu.vn</li>
                             </ul>
                         </div>
                     </div>
@@ -96,6 +95,13 @@
                                             Của Tôi</a></li>
                                 @endif
                                 <li><a href="{{ route('list.cart') }}">Xem Giỏ Hàng</a></li>
+                                @if (auth()->check())
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('favorite.show') }}">Yêu
+                                            thích</a></li>
+                                @else
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Yêu thích</a>
+                                    </li>
+                                @endif
                                 <li><a href="{{ route('list.order') }}">Xem Đơn Hàng</a></li>
                             </ul>
                         </div>

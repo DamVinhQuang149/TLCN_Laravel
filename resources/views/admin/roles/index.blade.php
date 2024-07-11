@@ -80,88 +80,88 @@
                 </div>
 
                 <div class="card-body p-0">
+                    <div style="overflow-x: auto;">
+                        <table class="table table-striped projects">
 
-                    <table class="table table-striped projects">
+                            <thead>
 
-                        <thead>
-
-                            <tr>
-
-                                <th style="width: 40%">
-
-                                    Role ID
-
-                                </th>
-
-                                <th style="width: 40%">
-
-                                    Role Name
-
-                                </th>
-
-                                <th style="width: 5%">
-
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody>
-
-                            @foreach ($roles as $value)
                                 <tr>
 
-                                    <td>#{{ $value->role_id }}</td>
+                                    <th style="width: 40%">
 
-                                    <td>{{ $value->role_name }}</td>
+                                        Role ID
 
-                                    <td class="project-actions text-right" style="width:5%">
+                                    </th>
 
-                                        <form action="roles/{{ $value->role_id }}/edit" method="POST"
-                                            enctype="multipart/form-data">
+                                    <th style="width: 40%">
 
-                                            @csrf
+                                        Role Name
 
-                                            @method('GET')
+                                    </th>
 
-                                            <button type="submit" class="btn btn-info btn-sm">
+                                    <th style="width: 5%">
 
-                                                <i class="fas fa-pencil-alt">
-
-                                                </i>
-
-                                                Update
-
-                                            </button>
-
-                                        </form>
-
-                                        <form action="roles/{{ $value->role_id }}" method="POST"
-                                            enctype="multipart/form-data">
-
-                                            @csrf
-
-                                            @method('DELETE')
-
-                                            <button type="submit" class="btn btn-danger btn-sm" style="margin-top:6px"
-                                                onclick="confirmDelete(event)">
-
-                                                <i class="fas fa-trash"></i> Delete
-
-                                            </button>
-
-                                        </form>
-
-                                    </td>
+                                    </th>
 
                                 </tr>
-                            @endforeach
 
-                        </tbody>
+                            </thead>
 
-                    </table>
+                            <tbody>
 
+                                @foreach ($roles as $value)
+                                    <tr>
+
+                                        <td>#{{ $value->role_id }}</td>
+
+                                        <td>{{ $value->role_name }}</td>
+
+                                        <td class="project-actions text-right" style="width:5%">
+
+                                            <form action="roles/{{ $value->role_id }}/edit" method="POST"
+                                                enctype="multipart/form-data">
+
+                                                @csrf
+
+                                                @method('GET')
+
+                                                <button type="submit" class="btn btn-info btn-sm">
+
+                                                    <i class="fas fa-pencil-alt">
+
+                                                    </i>
+
+                                                    Update
+
+                                                </button>
+
+                                            </form>
+
+                                            <form action="roles/{{ $value->role_id }}" method="POST"
+                                                enctype="multipart/form-data">
+
+                                                @csrf
+
+                                                @method('DELETE')
+
+                                                <button type="submit" class="btn btn-danger btn-sm" style="margin-top:6px"
+                                                    onclick="confirmDelete(event)">
+
+                                                    <i class="fas fa-trash"></i> Delete
+
+                                                </button>
+
+                                            </form>
+
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+
+                            </tbody>
+
+                        </table>
+                    </div>
                 </div>
 
             </div>

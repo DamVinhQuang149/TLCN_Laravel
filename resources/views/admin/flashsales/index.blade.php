@@ -43,95 +43,97 @@
                     </div>
                 </div>
                 <div class="card-body p-0">
-                    <table class="table table-striped projects">
-                        <thead>
-                            <tr>
-                                <th style="width: 15%" class="text-center">
-                                    FlashSales ID
-                                </th>
-                                <th style="width: 15%" class="text-center">
-                                    Product Name
-                                </th>
-                                <th style="width: 5%" class="text-center">
-                                    Image
-                                </th>
-                                <th style="width: 10%" class="text-center">
-                                    Product ID
-                                </th>
-                                <th style="width: 10%" class="text-center">
-                                    Sales Price
-                                </th>
-                                <th style="width: 10%" class="text-center">
-                                    Sales Rate
-                                </th>
-                                <th style="width: 15%" class="text-center">
-                                    Start Date
-                                </th>
-                                <th class="text-center" style="width: 15%">
-                                    End Date
-                                </th>
+                    <div style="overflow-x: auto;">
+                        <table class="table table-striped projects">
+                            <thead>
+                                <tr>
+                                    <th style="width: 15%" class="text-center">
+                                        FlashSales ID
+                                    </th>
+                                    <th style="width: 15%" class="text-center">
+                                        Product Name
+                                    </th>
+                                    <th style="width: 5%" class="text-center">
+                                        Image
+                                    </th>
+                                    <th style="width: 10%" class="text-center">
+                                        Product ID
+                                    </th>
+                                    <th style="width: 10%" class="text-center">
+                                        Sales Price
+                                    </th>
+                                    <th style="width: 10%" class="text-center">
+                                        Sales Rate
+                                    </th>
+                                    <th style="width: 15%" class="text-center">
+                                        Start Date
+                                    </th>
+                                    <th class="text-center" style="width: 15%">
+                                        End Date
+                                    </th>
 
-                                <th style="width: 5%" class="text-center">
-                                    Action
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($flashsales as $value)
-                                @foreach ($products as $pro)
-                                    @if ($value->product_id === $pro->id)
-                                        <tr>
-                                            <td style="text-align:center; width:15%">#{{ $value['id'] }}</td>
-                                            <td style="width:15%" class="text-center">{{ $pro['name'] }}</td>
-                                            <td style="width:5%">
-                                                <a rel="stylesheet" href="/admin/products/{{ $value->product_id }}/edit">
-                                                    <img style="width:50px"
-                                                        src="{{ asset('assets/img/' . $pro['pro_image']) }}"alt="">
-                                                </a>
-                                            </td>
-                                            <td style="width:10%" class="text-center">#{{ $value['product_id'] }}</td>
-                                            <td style="width:10%" class="text-center">
-                                                {{ number_format($pro['discount_price']) }}đ</td>
-                                            <td style="width:10%" class="text-center">
-                                                {{ (1 - $pro['discount_price'] / $pro['price']) * 100 }}%</td>
-                                            <td style="width:15%" class="text-center">{{ $value['start_date'] }}</td>
-                                            <td style="width:15%" class="text-center">{{ $value['end_date'] }}</td>
-                                            <td style="width:5%" class="project-actions text-right">
-                                                <form action="flashsales/{{ $value->id }}/edit" method="POST"
-                                                    enctype="multipart/form-data">
-                                                    @csrf
-                                                    @method('GET')
-                                                    <button type="submit" class="btn btn-info btn-sm"
-                                                        style="margin-bottom: 10px;">
-                                                        <i class="fas fa-pencil-alt">
-                                                        </i>
-                                                        Update
-                                                    </button>
-                                                </form>
+                                    <th style="width: 5%" class="text-center">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($flashsales as $value)
+                                    @foreach ($products as $pro)
+                                        @if ($value->product_id === $pro->id)
+                                            <tr>
+                                                <td style="text-align:center; width:15%">#{{ $value['id'] }}</td>
+                                                <td style="width:15%" class="text-center">{{ $pro['name'] }}</td>
+                                                <td style="width:5%">
+                                                    <a rel="stylesheet" href="/admin/products/{{ $value->product_id }}/edit">
+                                                        <img style="width:50px"
+                                                            src="{{ asset('assets/img/' . $pro['pro_image']) }}"alt="">
+                                                    </a>
+                                                </td>
+                                                <td style="width:10%" class="text-center">#{{ $value['product_id'] }}</td>
+                                                <td style="width:10%" class="text-center">
+                                                    {{ number_format($pro['discount_price']) }}đ</td>
+                                                <td style="width:10%" class="text-center">
+                                                    {{ (1 - $pro['discount_price'] / $pro['price']) * 100 }}%</td>
+                                                <td style="width:15%" class="text-center">{{ $value['start_date'] }}</td>
+                                                <td style="width:15%" class="text-center">{{ $value['end_date'] }}</td>
+                                                <td style="width:5%" class="project-actions text-right">
+                                                    <form action="flashsales/{{ $value->id }}/edit" method="POST"
+                                                        enctype="multipart/form-data">
+                                                        @csrf
+                                                        @method('GET')
+                                                        <button type="submit" class="btn btn-info btn-sm"
+                                                            style="margin-bottom: 10px;">
+                                                            <i class="fas fa-pencil-alt">
+                                                            </i>
+                                                            Update
+                                                        </button>
+                                                    </form>
 
-                                                <form action="flashsales/{{ $value->id }}" method="POST"
-                                                    enctype="multipart/form-data">
+                                                    <form action="flashsales/{{ $value->id }}" method="POST"
+                                                        enctype="multipart/form-data">
 
-                                                    @csrf
+                                                        @csrf
 
-                                                    @method('DELETE')
+                                                        @method('DELETE')
 
-                                                    <button type="submit" class="btn btn-danger btn-sm"
-                                                        style="margin-top:6px" onclick="confirmDelete(event)">
+                                                        <button type="submit" class="btn btn-danger btn-sm"
+                                                            style="margin-top:6px" onclick="confirmDelete(event)">
 
-                                                        <i class="fas fa-trash"></i> Delete
+                                                            <i class="fas fa-trash"></i> Delete
 
-                                                    </button>
+                                                        </button>
 
-                                                </form>
-                                            </td>
+                                                    </form>
+                                                </td>
 
-                                        </tr>
-                                    @endif
+                                            </tr>
+                                        @endif
+                                    @endforeach
                                 @endforeach
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="pagination-container" style="margin-top: 30px; text-align: center;">
                         {{ $flashsales->render('/admin/pagination') }}
                     </div>

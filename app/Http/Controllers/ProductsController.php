@@ -400,6 +400,9 @@ class ProductsController extends Controller
         }
 
         $products = $query->paginate(6)->appends(request()->query());
+        $products->each(function ($product) {
+            $product->average_rating = StarRating::where('product_id', $product->id)->avg('star');
+        });
         $count_product = $query->count();
         $inventories = Inventories::all();
         return view('search-products', [

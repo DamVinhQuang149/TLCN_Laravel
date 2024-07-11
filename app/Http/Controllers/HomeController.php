@@ -39,18 +39,20 @@ class HomeController extends Controller
             foreach ($productupdate as $pro) {
                 if ($item) {
                     if ($item->product_id === $pro->id) {
-                        if ($item->end_date <= Carbon::now()) {
+                        if ($item->end_date <= Carbon::now()->setTimezone('Asia/Ho_Chi_Minh')) {
+                            
                             $price = $item->initial_price;
                             $pro->update([
                                 'discount_price' => $price,
                             ]);
+                            $item->delete();
                         }
                     }
                 }
 
             }
         }
-        $flashsales = FlashSales::where('end_date', '>=', Carbon::now())->get();
+        $flashsales = FlashSales::where('end_date', '>=', Carbon::now()->setTimezone('Asia/Ho_Chi_Minh'))->get();
         $countfls = $flashsales->count();
         $productsFeatureBy1 = Products::where('type_id', 1)->where('feature', 1)->get();
 

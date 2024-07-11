@@ -40,50 +40,51 @@
                     </div>
                 </div>
                 <div class="card-body p-0">
-                    <table class="table table-striped projects">
-                        <thead>
-                            <tr>
-                                <th style="width: 50%">
-                                    Type_id
-                                </th>
-                                <th style="width: 40%">
-                                    Name
-                                </th>
-                                <th style="width: 5%">
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($protypes as $value)
+                    <div style="overflow-x: auto;">
+                        <table class="table table-striped projects">
+                            <thead>
                                 <tr>
-                                    <td>#{{ $value->type_id }}</td>
-                                    <td>{{ $value->type_name }}</td>
-                                    <td class="project-actions text-right" style="width:5%">
-                                        <form action="protypes/{{ $value->type_id }}/edit" method="POST"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            @method('GET')
-                                            <button type="submit" class="btn btn-info btn-sm">
-                                                <i class="fas fa-pencil-alt">
-                                                </i>
-                                                Update
-                                            </button>
-                                        </form>
-                                        <form action="protypes/{{ $value->type_id }}" method="POST"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" style="margin-top:6px"
-                                                onclick="confirmDelete(event)">
-                                                <i class="fas fa-trash"></i> Delete
-                                            </button>
-                                        </form>
-                                    </td>
+                                    <th style="width: 50%">
+                                        Type_id
+                                    </th>
+                                    <th style="width: 40%">
+                                        Name
+                                    </th>
+                                    <th style="width: 5%">
+                                    </th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-
+                            </thead>
+                            <tbody>
+                                @foreach ($protypes as $value)
+                                    <tr>
+                                        <td>#{{ $value->type_id }}</td>
+                                        <td>{{ $value->type_name }}</td>
+                                        <td class="project-actions text-right" style="width:5%">
+                                            <form action="protypes/{{ $value->type_id }}/edit" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                @method('GET')
+                                                <button type="submit" class="btn btn-info btn-sm">
+                                                    <i class="fas fa-pencil-alt">
+                                                    </i>
+                                                    Update
+                                                </button>
+                                            </form>
+                                            <form action="protypes/{{ $value->type_id }}" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm" style="margin-top:6px"
+                                                    onclick="confirmDelete(event)">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

@@ -109,19 +109,37 @@
                                                     </h4>
                                                 @endif
 
-                                                <div class="product-rating">
-
-                                                    <i class="fa fa-star"></i>
-
-                                                    <i class="fa fa-star"></i>
-
-                                                    <i class="fa fa-star"></i>
-
-                                                    <i class="fa fa-star"></i>
-
-                                                    <i class="fa fa-star"></i>
-
-                                                </div>
+                                                <ul class="ratingW-comment">
+                                                    <small>
+                                                        @if ($product->average_rating)
+                                                            <?php
+                                                            for ($i = 1; $i <= 5; $i++) {
+                                                                if ($i <= $product->average_rating) {
+                                                                    echo '<li class="on"><div class="star-comm"></div></li>';
+                                                                } else {
+                                                                    echo '<li><div class="star-comm"></div></li>';
+                                                                }
+                                                            }
+                                                            ?>
+                                                        @else
+                                                            <li class="on">
+                                                                <div class="star-comm"></div>
+                                                            </li>
+                                                            <li class="on">
+                                                                <div class="star-comm"></div>
+                                                            </li>
+                                                            <li class="on">
+                                                                <div class="star-comm"></div>
+                                                            </li>
+                                                            <li class="on">
+                                                                <div class="star-comm"></div>
+                                                            </li>
+                                                            <li class="on">
+                                                                <div class="star-comm"></div>
+                                                            </li>
+                                                        @endif
+                                                    </small>
+                                                </ul>
 
                                                 <div class="product-btns">
 
